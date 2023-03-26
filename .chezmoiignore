@@ -1,6 +1,8 @@
 {{ if ne .chezmoi.os "windows" }}
-AppData/Local/nvim/init.lua
+AppData/
+Documents/
+data/*.ps1
 {{ end }}
 {{ if ne .chezmoi.os "linux" }}
-.config/nvim/init.lua
+dot_config/nvim/
 {{ end }}
