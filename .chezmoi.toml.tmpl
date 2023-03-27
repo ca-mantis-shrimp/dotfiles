@@ -3,5 +3,11 @@
 [data]
     email = {{ $email | quote }}
 
+{{ if eq .chezmoi.os "windows" }}
 [cd]
     command = "pwsh"
+{{ end }}
+
+[diff]
+    command = "nvim"
+    args = "-d"
