@@ -45,6 +45,13 @@ config.keys = {
 			timeout_milliseconds = 1000,
 		}),
 	},
+	{
+		key = "c",
+		mods = "LEADER",
+		action = act.CloseCurrentPane({
+			confirm = true,
+		}),
+	},
 }
 
 config.key_tables = {
