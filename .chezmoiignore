@@ -5,4 +5,5 @@ data/*.ps1
 {{ end }}
 {{ if ne .chezmoi.os "linux" }}
 dot_config/nvim/
+*.ps1
 {{ end }}
