@@ -1,9 +1,8 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
-data/*.ps1
+.chezmoiscripts/*.ps1
 {{ end }}
 {{ if ne .chezmoi.os "linux" }}
 .config/nvim/
-*.ps1
 {{ end }}
