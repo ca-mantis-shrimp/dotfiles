@@ -52,6 +52,12 @@ config.keys = {
 			confirm = true,
 		}),
 	},
+
+	{
+		key = "l",
+		mods = "LEADER",
+		action = act.ShowLauncher,
+	},
 }
 
 config.key_tables = {
