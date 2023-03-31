@@ -8,7 +8,7 @@ end
 
 config.color_scheme = "nord"
 config.font = wezterm.font("Monoid NF")
-config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe" }
+config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-ExecutionPolicy", "RemoteSigned" }
 
 local act = wezterm.action
 
