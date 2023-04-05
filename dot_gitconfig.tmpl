@@ -8,11 +8,5 @@
 	name = Darrion Burgess
 {{- end }}
 
-{{- if ne .chezmoi.os "windows"}}
 [credential]
   helper = store
-{{- end}}
-{{- if eq .chezmoi.os "windows"}}
-[core]
-  sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-{{- end}}
