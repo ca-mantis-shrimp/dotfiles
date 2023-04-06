@@ -1,0 +1,22 @@
+@document.meta
+title: index
+description: 
+authors: root
+categories: 
+created: 2023-04-06
+updated: 2023-04-06
+version: 1.0.0
+@end
+This is where we will keep the literate programming notes around our own Neovim editor. 
+
+We will always have the primary knowledge live in the knowledge_base, but much of what we are doing in Neovim is bringing together several mechanics together to create functionality.
+
+This is where this knowledge will come in, we plan to notes the various changes we had planned for neovim here and enabling these files to be generated using the example work that is to be done
+
+* LazyVim Base
+  We start from the base, we use {https://github.com/LazyVim/LazyVim}[LazyVim] as our disto of choice so our init file is just a single line:
+  #tangle init.lua
+@code lua
+require("config.lazy")
+@end
+This file just does one thing, it goes into the `lua/config/lazy.lua` file in the config so we can start and configure Lazy.nvim before we do anything else

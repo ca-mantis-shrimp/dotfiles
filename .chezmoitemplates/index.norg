@@ -1,0 +1,13 @@
+@document.meta
+title: index
+description: 
+authors: root
+categories: 
+created: 2023-04-06
+updated: 2023-04-06
+version: 1.0.0
+@end
+This folder is where we will store the files that need to be placed in different places.
+
+We will have many of the larger configuration directories and this will allow us to control this configuration without needing to copy it between the different machines
+* {:Neovim/index:}[Neovim Configuration]
