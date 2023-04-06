@@ -22,4 +22,17 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 * Chezmoi
   The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
 
-  While this wont be the main place we talk about the inner workings of Chezmoi, I will leave that to the {:$knowledge_base:}
+  While this wont be the main place we talk about the inner workings of Chezmoi, I will leave that to the {:$knowledge_base/Applications/Chezmoi/index:}[Chezmoi Knowledge Files]
+
+Instead, here we are going to define our chezmoi files and explain why we have made the decisions we did
+
+** Git Credentials
+   Starting with something small, we have the git credentials file
+
+   #tangle "dot_git-credentials.tmpl"
+   @code template
+   https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
+   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+   https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
+   {{ end }}
+   @end
