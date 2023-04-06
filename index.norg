@@ -1,0 +1,25 @@
+@document.meta
+title: index
+description: 
+authors: root
+categories: 
+created: 2023-04-05
+updated: 2023-04-05
+version: 1.0.0
+@end
+This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
+
+We are going to attempt something I have wanted to try but have never felt like I had the tooling required.
+
+Specifically, we are going to leverage the tangling feature of neorg to actually write the various configuration files needed to keep the system running.
+
+We have gotten to the point where the code is rather concise, but it would take allot of context to understand what is going on in each file and how each one connects with the other.
+
+This is where tangling comes in. These neorg files will actually generate the data that we expect to use throught this work.
+
+As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
+
+* Chezmoi
+  The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
+
+  While this wont be the main place we talk about the inner workings of Chezmoi, I will leave that to the {:$knowledge_base:}

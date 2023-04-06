@@ -15,10 +15,11 @@ return {
     },
     ft = "norg",
     keys = {
-      { "<leader>nt", "<cmd>Neorg journal today<cr>", desc = "Today's Journal Page" },
-      { "<leader>nw", "<cmd>Neorg workspace work_notes<cr>", desc = "Edit Work Notes" },
-      { "<leader>nm", "<cmd>Neorg workspace main<cr>", desc = "Edit Primary Notes" },
+      { "<leader>nt", "<cmd>Neorg journal today<cr>",            desc = "Today's Journal Page" },
+      { "<leader>nw", "<cmd>Neorg workspace work_notes<cr>",     desc = "Edit Work Notes" },
+      { "<leader>nm", "<cmd>Neorg workspace main<cr>",           desc = "Edit Primary Notes" },
       { "<leader>nk", "<cmd>Neorg workspace knowledge_base<cr>", desc = "Edit Knowledge Base" },
+      { "<leader>nk", "<cmd>Neorg workspace config<cr>", desc = "Edit Literate Configuration" },
     },
     config = function()
       require("neorg").setup({
@@ -31,6 +32,7 @@ return {
                 main = "~/neorg",
                 work_notes = "~/work_neorg_notes",
                 knowledge_base = "~/knowledge_base",
+                config = "~/.local/share/chezmoi"
               },
               autochdir = true,
               index = "index.norg",
