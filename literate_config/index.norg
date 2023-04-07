@@ -77,15 +77,22 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
    eval "$(starship init bash)"
 
-   export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
+   export PATH="/home/$USER/.local/share/neovim/bin:$PATH"
+
+   export NVM_DIR="$HOME/.nvm"
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
    @end
    - First, remember that the `.` at the beginning is equivalent to if we had written the `source` command
    -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
    --- This requires that cargo is installed since this is ensuring we make the environment from cargo available to the shell
    - Second, we have the evaluation of the starship prompt
    -- This requires that the startship prompt is alread installed on the system
-   - Finally, we are manually appending the absolute path to the binary that is currectly selected for bob-nvim, the Neovim version manager
+   - We are manually appending the absolute path to the binary that is currectly selected for bob-nvim, the Neovim version manager
    -- Again, this means we need to have bob-nvim alread installed on the machine for this to do anything
+   - Finally, exports its' bin via your `.bashrc` automatically after it is installed via the installation script in linux
+   -- it also loads in the line after that
+   -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
 ** PowerShell
    Powershell will look largely the same as bash, only with a few variations on the commands for PowerShell
    #tangle Microsoft.PowerShellProfile.ps1
@@ -94,3 +101,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    @end
    - Again, we are just invoking the startship prompt
    -- Therefore, we just need to be sure it is installed on the machine before we put this configuration file in here
+
+   This config file has less manual work than the bash file because windows in general believes less in managing system configuration through the shell.
+   Instead they often opt to change configuration through dedicated GUI programs or other discrete tools that need to be setup before the shell is even started, however, once you are done, there is less manual wiring required to get the application running than in the bash shell.
