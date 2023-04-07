@@ -27,46 +27,45 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
   Instead, here we are going to define our chezmoi files and explain why we have made the decisions we did
 
-** Git Configuration
-   Our git configuration file is one of the first places where we start leveraging the template abilities of chezmoi:
-   #tangle .gitconfig.tmpl
-   @code gitconfig
-   [user]
-   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-   email = darburgess@deloitte.com
-   {{ else }}
-   email = dargondab9@gmail.com
-   {{- end }}
-   name = Darrion Burgess
+  Our git configuration file is one of the first places where we start leveraging the template abilities of chezmoi:
+  #tangle .gitconfig.tmpl
+  @code gitconfig
+  [user]
+  {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+  email = darburgess@deloitte.com
+  {{ else }}
+  email = dargondab9@gmail.com
+  {{- end }}
+  name = Darrion Burgess
 
-   [credential]
-   helper = store
+  [credential]
+  helper = store
+  @end
+  - The main variation comes with the email that gets set for the git pieces
+  -- the work one just changes the email to my standard work email
+  -- While any other time we use the standard email associated with our personal GH account
+  - Finally, we are using gits' built-in credential storing feature to store our PAT tokens within the local machine
+  -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
+** Git Credentials
+   Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
+   - It's small, but it enables me to push and pull from my various private repos while still having the nice user experience of authenticating without typing the password in each time
+   #tangle gitCredentials.tmpl
+   @code template
+   {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
+   https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
+   {{else}}
+   https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
+   {{ end }}
    @end
-   - The main variation comes with the email that gets set for the git pieces
-   -- the work one just changes the email to my standard work email
-   -- While any other time we use the standard email associated with our personal GH account
-   - Finally, we are using gits' built-in credential storing feature to store our PAT tokens within the local machine
-   -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
-*** Git Credentials
-    Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
-    - It's small, but it enables me to push and pull from my various private repos while still having the nice user experience of authenticating without typing the password in each time
-    #tangle gitCredentials.tmpl
-    @code template
-    {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
-    https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-    {{else}}
-    https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
-    {{ end }}
-    @end
-    - First, we should note that we are using a template to check if we are on our work computer (you just need to know that that is my work computer's hostname)
-    -- Therefore, when I am on my work computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
-    --- This is how we enable such a sensitive file to live in source control, since the pat token is only shown in the file itself and can be easily changed when I update to a new PAT token since they do expire after all
-    --- Do also note here that we access `op` using a custom chezmoi template, chezmoi has access to several password managers and we can use this to place secrets in plaintext files only when we are syncing them to the local machine
-    ---- even if these were discovered by a malicious actor, the nature of PAT tokens means we can regenerate them and replace them in less than a minute with this setup and without a single change to the code
-    - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
-    - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
-    -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
-    --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
+   - First, we should note that we are using a template to check if we are on our work computer (you just need to know that that is my work computer's hostname)
+   -- Therefore, when I am on my work computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
+   --- This is how we enable such a sensitive file to live in source control, since the pat token is only shown in the file itself and can be easily changed when I update to a new PAT token since they do expire after all
+   --- Do also note here that we access `op` using a custom chezmoi template, chezmoi has access to several password managers and we can use this to place secrets in plaintext files only when we are syncing them to the local machine
+   ---- even if these were discovered by a malicious actor, the nature of PAT tokens means we can regenerate them and replace them in less than a minute with this setup and without a single change to the code
+   - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
+   - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
+   -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
+   --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash
@@ -104,3 +103,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
    This config file has less manual work than the bash file because windows in general believes less in managing system configuration through the shell.
    Instead they often opt to change configuration through dedicated GUI programs or other discrete tools that need to be setup before the shell is even started, however, once you are done, there is less manual wiring required to get the application running than in the bash shell.
+* First-Time-Setup and Initial Machine Installations
+  When we first get a machine, unless we are operating from a dockerized mindset, we will likely need to setup the environment first to ensure that everything we have setup above works as intended.
+  This can be difficult as much of this is different between different OSs, and while some software can be installed easily and automatically, others must be install through more manual means that make it difficult to reproduce in an easy manner
