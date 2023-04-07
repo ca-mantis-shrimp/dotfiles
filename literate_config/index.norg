@@ -19,15 +19,18 @@ This is where tangling comes in. These neorg files will actually generate the da
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 
+* {:Neovim/index:}[Neovim Configuration]
 * Chezmoi
   The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
 
   While this wont be the main place we talk about the inner workings of Chezmoi, I will leave that to the {:$knowledge_base/Applications/Chezmoi/index:}[Chezmoi Knowledge Files]
 
-Instead, here we are going to define our chezmoi files and explain why we have made the decisions we did
+  Instead, here we are going to define our chezmoi files and explain why we have made the decisions we did
 
 ** Git Credentials
    Starting with something small, we have the git credentials file
+   Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
+   - It's small, but it enables me to push and pull from my various private repos while still having the nice user experience of authenticating without typing the password in each time
 
    #tangle gitCredentials.tmpl
    @code template
@@ -39,8 +42,8 @@ Instead, here we are going to define our chezmoi files and explain why we have m
    @end
    - First, we should note that we are using a template to check if we are on our work computer (you just need to know that that is my work computer's hostname)
    -- Therefore, when I am on my computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
+   --- This is how we enable such a sensitive file to live in source control, since the pat token is only shown in the file itself and can be easily changed when I update to a new PAT token since they do expire after all
    - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
    - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
    -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
    --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
-* {:Neovim/index:}[Neovim Configuration]
