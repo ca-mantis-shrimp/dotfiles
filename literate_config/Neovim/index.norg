@@ -23,3 +23,4 @@ Neovim is the beating heart at the center of the configuration, and undergoes ra
   - all this file does is source the file located in `lua/config/lazy.lua` where the primary configuration for Lazy.nvim is located
   -- Since Lazy is the engine of the configuration, all we need to do is ensure this is able to be loaded on startup
   --- if done properly, it will even setup new machines properly if all of the dependencies are already worked out!
+* {:config/index:}[Neovim Config Folder]
