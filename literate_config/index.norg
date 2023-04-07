@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-04-06
+updated: 2023-04-07
 version: 1.0.0
 @end
 This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
@@ -41,4 +41,4 @@ Instead, here we are going to define our chezmoi files and explain why we have m
    -- Therefore, when I am on my computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
    - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
    - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
-* {:.chezmoitemplates/index:}[Chezmoi Templates]
+* {:Neovim/index:}[Neovim Configuration]

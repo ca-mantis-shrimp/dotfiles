@@ -2,11 +2,9 @@
 AppData/
 Documents/
 .chezmoiscripts/*.ps1
-{{ end }}
-{{ if ne .chezmoi.os "linux" }}
+{{ else }}
 .config/nvim/
 .chezmoiscripts/*.sh
 {{ end }}
 
-*.norg
-*/**.norg
+./literate_config/
