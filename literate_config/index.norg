@@ -31,7 +31,7 @@ Instead, here we are going to define our chezmoi files and explain why we have m
 
    #tangle gitCredentials.tmpl
    @code template
-   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+   {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
    https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
    {{else}}
    https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
