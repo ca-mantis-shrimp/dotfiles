@@ -31,10 +31,14 @@ Instead, here we are going to define our chezmoi files and explain why we have m
 
    #tangle gitCredentials.tmpl
    @code template
-{{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-{{else}}
-https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
-{{ end }}
+   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+   https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
+   {{else}}
+   https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
+   {{ end }}
    @end
+   - First, we should note that we are using a template to check if we are on our work computer (you just need to know that that is my work computer's hostname)
+   -- Therefore, when I am on my computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
+   - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
+   - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
 * {:.chezmoitemplates/index:}[Chezmoi Templates]
