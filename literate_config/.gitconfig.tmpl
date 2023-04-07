@@ -1,12 +1,14 @@
 [user]
 {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
- email = dargondab9@gmail.com
- name = Darrion Burgess
+  email = dargondab9@gmail.com
+  name = Darrion Burgess
 {{- end }}
 {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
- email = darburgess@deloitte.com
- name = Darrion Burgess
+  email = darburgess@deloitte.com
+  name = Darrion Burgess
 {{- end }}
 
 [credential]
- helper = store
+  #helper = store
+  helper = "op item --fields label=password --vault Personal"
+  
