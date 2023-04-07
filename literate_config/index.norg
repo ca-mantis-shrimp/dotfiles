@@ -50,7 +50,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 *** Git Credentials
     Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
     - It's small, but it enables me to push and pull from my various private repos while still having the nice user experience of authenticating without typing the password in each time
-
     #tangle gitCredentials.tmpl
     @code template
     {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
@@ -87,3 +86,11 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    -- This requires that the startship prompt is alread installed on the system
    - Finally, we are manually appending the absolute path to the binary that is currectly selected for bob-nvim, the Neovim version manager
    -- Again, this means we need to have bob-nvim alread installed on the machine for this to do anything
+** PowerShell
+   Powershell will look largely the same as bash, only with a few variations on the commands for PowerShell
+   #tangle Microsoft.PowerShellProfile.ps1
+   @code ps1
+   Invoke-Expression (&starship init powershell)
+   @end
+   - Again, we are just invoking the startship prompt
+   -- Therefore, we just need to be sure it is installed on the machine before we put this configuration file in here

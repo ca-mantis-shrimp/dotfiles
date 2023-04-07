@@ -1,1 +1,1 @@
-Invoke-Expression (&starship init powershell)
+../../literate_config/Microsoft.PowerShellProfile.ps1
