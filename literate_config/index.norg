@@ -33,14 +33,14 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    @code gitconfig
    [user]
    {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-     email = darburgess@deloitte.com
+   email = darburgess@deloitte.com
    {{ else }}
-     email = dargondab9@gmail.com
+   email = dargondab9@gmail.com
    {{- end }}
-     name = Darrion Burgess
+   name = Darrion Burgess
 
    [credential]
-     helper = store
+   helper = store
    @end
    - The main variation comes with the email that gets set for the git pieces
    -- the work one just changes the email to my standard work email
@@ -68,3 +68,22 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
     - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
     -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
     --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
+* Shell Configuration
+  Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
+** Bash
+   Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
+   #tangle .bashrc
+   @code bash
+   . "$HOME/.cargo/env"
+
+   eval "$(starship init bash)"
+
+   export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
+   @end
+   - First, remember that the `.` at the beginning is equivalent to if we had written the `source` command
+   -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
+   --- This requires that cargo is installed since this is ensuring we make the environment from cargo available to the shell
+   - Second, we have the evaluation of the starship prompt
+   -- This requires that the startship prompt is alread installed on the system
+   - Finally, we are manually appending the absolute path to the binary that is currectly selected for bob-nvim, the Neovim version manager
+   -- Again, this means we need to have bob-nvim alread installed on the machine for this to do anything
