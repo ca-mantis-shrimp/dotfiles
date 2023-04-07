@@ -41,4 +41,6 @@ Instead, here we are going to define our chezmoi files and explain why we have m
    -- Therefore, when I am on my computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
    - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
    - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
+   -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
+   --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
 * {:Neovim/index:}[Neovim Configuration]
