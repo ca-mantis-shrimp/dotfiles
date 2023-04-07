@@ -20,13 +20,30 @@ This is where tangling comes in. These neorg files will actually generate the da
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 
 * {:Neovim/index:}[Neovim Configuration]
-* Chezmoi
+* Git
   The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
 
   While this wont be the main place we talk about the inner workings of Chezmoi, I will leave that to the {:$knowledge_base/Applications/Chezmoi/index:}[Chezmoi Knowledge Files]
 
   Instead, here we are going to define our chezmoi files and explain why we have made the decisions we did
 
+** Git Configuration
+   Our git configuration file is one of the first places where we start leveraging the template abilities of chezmoi:
+   #tangle .gitconfig.tmpl
+   @code gitconfig
+   [user]
+   {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
+    email = dargondab9@gmail.com
+    name = Darrion Burgess
+   {{- end }}
+   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+    email = darburgess@deloitte.com
+    name = Darrion Burgess
+   {{- end }}
+
+   [credential]
+    helper = store
+   @end
 ** Git Credentials
    Starting with something small, we have the git credentials file
    Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
