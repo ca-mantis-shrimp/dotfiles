@@ -19,7 +19,7 @@ return {
       { "<leader>nw", "<cmd>Neorg workspace work_notes<cr>",     desc = "Edit Work Notes" },
       { "<leader>nm", "<cmd>Neorg workspace main<cr>",           desc = "Edit Primary Notes" },
       { "<leader>nk", "<cmd>Neorg workspace knowledge_base<cr>", desc = "Edit Knowledge Base" },
-      { "<leader>nc", "<cmd>Neorg workspace config<cr>", desc = "Edit Literate Configuration" },
+      { "<leader>nc", "<cmd>Neorg workspace config<cr>",         desc = "Edit Literate Configuration" },
     },
     config = function()
       require("neorg").setup({
@@ -32,7 +32,7 @@ return {
                 main = "~/neorg",
                 work_notes = "~/work_neorg_notes",
                 knowledge_base = "~/knowledge_base",
-                config = "~/.local/share/chezmoi"
+                config = "~/.local/share/chezmoi/literate_config",
               },
               autochdir = true,
               index = "index.norg",

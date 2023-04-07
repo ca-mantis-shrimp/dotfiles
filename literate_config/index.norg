@@ -29,11 +29,12 @@ Instead, here we are going to define our chezmoi files and explain why we have m
 ** Git Credentials
    Starting with something small, we have the git credentials file
 
-   #tangle "dot_git-credentials.tmpl"
+   #tangle gitCredentials.tmpl
    @code template
-   https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
-   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-   https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-   {{ end }}
+{{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
+{{else}}
+https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
+{{ end }}
    @end
 * {:.chezmoitemplates/index:}[Chezmoi Templates]
