@@ -42,9 +42,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    {{- end }}
 
    [credential]
-     #helper = store
-     helper = "op item --fields label=password --vault Personal"
-     
+     helper = store
    @end
 ** Git Credentials
    Starting with something small, we have the git credentials file
