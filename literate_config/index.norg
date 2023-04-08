@@ -118,6 +118,7 @@ Documents/
    -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
    --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
    -- I also needed to add one before the else because it was still adding new lines for some reason? 
+   -- I continued to have problems so I ended another one at the end of the `end` block
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash

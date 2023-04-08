@@ -32,4 +32,86 @@ From there, we have a few key files that are used to configure neovim through di
   ---- and for that spelling we will be using the US English Spelling dictionary loaded in memmory
 * Keymaps
 * Lazy Config
+  Since Lazy.nvim is the primary engine driving all of this, we should take a second to review how it is setup incase we ever need to make changes ourselves
+** Bootstrapping Lazy
+   One of the most important steps that lazyvim is trying to take care of is the edge case where you don't have lazy itself installed, which will then install all the other plugins.
+
+   We achieve that with this snippet:
+   #tangle lazy.lua
+   @code lua
+   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+   if not vim.loop.fs_stat(lazypath) then
+     -- stylua: ignore
+     vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable",
+       lazypath })
+   end
+   vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+   @end
+   ~ First, we make a path that goes from the standard data path (usually `~/.local/share/nvim/`), and append `/lazy/lazy.nvim` to the end
+   ~ If we the lazypath is not available, likely because we don't have lazy, we pull it using git
+   ~~ We are just pulling directly from the git CLI, we only grab the stable version
+   ~ Finally, we prepend either the new lazypath or the LAZY enviroment variable if it exists
+** Setup
+      This config serves as both a general configuration but also a guide on what is available for lazy.nvim
+*** Spec
+    The spec is the actual list of plugins to be installed, and helps us easily add and remove plugins we want
+    #tangle lazy.lua
+    @code lua
+    local spec_list = {
+      { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+      { import = "plugins" },
+    }
+    @end
+    ~ We install the various plugins that come with LazyVim
+    ~~ it should be noted that lazyvim actually comes with extra plugins that users don't need to activate immediately
+    ~~~ we can import them with any of the `extra` files in lazyvim itself
+    ~ We import the any `*.lua` files found within the `plugins` folder of the `lua` directory
+    ~~ This is the primary way we do additional plugins as a user, and can be changed if we want multiple files
+*** Performance
+    Lazy prides itself on keeping startup time and general editor speed snappy, he also gives the ability to tweak the performance even more so you can find the balance that works right for you
+    Here is our initial performance layout:
+    #tanle lazy.lua
+    @code lua
+    local performance_settings = {
+      rtp = {
+        disabled_plugins = {
+          "gzip",
+          "tarPlugin",
+          "tohtml",
+          "tutor",
+          "zipPlugin",
+        },
+      },
+    }
+    @end
+    - Here, all we are really doing is removing some of the plugins that comes with vim
+    -- The implicit understanding is that you neither use, nor care about these tools and since they are written in vimscript primarily, removing them will improve performance
+*** Bringing it All Together
+    Finally, we call the setup function itself and use the tables we assembled before as a part of our larger configuration of Lazy
+      #tangle lazy.lua
+      @code lua
+      require("lazy").setup({
+        spec = spec_list,
+        defaults = {
+          lazy = false,
+          version = false,
+        },
+        install = { colorscheme = { "tokyonight", "habamax" } },
+        checker = { enabled = true },
+        performance = performance_settings,
+      })
+      @end
+    - we default to immediately loading new plugins
+    -- This helps to reduce the amount of frustration of lazy-loading related bugs at first
+    --- The implicit message is that you should make plugins lazy as you need, rather than starting from a lazy view and dealing with dependency hell
+    - version
+    -- This allows us to try and install the latest stable version of our plugins by default
+    --- however, this assumes the person implemented SemVer in their repo, and for right now we cant be sure of that so version is set to false for now
+    ---- ( ) might be interesting to see if turning this on breaks a bunch of stuff or if the community of coalescing around semver
+    - When we initially load up lazy to get plugins, we can set the colorscheme of the window that shows up
+    -- This just ensure consistency between the style you normally have and the style you have otherwise
+    --- Also colorschemes are tricky when it comes to installation so getting them installed quickly is a good idea
+    - We also enable lazy to check on our behalf if that are updates for different plugins
+    -- This results in a notification when you enter neovim about the plugins that can have updates
+    --- if this notification gets annoying you can always disable it here
 * Options
