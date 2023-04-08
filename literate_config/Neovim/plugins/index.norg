@@ -4,7 +4,29 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-04-07
+updated: 2023-04-08
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
+
+I think to start, I am just going to start with the smaller stuff and then work through it one at a time. Especially large plugins will likely get their own file so I can decouple them from what I have to do with the others which can be generated all at once
+* Toggle Term
+  Firsfirst we have the excellent {https://github.com/akinsho/toggleterm.nvim/tree/b86982429325112d2b20c6d0cc7a5c4b182ab706}[toggleterm.nvim] plugin that can be used to facilitate a workflow where I occasionally _toggle_ a terminal page, do some actions, and leave
+
+  The snippet for enabling this is even easy:
+  #tangle toggleTerm.lua
+  @code lua
+  return {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    opts = {
+      open_mapping = [[<c-\>]],
+    },
+  }
+  @end
+  - The version piece here is just going to grab the latest standard version
+  -- This works because toggleterm follows SemVer
+  - Otherwise, we just have to set the hotkey to _toggle_ the terminal on and off.
+  -- Here we are using the standard `<c-\>` function to enable or disable the terminal itself
+  --- this is hitting a conflict with the standard hotkey for neorg right now, not sure if I want to change this from the default or what that would be
+  --- This is a kinda nice hotkey because it works outside and inside of the terminal, whereas normal hotkeys don't work in a terminal because it is basically always in insert mode

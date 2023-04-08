@@ -1,7 +1,1 @@
-return {
-  "akinsho/toggleterm.nvim",
-  version = "*",
-  opts = {
-    open_mapping = [[<c-\>]],
-  },
-}
+/root/.local/share/chezmoi/literate_config/Neovim/plugins/toggleTerm.lua
