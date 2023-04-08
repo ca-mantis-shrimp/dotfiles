@@ -115,3 +115,18 @@ From there, we have a few key files that are used to configure neovim through di
     -- This results in a notification when you enter neovim about the plugins that can have updates
     --- if this notification gets annoying you can always disable it here
 * Options
+  LazyVim actually has its' own set of options setup, you can check in the lazyvim repo itself.
+  These options are loaded AFTER both the lazyvim options, and the plugin options, meaning they will be the ones that win-out since lua is a scripted language
+  #tangle options.lua
+  @code lua
+  vim.opt.autochdir = true
+
+  vim.wo.foldmethod = "expr"
+  vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+  @end
+  - A bunch of tools seem to work better when I just automatically cd into the directory including neorg, config files, and python
+  - Next we use these two options in tandem to fold our code using treesitter rather than the normal folding methods
+  -- first, we set the method of determining folds as an expression
+  -- next is the expression to be used
+  --- specifically, we are using the `foldexpr` function for the treesitter repo itself
+  ---- Therefore, this should work for any file which you have treesitter installed and enabled
