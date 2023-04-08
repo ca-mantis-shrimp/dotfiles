@@ -92,7 +92,7 @@ From there, we have a few key files that are used to configure neovim through di
     - Here, all we are really doing is removing some of the plugins that comes with vim
     -- The implicit understanding is that you neither use, nor care about these tools and since they are written in vimscript primarily, removing them will improve performance
 *** Bringing it All Together
-    Finally, we call the setup function itself and use the tables we assembled before as a part of our larger configuration of Lazy
+    We call the setup function itself and use the tables we assembled before as a part of our larger configuration of Lazy
     #tangle lazy.lua
     @code lua
     require("lazy").setup({
