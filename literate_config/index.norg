@@ -23,7 +23,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 * Chezmoi
   Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
   Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
-** Chezmoi Config File
+** Config File
    We are opting to do the standard chezmoi TOML file
    #tangle .chezmoi.toml.tmpl
    @code toml
@@ -48,7 +48,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    --- ( ) However, in the future I still want to change this over to using the diffview plugin instead to improve the user experience and get them all in one go
    - We are using neovim whenever we do `chezmoi edit`
    - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
-** Chezmoi Ignore File
+** Ignore File
    Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
 #tangle .chezmoiignore
 @code gitignore
@@ -104,9 +104,9 @@ Documents/
    @code template
    {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
    https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-   {{- else}}
+   {{else -}}
    https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
-   {{ end }}
+   {{- end }}
    @end
    - First, we should note that we are using a template to check if we are on our work computer (you just need to know that that is my work computer's hostname)
    -- Therefore, when I am on my work computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
@@ -131,8 +131,8 @@ Documents/
    export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
    export NVM_DIR="$HOME/.nvm"
-   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
    @end
    - First, remember that the `.` at the beginning is equivalent to if we had written the `source` command
    -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
@@ -142,7 +142,7 @@ Documents/
    - We are manually appending the absolute path to the binary that is currectly selected for bob-nvim, the Neovim version manager
    -- Again, this means we need to have bob-nvim alread installed on the machine for this to do anything
    - Finally, exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in linux
-   -- it also loads in the line after that
+   -- The line after that loads a shell script that makes nvm available to the system
    -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
 ** PowerShell
    Powershell will look largely the same as bash, only with a few variations on the commands for PowerShell
