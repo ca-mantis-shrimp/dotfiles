@@ -48,6 +48,29 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    --- ( ) However, in the future I still want to change this over to using the diffview plugin instead to improve the user experience and get them all in one go
    - We are using neovim whenever we do `chezmoi edit`
    - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
+** Chezmoi Ignore File
+   Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
+#tangle .chezmoiignore
+@code gitignore
+{{ if ne .chezmoi.os "windows" }}
+AppData/
+Documents/
+.chezmoiscripts/*.ps1
+{{ else }}
+.config/nvim/
+.chezmoiscripts/*.sh
+{{ end }}
+
+./literate_config/
+@end
+   - If we are not in windows, we are removing the `AppData`, `Documents`, and all PowerShell files from the `.chezmoiscripts` directory
+   -- These folders are a microsoft thing, and shouldn't make their way into linux directories
+   --- specifically, this is where the neovim config and powershell script are respectively.
+   - Otherwise, we are removing the `nvim` folder from the `.config` file
+   -- so we don't conflict with the version that is used in windows
+   - finally, we ignore this folder! 
+   -- because it is not intended to be copied to the machine's home directory, it is intended to serve as the brain of the repository itself and thus should never be included
+
 * Git
   The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
 
@@ -81,7 +104,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    @code template
    {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
    https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-   {{else}}
+   {{- else}}
    https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
    {{ end }}
    @end
@@ -94,6 +117,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
    -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
    --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
+   -- I also needed to add one before the else because it was still adding new lines for some reason? 
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash

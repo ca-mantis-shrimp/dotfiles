@@ -1,10 +1,1 @@
-{{ if ne .chezmoi.os "windows" }}
-AppData/
-Documents/
-.chezmoiscripts/*.ps1
-{{ else }}
-.config/nvim/
-.chezmoiscripts/*.sh
-{{ end }}
-
-./literate_config/
+literate_config/.chezmoiignore
