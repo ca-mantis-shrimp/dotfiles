@@ -30,3 +30,19 @@ I think to start, I am just going to start with the smaller stuff and then work 
   -- Here we are using the standard `<c-\>` function to enable or disable the terminal itself
   --- this is hitting a conflict with the standard hotkey for neorg right now, not sure if I want to change this from the default or what that would be
   --- This is a kinda nice hotkey because it works outside and inside of the terminal, whereas normal hotkeys don't work in a terminal because it is basically always in insert mode
+* Portal Configuration
+  Portal is an interesting little plugin that enables us to visualize the jumplist before you just jump there.
+  #tangle portal.lua
+  @code lua
+  return {
+    "cbochs/portal.nvim",
+    dependencies = { "cbochs/grapple.nvim" },
+    keys = {
+      { "<leader>o", "<cmd>Portal jumplist backward<cr>" },
+      { "<leader>i", "<cmd>Portal jumplist forward<cr>" },
+    },
+  }
+  @end
+  - {https://github.com/cbochs/grapple.nvim/tree/ab274a3bfb674442d57fca05df866b71895853bc}[grapple.nvim] serves as the core library that allows for this file list and enable the preview capabilities
+  - Otherwise, the plugin is only loaded when you use either of the keybinds above
+  -- we chose `<leader>`o and i because it mirrors the normal jumplist hotkeys to express that they are paralell but different features
