@@ -19,4 +19,3 @@ require("lazy").setup({
   checker = { enabled = true },
   performance = performance_settings,
 })
-

@@ -48,7 +48,7 @@ From there, we have a few key files that are used to configure neovim through di
    vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
    @end
    ~ First, we make a path that goes from the standard data path (usually `~/.local/share/nvim/`), and append `/lazy/lazy.nvim` to the end
-   ~ If we the lazypath is not available, likely because we don't have lazy, we pull it using git
+   ~ If we find the lazypath is not available, likely because we don't have lazy, we pull it using git
    ~~ We are just pulling directly from the git CLI, we only grab the stable version
    ~ Finally, we prepend either the new lazypath or the LAZY enviroment variable if it exists
 ** Setup
@@ -66,7 +66,7 @@ From there, we have a few key files that are used to configure neovim through di
     ~~ it should be noted that lazyvim actually comes with extra plugins that users don't need to activate immediately
     ~~~ we can import them with any of the `extra` files in lazyvim itself
     ~ We import the any `*.lua` files found within the `plugins` folder of the `lua` directory
-    ~~ This is the primary way we do additional plugins as a user, and can be changed if we want multiple files
+    ~~ This is the primary way we do additional plugins as a user, and can be changed if we want multiple directories for plugins
 *** Performance
     Lazy prides itself on keeping startup time and general editor speed snappy, he also gives the ability to tweak the performance even more so you can find the balance that works right for you
     Here is our initial performance layout:
@@ -109,7 +109,7 @@ From there, we have a few key files that are used to configure neovim through di
     --- however, this assumes the person implemented SemVer in their repo, and for right now we cant be sure of that so version is set to false for now
     ---- ( ) might be interesting to see if turning this on breaks a bunch of stuff or if the community of coalescing around semver
     - When we initially load up lazy to get plugins, we can set the colorscheme of the window that shows up
-    -- This just ensure consistency between the style you normally have and the style you have otherwise
+    -- This just ensures consistency between the style you normally have and the style you have otherwise
     --- Also colorschemes are tricky when it comes to installation so getting them installed quickly is a good idea
     - We also enable lazy to check on our behalf if that are updates for different plugins
     -- This results in a notification when you enter neovim about the plugins that can have updates
