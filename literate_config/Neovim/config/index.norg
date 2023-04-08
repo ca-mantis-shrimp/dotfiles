@@ -52,7 +52,7 @@ From there, we have a few key files that are used to configure neovim through di
    ~~ We are just pulling directly from the git CLI, we only grab the stable version
    ~ Finally, we prepend either the new lazypath or the LAZY enviroment variable if it exists
 ** Setup
-      This config serves as both a general configuration but also a guide on what is available for lazy.nvim
+   This config serves as both a general configuration but also a guide on what is available for lazy.nvim
 *** Spec
     The spec is the actual list of plugins to be installed, and helps us easily add and remove plugins we want
     #tangle lazy.lua
@@ -88,19 +88,19 @@ From there, we have a few key files that are used to configure neovim through di
     -- The implicit understanding is that you neither use, nor care about these tools and since they are written in vimscript primarily, removing them will improve performance
 *** Bringing it All Together
     Finally, we call the setup function itself and use the tables we assembled before as a part of our larger configuration of Lazy
-      #tangle lazy.lua
-      @code lua
-      require("lazy").setup({
-        spec = spec_list,
-        defaults = {
-          lazy = false,
-          version = false,
-        },
-        install = { colorscheme = { "tokyonight", "habamax" } },
-        checker = { enabled = true },
-        performance = performance_settings,
-      })
-      @end
+    #tangle lazy.lua
+    @code lua
+    require("lazy").setup({
+      spec = spec_list,
+      defaults = {
+        lazy = false,
+        version = false,
+      },
+      install = { colorscheme = { "tokyonight", "habamax" } },
+      checker = { enabled = true },
+      performance = performance_settings,
+    })
+    @end
     - we default to immediately loading new plugins
     -- This helps to reduce the amount of frustration of lazy-loading related bugs at first
     --- The implicit message is that you should make plugins lazy as you need, rather than starting from a lazy view and dealing with dependency hell
