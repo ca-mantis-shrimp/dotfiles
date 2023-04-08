@@ -1,3 +1,1 @@
-return {
-	{ "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
-}
+../../../../literate_config/Neovim/plugins/gitDiff.lua

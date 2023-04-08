@@ -88,3 +88,13 @@ I think to start, I am just going to start with the smaller stuff and then work 
   --- if we dont, this will result in duplicate diagnostic messages when we are editing code
   --- afterwards, we can setup the plugin like normal
   - Finally, we need to restrict the filetypes that we enable lsp_lines on because otherwise we get annoying duplication in things like the lazy floating window
+* Git Diff
+  The standard diff view for Neovim is fine, but it leaves a few things to be desired.
+  - It doesn't feel like a really integrated solution with the ability to show the context
+  - More importantly, it can't show multiple files easily making the process of reviewing diffs for multiple files (as if often the case when we do `chezmoi apply`), then it can make the process feel cumbersome
+  #tangle gitDiff.lua
+  @code lua
+  return {
+    { "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
+  }
+  @end
