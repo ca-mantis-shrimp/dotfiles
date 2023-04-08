@@ -4,7 +4,7 @@ description:
 authors: darburgess
 categories: 
 created: 2023-04-07
-updated: 2023-04-07
+updated: 2023-04-08
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
@@ -13,7 +13,7 @@ From there, we have a few key files that are used to configure neovim through di
   Autocmds are automatically loaded on the VeryLazy event
   {https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua}[Default autocmds that are always set]
 
-  first, we wrap and check for spell in text filetypes (currently just norg files)
+  We wrap and check for spell in text filetypes (currently just norg files)
   #tangle autocmds.lua
   @code lua
   vim.api.nvim_create_autocmd("FileType", {
@@ -24,6 +24,7 @@ From there, we have a few key files that are used to configure neovim through di
       vim.opt.spelllang = { "en_us" }
     end,
   })
+
   @end
   - Here we are just creating an Auto Command that will check the Filetype for certain patterns and do something if it finds the appropriate ones
   -- in this case, we are setting some important options that are necessary for writing prose in neovim
@@ -46,13 +47,14 @@ From there, we have a few key files that are used to configure neovim through di
        lazypath })
    end
    vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+
    @end
    ~ First, we make a path that goes from the standard data path (usually `~/.local/share/nvim/`), and append `/lazy/lazy.nvim` to the end
    ~ If we find the lazypath is not available, likely because we don't have lazy, we pull it using git
    ~~ We are just pulling directly from the git CLI, we only grab the stable version
    ~ Finally, we prepend either the new lazypath or the LAZY enviroment variable if it exists
 ** Setup
-   This config serves as both a general configuration but also a guide on what is available for lazy.nvim
+   Lazy needs to be setup with the `setup` function, but this is usually a big table of options, so to make it easier to read, we will be creating some of the larger configuration chunks as local variable tables and incorporating them into the final function call in the end
 *** Spec
     The spec is the actual list of plugins to be installed, and helps us easily add and remove plugins we want
     #tangle lazy.lua
@@ -61,6 +63,7 @@ From there, we have a few key files that are used to configure neovim through di
       { "LazyVim/LazyVim", import = "lazyvim.plugins" },
       { import = "plugins" },
     }
+
     @end
     ~ We install the various plugins that come with LazyVim
     ~~ it should be noted that lazyvim actually comes with extra plugins that users don't need to activate immediately
@@ -70,7 +73,8 @@ From there, we have a few key files that are used to configure neovim through di
 *** Performance
     Lazy prides itself on keeping startup time and general editor speed snappy, he also gives the ability to tweak the performance even more so you can find the balance that works right for you
     Here is our initial performance layout:
-    #tanle lazy.lua
+
+    #tangle lazy.lua
     @code lua
     local performance_settings = {
       rtp = {
@@ -83,6 +87,7 @@ From there, we have a few key files that are used to configure neovim through di
         },
       },
     }
+
     @end
     - Here, all we are really doing is removing some of the plugins that comes with vim
     -- The implicit understanding is that you neither use, nor care about these tools and since they are written in vimscript primarily, removing them will improve performance
@@ -100,6 +105,7 @@ From there, we have a few key files that are used to configure neovim through di
       checker = { enabled = true },
       performance = performance_settings,
     })
+
     @end
     - we default to immediately loading new plugins
     -- This helps to reduce the amount of frustration of lazy-loading related bugs at first

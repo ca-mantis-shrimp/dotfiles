@@ -5,10 +5,24 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath })
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+
 local spec_list = {
   { "LazyVim/LazyVim", import = "lazyvim.plugins" },
   { import = "plugins" },
 }
+
+local performance_settings = {
+  rtp = {
+    disabled_plugins = {
+      "gzip",
+      "tarPlugin",
+      "tohtml",
+      "tutor",
+      "zipPlugin",
+    },
+  },
+}
+
 require("lazy").setup({
   spec = spec_list,
   defaults = {
