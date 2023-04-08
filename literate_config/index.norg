@@ -20,6 +20,34 @@ This is where tangling comes in. These neorg files will actually generate the da
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 
 * {:Neovim/index:}[Neovim Configuration]
+* Chezmoi
+  Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
+  Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
+** Chezmoi Config File
+   We are opting to do the standard chezmoi TOML file
+   #tangle .chezmoi.toml.tmpl
+   @code toml
+   {{ if eq .chezmoi.os "windows" }}
+   [cd]
+   command = "pwsh"
+   {{ end }}
+
+   [diff]
+   command = "nvim"
+   args = "-d"
+
+   [edit]
+   command = "nvim"
+
+   [git]
+   autoCommit = true
+   @end
+   - windows has this annoying thing where it defaults to the cmd for most things so we need to just start it in powershell whenever we use the `chezmoi cd` command
+   - for the diffing mechanism between chezmoi and the files, I use neovim's default diff mode
+   -- we do this by running neovim with the `-d` argument
+   --- ( ) However, in the future I still want to change this over to using the diffview plugin instead to improve the user experience and get them all in one go
+   - We are using neovim whenever we do `chezmoi edit`
+   - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
 * Git
   The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
 
@@ -76,11 +104,11 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
    eval "$(starship init bash)"
 
-   export PATH="/home/$USER/.local/share/neovim/bin:$PATH"
+   export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
    export NVM_DIR="$HOME/.nvm"
-   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
    @end
    - First, remember that the `.` at the beginning is equivalent to if we had written the `source` command
    -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
@@ -89,7 +117,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    -- This requires that the startship prompt is alread installed on the system
    - We are manually appending the absolute path to the binary that is currectly selected for bob-nvim, the Neovim version manager
    -- Again, this means we need to have bob-nvim alread installed on the machine for this to do anything
-   - Finally, exports its' bin via your `.bashrc` automatically after it is installed via the installation script in linux
+   - Finally, exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in linux
    -- it also loads in the line after that
    -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
 ** PowerShell
@@ -114,13 +142,13 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
     @code template
     #!/bin/bash
     if command -v cargo > dev/null; then
-      echo "rust and cargo are already installed, exiting"
-      exit
+    echo "rust and cargo are already installed, exiting"
+    exit
     else
     {{if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     {{else}}
-      curl https://sh.rustup.rs -sSf | sh
+    curl https://sh.rustup.rs -sSf | sh
     {{end}}
     fi
     @end
