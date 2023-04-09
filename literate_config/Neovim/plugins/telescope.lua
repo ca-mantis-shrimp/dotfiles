@@ -1,6 +1,6 @@
 local buku_telescope_plugin_spec = {
   "dhruvmanila/telescope-bookmarks.nvim",
-  dependencies = { "nvim-telescope/telescope.nvim", "kkharji/sqlite.lua", "tyru/open-browser.vim" },
+  dependencies = { "kkharji/sqlite.lua", "tyru/open-browser.vim" },
   keys = { { "<leader>sB", "<cmd>Telescope bookmarks<cr>", desc = "Search Bookmarks" } },
 }
 local telescope_browser_setup_options = {
@@ -8,6 +8,9 @@ local telescope_browser_setup_options = {
   url_open_plugin = "open_browser",
   buku_include_tags = true,
 }
+local load_bookmark_extension = function()
+  require("telescope").load_extension("bookmarks")
+end
 
 return {
   {
@@ -21,7 +24,7 @@ return {
           bookmarks = telescope_browser_setup_options,
         },
       })
-      require("telescope").load_extension("bookmarks")
+      load_bookmark_extension()
     end,
   }
 }
