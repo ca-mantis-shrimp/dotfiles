@@ -195,3 +195,42 @@ I think to start, I am just going to start with the smaller stuff and then work 
    }
    @end
    - We just need to require the various language plugins within the `adapters` section of our setup function.
+* Telescope
+  Telescope is one of the great plugins of neovim that makes it a pleasure to use
+
+  Lazyvim already comes with it mostly install I just wanted to add the functionality to search my URL bookmarks since that is the part that I think i was missing
+** Buku Bookmarks Search
+   Pretty much the only part i add on from lazyvim is the ability to do a search on my local buku repository using a combination of buku itself, and the `telescoppe-bookmarks.nvim` plugin which can read from the sqlite database located on your machine
+   #tangle telescope.lua
+   @code lua
+   local buku_telescope_plugin_spec = {
+     "dhruvmanila/telescope-bookmarks.nvim",
+     dependencies = { "nvim-telescope/telescope.nvim", "kkharji/sqlite.lua", "tyru/open-browser.vim" },
+     keys = { { "<leader>sB", "<cmd>Telescope bookmarks<cr>", desc = "Search Bookmarks" } },
+   }
+   local telescope_browser_setup_options = {
+     selected_browser = "buku",
+     url_open_plugin = "open_browser",
+     buku_include_tags = true,
+   }
+
+   @end
+   #tangle telescope.lua
+   @code lua
+   return {
+     {
+       "nvim-telescope/telescope.nvim",
+       dependencies = { "nvim-lua/plenary.nvim",
+         buku_telescope_plugin_spec,
+       },
+       config = function()
+         require("telescope").setup({
+           extensions = {
+             bookmarks = telescope_browser_setup_options,
+           },
+         })
+         require("telescope").load_extension("bookmarks")
+       end,
+     }
+   }
+   @end
