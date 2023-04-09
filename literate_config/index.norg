@@ -50,19 +50,19 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
 ** Ignore File
    Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
-#tangle .chezmoiignore
-@code gitignore
-{{ if ne .chezmoi.os "windows" }}
-AppData/
-Documents/
-.chezmoiscripts/*.ps1
-{{ else }}
-.config/nvim/
-.chezmoiscripts/*.sh
-{{ end }}
+   #tangle .chezmoiignore
+   @code gitignore
+   {{ if ne .chezmoi.os "windows" }}
+   AppData/
+   Documents/
+   .chezmoiscripts/*.ps1
+   {{ else }}
+   .config/nvim/
+   .chezmoiscripts/*.sh
+   {{ end }}
 
-./literate_config/
-@end
+   ./literate_config/
+   @end
    - If we are not in windows, we are removing the `AppData`, `Documents`, and all PowerShell files from the `.chezmoiscripts` directory
    -- These folders are a microsoft thing, and shouldn't make their way into linux directories
    --- specifically, this is where the neovim config and powershell script are respectively.
