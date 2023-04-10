@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-09
+updated: 2023-04-10
 version: 1.0.0
 tangle: wezterm.lua
 @end
@@ -52,6 +52,18 @@ The traditional keymap layout is already okay but we want to expand this
 
   The mechanic that wezterm introduces is key tables. These are similar to vim modes in that we can define keymaps that are only applicable for certain contexts
   - We can then set these contexts and do the hotkeys we have defined specifically for these context panes
+** Activating Command Pallet
+   Everyone is in love with the command pallet idea after VSCode popularized it so it goes with the wezterm emulator so that we can bring up a quick menu to quickly do several commands including splitting, making new tabs, and other requirements of working through these pieces
+
+   We can set the command pallet hotkey with the below snippet:
+   #tangle
+   @code lua
+   local activate_command_palette_keymap = {
+     key = 'p',
+     mods = 'CTRL|ALT',
+     action = act.ActivateCommandPalette,
+   }
+   @end
 ** Highlighting the Active Key Table
    Like neovim, wezterm is rather terse by default, and doesnt tell you which active key table is applicable for where you are.
 
@@ -202,6 +214,7 @@ While possible with normal wezterm, this key table from the wezterm site enables
      active_pane_keymap,
      close_pane_keymap,
      show_launcher_keymap,
+     activate_command_palette_keymap
    }
 
    config.key_tables = {
