@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-04-09
+updated: 2023-04-10
 version: 1.0.0
 @end
 This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
@@ -92,12 +92,16 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
   [credential]
   helper = store
+
+  [core]
+  symlinks = true
   @end
   - The main variation comes with the email that gets set for the git pieces
   -- the work one just changes the email to my standard work email
   -- While any other time we use the standard email associated with our personal GH account
   - Finally, we are using gits' built-in credential storing feature to store our PAT tokens within the local machine
   -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
+  - finally we need to put in this symlinks option to make this symlink hack we are relying on work between windows and linux per {https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows/59761201#59761201}[This discussion about symlinks between linux and windows]
 ** Git Credentials
    Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
    - It's small, but it enables me to push and pull from my various private repos while still having the nice user experience of authenticating without typing the password in each time
