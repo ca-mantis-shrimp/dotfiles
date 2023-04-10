@@ -154,8 +154,22 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    Powershell will look largely the same as bash, only with a few variations on the commands for PowerShell
    #tangle Microsoft.PowerShellProfile.ps1
    @code ps1
+   $prompt = ""
+   function Invoke-Starship-PreCommand {
+   $current_location = $executionContext.SessionState.Path.CurrentLocation
+   if ($current_location.Provider.Name -eq "FileSystem") {
+   $ansi_escape = [char]27
+   $provider_path = $current_location.ProviderPath -replace "\\", "/"
+   $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
+   }
+   $host.ui.Write($prompt)
+   }
+
    Invoke-Expression (&starship init powershell)
+
    @end
+   - This first function was pulled directly from the {https://wezfurlong.org/wezterm/shell-integration.html}[Shell Integration Page of Wezterm] to allow us to hook into starship prompt and provide OSC 7 codes.
+  -- Functions like this advise the terminal on the working directory
    - Again, we are just invoking the startship prompt
    -- Therefore, we just need to be sure it is installed on the machine before we put this configuration file in here
 
