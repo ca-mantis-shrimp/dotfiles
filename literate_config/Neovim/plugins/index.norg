@@ -259,3 +259,20 @@ I think to start, I am just going to start with the smaller stuff and then work 
    - we put the plugin spec in the dependencies listing like any other
    - we configure telescope to include the new browser options as a table
    - and once telescope is loaded we can load the bookmarks extension itself
+* ChatGPT
+  ChatGPT can be configured with a specific plugin someone made to engage with the 3.5 model
+  #tangle chatGPT.lua
+  @code lua
+  return {
+    "jackMort/ChatGPT.nvim",
+    config = true,
+    cmd = { "ChatGpt" },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+  }
+  @end
+  - we use nui and plenary to make it look good
+  - while telescope is used as the menu that we primarily integrate with
