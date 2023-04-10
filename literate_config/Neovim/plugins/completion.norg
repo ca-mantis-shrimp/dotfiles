@@ -70,11 +70,6 @@ We will be using the standar cmp libraries allot this time so we want to require
   --- in order to use this integration we will also be bringing in the lua plugin for controlling copilot so that we can ensure it is available for cmp to use
   ---- we can see that copilot is being turned off if we are within firenvim, i was getting a message in there that we specifically don't support firenvim for some reason
   ---- however for right now this integration is turned off entirely because I didn't want to keep dealing with the api errors while I have been getting chezmoi up and running
-** Configuring the completion menu
-   We can configure the menu for cmp itself and while generally i keep it pretty vanilla I have really enjoyed using the menu options to give different endings based on the sources that I am pulling in
-   #tangle
-   @code lua
-   @end
 ** Configuring Completion sources
    All of those sources we defined in the dependencies are useless until we explicity define and configure them within cmps' `sources` configuration section
    - here we define the list of sources we want cmp to pull from, in the order from which we would like them to show up
