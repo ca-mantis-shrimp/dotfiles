@@ -11,11 +11,13 @@ config.color_scheme = "nord"
 config.font = wezterm.font("Monoid NF")
 config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-ExecutionPolicy", "RemoteSigned" }
 
+config.leader = { key = "Space", mods = "CTRL|SHIFT" }
 local activate_command_palette_keymap = {
   key = 'p',
   mods = 'CTRL|ALT',
   action = act.ActivateCommandPalette,
 }
+local quick_select_keymap = { key = 's', mods = 'LEADER', action = act.QuickSelect }
 wezterm.on("update-right-status", function(window, pane)
   local name = window:active_key_table()
   if name then
@@ -24,15 +26,14 @@ wezterm.on("update-right-status", function(window, pane)
   window:set_right_status(name or "")
 end)
 
-config.leader = { key = "Space", mods = "CTRL|SHIFT" }
-    local resize_pane_keymap = {
-    key = "r",
-    mods = "LEADER",
-    action = act.ActivateKeyTable({
-      name = "resize_pane",
-      one_shot = false,
-    }),
-  }
+local resize_pane_keymap = {
+  key = "r",
+  mods = "LEADER",
+  action = act.ActivateKeyTable({
+    name = "resize_pane",
+    one_shot = false,
+  }),
+}
 local resize_pane_key_table = {
   { key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 1 }) },
   { key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
@@ -72,12 +73,12 @@ local activate_pane_key_table = {
 }
 
 local close_pane_keymap = {
-      key = "c",
-      mods = "LEADER",
-      action = act.CloseCurrentPane({
-        confirm = true,
-      }),
-    }
+  key = "c",
+  mods = "LEADER",
+  action = act.CloseCurrentPane({
+    confirm = true,
+  }),
+}
 
 local show_launcher_keymap = {
   key = "l",
@@ -86,6 +87,7 @@ local show_launcher_keymap = {
 }
 
 config.keys = {
+  quick_select_keymap,
   resize_pane_keymap,
   active_pane_keymap,
   close_pane_keymap,

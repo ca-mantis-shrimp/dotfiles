@@ -16,7 +16,7 @@ This is obvious from the very start with the fact that our configuration is crea
 - as well as the fact that we have a vim-like understanding of panes, windows, and tabs which roughly translate to the buffers, windows, and tabs mentality of (neo)vim
 
 * Config Builder
-First, we need to import and define the config which we will use to set all of our settings
+  First, we need to import and define the config which we will use to set all of our settings
   #tangle
   @code lua
   local wezterm = require("wezterm")
@@ -48,10 +48,19 @@ First, we need to import and define the config which we will use to set all of o
    ~ finally, since we always interact through wezterm through windows for now we are going to be sure to set the shell to powershell 7 
    ~~ this prevents it from doing the default of setting it to the `cmd` shell
 * Keymaps
-The traditional keymap layout is already okay but we want to expand this
+  The traditional keymap layout is already okay but we want to expand this
 
   The mechanic that wezterm introduces is key tables. These are similar to vim modes in that we can define keymaps that are only applicable for certain contexts
   - We can then set these contexts and do the hotkeys we have defined specifically for these context panes
+** Defining the Leader Key
+   Like Neovim, we can have a leader key(s) which will serve as a sort of gateway to the rest of the hotkeys we will be defining later on
+   #tangle
+   @code lua
+   config.leader = { key = "Space", mods = "CTRL|SHIFT" }
+   @end
+   - while we want to implement the leader concept, we cant do the same thing as vim because it isn't actually a modal editor, space is still an input character most of the time
+   -- therefore, we need to use some modifier keys on top to ensure we can activite it no matter what application we are using (including neovim!)
+   - Now we can simply say the mod is `"LEADER"` on top of our keys and it will know to put the hotkey behind our newly defined leader key for wezterm
 ** Activating Command Pallet
    Everyone is in love with the command pallet idea after VSCode popularized it so it goes with the wezterm emulator so that we can bring up a quick menu to quickly do several commands including splitting, making new tabs, and other requirements of working through these pieces
 
@@ -64,53 +73,52 @@ The traditional keymap layout is already okay but we want to expand this
      action = act.ActivateCommandPalette,
    }
    @end
+** Quick Select Mode
+   Not to be confused with quick search mode, quick select mode can be thought of as a more precise version of quick search. Whereas one is mostly just a case of searching for instances of a certain string based on the users' input, quick select is specficially tailored towards quickly grabbing pre-defined text patterns and giving users the ability to do more with these selections than merely putting them in their clipboard
+
+   The following snippet will bring up the quick select mode without any arguments
+   #tangle
+   @code lua
+   local quick_select_keymap = { key = 's', mods = 'LEADER', action = act.QuickSelect }
+   @end
 ** Highlighting the Active Key Table
    Like neovim, wezterm is rather terse by default, and doesnt tell you which active key table is applicable for where you are.
 
    This makes it hard to know if your hotkeys are working and giving the user a sense of visual feedback is important for the editing experience.
 
    To this end, we have the below snippet which shows the active key table based on the current context
-  #tangle
-  @code lua
-  wezterm.on("update-right-status", function(window, pane)
-    local name = window:active_key_table()
-    if name then
-      name = "TABLE: " .. name
-    end
-    window:set_right_status(name or "")
-  end)
+   #tangle
+   @code lua
+   wezterm.on("update-right-status", function(window, pane)
+     local name = window:active_key_table()
+     if name then
+       name = "TABLE: " .. name
+     end
+     window:set_right_status(name or "")
+   end)
 
-@end
+   @end
    ~ First, we define a name that is derived from the current windows' active key table since this is kept in the window context
    ~ If the name is not empty, or put another way, if there is an active key table to show
    ~ then we will convert name into "TABLE:" + `name`
    ~ finally, we set the windows' right status to either name if it is populated, or the empty string otherwise
-** Defining the Leader Key
-   Like Neovim, we can have a leader key(s) which will serve as a sort of gateway to the rest of the hotkeys we will be defining later on
-   #tangle
-   @code lua
-   config.leader = { key = "Space", mods = "CTRL|SHIFT" }
-   @end
-   - while we want to implement the leader concept, we cant do the same thing as vim because it isn't actually a modal editor, space is still an input character most of the time
-   -- therefore, we need to use some modifier keys on top to ensure we can activite it no matter what application we are using (including neovim!)
-   - Now we can simply say the mod is `"LEADER"` on top of our keys and it will know to put the hotkey behind our newly defined leader key for wezterm
 ** Resizing Panes
    Like I said, Wezterm has the concept of panes which are similar to buffers, and just like buffers, when two panes are split we often want to do small adjustments to ensure that the panes are the right size.
 
-While possible with normal wezterm, this key table from the wezterm site enables a much more vim-like way of handling pane-resizing such that I can approach it just like I would in vim more-or-less
+   While possible with normal wezterm, this key table from the wezterm site enables a much more vim-like way of handling pane-resizing such that I can approach it just like I would in vim more-or-less
 *** Setting the Resize Pane Keymap
     First, we need to set the initial hotkey that will enable our resizing key table
-#tangle
-@code lua
+    #tangle
+    @code lua
     local resize_pane_keymap = {
-    key = "r",
-    mods = "LEADER",
-    action = act.ActivateKeyTable({
-      name = "resize_pane",
-      one_shot = false,
-    }),
-  }
-@end
+      key = "r",
+      mods = "LEADER",
+      action = act.ActivateKeyTable({
+        name = "resize_pane",
+        one_shot = false,
+      }),
+    }
+    @end
     - here the key is r, so `C+S+r` will put us in resize pane mode until we cancel the mode
     -- we do this with the `one_shot = false` setting in the action table
     - we set the action by activating a key table called "resize_pane" which we will define later
@@ -184,12 +192,12 @@ While possible with normal wezterm, this key table from the wezterm site enables
    #tangle
    @code lua
    local close_pane_keymap = {
-         key = "c",
-         mods = "LEADER",
-         action = act.CloseCurrentPane({
-           confirm = true,
-         }),
-       }
+     key = "c",
+     mods = "LEADER",
+     action = act.CloseCurrentPane({
+       confirm = true,
+     }),
+   }
 
    @end
 ** Open New Window Using Launcher
@@ -210,6 +218,7 @@ While possible with normal wezterm, this key table from the wezterm site enables
    #tangle
    @code lua
    config.keys = {
+     quick_select_keymap,
      resize_pane_keymap,
      active_pane_keymap,
      close_pane_keymap,
@@ -226,7 +235,7 @@ While possible with normal wezterm, this key table from the wezterm site enables
    ~ First, we set the main keymaps that will either do an action or enter one of our keymap modes
    ~ Next, we set the keymaps that are used during our various modes in wezterm
      --
-   With all that done, we are ready to return our config to wezterm so it can actually use the configuration settings we have defined
+     With all that done, we are ready to return our config to wezterm so it can actually use the configuration settings we have defined
    #tangle
    @code lua
    return config
