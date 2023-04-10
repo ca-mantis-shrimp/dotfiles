@@ -1,0 +1,222 @@
+@document.meta
+title: wezterm
+description: 
+authors: root
+categories: 
+created: 2023-04-09
+updated: 2023-04-09
+version: 1.0.0
+tangle: wezterm.lua
+@end
+Wezterm is the next-generation nerminal emulator made by Wez Furlong himself, one of the core maintainers of PHP and other great software projects
+- more than that it feels like the terminal emulator that is designed to go hand-in-hand with neovim as our primary editor
+
+This is obvious from the very start with the fact that our configuration is created using a standard lua file and we can find evidence of a noevim-like mindset everywhere I look.
+- from the fact that many vim keybindings are already set
+- as well as the fact that we have a vim-like understanding of panes, windows, and tabs which roughly translate to the buffers, windows, and tabs mentality of (neo)vim
+
+* Config Builder
+First, we need to import and define the config which we will use to set all of our settings
+  #tangle
+  @code lua
+  local wezterm = require("wezterm")
+
+  local config = {}
+
+  if wezterm.config_builder then
+    config = wezterm.config_builder()
+  end
+
+  local act = wezterm.action
+  @end
+  ~ First, we just need to import the wezterm library which is available any time we are within wezterm itself
+  ~ Then we start an empty config table, and we will proceed to add to this table throughout our work in the future sections
+  ~ Next, if we have the config builder available (more just about versioning since this is a new feature) we can turn the wezterm config variable into a builder object
+  ~~ These builder objects make it easier to see good error messages and make it easier to configure the terminal in general
+  ~ Finally we will sometimes use the action module of the wezterm module so we are going to make this specific module a variable so we can easily refer to it going forward
+** General Settings
+   First, we set things that are always on for wezterm
+   #tangle
+   @code lua
+   config.color_scheme = "nord"
+   config.font = wezterm.font("Monoid NF")
+   config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-ExecutionPolicy", "RemoteSigned" }
+
+   @end
+   ~ First, we set the colorscheme out of the literally hundered colorschemes available
+   ~ Next, we set the font to `Monoid NF` which is a mono nerd font that I usually download manually from the normal nerdfont page
+   ~ finally, since we always interact through wezterm through windows for now we are going to be sure to set the shell to powershell 7 
+   ~~ this prevents it from doing the default of setting it to the `cmd` shell
+* Keymaps
+The traditional keymap layout is already okay but we want to expand this
+
+  The mechanic that wezterm introduces is key tables. These are similar to vim modes in that we can define keymaps that are only applicable for certain contexts
+  - We can then set these contexts and do the hotkeys we have defined specifically for these context panes
+** Highlighting the Active Key Table
+   Like neovim, wezterm is rather terse by default, and doesnt tell you which active key table is applicable for where you are.
+
+   This makes it hard to know if your hotkeys are working and giving the user a sense of visual feedback is important for the editing experience.
+
+   To this end, we have the below snippet which shows the active key table based on the current context
+  #tangle
+  @code lua
+  wezterm.on("update-right-status", function(window, pane)
+    local name = window:active_key_table()
+    if name then
+      name = "TABLE: " .. name
+    end
+    window:set_right_status(name or "")
+  end)
+
+@end
+   ~ First, we define a name that is derived from the current windows' active key table since this is kept in the window context
+   ~ If the name is not empty, or put another way, if there is an active key table to show
+   ~ then we will convert name into "TABLE:" + `name`
+   ~ finally, we set the windows' right status to either name if it is populated, or the empty string otherwise
+** Defining the Leader Key
+   Like Neovim, we can have a leader key(s) which will serve as a sort of gateway to the rest of the hotkeys we will be defining later on
+   #tangle
+   @code lua
+   config.leader = { key = "Space", mods = "CTRL|SHIFT" }
+   @end
+   - while we want to implement the leader concept, we cant do the same thing as vim because it isn't actually a modal editor, space is still an input character most of the time
+   -- therefore, we need to use some modifier keys on top to ensure we can activite it no matter what application we are using (including neovim!)
+   - Now we can simply say the mod is `"LEADER"` on top of our keys and it will know to put the hotkey behind our newly defined leader key for wezterm
+** Resizing Panes
+   Like I said, Wezterm has the concept of panes which are similar to buffers, and just like buffers, when two panes are split we often want to do small adjustments to ensure that the panes are the right size.
+
+While possible with normal wezterm, this key table from the wezterm site enables a much more vim-like way of handling pane-resizing such that I can approach it just like I would in vim more-or-less
+*** Setting the Resize Pane Keymap
+    First, we need to set the initial hotkey that will enable our resizing key table
+#tangle
+@code lua
+    local resize_pane_keymap = {
+    key = "r",
+    mods = "LEADER",
+    action = act.ActivateKeyTable({
+      name = "resize_pane",
+      one_shot = false,
+    }),
+  }
+@end
+    - here the key is r, so `C+S+r` will put us in resize pane mode until we cancel the mode
+    -- we do this with the `one_shot = false` setting in the action table
+    - we set the action by activating a key table called "resize_pane" which we will define later
+**** Defining Resize Key Table
+     Now we need to define the keys that make up the key table.
+     We will define one version with the arrow keys and one version with the more vim-like h,j,k,l format
+     #tangle
+     @code lua
+     local resize_pane_key_table = {
+       { key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 1 }) },
+       { key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+
+       { key = "RightArrow", action = act.AdjustPaneSize({ "Right", 1 }) },
+       { key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+
+       { key = "UpArrow", action = act.AdjustPaneSize({ "Up", 1 }) },
+       { key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+
+       { key = "DownArrow", action = act.AdjustPaneSize({ "Down", 1 }) },
+       { key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+
+       { key = "Escape", action = "PopKeyTable" },
+     }
+     @end
+     - note that we use escape to actually exit this mode
+     -- since we set this to not be a one shot, this is our only way of leaving the mode
+** Moving Between Panes
+   In addition to resizing panes, we also need to be able to move between panes.
+   Remember, at any given time we only have a single focused pane and sophisticated usage of the tool requires the ability to easily move between panes to get things done
+
+   We will accomplish this through the usage of another key table, this time one that is intended to move between the panes themselves rather than just changing the current one's size
+*** Initial Mode Keymap
+    We activate the current mode with the following snippet:
+    #tangle
+    @code lua
+    local active_pane_keymap = {
+      key = "a",
+      mods = "LEADER",
+      action = act.ActivateKeyTable({
+        name = "activate_pane",
+        timeout_milliseconds = 1000,
+      }),
+    }
+
+    @end
+    - like the first one, we will do leader followed by `a` to go into activate mode
+    - notice that this one is indeed one shot, meaning that after we make our selection we will immediately leave the mode
+    - also, we fail to choose a pane within 1000 miliseconds it will simply cancel the mode so as to not confuse the user
+    -- also allows us to adjust the time if this feels to short for our liking
+**** Key Table
+     We set a similar set of keymaps to the last one, but this time we are moving to the pane in the direction we are wanting to go, rather than extending or contracting the current pane itself in that direction
+     #tangle
+     @code lua
+     local activate_pane_key_table = {
+       { key = "LeftArrow", action = act.ActivatePaneDirection("Left") },
+       { key = "h", action = act.ActivatePaneDirection("Left") },
+
+       { key = "RightArrow", action = act.ActivatePaneDirection("Right") },
+       { key = "l", action = act.ActivatePaneDirection("Right") },
+
+       { key = "UpArrow", action = act.ActivatePaneDirection("Up") },
+       { key = "k", action = act.ActivatePaneDirection("Up") },
+
+       { key = "DownArrow", action = act.ActivatePaneDirection("Down") },
+       { key = "j", action = act.ActivatePaneDirection("Down") },
+     }
+
+     @end
+** Closing Panes
+   Wezterm makes it easy to close windows by default, but gives not hotkeys for closing panes, so to remedy that we just add the following keymap for that specific use case:
+   #tangle
+   @code lua
+   local close_pane_keymap = {
+         key = "c",
+         mods = "LEADER",
+         action = act.CloseCurrentPane({
+           confirm = true,
+         }),
+       }
+
+   @end
+** Open New Window Using Launcher
+   Wezterm has a launcher that can be used similar to windows terminal where we can search for the different kinds of shells and machines to connect to and open them as a new window within the current instance of wezterm
+
+   Here is a simple leader snippet to pull up the launcher in a new window:
+   #tangle
+   @code lua
+   local show_launcher_keymap = {
+     key = "l",
+     mods = "LEADER",
+     action = act.ShowLauncher,
+   }
+
+   @end
+** Bringing it All Together
+   The part is to actually set both the keymaps, and the key tables themselves within the wezterm config builder
+   #tangle
+   @code lua
+   config.keys = {
+     resize_pane_keymap,
+     active_pane_keymap,
+     close_pane_keymap,
+     show_launcher_keymap,
+   }
+
+   config.key_tables = {
+     resize_pane = resize_pane_key_table,
+     activate_pane = activate_pane_key_table,
+   }
+
+   @end
+   ~ First, we set the main keymaps that will either do an action or enter one of our keymap modes
+   ~ Next, we set the keymaps that are used during our various modes in wezterm
+     --
+   With all that done, we are ready to return our config to wezterm so it can actually use the configuration settings we have defined
+   #tangle
+   @code lua
+   return config
+   @end
+   - remember, nothing is real until this config is return at the end!
+   -- commenting this line will return us to a normal default config for testing purposes

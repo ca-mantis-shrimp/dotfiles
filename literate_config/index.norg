@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-04-08
+updated: 2023-04-09
 version: 1.0.0
 @end
 This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
@@ -19,6 +19,7 @@ This is where tangling comes in. These neorg files will actually generate the da
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 
+* {:wezterm:}[Wezterm Configuration]
 * {:Neovim/index:}[Neovim Configuration]
 * Chezmoi
   Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
