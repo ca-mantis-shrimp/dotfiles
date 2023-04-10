@@ -1,0 +1,188 @@
+@document.meta
+title: completion
+description: 
+authors: root
+categories: 
+created: 2023-04-09
+updated: 2023-04-09
+version: 1.0.0
+tangle: completion.lua
+@end
+Completion is another one of these sticky subjects that deserves its own section.
+
+This is because tastes in completion engines change over time and often include many dependencies to make them work how we expect
+
+For our purposes, we are going to use {https://github.com/hrsh7th/nvim-cmp}[cmp.nvim] which is a framework of a completion engine
+- like neotest, they have made the decision for cmp to be more of a mediator of severl plugins, rather than the all-in-one solution itself
+
+LazyVim configures it out of the box, but we need to add some support for stuff like neorg and other pieces of logic that will matter down the road
+
+We will be using the standar cmp libraries allot this time so we want to require the cmp piece up-front
+* Dependencies
+  We have quite a few dependencies for cmp and this list is liable to grow and shrink as we evolve the format
+  #tangle
+  @code lua
+  local dependencies_list = {
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-nvim-lua",
+    "hrsh7th/cmp-nvim-lsp",
+    "octaltree/cmp-look",
+    "hrsh7th/cmp-path",
+    "Saecki/crates.nvim",
+    "quangnguyen30192/cmp-nvim-tags",
+    "saadparwaiz1/cmp_luasnip",
+    "onsails/lspkind-nvim",
+    "f3fora/cmp-spell",
+    {
+      "zbirenbaum/copilot-cmp",
+      dependencies = {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        cond = not vim.g.started_by_firenvim,
+        enabled = false,
+      },
+      config = true,
+    },
+  }
+  @end
+  - First, we have `cmp-buffer` which can give us words that are already present in the buffer
+  -- can save some time when we find ourselves typing the sme thing over and over again
+  -- otherwise, it is a pretty underwhelmig, but easy to use plugin
+  - `cmp-nvim-lua` is really cool, it is able to give us completions around the neovim lua API
+  -- this is how we are able to give a good editing experience when it comes to utilizing the neovim lua as it will let you easily reference the different functions available to our neovim api
+  - `cmp-nvim-lsp` is another fundamental extension that will plug in to the OOTB LSP API and gives us completion for the current LSP server
+  -- This is where we start getting completion for the current file's lsp objects and allows us to use the objects, functions, and variables we have already defined in the project!
+  - `cmp-look` utilizes the {https://www.tutorialspoint.com/unix_commands/look.htm}[Look Unix Command] to find lines beginning with the string you are searching for
+  - `cmp-path` helps with the ability to show file paths on the current system
+  -- when we do something like a `/` character we will be able to see the current files that work based on our CWD
+  --- great for defining files relative to the current position
+  --- work in tandem with the autochdir functionality since you can also use it to see what files are near you in the current buffer without leaving the buffer even
+  - `cmp-crates` is for when we are looking at a `TOML` file within a rust project and it will tell us if there is a crate with the given name from crates.io
+  -- similar to buffer but for entire lines if you want
+  - cmp-tags helps us complete the tags that are often found in languages like HTML, they can finish off the various `<body>` tags and what not
+  - cmp-luasnip controls integration with our snippet engine of choice, luasnip
+  - lspkind is a nice little utility that allows me to have a little menu show me where the given completion suggestion is coming from
+  -- can be useful for distinguishing where a suggestion came from and therefore how I am getting it
+  - `cmp-spell` finds suggestions coming from the traditional vim spell dictionary so that we can utilize the normal dictionary for looking up completions while we are writing prose
+  - `copilot-cmp` does the great work of integrating the amazing copilot functionality with the cmp framework
+  -- to me, this is one of the greatest examples of what something like cmp enables over other completion engines since this allows us to get around the visual text limitation of the normal copilot plugin
+  --- in order to use this integration we will also be bringing in the lua plugin for controlling copilot so that we can ensure it is available for cmp to use
+  ---- we can see that copilot is being turned off if we are within firenvim, i was getting a message in there that we specifically don't support firenvim for some reason
+  ---- however for right now this integration is turned off entirely because I didn't want to keep dealing with the api errors while I have been getting chezmoi up and running
+** Configuring the completion menu
+   We can configure the menu for cmp itself and while generally i keep it pretty vanilla I have really enjoyed using the menu options to give different endings based on the sources that I am pulling in
+   #tangle
+   @code lua
+   @end
+** Configuring Completion sources
+   All of those sources we defined in the dependencies are useless until we explicity define and configure them within cmps' `sources` configuration section
+   - here we define the list of sources we want cmp to pull from, in the order from which we would like them to show up
+   #tangle
+   @code lua
+   local cmp_source_list = {
+     { name = "nvim_lsp" },
+     { name = "neorg" },
+     { name = "luasnip" },
+     { name = "nvim-lua" },
+     { name = "look" },
+     { name = "tags" },
+     { name = "crates" },
+     { name = "path" },
+     { name = "copilot" },
+     {
+       name = "spell",
+       option = {
+         keep_all_entries = false,
+         enable_in_context = function()
+           return true
+         end,
+       },
+     },
+   }
+   @end
+** Luasnip
+   We have chosen {https://github.com/L3MON4D3/LuaSnip}[LuaSnip] as our snippet engine of choice as it has some of the widest community support and has snippets available for most all of our desired programming languages
+   It also boasts first-class support with cmp, making this all a bit easier
+   In addition, it pulls many of its snippets from vscode ensuring we have a largely similar experience to the snippets available to vscode users
+*** Loading Snippets into Memory
+    First, we need to load our snippets from vscode so before we run the normal cmp setup we need to run the following function
+    #tangle
+    @code lua
+    local load_vscode_snippets = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
+    end
+    @end
+*** Configuring Snippets within CMP
+    cmp has a function that takes in a table of options, including a function for what to do when a snippet is selected
+    #tangle
+    @code lua
+    local snippet_config = {
+      expand = function(args)
+        require("luasnip").lsp_expand(args.body)
+      end,
+    }
+    @end
+* Setup
+  Finally we can bring it all together to run the setup function and making this amazing plugin available
+  #tangle
+  @code lua
+  return {
+    {
+      "hrsh7th/nvim-cmp",
+      dependencies = dependencies_list,
+      config = function()
+        load_vscode_snippets()
+
+        local cmp_menu_config = {
+          format = require("lspkind").cmp_format({
+            with_text = true,
+            maxwidth = 50,
+            menu = {
+              nvim_lsp = "[LSP]",
+              luasnip = "[LuaSnip]",
+              nvim_lua = "[Lua]",
+              latex_symbols = "[Latex]",
+              copilot = "[copilot]",
+            },
+            before = function(_, vim_item)
+              return vim_item
+            end,
+          }),
+        }
+
+        local cmp = require("cmp")
+        local cmp_keymaps = cmp.mapping.preset.insert({
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+        })
+
+        cmp.setup({
+          window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
+          },
+          formatting = cmp_menu_config,
+          snippet = snippet_config,
+          mapping = cmp_keymaps,
+          sources = cmp.config.sources(cmp_source_list),
+        })
+        Cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+      end,
+    },
+  }
+  @end
+  ~ After loading our dependencies, we load the vscode snippets
+  ~ next we just do our completion setup by handing over the various tables we defined earlier
+  ~~ I will only note the window configuration since this tells us the style of border and other aspect of the completion menu and here we are just using a standard, bordered menu
+  ~ Finally, we create a global variable called `Cmp_capabilities`, this variable takes the LSP capabilities that we have via LSP and makes that available to the different LSP servers
+** Keymaps
+   We have to define a few keymaps for the menu itself so that we can control features like the documentation previewer and what keymaps translate to a selection and what that means
+   - First, we have a hotkey to scroll up the inline docs by 4 lines
+   - next we allow ourselves to go down the documentation
+   - we cancel the selection with `<C-e>`
+   -- important since the enter key is unable to do a newline until the menu is removed
+   - finally the enter key will actually replace the existing line characters if we have anything after the completion area
+   -- helps with these strange instances where you have text after the completion that makes it look strange
