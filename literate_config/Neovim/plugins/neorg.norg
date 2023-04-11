@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-09
+updated: 2023-04-11
 version: 1.0.0
 tangle: neorg.lua
 @end
@@ -170,6 +170,7 @@ It takes more to setup than many of the other plugins but it can help with the a
      ["core.export"] = {},
      ["core.export.markdown"] = {},
      ["core.integrations.telescope"] = {},
+     ["core.summary"] = {},
    }
    @end
    - First we have the defaults module which loads all the default modules for neorg to get us started
@@ -189,7 +190,8 @@ It takes more to setup than many of the other plugins but it can help with the a
    --- for now we just automatically generate it but I look forward to using this as a process in and of itself
    - another critical piece for adoption is the ability to export these notes to other formats this is where the export module comes in so we can automatically make other file types based on this
    -- for now we only load the markdown export module for markdown integration but I look forward to seeing more
-   - Finally we add the telescope integrations we got in the dependencies list. nothing to do on our end it will just add some neorg related commands within the telescope sub menu
+   - Next, we add the telescope integrations we got in the dependencies list. nothing to do on our end it will just add some neorg related commands within the telescope sub menu
+   - We are trying an experimental new module called the summary module which may be doing what I have been wanting for literally months which is the ability to look at a given workspace and make all the metadata for that workspace give just the header on time I have to try and see but I am excited to give it a shot
 
 * Setup
   With all that setup done we are ready to call the steup function itself

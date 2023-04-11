@@ -75,6 +75,7 @@ local module_list = {
   ["core.export"] = {},
   ["core.export.markdown"] = {},
   ["core.integrations.telescope"] = {},
+  ["core.summary"] = {},
 }
 return {
   {
