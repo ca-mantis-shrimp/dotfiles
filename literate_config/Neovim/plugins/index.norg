@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-04-10
+updated: 2023-04-12
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -22,16 +22,18 @@ I think to start, I am just going to start with the smaller stuff and then work 
     "akinsho/toggleterm.nvim",
     version = "*",
     opts = {
-      open_mapping = [[<c-\>]],
+      open_mapping = [[<a-\>]],
+      direction = 'float',
     },
   }
   @end
   - The version piece here is just going to grab the latest standard version
   -- This works because toggleterm follows SemVer
   - Otherwise, we just have to set the hotkey to _toggle_ the terminal on and off.
-  -- Here we are using the standard `<c-\>` function to enable or disable the terminal itself
-  --- this is hitting a conflict with the standard hotkey for neorg right now, not sure if I want to change this from the default or what that would be
+  -- Here we are using the standard `<a-\>` function to enable or disable the terminal itself
   --- This is a kinda nice hotkey because it works outside and inside of the terminal, whereas normal hotkeys don't work in a terminal because it is basically always in insert mode
+  - we also opted to do a float rather than a split for our terminal because often times we are just looking to shift our focus for a second, run some commands, and return
+  -- This isn't like VSCode where you just keep the termial open all the time just cause it opens that way and you feel you need to
 * Portal Configuration
   Portal is an interesting little plugin that enables us to visualize the jumplist before you just jump there.
   #tangle portal.lua
@@ -276,3 +278,30 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @end
   - we use nui and plenary to make it look good
   - while telescope is used as the menu that we primarily integrate with
+* {https://github.com/mrjones2014/smart-splits.nvim}[Smart-Splits]
+  We are also implementing smart splits, which implements a much more intuitive, coherent strategy for updating and changing split focus and sizing of different splits.
+
+The part where this goes from cool to mindblowing is its support for multiplexers so that we can ensure these split hotkeys are applicable whether or not we are in neovim
+  - this includes support for wezterm! so I'm super excited to see this coming because this will help us really have the tmux-like experience that linux users have had for years.
+  #tangle smartSplits.lua
+  @code lua
+  return { "mrjones2014/smart-splits.nvim",
+    config = true,
+    keys = {
+      {'<A-h>', require('smart-splits').resize_left, desc = "Resize Split Left"},
+      {'<A-j>', require('smart-splits').resize_down, desc = "Resize Split Down"},
+      {'<A-k>', require('smart-splits').resize_up, desc = "Resize Split Up"},
+      {'<A-f>', require('smart-splits').resize_right, desc = "Resize Split Right"},
+      {'<C-h>', require('smart-splits').move_cursor_left, desc = "Move To Split on the Left"},
+      {'<C-j>', require('smart-splits').move_cursor_down, desc = "Move To Split Below Current"},
+      {'<C-k>', require('smart-splits').move_cursor_up, desc = "Move To Split Above Current"},
+      {'<C-l>', require('smart-splits').move_cursor_right, desc = "Move To Split on the Right"},
+      {'<<leader><leader>-h>', require('smart-splits').swap_buf_left, desc = "Swap With Window on Left"},
+      {'<<leader><leader>-j>', require('smart-splits').swap_buf_down, desc = "Swap With Window Below"},
+      {'<<leader><leader>-k>', require('smart-splits').swap_buf_up, desc = "Swap With Window Above"},
+      {'<<leader><leader>-l>', require('smart-splits').swap_buf_right, desc = "Swap With Window on Right"},
+    },
+  }
+@end
+  - here we have to define not just the plugin, but the keymaps that will be used for it.
+  -- I could potentially use any of these first, so I will just put all of them in the keys table so that any one of them could be used to activate the plugin

@@ -1,0 +1,17 @@
+return { "mrjones2014/smart-splits.nvim",
+  config = true,
+  keys = {
+    {'<A-h>', require('smart-splits').resize_left, desc = "Resize Split Left"},
+    {'<A-j>', require('smart-splits').resize_down, desc = "Resize Split Down"},
+    {'<A-k>', require('smart-splits').resize_up, desc = "Resize Split Up"},
+    {'<A-f>', require('smart-splits').resize_right, desc = "Resize Split Right"},
+    {'<C-h>', require('smart-splits').move_cursor_left, desc = "Move To Split on the Left"},
+    {'<C-j>', require('smart-splits').move_cursor_down, desc = "Move To Split Below Current"},
+    {'<C-k>', require('smart-splits').move_cursor_up, desc = "Move To Split Above Current"},
+    {'<C-l>', require('smart-splits').move_cursor_right, desc = "Move To Split on the Right"},
+    {'<<leader><leader>-h>', require('smart-splits').swap_buf_left, desc = "Swap With Window on Left"},
+    {'<<leader><leader>-j>', require('smart-splits').swap_buf_down, desc = "Swap With Window Below"},
+    {'<<leader><leader>-k>', require('smart-splits').swap_buf_up, desc = "Swap With Window Above"},
+    {'<<leader><leader>-l>', require('smart-splits').swap_buf_right, desc = "Swap With Window on Right"},
+  },
+}
