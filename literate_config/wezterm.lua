@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 local config = {}
 
 if wezterm.config_builder then
-  config = wezterm.config_builder()
+	config = wezterm.config_builder()
 end
 
 local act = wezterm.action
@@ -11,93 +11,79 @@ config.color_scheme = "nord"
 config.font = wezterm.font("Monoid NF")
 config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-ExecutionPolicy", "RemoteSigned" }
 
+local function basename(s)
+	return string.gsub(s, "(.*[/\\])(.*)", "%2")
+end
+
+local function is_vim(pane)
+	local process_name = basename(pane:get_foreground_process_name())
+	return process_name == "nvim" or process_name == "vim"
+end
+
 config.leader = { key = "Space", mods = "CTRL|SHIFT" }
-local activate_command_palette_keymap = {
-  key = 'p',
-  mods = 'CTRL|ALT',
-  action = act.ActivateCommandPalette,
-}
-local quick_select_keymap = { key = 's', mods = 'LEADER', action = act.QuickSelect }
-wezterm.on("update-right-status", function(window, pane)
-  local name = window:active_key_table()
-  if name then
-    name = "TABLE: " .. name
-  end
-  window:set_right_status(name or "")
-end)
+local keymaps = {}
 
-local resize_pane_keymap = {
-  key = "r",
-  mods = "LEADER",
-  action = act.ActivateKeyTable({
-    name = "resize_pane",
-    one_shot = false,
-  }),
-}
-local resize_pane_key_table = {
-  { key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 1 }) },
-  { key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
-
-  { key = "RightArrow", action = act.AdjustPaneSize({ "Right", 1 }) },
-  { key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
-
-  { key = "UpArrow", action = act.AdjustPaneSize({ "Up", 1 }) },
-  { key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
-
-  { key = "DownArrow", action = act.AdjustPaneSize({ "Down", 1 }) },
-  { key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
-
-  { key = "Escape", action = "PopKeyTable" },
-}
-local active_pane_keymap = {
-  key = "a",
-  mods = "LEADER",
-  action = act.ActivateKeyTable({
-    name = "activate_pane",
-    timeout_milliseconds = 1000,
-  }),
+local direction_keys = {
+	Left = "h",
+	Down = "j",
+	Up = "k",
+	Right = "l",
+	-- reverse lookup
+	h = "Left",
+	j = "Down",
+	k = "Up",
+	l = "Right",
 }
 
-local activate_pane_key_table = {
-  { key = "LeftArrow", action = act.ActivatePaneDirection("Left") },
-  { key = "h", action = act.ActivatePaneDirection("Left") },
+local function split_nav(resize_or_move, key)
+	return {
+		key = key,
+		mods = resize_or_move == "resize" and "META" or "CTRL",
+		action = wezterm.action_callback(function(win, pane)
+			if is_vim(pane) then
+				-- pass the keys through to vim/nvim
+				win:perform_action({
+					SendKey = { key = key, mods = resize_or_move == "resize" and "META" or "CTRL" },
+				}, pane)
+			else
+				if resize_or_move == "resize" then
+					win:perform_action({ AdjustPaneSize = { direction_keys[key], 3 } }, pane)
+				else
+					win:perform_action({ ActivatePaneDirection = direction_keys[key] }, pane)
+				end
+			end
+		end),
+	}
+end
+table.insert(keymaps, split_nav("resize", "h"))
+table.insert(keymaps, split_nav("resize", "j"))
+table.insert(keymaps, split_nav("resize", "k"))
+table.insert(keymaps, split_nav("resize", "l"))
 
-  { key = "RightArrow", action = act.ActivatePaneDirection("Right") },
-  { key = "l", action = act.ActivatePaneDirection("Right") },
+table.insert(keymaps, split_nav("move", "h"))
+table.insert(keymaps, split_nav("move", "j"))
+table.insert(keymaps, split_nav("move", "k"))
+table.insert(keymaps, split_nav("move", "l"))
 
-  { key = "UpArrow", action = act.ActivatePaneDirection("Up") },
-  { key = "k", action = act.ActivatePaneDirection("Up") },
+table.insert(keymaps, {
+	key = "p",
+	mods = "CTRL|ALT",
+	action = act.ActivateCommandPalette,
+})
+table.insert(keymaps, { key = "s", mods = "LEADER", action = act.QuickSelect })
+table.insert(keymaps, {
+	key = "c",
+	mods = "LEADER",
+	action = act.CloseCurrentPane({
+		confirm = true,
+	}),
+})
 
-  { key = "DownArrow", action = act.ActivatePaneDirection("Down") },
-  { key = "j", action = act.ActivatePaneDirection("Down") },
-}
+table.insert(keymaps, {
+	key = "l",
+	mods = "LEADER",
+	action = act.ShowLauncher,
+})
 
-local close_pane_keymap = {
-  key = "c",
-  mods = "LEADER",
-  action = act.CloseCurrentPane({
-    confirm = true,
-  }),
-}
-
-local show_launcher_keymap = {
-  key = "l",
-  mods = "LEADER",
-  action = act.ShowLauncher,
-}
-
-config.keys = {
-  quick_select_keymap,
-  resize_pane_keymap,
-  active_pane_keymap,
-  close_pane_keymap,
-  show_launcher_keymap,
-  activate_command_palette_keymap
-}
-
-config.key_tables = {
-  resize_pane = resize_pane_key_table,
-  activate_pane = activate_pane_key_table,
-}
-
+config.keys = keymaps
 return config
