@@ -68,7 +68,7 @@ This is obvious from the very start with the fact that our configuration is crea
     @code lua
     local function is_vim(pane)
       local process_name = basename(pane:get_foreground_process_name())
-      return process_name == 'nvim' or process_name == 'vim'
+      return process_name == 'nvim.exe' or process_name == 'vim.exe'
     end
 
     @end

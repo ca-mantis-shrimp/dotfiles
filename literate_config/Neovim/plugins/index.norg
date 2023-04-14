@@ -292,7 +292,8 @@ I think to start, I am just going to start with the smaller stuff and then work 
    }
 
    @end
-   - We are just instantiating the plugin with the normal setup config, this may need to be changed later but for now I think this works to just set it up with the defaults
+   - the only thing we are doing is design
+
 *** Keymaps
     here we have to define not just the plugin, but the keymaps that will be used for it.
     - I could potentially use any of these first, so I will just put all of them in the keys table so that any one of them could be used to activate the plugin
