@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-04-13
+updated: 2023-04-14
 version: 1.0.0
 @end
 This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
@@ -152,7 +152,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
 ** PowerShell
    Powershell will look largely the same as bash, only with a few variations on the commands for PowerShell
-   #tangle Microsoft.PowerShellProfile.ps1
+   #tangle Microsoft.PowerShellProfile.ps1.tmpl
    @code ps1
    $prompt = ""
    function Invoke-Starship-PreCommand {
@@ -164,8 +164,9 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    }
    $host.ui.Write($prompt)
    }
-
    Invoke-Expression (&starship init powershell)
+
+   $Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
 
    @end
    - This first function was pulled directly from the {https://wezfurlong.org/wezterm/shell-integration.html}[Shell Integration Page of Wezterm] to allow us to hook into starship prompt and provide OSC 7 codes.
