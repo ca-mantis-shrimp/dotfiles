@@ -4,14 +4,14 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-13
+updated: 2023-04-16
 version: 1.0.0
 tangle: wezterm.lua
 @end
-Wezterm is the next-generation nerminal emulator made by Wez Furlong himself, one of the core maintainers of PHP and other great software projects
-- more than that it feels like the terminal emulator that is designed to go hand-in-hand with neovim as our primary editor
+WezTerm is the next-generation terminal emulator made by Wez Furlong himself, one of the core maintainers of PHP and other great software projects
+- more than that it feels like the terminal emulator that is designed to go hand-in-hand with Neovim as our primary editor
 
-This is obvious from the very start with the fact that our configuration is created using a standard lua file and we can find evidence of a noevim-like mindset everywhere I look.
+This is obvious from the very start with the fact that our configuration is created using a standard lua file and we can find evidence of a Neovim-like mindset everywhere I look.
 - from the fact that many vim keybindings are already set
 - as well as the fact that we have a vim-like understanding of panes, windows, and tabs which roughly translate to the buffers, windows, and tabs mentality of (neo)vim
 
@@ -39,7 +39,7 @@ This is obvious from the very start with the fact that our configuration is crea
    #tangle
    @code lua
    config.color_scheme = "nord"
-   config.font = wezterm.font("Monoid NF")
+   config.font = wezterm.font("JetBrains Mono")
    config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-ExecutionPolicy", "RemoteSigned" }
 
    @end
