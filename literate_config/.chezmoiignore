@@ -2,8 +2,9 @@
 AppData/
 Documents/
 .chezmoiscripts/*.ps1
+dot_ssh/config
 {{ else }}
-.config/nvim/
+dot_config/nvim/
 .chezmoiscripts/*.sh
 {{ end }}
 

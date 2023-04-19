@@ -57,8 +57,9 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    AppData/
    Documents/
    .chezmoiscripts/*.ps1
+   dot_ssh/config
    {{ else }}
-   .config/nvim/
+   dot_config/nvim/
    .chezmoiscripts/*.sh
    {{ end }}
 
@@ -92,6 +93,9 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
   [core]
   symlinks = true
+  {{- if eq .chezmoi.os "windows" }}
+  sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+  {{- end }}
   @end
   - The main variation comes with the email that gets set for the git pieces
   -- the work one just changes the email to my standard work email
@@ -99,6 +103,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   - Finally, we are using gits' built-in credential storing feature to store our PAT tokens within the local machine
   -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
   - finally we need to put in this symlinks option to make this symlink hack we are relying on work between windows and linux per {https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows/59761201#59761201}[This discussion about symlinks between linux and windows]
+  - we also also make openSSH our agent on windows per {https://developer.1password.com/docs/ssh/get-started}[This 1password tutorial]
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash
@@ -153,6 +158,15 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
      - `npiperelay` needs to be installed on the windows side so we can pipe information to WSL
      - while we will be using `socat` on the WSL side to send these signals
      - we also need a `.1password` folder created within the home directory
+**** Adding 1password as the SSH agent
+     Within the linux environment we need to create a new configuration file for SSH on linux if there isn't one already in which we put 1password as our main ssh provider
+     This snippet is directly from the 1password website:
+     #tangle sshConfig
+     @code sshconfig
+     Host *
+     IdentityAgent ~/.1password/agent.sock
+     @end
+     - This is where the folder we created earlier comes in to play, we need to make sure it is there to be populated from our script later
        --
        now we can put the following snippet at the end of our bash RC
      #tangle .bashrc.tmpl
@@ -184,14 +198,14 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
      ~~ We use `setsid` to force a new session so that the relay keeps running even if we close our terminal
      ~~ We use `socat` to listen on the ssh auth socket and forward to `npiperelay` which then forwards to `openssh-ssh-agent` on windows
 *** Enable Starship Prompt
-    First, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
+    Lastly, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
     #tangle .bashrc.tmpl
     @code bash
     eval "$(starship init bash)"
-
     @end
     - We have the evaluation of the starship prompt
     -- This requires that the startship prompt is already installed on the system
+    - must be enabled last otherwise we start getting strange errors around not being able to call the starship command 
 ** PowerShell
    PowerShell will look largely the same as bash, only with a few variations on the commands for PowerShell
    #tangle Microsoft.PowerShellProfile.ps1.tmpl
