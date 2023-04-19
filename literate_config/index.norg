@@ -191,6 +191,8 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
        now we can put the following snippet at the end of our bash RC
      #tangle .bashrc.tmpl
      @code bash
+     {{ if eq .chezmoi.os "linux" }}
+     {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
      export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 
      ALREADY_RUNNING=$(ps -auxww | grep -q "[n]piperelay.exe -ei -s //./pipe/openssh-ssh-agent"; echo $?)
@@ -203,8 +205,11 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
      echo "Starting SSH-Agent relay..."
      (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
      fi
+     {{   end }}
+     {{ end }}
      @end
-     ~ First, We configure the ssh auth socket to be the one we want to use in our new `.1password` directory
+     ~ we only want this snippet inserted for WSL instances so we leverage chezmoi's `os` and `kernel.osrelease` variables to determine if we are running on WSL
+     ~ We configure the ssh auth socket to be the one we want to use in our new `.1password` directory
      ~ Next, we check if the relay is already running. We do this by checking if the `npiperelay.exe` process is running. 
      ~~ We do this by grepping for the process name, but we need to exclude the grep command itself, so we use square brackets to generate a regex match for the process we want but that doesn't match the grep command running it!
      ~~ we need powershell to get the non-truncated command for matching
