@@ -128,32 +128,90 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash
    Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
-   #tangle .bashrc.tmpl
-   @code bash
-   eval "$(starship init bash)"
+*** Enable Starship Prompt
+    First, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
+    #tangle .bashrc.tmpl
+    @code bash
+    eval "$(starship init bash)"
 
-   export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
+    @end
+    - We have the evaluation of the starship prompt
+    -- This requires that the startship prompt is already installed on the system
+*** Adding bob-nvim to the path
+    We use bob-nvim for our managing Neovim versions, and in order to use the current version of Neovim, we need to add it to our path
+    #tangle .bashrc.tmpl
+    @code bash
+    export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
-   export OPENAI_API_KEY="{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
+    @end
+    - We are manually appending the absolute path to the binary that is currently selected for bob-nvim, the Neovim version manager
+    -- Again, this means we need to have bob-nvim already installed on the machine for this to do anything
+*** Making our OpenAI API Key available
+    OpenAI is the company behind ChatGPT and other innovative products at the cutting edge of Artificial General Intelligence.
+    In order to use their API, we need to have an API key, which we store in 1Password.
 
-   . "$HOME/.cargo/env"
+    We will be leveraging Chezmois' template function to read the API key from 1Password and export it as an environment variable.
+    #tangle .bashrc.tmpl
+    @code bash
+    export OPENAI_API_KEY="{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
 
-   export NVM_DIR="$HOME/.nvm"
-   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-   @end
-   - We have the evaluation of the starship prompt
-   -- This requires that the startship prompt is already installed on the system
-   - We are manually appending the absolute path to the binary that is currently selected for bob-nvim, the Neovim version manager
-   -- Again, this means we need to have bob-nvim already installed on the machine for this to do anything
-   - Add the api key for open AI including ChatGPT and other tools
-   -- this is going to use the onepassword template for Chezmoi so that we can revoke and change this key should we ever need
-   - Remember that the `.` at the beginning is equivalent to if we had written the `source` command
-   -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
-   --- This requires that cargo is installed since this is ensuring we make the environment from cargo available to the shell
-   - Exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in Linux
-   -- The line after that loads a shell script that makes nvm available to the system
-   -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
+    @end
+    - Add the api key for open AI including ChatGPT and other tools
+    -- this is going to use the onepassword template for Chezmoi so that we can revoke and change this key should we ever need
+    -- it also means we effectively have two chained dependencies. Chezmoi for the templating functionality, which is using 1password as the secrets manager
+*** Adding the Cargo and NodeJS version managers
+    We are going to be using Rust and NodeJS for a lot of the tooling we are going to be installing, so we need to make sure we have the version managers installed for rustup and nvm respectively
+    We are going to be using the following tools:
+    - {https://rustup.rs/}[Rust]
+    - NodeJS:
+    #tangle .bashrc.tmpl
+    @code bash
+    . "$HOME/.cargo/env"
+
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+    @end
+    - Remember that the `.` at the beginning is equivalent to if we had written the `source` command
+    -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
+    --- This requires that cargo is installed since this is ensuring we make the environment from cargo available to the shell
+    - Exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in Linux
+    -- The line after that loads a shell script that makes nvm available to the system
+    -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
+*** Using 1Password as our SSH Agent within WSL
+    1Password has a pretty cool mechanism of using SSH keys that kicks the crap out of my current git credentials scheme.
+    To this end, we are going to be following {https://dev.to/d4vsanchez/use-1password-ssh-agent-in-wsl-2j6m#:~:text=To%20communicate%20between%20WSL%20and%20the%201Password%20SSH,the%20GitHub%20repository%20and%20download%20the%20latest%20release.}[These Instructions] to add 1Password as our SSH Agent within WSL
+**** Dependencies
+     This hack requires two dependencies:
+     - `npiperelay` needs to be installed on the windows side so we can pipe information to WSL
+     - while we will be using `socat` on the WSL side to send these signals
+     - we also need a `.1password` folder created within the home directory
+       --
+       now we can put the following snippet at the end of our bash RC
+     #tangle .bashrc.tmpl
+     @code bash
+     export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
+
+     ALREADY_RUNNING=$(ps -auxww | grep -q "[n]piperelay.exe -ei -s //./pipe/openssh-ssh-agent"; echo $?)
+
+     if [[ $ALREADY_RUNNING != "0" ]]; then
+     if [[ -S $SSH_AUTH_SOCK ]]; then
+     echo "removing previous socket..."
+     rm $SSH_AUTH_SOCK
+     fi
+     echo "Starting SSH-Agent relay..."
+     (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
+     fi
+     @end
+     ~ First, We configure the ssh auth socket to be the one we want to use in our new `.1password` directory
+     ~ Next, we check if the relay is already running. We do this by checking if the `npiperelay.exe` process is running. 
+     ~~ We do this by grepping for the process name, but we need to exclude the grep command itself, so we use square brackets to generate a regex match for the process we want but that doesn't match the grep command running it!
+     ~~ we need powershell to get the non-truncated command for matching
+     ~ If the relay isn't running, we check if the socket is already in use. If it is, we remove it.
+     ~ Finally, we start the relay in the background and redirect the output to `/dev/null` so it doesn't clutter up our terminal
+     ~~ We use `setsid` to force a new session so that the relay keeps running even if we close our terminal
+     ~~ We use `socat` to listen on the ssh auth socket and forward to `npiperelay` which then forwards to `openssh-ssh-agent` on windows
 ** PowerShell
    PowerShell will look largely the same as bash, only with a few variations on the commands for PowerShell
    #tangle Microsoft.PowerShellProfile.ps1.tmpl
@@ -174,7 +232,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
    @end
    - This first function was pulled directly from the {https://wezfurlong.org/wezterm/shell-integration.html}[Shell Integration Page of Wezterm] to allow us to hook into starship prompt and provide OSC 7 codes.
-  -- Functions like this advise the terminal on the working directory
+   -- Functions like this advise the terminal on the working directory
    - Again, we are just invoking the startship prompt
    -- Therefore, we just need to be sure it is installed on the machine before we put this configuration file in here
 
