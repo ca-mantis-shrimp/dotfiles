@@ -90,9 +90,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   {{- end }}
   name = Darrion Burgess
 
-  [credential]
-  helper = store
-
   [core]
   symlinks = true
   @end
@@ -191,8 +188,8 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
        now we can put the following snippet at the end of our bash RC
      #tangle .bashrc.tmpl
      @code bash
-     {{ if eq .chezmoi.os "linux" }}
-     {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+     {{- if eq .chezmoi.os "linux" }}
+     {{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
      export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 
      ALREADY_RUNNING=$(ps -auxww | grep -q "[n]piperelay.exe -ei -s //./pipe/openssh-ssh-agent"; echo $?)
