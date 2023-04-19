@@ -99,28 +99,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   - Finally, we are using gits' built-in credential storing feature to store our PAT tokens within the local machine
   -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
   - finally we need to put in this symlinks option to make this symlink hack we are relying on work between windows and linux per {https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows/59761201#59761201}[This discussion about symlinks between linux and windows]
-** Git Credentials
-   Feel free to review the knowledge article on what the file even is, but sufficed to say it is a very simple, very brittle file that is used to authenticate to different git repos while not requiring the user to put in the password and username each time.
-   - It's small, but it enables me to push and pull from my various private repos while still having the nice user experience of authenticating without typing the password in each time
-   #tangle gitCredentials.tmpl
-   @code template
-   {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
-   https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-   {{else -}}
-   https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
-   {{- end }}
-   @end
-   - First, we should note that we are using a template to check if we are on our work computer (you just need to know that that is my work computer's hostname)
-   -- Therefore, when I am on my work computer it will leverage the 1password CLI to look up the specific work PAT token for my work github account
-   --- This is how we enable such a sensitive file to live in source control, since the pat token is only shown in the file itself and can be easily changed when I update to a new PAT token since they do expire after all
-   --- Do also note here that we access `op` using a custom chezmoi template, chezmoi has access to several password managers and we can use this to place secrets in plaintext files only when we are syncing them to the local machine
-   ---- even if these were discovered by a malicious actor, the nature of PAT tokens means we can regenerate them and replace them in less than a minute with this setup and without a single change to the code
-   - Meanwhile, if we aren't on our work computer we will simply use the personal account's PAT token
-   - This is also a good example of using an if and an else statement from the text language, allowing us to have traditional control flow
-   -- Do note the `-` character at the end of the if loop declaration. Without this neovim would add a newline before doing the actual text.
-   --- While not the end of the world, this can cause issues with the diffs always being different even if they have functionally the same text, so this ensure we always cut the newline before or after the statment
-   -- I also needed to add one before the else because it was still adding new lines for some reason? 
-   -- I continued to have problems so I ended another one at the end of the `end` block
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash
