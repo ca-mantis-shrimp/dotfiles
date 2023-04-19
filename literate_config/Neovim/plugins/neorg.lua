@@ -46,28 +46,28 @@ local dirman_configuration = {
 
 local module_list = {
   ["core.defaults"] = {},
-  ["core.norg.concealer"] = {},
-  ["core.norg.dirman"] = dirman_configuration,
+  ["core.concealer"] = {},
+  ["core.dirman"] = dirman_configuration,
   ["core.presenter"] = {
     config = {
       zen_mode = "zen-mode",
     },
   },
-  ["core.norg.completion"] = {
+  ["core.completion"] = {
     config = {
       engine = "nvim-cmp",
     },
   },
   ["core.keybinds"] = norg_buffer_keymaps,
-  ["core.norg.qol.toc"] = {},
-  ["core.norg.journal"] = {
+  ["core.qol.toc"] = {},
+  ["core.journal"] = {
     config = {
       journal_folder = "/journal/",
       use_folders = true,
       workspace = "main",
     },
   },
-  ["core.norg.esupports.metagen"] = {
+  ["core.esupports.metagen"] = {
     config = {
       type = "auto",
     },
