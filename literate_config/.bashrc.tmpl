@@ -1,5 +1,3 @@
-eval "$(starship init bash)"
-
 export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
 export OPENAI_API_KEY="{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
@@ -10,8 +8,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 
 ALREADY_RUNNING=$(ps -auxww | grep -q "[n]piperelay.exe -ei -s //./pipe/openssh-ssh-agent"; echo $?)
@@ -26,3 +24,4 @@ echo "Starting SSH-Agent relay..."
 fi
 {{   end }}
 {{ end }}
+eval "$(starship init bash)"

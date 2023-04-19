@@ -125,15 +125,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash
    Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
-*** Enable Starship Prompt
-    First, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
-    #tangle .bashrc.tmpl
-    @code bash
-    eval "$(starship init bash)"
-
-    @end
-    - We have the evaluation of the starship prompt
-    -- This requires that the startship prompt is already installed on the system
 *** Adding bob-nvim to the path
     We use bob-nvim for our managing Neovim versions, and in order to use the current version of Neovim, we need to add it to our path
     #tangle .bashrc.tmpl
@@ -214,6 +205,15 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
      ~ Finally, we start the relay in the background and redirect the output to `/dev/null` so it doesn't clutter up our terminal
      ~~ We use `setsid` to force a new session so that the relay keeps running even if we close our terminal
      ~~ We use `socat` to listen on the ssh auth socket and forward to `npiperelay` which then forwards to `openssh-ssh-agent` on windows
+*** Enable Starship Prompt
+    First, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
+    #tangle .bashrc.tmpl
+    @code bash
+    eval "$(starship init bash)"
+
+    @end
+    - We have the evaluation of the starship prompt
+    -- This requires that the startship prompt is already installed on the system
 ** PowerShell
    PowerShell will look largely the same as bash, only with a few variations on the commands for PowerShell
    #tangle Microsoft.PowerShellProfile.ps1.tmpl
