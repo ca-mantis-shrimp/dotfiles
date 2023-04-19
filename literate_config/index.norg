@@ -109,7 +109,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    @code template
    {{if eq .chezmoi.hostname "USMINDARBURGES1" -}}
    https://darburgess:{{ onepasswordRead "op://work/work_pat_token/password" }}@github.com
-   {{- else}}
+   {{else -}}
    https://ca-mantis-shrimp:{{ onepasswordRead "op://Personal/personal_github_pat_token/password" }}@github.com
    {{- end }}
    @end

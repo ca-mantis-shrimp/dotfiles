@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-09
+updated: 2023-04-16
 version: 1.0.0
 tangle: completion.lua
 @end
@@ -17,7 +17,7 @@ For our purposes, we are going to use {https://github.com/hrsh7th/nvim-cmp}[cmp.
 
 LazyVim configures it out of the box, but we need to add some support for stuff like neorg and other pieces of logic that will matter down the road
 
-We will be using the standar cmp libraries allot this time so we want to require the cmp piece up-front
+We will be using the standard cmp libraries allot this time so we want to require the cmp piece up-front
 * Dependencies
   We have quite a few dependencies for cmp and this list is liable to grow and shrink as we evolve the format
   #tangle
@@ -38,9 +38,10 @@ We will be using the standar cmp libraries allot this time so we want to require
       dependencies = {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
-        event = "InsertEnter",
+        event = "VeryLazy",
         cond = not vim.g.started_by_firenvim,
-        enabled = false,
+        enabled = true,
+        config = true,
       },
       config = true,
     },

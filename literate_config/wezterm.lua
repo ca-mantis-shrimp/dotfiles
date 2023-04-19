@@ -85,5 +85,10 @@ table.insert(keymaps, {
   action = act.ShowLauncher,
 })
 
+table.insert(keymaps, {
+  key = "Enter",
+  mods = "ALT",
+  action = act.DisableDefaultAssignment,
+})
 config.keys = keymaps
 return config

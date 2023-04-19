@@ -14,9 +14,10 @@ local dependencies_list = {
     dependencies = {
       "zbirenbaum/copilot.lua",
       cmd = "Copilot",
-      event = "InsertEnter",
+      event = "VeryLazy",
       cond = not vim.g.started_by_firenvim,
-      enabled = false,
+      enabled = true,
+      config = true,
     },
     config = true,
   },

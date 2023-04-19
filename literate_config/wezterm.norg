@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-16
+updated: 2023-04-18
 version: 1.0.0
 tangle: wezterm.lua
 @end
@@ -211,8 +211,18 @@ This is obvious from the very start with the fact that our configuration is crea
    })
 
    @end
-   --
-   With all that done, we are ready to return our config to wezterm so it can actually use the configuration settings we have defined
+** Unbind the full screen keybinding
+   Next we want to unbind the default keybinding to put WezTerm into Full Screen mode because it is conflicting with the default binding in Neorg for continuing a list item
+   #tangle
+   @code lua
+   table.insert(keymaps, {
+     key = "Enter",
+     mods = "ALT",
+     action = act.DisableDefaultAssignment,
+   })
+   @end
+   * Returning the Config
+     With all that done, we are ready to return our config to WezTerm so it can actually use the configuration settings we have defined
    #tangle
    @code lua
    config.keys = keymaps
