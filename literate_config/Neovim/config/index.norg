@@ -4,7 +4,7 @@ description:
 authors: darburgess
 categories: 
 created: 2023-04-07
-updated: 2023-04-08
+updated: 2023-04-20
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
@@ -13,24 +13,24 @@ From there, we have a few key files that are used to configure neovim through di
   Autocmds are automatically loaded on the VeryLazy event
   {https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua}[Default autocmds that are always set]
 ** Options for Prose Writing
-  We wrap and check for spell in text filetypes (currently just norg files)
-  #tangle autocmds.lua
-  @code lua
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "norg" },
-    callback = function()
-      vim.opt_local.wrap = true
-      vim.opt_local.spell = true
-      vim.opt.spelllang = { "en_us" }
-    end,
-  })
+   We wrap and check for spell in text filetypes (currently just norg files)
+   #tangle autocmds.lua
+   @code lua
+   vim.api.nvim_create_autocmd("FileType", {
+     pattern = { "norg" },
+     callback = function()
+       vim.opt_local.wrap = true
+       vim.opt_local.spell = true
+       vim.opt.spelllang = { "en_us" }
+     end,
+   })
 
-  @end
-  - Here we are just creating an Auto Command that will check the Filetype for certain patterns and do something if it finds the appropriate ones
-  -- in this case, we are setting some important options that are necessary for writing prose in neovim
-  --- wrap makes the words wrap when the hit the other side of the screen instead of just going on
-  --- spell ensures that we are checking spelling in prose files where it is relevant
-  ---- and for that spelling we will be using the US English Spelling dictionary loaded in memmory
+   @end
+   - Here we are just creating an Auto Command that will check the Filetype for certain patterns and do something if it finds the appropriate ones
+   -- in this case, we are setting some important options that are necessary for writing prose in neovim
+   --- wrap makes the words wrap when the hit the other side of the screen instead of just going on
+   --- spell ensures that we are checking spelling in prose files where it is relevant
+   ---- and for that spelling we will be using the US English Spelling dictionary loaded in memmory
 * Keymaps
 * Lazy Config
   Since Lazy.nvim is the primary engine driving all of this, we should take a second to review how it is setup incase we ever need to make changes ourselves
@@ -61,6 +61,7 @@ From there, we have a few key files that are used to configure neovim through di
     @code lua
     local spec_list = {
       { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+      { import = "lazyvim.plugins.extras.coding.copilot" },
       { import = "plugins" },
     }
 
@@ -68,6 +69,7 @@ From there, we have a few key files that are used to configure neovim through di
     ~ We install the various plugins that come with LazyVim
     ~~ it should be noted that lazyvim actually comes with extra plugins that users don't need to activate immediately
     ~~~ we can import them with any of the `extra` files in lazyvim itself
+    ~ Speaking of which, we add the copilot extra here instead of our own home-rolled version so that I might even be able to just update the copilot work?
     ~ We import the any `*.lua` files found within the `plugins` folder of the `lua` directory
     ~~ This is the primary way we do additional plugins as a user, and can be changed if we want multiple directories for plugins
 *** Performance
