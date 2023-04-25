@@ -10,4 +10,8 @@ name = Darrion Burgess
 symlinks = true
 
 [credential]
-helper = "!git-credential-1password.exe"
+{{- if eq .chezmoi.os "windows" }}
+elper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
+{{- else }}
+helper = "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+{{- end}}
