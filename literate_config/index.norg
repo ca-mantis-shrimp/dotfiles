@@ -98,7 +98,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   {{- if eq .chezmoi.os "windows" }}
 	helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
   {{- else }}
-  helper = "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+  helper = /mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe
   {{- end}}
   @end
   - The main variation comes with the email that gets set for the git pieces
