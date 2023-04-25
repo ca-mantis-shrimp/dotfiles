@@ -95,7 +95,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   symlinks = true
 
   [credential]
-  helper = !git-credential-1password.exe
+  helper = "!git-credential-1password.exe"
   @end
   - The main variation comes with the email that gets set for the git pieces
   -- the work one just changes the email to my standard work email
