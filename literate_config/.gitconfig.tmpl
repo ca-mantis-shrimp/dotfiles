@@ -11,7 +11,7 @@ symlinks = true
 
 [credential]
 {{- if eq .chezmoi.os "windows" }}
-elper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
+helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
 {{- else }}
 helper = /mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe
 {{- end}}
