@@ -8,6 +8,6 @@ name = Darrion Burgess
 
 [core]
 symlinks = true
-{{- if eq .chezmoi.os "windows" }}
-sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-{{- end }}
+
+[credential]
+helper = !git-credential-1password.exe

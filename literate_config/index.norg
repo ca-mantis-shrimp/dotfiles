@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-04-18
+updated: 2023-04-24
 version: 1.0.0
 @end
 This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
@@ -93,9 +93,9 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 
   [core]
   symlinks = true
-  {{- if eq .chezmoi.os "windows" }}
-  sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-  {{- end }}
+
+  [credential]
+  helper = !git-credential-1password.exe
   @end
   - The main variation comes with the email that gets set for the git pieces
   -- the work one just changes the email to my standard work email
@@ -104,6 +104,10 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
   - finally we need to put in this symlinks option to make this symlink hack we are relying on work between windows and linux per {https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows/59761201#59761201}[This discussion about symlinks between linux and windows]
   - we also also make openSSH our agent on windows per {https://developer.1password.com/docs/ssh/get-started}[This 1password tutorial]
+** Git Credentials Using PAT Tokens
+   PAT Tokens are the recommended way to get this stuff done.
+   we are going to use 1Password to get this all going but we are just trying to make this all work
+   #tangle gitCredentials
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** Bash
