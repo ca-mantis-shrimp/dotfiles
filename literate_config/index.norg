@@ -29,18 +29,18 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    #tangle .chezmoi.toml.tmpl
    @code toml
    {{ if eq .chezmoi.os "windows" }}
-   [cd]
+ [cd]
    command = "pwsh"
-   {{ end }}
+ {{ end }}
 
-   [diff]
+ [diff]
    command = "nvim"
    args = "-d"
 
-   [edit]
+ [edit]
    command = "nvim"
 
-   [git]
+ [git]
    autoCommit = true
    @end
    - windows has this annoying thing where it defaults to the cmd for most things so we need to just start it in powershell whenever we use the `chezmoi cd` command
@@ -158,53 +158,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
     - Exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in Linux
     -- The line after that loads a shell script that makes nvm available to the system
     -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
-*** Using 1Password as our SSH Agent within WSL
-    1Password has a pretty cool mechanism of using SSH keys that kicks the crap out of my current git credentials scheme.
-    To this end, we are going to be following {https://dev.to/d4vsanchez/use-1password-ssh-agent-in-wsl-2j6m#:~:text=To%20communicate%20between%20WSL%20and%20the%201Password%20SSH,the%20GitHub%20repository%20and%20download%20the%20latest%20release.}[These Instructions] to add 1Password as our SSH Agent within WSL
-**** Dependencies
-     This hack requires two dependencies:
-     - `npiperelay` needs to be installed on the windows side so we can pipe information to WSL
-     - while we will be using `socat` on the WSL side to send these signals
-     - we also need a `.1password` folder created within the home directory
-**** Adding 1password as the SSH agent
-     Within the linux environment we need to create a new configuration file for SSH on linux if there isn't one already in which we put 1password as our main ssh provider
-     This snippet is directly from the 1password website:
-     #tangle sshConfig
-     @code sshconfig
-     Host *
-     IdentityAgent ~/.1password/agent.sock
-     @end
-     - This is where the folder we created earlier comes in to play, we need to make sure it is there to be populated from our script later
-       --
-       now we can put the following snippet at the end of our bash RC
-     #tangle .bashrc.tmpl
-     @code bash
-     {{- if eq .chezmoi.os "linux" }}
-     {{-   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-     export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
-
-     ALREADY_RUNNING=$(ps -auxww | grep -q "[n]piperelay.exe -ei -s //./pipe/openssh-ssh-agent"; echo $?)
-
-     if [[ $ALREADY_RUNNING != "0" ]]; then
-     if [[ -S $SSH_AUTH_SOCK ]]; then
-     echo "removing previous socket..."
-     rm $SSH_AUTH_SOCK
-     fi
-     echo "Starting SSH-Agent relay..."
-     (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
-     fi
-     {{   end }}
-     {{ end }}
-     @end
-     ~ we only want this snippet inserted for WSL instances so we leverage chezmoi's `os` and `kernel.osrelease` variables to determine if we are running on WSL
-     ~ We configure the ssh auth socket to be the one we want to use in our new `.1password` directory
-     ~ Next, we check if the relay is already running. We do this by checking if the `npiperelay.exe` process is running. 
-     ~~ We do this by grepping for the process name, but we need to exclude the grep command itself, so we use square brackets to generate a regex match for the process we want but that doesn't match the grep command running it!
-     ~~ we need powershell to get the non-truncated command for matching
-     ~ If the relay isn't running, we check if the socket is already in use. If it is, we remove it.
-     ~ Finally, we start the relay in the background and redirect the output to `/dev/null` so it doesn't clutter up our terminal
-     ~~ We use `setsid` to force a new session so that the relay keeps running even if we close our terminal
-     ~~ We use `socat` to listen on the ssh auth socket and forward to `npiperelay` which then forwards to `openssh-ssh-agent` on windows
 *** Enable Starship Prompt
     Lastly, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
     #tangle .bashrc.tmpl
