@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-04-24
+updated: 2023-04-25
 version: 1.0.0
 @end
 This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
@@ -98,7 +98,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   {{- if eq .chezmoi.os "windows" }}
   helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
   {{- else }}
-	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+  helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
   {{- end}}
   @end
   - The main variation comes with the email that gets set for the git pieces
