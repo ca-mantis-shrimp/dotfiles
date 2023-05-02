@@ -8,7 +8,9 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 local spec_list = {
   { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+  {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
   { import = "lazyvim.plugins.extras.coding.copilot" },
+  {{- end }}
   { import = "plugins" },
 }
 
