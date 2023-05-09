@@ -11,6 +11,8 @@ local spec_list = {
   {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
   { import = "lazyvim.plugins.extras.coding.copilot" },
   {{- end }}
+  { import = "lazyvim.plugins.extras.util.project" },
+  { import = "lazyvim.plugins.extras.ui.mini-animate" },
   { import = "plugins" },
 }
 

@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-04-21
+updated: 2023-05-08
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
