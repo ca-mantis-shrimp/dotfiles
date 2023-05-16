@@ -26,6 +26,7 @@ local norg_buffer_keymaps = {
       keybinds.map("norg", "n", "<leader>se", "<cmd>Telescope neorg search_headings<CR>")
       keybinds.map("norg", "n", "<leader>nr", "<cmd>Neorg return<CR>")
       keybinds.map("norg", "n", "<leader>nT", "<cmd>Neorg tangle current-file<CR>")
+      keybinds.map("norg", "n", "<leader>ni", "<cmd>Neorg index<CR>")
     end,
   },
 }
