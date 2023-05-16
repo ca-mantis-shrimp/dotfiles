@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-19
+updated: 2023-05-15
 version: 1.0.0
 tangle: neorg.lua
 @end
@@ -171,6 +171,7 @@ It takes more to setup than many of the other plugins but it can help with the a
      ["core.export.markdown"] = {},
      ["core.integrations.telescope"] = {},
      ["core.summary"] = {},
+     ["core.ui.calendar"] = {},
    }
    @end
    - First we have the defaults module which loads all the default modules for neorg to get us started
