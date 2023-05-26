@@ -13,6 +13,7 @@ local spec_list = {
   {{- end }}
   { import = "lazyvim.plugins.extras.util.project" },
   { import = "lazyvim.plugins.extras.ui.mini-animate" },
+  {import = "lazyvim.plugins.extras.test.core"},
   { import = "lazyvim.plugins.extras.vscode" },
   { import = "plugins" },
 }

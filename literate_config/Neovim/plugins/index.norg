@@ -113,88 +113,19 @@ I think to start, I am just going to start with the smaller stuff and then work 
   We are using a very exciting framework called {https://github.com/nvim-neotest/neotest}[neotest] where we can to do testing within neovim itself.
   It is a testing framework that is applicable to most languages so we can just setup a new configuration for each filetype
   In addition, it adds a bunch of UI elements that make the experience better using Neovim's newest UI improvements
-** Keymaps
-   This is one of those plugins we want to put behind lazy loading until we need it so most of the plugins can be used to load the plugin as well as running the function itself
-   #tangle neotest.lua
-   @code lua
-   local activation_hotkeys = {
-     {
-       "<leader>tS",
-       function()
-         require("neotest").summary.toggle()
-       end,
-       desc = "Toggle Neotest Summary",
-     },
-     {
-       "<leader>tr",
-       function()
-         require("neotest").run.run()
-       end,
-       desc = "Run Nearest Test",
-     },
-
-     {
-       "<leader>tf",
-       function()
-         require("neotest").run.run(vim.fn.expand("%"))
-       end,
-       desc = "Run Current File",
-     },
-
-     {
-       "<leader>ts",
-       function()
-         require("neotest").run.run(vim.fn.getcwd())
-       end,
-       desc = "Run Test Suite",
-     },
-   }
-
-   @end
-   ~ Neotest includes a fancy test summary page that is able to visualize the file structure of your project and show not only the list of tests in each file but their actual test state! This hotkey toggles said summary
-   ~~ Do note, We need to run the test suite BEFORE we can see the results within this fancy summary
-   ~ Run Nearest Test to Cursor
-   ~~ Useful for debugging during TDD which is why it's the first actual test
-   ~~ While some languages have trouble running a full test suite, running a single test is almost always fine.
-   ~ This one is for testing the entire file, useful if the test suite is big and slow
-   ~~ that snippet `vim.fn.expand('%')` will return the name of the current buffer since this is the special character for the current buffer
-   ~ Finally we have the test suite hotkey which will test the full test suite.
-   ~~ While we want this to be our main hotkey, it is also the one more prone to breaking since the concept of a test suite and what is contained within varies between languages
-** Dependencies
-   #tangle neotest.lua
-   @code lua
-   local dependencies_list = {
-     "nvim-lua/plenary.nvim",
-     "nvim-treesitter/nvim-treesitter",
-     "antoinemadec/FixCursorHold.nvim",
-     "rouge8/neotest-rust",
-     "nvim-neotest/neotest-python",
-   }
-   @end
-   - Plenary is used for both the utility functions it provides, as well as the test capabilities exposed for the purposes of testing lua code
-   -- This is especially good for testing neovim plugins because they have existing frameworks that can test individual neovim options
-   - treesitter is used to color the test output and to find the test targets for some of the test libraries
-   - FixCursorHold is not needed but recommended per {https://github.com/antoinemadec/FixCursorHold.nvim/issues/13}[This issue]
-   - rust is the first specific library we need 
-   -- since neotest itself is just a framework, we need plugins like these to provide test functionality for each individual language
-   --- This lets this work be distributed between volunteers and makes it easy to submit work for a language you want to work without needing to contribute to the project itself, one can just make a repo that covers the work for a specific language that implements the framework.
-   - we also have the work for python so that we can test stuff with the python series
 ** Setup
    With those local variables defined, all we need to do is setup the different test runner packages within our neotest setup function.
    #tangle neotest.lua
    @code lua
    return {
      "nvim-neotest/neotest",
-     keys = activation_hotkeys,
-     dependencies = dependencies_list,
-     config = function()
-       require("neotest").setup({
-         adapters = {
-           require("neotest-python"),
-           require("neotest-rust"),
-         },
-       })
-     end,
+     dependencies = {"nvim-neotest/neotest-python", "rouge8/neotest-rust"},
+     opts = {
+       adapters = {
+         ["neotest-rust"] = {},
+         ["neotest-python"] = {},
+       },
+     }
    }
    @end
    - We just need to require the various language plugins within the `adapters` section of our setup function.
