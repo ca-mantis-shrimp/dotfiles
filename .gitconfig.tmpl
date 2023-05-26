@@ -1,0 +1,17 @@
+[user]
+{{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+email = darburgess@deloitte.com
+{{ else }}
+email = dargondab9@gmail.com
+{{- end }}
+name = Darrion Burgess
+
+[core]
+symlinks = true
+
+[credential]
+{{- if eq .chezmoi.os "windows" }}
+helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
+{{- else }}
+helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+{{- end}}

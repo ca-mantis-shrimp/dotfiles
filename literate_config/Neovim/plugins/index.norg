@@ -4,13 +4,12 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-05-15
+updated: 2023-05-26
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
 
 I think to start, I am just going to start with the smaller stuff and then work through it one at a time. Especially large plugins will likely get their own file so I can decouple them from what I have to do with the others which can be generated all at once
-* {:completion:}[Completion Configuration]
 * {:neorg:}[Neorg configuration]
 * Toggle Term
   First, we have the excellent [toggleterm.nvim] plugin that can be used to facilitate a workflow where I occasionally _toggle_ a terminal page, do some actions, and leave
