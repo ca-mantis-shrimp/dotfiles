@@ -352,6 +352,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
 * Running Rest Commands
 I'm going to be doing more rest development work so I would like to be able to run rest calls from within the editor so i don't need to rely on tools like postman or stuff like that.
 For this we are going to be using [rest.nvim] which is a plugin that allows you to run rest commands from within Neovim.
+  Nothing super interesting here, we pull in the plugin and for now just use the standard config.
   #tangle rest.lua
   @code lua
   return {
@@ -360,7 +361,17 @@ For this we are going to be using [rest.nvim] which is a plugin that allows you 
     config = true
   }
   @end
-  Nothing super interesting here, we pull in the plugin and for now just use the standard config.
+* {https://github.com/wfxr/minimap.vim/tree/726746ed02eab2eef137a7ecceda7214fbeeec41}[Code Minimap]
+  In an attempt to get something close to what VSCode has, I am trying
+  #tangle minimap.lua
+  @code lua
+  return {
+    "wfxr/minimap.vim",
+    keys = { { "leader>um", "<cmd>MinimapToggle<cr>", desc = "Toggle Minimap" } },
+    build = "cargo install --locked code-minimap",
+    lazy = false,
+  }
+  @end
   --
   ^ Plugin list
   - [toggleterm.nvim]{https://github.com/akinsho/toggleterm.nvim}
