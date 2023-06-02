@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-05-26
+updated: 2023-06-02
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -370,6 +370,14 @@ For this we are going to be using [rest.nvim] which is a plugin that allows you 
     keys = { { "leader>um", "<cmd>MinimapToggle<cr>", desc = "Toggle Minimap" } },
     build = "cargo install --locked code-minimap",
     lazy = false,
+  }
+  @end
+* Todoist Integration
+  While I am building the actual productivity manager of my dreams, I am going to try this plugin to handle the different todoist versions via a plugin
+  #tangle todoist.lua
+  @code lua
+  return {
+    "romgrk/todoist.nvim",
   }
   @end
   --
