@@ -4,10 +4,10 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-05-26
+updated: 2023-06-02
 version: 1.0.0
 @end
-This is the configuration Neorg workspace. This workspace is extra special because it will be the site of an experiment.
+This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
 
 We are going to attempt something I have wanted to try but have never felt like I had the tooling required.
 
@@ -29,18 +29,18 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    #tangle .chezmoi.toml.tmpl
    @code toml
    {{ if eq .chezmoi.os "windows" }}
-   [cd]
+ [cd]
    command = "pwsh"
-   {{ end }}
+ {{ end }}
 
-   [diff]
+ [diff]
    command = "nvim"
    args = "-d"
 
-   [edit]
+ [edit]
    command = "nvim"
 
-   [git]
+ [git]
    autoCommit = true
    @end
    - windows has this annoying thing where it defaults to the cmd for most things so we need to just start it in powershell whenever we use the `chezmoi cd` command
@@ -138,6 +138,13 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    - Add the api key for open AI including ChatGPT and other tools
    -- this is going to use the onepassword template for Chezmoi so that we can revoke and change this key should we ever need
    -- it also means we effectively have two chained dependencies. Chezmoi for the templating functionality, which is using 1password as the secrets manager
+** Making Todoist API Key Available
+   We are going to do a similar thing for Todoist where we will put the API key behind a Op login so we can have it while still feeling secure in our usage
+   #tangle .bashrc.tmpl
+   @code bash
+   export TODOIST_API_KEY="{{ onepasswordRead "op://Personal/TODOIST_API_KEY/credential" }}"
+
+   @end
 ** Adding the Cargo and NodeJS version managers
    We are going to be using Rust and NodeJS for a lot of the tooling we are going to be installing, so we need to make sure we have the version managers installed for rustup and nvm respectively
    We are going to be using the following tools:
@@ -147,9 +154,9 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    @code bash
    . "$HOME/.cargo/env"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+   export NVM_DIR="$HOME/.nvm"
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
    @end
    - Remember that the `.` at the beginning is equivalent to if we had written the `source` command
