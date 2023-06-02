@@ -174,32 +174,33 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    - We have the evaluation of the starship prompt
    -- This requires that the startship prompt is already installed on the system
    - must be enabled last otherwise we start getting strange errors around not being able to call the starship command 
-** PowerShell
-   PowerShell will look largely the same as bash, only with a few variations on the commands for PowerShell
-   #tangle Microsoft.PowerShellProfile.ps1.tmpl
-   @code ps1
-   $prompt = ""
-   function Invoke-Starship-PreCommand {
-   $current_location = $executionContext.SessionState.Path.CurrentLocation
-   if ($current_location.Provider.Name -eq "FileSystem") {
-   $ansi_escape = [char]27
-   $provider_path = $current_location.ProviderPath -replace "\\", "/"
-   $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
-   }
-   $host.ui.Write($prompt)
-   }
-   Invoke-Expression (&starship init powershell)
+* PowerShell
+  PowerShell will look largely the same as bash, only with a few variations on the commands for PowerShell
+  #tangle Microsoft.PowerShellProfile.ps1.tmpl
+  @code ps1
+  $prompt = ""
+  function Invoke-Starship-PreCommand {
+  $current_location = $executionContext.SessionState.Path.CurrentLocation
+  if ($current_location.Provider.Name -eq "FileSystem") {
+  $ansi_escape = [char]27
+  $provider_path = $current_location.ProviderPath -replace "\\", "/"
+  $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
+  }
+  $host.ui.Write($prompt)
+  }
+  Invoke-Expression (&starship init powershell)
 
-   $Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
+  $Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
+  $Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Personal/TODOIST_API_KEY/credential" }}"
 
-   @end
-   - This first function was pulled directly from the {https://wezfurlong.org/wezterm/shell-integration.html}[Shell Integration Page of Wezterm] to allow us to hook into starship prompt and provide OSC 7 codes.
-   -- Functions like this advise the terminal on the working directory
-   - Again, we are just invoking the startship prompt
-   -- Therefore, we just need to be sure it is installed on the machine before we put this configuration file in here
+  @end
+  - This first function was pulled directly from the {https://wezfurlong.org/wezterm/shell-integration.html}[Shell Integration Page of Wezterm] to allow us to hook into starship prompt and provide OSC 7 codes.
+  -- Functions like this advise the terminal on the working directory
+  - Again, we are just invoking the startship prompt
+  -- Therefore, we just need to be sure it is installed on the machine before we put this configuration file in here
 
-   This config file has less manual work than the bash file because windows in general believes less in managing system configuration through the shell.
-   Instead they often opt to change configuration through dedicated GUI programs or other discrete tools that need to be setup before the shell is even started, however, once you are done, there is less manual wiring required to get the application running than in the bash shell.
+  This config file has less manual work than the bash file because windows in general believes less in managing system configuration through the shell.
+  Instead they often opt to change configuration through dedicated GUI programs or other discrete tools that need to be setup before the shell is even started, however, once you are done, there is less manual wiring required to get the application running than in the bash shell.
 * First-Time-Setup and Initial Machine Installations
   When we first get a machine, unless we are operating from a dockerized mindset, we will likely need to setup the environment first to ensure that everything we have setup above works as intended.
   This can be difficult as much of this is different between different OSs, and while some software can be installed easily and automatically, others must be install through more manual means that make it difficult to reproduce in an easy manner
