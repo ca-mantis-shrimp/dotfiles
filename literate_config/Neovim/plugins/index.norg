@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-06-02
+updated: 2023-06-06
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -380,6 +380,23 @@ For this we are going to be using [rest.nvim] which is a plugin that allows you 
     "romgrk/todoist.nvim",
   }
   @end
+* [symbols-outline.nvim]
+  Symbol outline is a plugin that allows you to see all of the symbols in a file and jump to them.
+
+We are just doing standard setup, but we have chosen to do this now because of the release of edgy which allows these outlines to be used in a left pane window
+
+  #tangle symbolsOutline.lua
+  @code lua
+  return {
+    -- add symbols-outline
+    {
+      "simrat39/symbols-outline.nvim",
+      cmd = "SymbolsOutline",
+      keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+    },
+  }
+  @end
+
   --
   ^ Plugin list
   - [toggleterm.nvim]{https://github.com/akinsho/toggleterm.nvim}
@@ -392,3 +409,4 @@ For this we are going to be using [rest.nvim] which is a plugin that allows you 
   - [telescope.nvim]{https://github.com/nvim-telescope/telescope.nvim}
   - [ChatGPT.nvim]{https://github.com/jackMort/ChatGPT.nvim}
   - [rest.nvim]{https://github.com/rest-nvim/rest.nvim}
+  - [symbols-outline.nvim]{https://github.com/simrat39/symbols-outline.nvim}
