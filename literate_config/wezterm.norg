@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-04-18
+updated: 2023-06-13
 version: 1.0.0
 tangle: wezterm.lua
 @end
@@ -220,6 +220,8 @@ This is obvious from the very start with the fact that our configuration is crea
      mods = "ALT",
      action = act.DisableDefaultAssignment,
    })
+
+   table.insert(keymaps, {key = "F11", action = act.ToggleFullScreen})
    @end
    * Returning the Config
      With all that done, we are ready to return our config to WezTerm so it can actually use the configuration settings we have defined
