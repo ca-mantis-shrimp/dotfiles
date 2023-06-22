@@ -90,5 +90,7 @@ table.insert(keymaps, {
   mods = "ALT",
   action = act.DisableDefaultAssignment,
 })
+
+table.insert(keymaps, {key = "F11", action = act.ToggleFullScreen})
 config.keys = keymaps
 return config
