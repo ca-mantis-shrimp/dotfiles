@@ -19,7 +19,8 @@ local spec_list = {
   {import = "lazyvim.plugins.extras.test.core"},
   { import = "lazyvim.plugins.extras.vscode" },
   {import = "lazyvim.plugins.extras.editor.flash"},
-  { import = "plugins" },
+  {import = "lazyvim.plugins.extras.coding.yanky"},
+  {import = "plugins"},
 }
 
 local performance_settings = {

@@ -4,7 +4,7 @@ description:
 authors: darburgess
 categories: 
 created: 2023-04-07
-updated: 2023-06-23
+updated: 2023-06-28
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
@@ -55,7 +55,7 @@ From there, we have a few key files that are used to configure neovim through di
    ~ Finally, we prepend either the new lazypath or the LAZY enviroment variable if it exists
 ** Setup
    Lazy needs to be setup with the `setup` function, but this is usually a big table of options, so to make it easier to read, we will be creating some of the larger configuration chunks as local variable tables and incorporating them into the final function call in the end
-*** Spec
+*** LazyVim Extras
     The spec is the actual list of plugins to be installed, and helps us easily add and remove plugins we want
     #tangle lazy.lua
     @code lua
@@ -72,7 +72,8 @@ From there, we have a few key files that are used to configure neovim through di
       {import = "lazyvim.plugins.extras.test.core"},
       { import = "lazyvim.plugins.extras.vscode" },
       {import = "lazyvim.plugins.extras.editor.flash"},
-      { import = "plugins" },
+      {import = "lazyvim.plugins.extras.coding.yanky"},
+      {import = "plugins"},
     }
 
     @end
@@ -83,6 +84,13 @@ From there, we have a few key files that are used to configure neovim through di
     ~~ Do note, in order to keep the setup compliant, we ensure this only gets added if we are not on our work machine, ensuring compliance with the license
     ~ We import the project plugin, which is a plugin that helps us with quickly changing to different project folders
     ~ we import mini-animate for that sweet-sweet scrolling animation
+    ~ edgy is an interesting plugin that makes an abstraction layer around windows that are usually created around the end, we use this to make a fairly compelling upgrade to the workflow of having multiple windows open at once, with the ability to cycle and close them all with a few hotkeys
+    ~ mini-hipatterns is a simple plugin that highlights color codes with the color they represent, useful for debugging design elements
+    ~ dap core gives us the debug adapter protocol which gives us a language-agnostic debugger at our fingertips
+    ~ test.core sets up the neotest framework with a few starter languages and the default hotkeys so you can do all of your testing from the different files
+    ~ We even have vscode support working from lazy! giving us a stable experience when we need to break out the vscode editor
+    ~ Flash is a replacement for leap.nvim and has various motion hotkeys that enable us to jump around the page horizontally in a way that is pleasing to the eyes and actually leverages technology like treesitter to allow us to jump around code using the treesitter nodes themselves
+    ~ Yanky is an abstraction layer over the yanking experience to give us the experience of yanking text and putting it that we deserve
     ~ We import the any `*.lua` files found within the `plugins` folder of the `lua` directory
     ~~ This is the primary way we do additional plugins as a user, and can be changed if we want multiple directories for plugins
 *** Performance
