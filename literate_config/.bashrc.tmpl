@@ -1,5 +1,7 @@
 export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
+ln -s $(which fdfind) ~/.local/bin/fd
+
 export OPENAI_API_KEY="{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
 
 export TODOIST_API_KEY="{{ onepasswordRead "op://Personal/TODOIST_API_KEY/credential" }}"

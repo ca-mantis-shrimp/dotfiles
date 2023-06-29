@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-06-22
+updated: 2023-06-28
 version: 1.0.0
 @end
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
@@ -125,6 +125,16 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    @end
    - We are manually appending the absolute path to the binary that is currently selected for bob-nvim, the Neovim version manager
    -- Again, this means we need to have bob-nvim already installed on the machine for this to do anything
+** Create link to proper FD Binary
+   `fd` is a tool that is used to find files iwthin a directory, and is used by fzf to find files within a directory
+
+   It's a great little tool, but suffers from the problem that someone has "name squatted" this very easy binary name as so the actual command when you install will be `fdfind` which can be strange to experience, so we will just create a symlink to the proper binary using the below line:
+   #tangle .bashrc.tmpl
+   @code bash
+   ln -s $(which fdfind) ~/.local/bin/fd
+
+   @end
+   - this is creating a symbolic link between the file given from calling which on the `fdfind` command, and just redirecting all calls to `fd` to whatever filepath that is located at.
 ** Making our OpenAI API Key available
    OpenAI is the company behind ChatGPT and other innovative products at the cutting edge of Artificial General Intelligence.
    In order to use their API, we need to have an API key, which we store in 1Password.
@@ -177,12 +187,12 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 ** Work Credentials
    At the end, we will define some credentials that are only going to be used for work so this will help keep everything up-to-shape
 *** SNOWMIRROR Username and Password
-   #tangle .bashrc.tmpl
-   @code bash
-   export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
-   export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
+    #tangle .bashrc.tmpl
+    @code bash
+    export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
+    export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
 
-   @end
+    @end
 * PowerShell
   PowerShell will look largely the same as bash, only with a few variations on the commands for PowerShell
   #tangle Microsoft.PowerShellProfile.ps1.tmpl
