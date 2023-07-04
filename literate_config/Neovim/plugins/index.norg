@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-06-28
+updated: 2023-07-04
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -393,6 +393,8 @@ We are just doing standard setup, but we have chosen to do this now because of t
       "simrat39/symbols-outline.nvim",
       cmd = "SymbolsOutline",
       keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+      opts = {},
+      config = true
     },
   }
   @end
@@ -413,8 +415,18 @@ We are just doing standard setup, but we have chosen to do this now because of t
   @end
   - the first hotkey allows us to search for virtual environments from all the places it looks within the main repos
   - the other hotkey will actually use the cached virtual environment that you used last time to make it even more seamless
-    
-  ^ Plugin list
+* Adding Support for PlantUML
+  We are going to use the {https://github.com/aklt/plantuml-syntax}[PlantUML Syntax File] to actually work with PlantUML files:
+  #tangle plantUml.lua
+  @code lua
+  return {
+    "weirongxu/plantuml-previewer.vim",
+    dependencies = {"aklt/plantuml-syntax", "tyru/open-browser.vim"},
+  }
+  @end
+  This is going to just enable syntax highlighting for the various plantuml files while also giving us the ability to create graphviz files from these files in the future
+* Plugin List
+  ^ Links
   - [toggleterm.nvim]{https://github.com/akinsho/toggleterm.nvim}
   - [portal.nvim]{https://github.com/cbochs/portal.nvim}
   - [Noice.nvim]{https://github.com/folke/noice.nvim}
@@ -426,3 +438,4 @@ We are just doing standard setup, but we have chosen to do this now because of t
   - [ChatGPT.nvim]{https://github.com/jackMort/ChatGPT.nvim}
   - [rest.nvim]{https://github.com/rest-nvim/rest.nvim}
   - [symbols-outline.nvim]{https://github.com/simrat39/symbols-outline.nvim}
+

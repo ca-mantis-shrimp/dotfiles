@@ -4,7 +4,7 @@ description:
 authors: darburgess
 categories: 
 created: 2023-04-07
-updated: 2023-06-29
+updated: 2023-06-30
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
@@ -64,16 +64,17 @@ From there, we have a few key files that are used to configure neovim through di
       {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
       { import = "lazyvim.plugins.extras.coding.copilot" },
       {{- end }}
-      { import = "lazyvim.plugins.extras.util.project" },
       { import = "lazyvim.plugins.extras.ui.mini-animate" },
       { import = "lazyvim.plugins.extras.editor.mini-files" },
       { import = "lazyvim.plugins.extras.ui.edgy" },
       { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
+      {import = "lazyvim.plugins.extras.util.project"},
       {import = "lazyvim.plugins.extras.dap.core"},
       {import = "lazyvim.plugins.extras.test.core"},
       { import = "lazyvim.plugins.extras.vscode" },
       {import = "lazyvim.plugins.extras.editor.flash"},
       {import = "lazyvim.plugins.extras.coding.yanky"},
+      {import = "lazyvim.plugins.extras.lang.rust"},
       {import = "plugins"},
     }
 
