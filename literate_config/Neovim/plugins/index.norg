@@ -4,35 +4,13 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-07-04
+updated: 2023-07-06
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
 
 I think to start, I am just going to start with the smaller stuff and then work through it one at a time. Especially large plugins will likely get their own file so I can decouple them from what I have to do with the others which can be generated all at once
 * {:neorg:}[Neorg configuration]
-* Toggle Term
-  First, we have the excellent [toggleterm.nvim] plugin that can be used to facilitate a workflow where I occasionally _toggle_ a terminal page, do some actions, and leave
-
-  The snippet for enabling this is even easy:
-  #tangle toggleTerm.lua
-  @code lua
-  return {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    opts = {
-      open_mapping = [[<a-\>]],
-      direction = 'float',
-    },
-  }
-  @end
-  - The version piece here is just going to grab the latest standard version
-  -- This works because toggleterm follows SemVer
-  - Otherwise, we just have to set the hotkey to _toggle_ the terminal on and off.
-  -- Here we are using the standard `<a-\>` function to enable or disable the terminal itself
-  --- This is a kinda nice hotkey because it works outside and inside of the terminal, whereas normal hotkeys don't work in a terminal because it is basically always in insert mode
-  - we also opted to do a float rather than a split for our terminal because often times we are just looking to shift our focus for a second, run some commands, and return
-  -- This isn't like VSCode where you just keep the termial open all the time just cause it opens that way and you feel you need to
 * Portal Configuration
   Portal is an interesting little plugin that enables us to visualize the jumplist before you just jump there.
   #tangle portal.lua
@@ -398,23 +376,6 @@ We are just doing standard setup, but we have chosen to do this now because of t
     },
   }
   @end
-* Selecting Virtual Environments in Python
-  We are going to be using {https://github.com/linux-cultist/venv-selector.nvim}[venv-selector] to actually change to the proper virtual environment using neovim and making the entire process more seamless
-
-  #tangle venvSelector.lua
-  @code lua
-  return {
-    "linux-cultist/venv-selector.nvim",
-    dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim" },
-    config = true,
-    keys = {
-      {"<leader>vs", "<cmd>:VenvSelect<cr>"},
-      {"<leader>vs", "<cmd>:VenvSelectCached<cr>"},
-    }
-  }
-  @end
-  - the first hotkey allows us to search for virtual environments from all the places it looks within the main repos
-  - the other hotkey will actually use the cached virtual environment that you used last time to make it even more seamless
 * Adding Support for PlantUML
   We are going to use the {https://github.com/aklt/plantuml-syntax}[PlantUML Syntax File] to actually work with PlantUML files:
   #tangle plantUml.lua

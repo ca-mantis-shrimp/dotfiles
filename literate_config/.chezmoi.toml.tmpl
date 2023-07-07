@@ -1,14 +1,14 @@
 {{ if eq .chezmoi.os "windows" }}
-d]
+[cd]
 command = "pwsh"
- end }}
+{{ end }}
 
-iff]
+[diff]
 command = "nvim"
 args = "-d"
 
-dit]
+[edit]
 command = "nvim"
 
-it]
+[git]
 autoCommit = true

@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-06-28
+updated: 2023-07-06
 version: 1.0.0
 @end
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
@@ -29,18 +29,18 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    #tangle .chezmoi.toml.tmpl
    @code toml
    {{ if eq .chezmoi.os "windows" }}
- [cd]
+   [cd]
    command = "pwsh"
- {{ end }}
+   {{ end }}
 
- [diff]
+   [diff]
    command = "nvim"
    args = "-d"
 
- [edit]
+   [edit]
    command = "nvim"
 
- [git]
+   [git]
    autoCommit = true
    @end
    - windows has this annoying thing where it defaults to the cmd for most things so we need to just start it in powershell whenever we use the `chezmoi cd` command
