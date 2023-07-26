@@ -19,7 +19,6 @@ local spec_list = {
   {import = "lazyvim.plugins.extras.dap.core"},
   {import = "lazyvim.plugins.extras.test.core"},
   { import = "lazyvim.plugins.extras.vscode" },
-  {import = "lazyvim.plugins.extras.editor.flash"},
   {import = "lazyvim.plugins.extras.coding.yanky"},
   {import = "lazyvim.plugins.extras.lang.rust"},
   {import = "lazyvim.plugins.extras.lang.python"},
