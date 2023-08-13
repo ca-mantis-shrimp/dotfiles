@@ -6,6 +6,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+
 local spec_list = {
   { "LazyVim/LazyVim", import = "lazyvim.plugins" },
   {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
@@ -25,6 +26,7 @@ local spec_list = {
   {import = "plugins"},
 }
 
+
 local performance_settings = {
   rtp = {
     disabled_plugins = {
@@ -36,6 +38,7 @@ local performance_settings = {
     },
   },
 }
+
 
 require("lazy").setup({
   spec = spec_list,
