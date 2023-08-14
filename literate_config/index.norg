@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-07-26
+updated: 2023-08-13
 version: 1.0.0
 @end
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
@@ -142,7 +142,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    We will be leveraging Chezmois' template function to read the API key from 1Password and export it as an environment variable.
    #tangle .bashrc.tmpl
    @code bash
-   export OPENAI_API_KEY="{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
+   export OPENAI_API_KEY="{{ onepasswordRead "op://Back-End/openai_api_key/notesPlain" }}"
 
    @end
    - Add the api key for open AI including ChatGPT and other tools
@@ -152,7 +152,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    We are going to do a similar thing for Todoist where we will put the API key behind a Op login so we can have it while still feeling secure in our usage
    #tangle .bashrc.tmpl
    @code bash
-   export TODOIST_API_KEY="{{ onepasswordRead "op://Personal/TODOIST_API_KEY/credential" }}"
+   export TODOIST_API_KEY="{{ onepasswordRead "op://Back-End/TODOIST_API_KEY/credential" }}"
 
    @end
 ** Adding the Cargo and NodeJS version managers
@@ -209,8 +209,8 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
   }
   Invoke-Expression (&starship init powershell)
 
-  $Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
-  $Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Personal/TODOIST_API_KEY/credential" }}"
+  $Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Back-End/openai_api_key/notesPlain" }}"
+  $Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Back-End/TODOIST_API_KEY/credential" }}"
 
   @end
   - This first function was pulled directly from the {https://wezfurlong.org/wezterm/shell-integration.html}[Shell Integration Page of Wezterm] to allow us to hook into starship prompt and provide OSC 7 codes.

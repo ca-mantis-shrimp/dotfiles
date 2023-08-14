@@ -12,6 +12,7 @@ local load_bookmark_extension = function()
   require("telescope").load_extension("bookmarks")
 end
 
+
 return {
   {
     "nvim-telescope/telescope.nvim",

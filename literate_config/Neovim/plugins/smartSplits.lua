@@ -3,7 +3,9 @@ local smart_splits_config = {
   config = true,
 }
 
+
 smart_splits_config.keys = {}
+
 
 table.insert(smart_splits_config.keys,{
   "<A-h>",
@@ -34,6 +36,7 @@ table.insert(smart_splits_config.keys,{
   desc = "Resize Split Right",
 })
 
+
 table.insert(smart_splits_config.keys,{
   "<C-h>",
   function()
@@ -63,6 +66,7 @@ table.insert(smart_splits_config.keys,{
   desc = "Move To Split on the Right",
 })
 
+
 table.insert(smart_splits_config.keys,{
   "<<leader><leader>-h>",
   function()
@@ -91,5 +95,6 @@ table.insert(smart_splits_config.keys,{
   end,
   desc = "Swap With Window on Right",
 })
+
 
 return smart_splits_config

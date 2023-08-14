@@ -10,5 +10,5 @@ $host.ui.Write($prompt)
 }
 Invoke-Expression (&starship init powershell)
 
-$Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Personal/openai_api_key/notesPlain" }}"
-$Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Personal/TODOIST_API_KEY/credential" }}"
+$Env:OPENAI_API_KEY = "{{ onepasswordRead "op://Back-End/openai_api_key/notesPlain" }}"
+$Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Back-End/TODOIST_API_KEY/credential" }}"

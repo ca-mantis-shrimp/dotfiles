@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-07-06
+updated: 2023-08-13
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -386,6 +386,14 @@ We are just doing standard setup, but we have chosen to do this now because of t
   }
   @end
   This is going to just enable syntax highlighting for the various plantuml files while also giving us the ability to create graphviz files from these files in the future
+* Color Schemes
+  We are going to try and put all of the color schemes into a single file to reduce the amount of breakage we get from adding new things
+
+  #tangle colorscheme.lua
+  @code lua
+  return {"projekt0n/github-nvim-theme"}
+  @end
+  - we have the GitHub theme because I am hoping to finally get a good light theme since this apartment makes it much harder to leverage the dark themes when compared to the setups I have had before
 * Plugin List
   ^ Links
   - [toggleterm.nvim]{https://github.com/akinsho/toggleterm.nvim}
