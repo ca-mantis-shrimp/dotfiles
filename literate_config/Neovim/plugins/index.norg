@@ -4,16 +4,18 @@ description:
 authors: root
 categories: 
 created: 2023-04-07
-updated: 2023-10-02T08:25:32-0800
+updated: 2023-10-02T10:06:45-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
 
 I think to start, I am just going to start with the smaller stuff and then work through it one at a time. Especially large plugins will likely get their own file so I can decouple them from what I have to do with the others which can be generated all at once
 * {:neorg:}[Neorg configuration]
+* {:Telescope:}[Telescope Config]
+* {:smart_splits:}[Smart Splits Config]
 * Portal Configuration
   Portal is an interesting little plugin that enables us to visualize the jumplist before you just jump there.
-  #tangle portal.lua
+  #tangle plugins.lua
   @code lua
   return {
     "cbochs/portal.nvim",
@@ -22,7 +24,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
       { "<leader>o", "<cmd>Portal jumplist backward<cr>" },
       { "<leader>i", "<cmd>Portal jumplist forward<cr>" },
     },
-  }
+  },
   @end
   - {https://github.com/cbochs/grapple.nvim/tree/ab274a3bfb674442d57fca05df866b71895853bc}[grapple.nvim] serves as the core library that allows for this file list and enable the preview capabilities
   - Otherwise, the plugin is only loaded when you use either of the keybinds above
@@ -35,12 +37,12 @@ I think to start, I am just going to start with the smaller stuff and then work 
   - Replacing command lines with a new popup format
   - and a bunch of other little things that make neovim really feel like an editor from the twenty first century
 
-  #tangle noice.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "folke/noice.nvim",
     cond = not vim.g.started_by_firenvim,
-  }
+  },
   @end
 * LSP Lines
   By Default, LSP diagnostics are displayed as virtual text at the end of the line
@@ -49,9 +51,9 @@ I think to start, I am just going to start with the smaller stuff and then work 
   - doubly-so for the case where we have multiple diagnostics/errors to review
 
   {https://github.com/ErichDonGubler/lsp_lines.nvim/tree/3b57922d2d79762e6baedaf9d66d8ba71f822816}[lsp_lines.nvim] attempts to fix this issue by replacing the default virtual text solution with one where instead each diagnostic gets its own line (hence the name) so multiple/long diagnostic messages can be shown without issue
-  #tangle lspLines.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "ErichDonGubler/lsp_lines.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
@@ -61,7 +63,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
       require("lsp_lines").setup()
     end,
     ft = { "lua", "python", "rust" },
-  }
+  },
   @end
   - First, we need to ensure this is loaded after lspconfig since this relies on the configuration for this.
   - we have to use the functional way of setting up the plugin because we need to make a small change first
@@ -73,107 +75,25 @@ I think to start, I am just going to start with the smaller stuff and then work 
   The standard diff view for Neovim is fine, but it leaves a few things to be desired.
   - It doesn't feel like a really integrated solution with the ability to show the context
   - More importantly, it can't show multiple files easily making the process of reviewing diffs for multiple files (as if often the case when we do `chezmoi apply`), then it can make the process feel cumbersome
-  #tangle gitDiff.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     { "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
-  }
+  },
   @end
 * Chezmoi Support
   Chezmoi has a bunch of strange files so this (rather old) plugin justt ries to smooth over the rough edges by properly highlighting these files and whatnot.
-  #tangle chezmoi.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "alker0/chezmoi.vim",
-  }
+  },
   @end
-* Testing
-  We are using a very exciting framework called {https://github.com/nvim-neotest/neotest}[neotest] where we can to do testing within neovim itself.
-  It is a testing framework that is applicable to most languages so we can just setup a new configuration for each filetype
-  In addition, it adds a bunch of UI elements that make the experience better using Neovim's newest UI improvements
-** Setup
-   With those local variables defined, all we need to do is setup the different test runner packages within our neotest setup function.
-   #tangle neotest.lua
-   @code lua
-   return {
-     "nvim-neotest/neotest",
-     dependencies = {"nvim-neotest/neotest-python", "rouge8/neotest-rust"},
-     opts = {
-       adapters = {
-         ["neotest-rust"] = {},
-         ["neotest-python"] = {},
-       },
-     }
-   }
-   @end
-   - We just need to require the various language plugins within the `adapters` section of our setup function.
-* Telescope
-  Telescope is one of the great plugins of neovim that makes it a pleasure to use
-
-  Lazyvim already comes with it mostly installed and configured with the basics:
-  - searching files
-  - grepping files
-  - searching buffers
-  - and even searching diagnostic results OOTB
-    I just wanted to add the functionality to search my URL bookmarks since that is the part that I think i was missing
-** Buku Bookmarks Search
-   Pretty much the only part i add on from lazyvim is the ability to do a search on my local buku repository using a combination of buku itself, and the `telescoppe-bookmarks.nvim` plugin which can read from the sqlite database located on your machine
-   #tangle telescope.lua
-   @code lua
-   local buku_telescope_plugin_spec = {
-     "dhruvmanila/telescope-bookmarks.nvim",
-     dependencies = { "kkharji/sqlite.lua", "tyru/open-browser.vim" },
-     keys = { { "<leader>sB", "<cmd>Telescope bookmarks<cr>", desc = "Search Bookmarks" } },
-   }
-   local telescope_browser_setup_options = {
-     selected_browser = "buku",
-     url_open_plugin = "open_browser",
-     buku_include_tags = true,
-   }
-   local load_bookmark_extension = function()
-     require("telescope").load_extension("bookmarks")
-   end
-
-   @end
-   - We define the spec for installing and configuring the telescope-bookmarks plugin in the first place
-   -- we need sqlite.lua to access the buku bookmarks themselves
-   -- while open-browser is used to integrate with the browser of our choice so it opens our selection properly to the browser
-   -- This whole thing is done with a single activation keymap and otherwise it just never gets loaded
-   - Once we have installed the plugin we need to configure it within telescope itself
-   -- here we pass the configuration saying we are using buku for where to get our bookmarks
-   -- we are also noting that we have opten for the open-browser plugin see in the spec as our plugin of choice for opening links
-   -- we also include the buku tags because I put allot of work into making those accurate and it can make it easier to find the bookmark if you know the tag it is likely a part of
-   - Once all of that is done we can actually load the extension only AFTER telescope itself has completed its own setup
-
-** Setup Call
-   #tangle telescope.lua
-   @code lua
-   return {
-     {
-       "nvim-telescope/telescope.nvim",
-       dependencies = { "nvim-lua/plenary.nvim",
-         buku_telescope_plugin_spec,
-       },
-       config = function()
-         require("telescope").setup({
-           extensions = {
-             bookmarks = telescope_browser_setup_options,
-           },
-         })
-         load_bookmark_extension()
-       end,
-     }
-   }
-   @end
-   Other than loading, configurating, and running the bookmarks plugin, this is a fairly standard telescope configuration
-   - we put the plugin spec in the dependencies listing like any other
-   - we configure telescope to include the new browser options as a table
-   - and once telescope is loaded we can load the bookmarks extension itself
 * ChatGPT
   ChatGPT can be configured with a specific plugin someone made to engage with the 3.5 model
-  #tangle chatGPT.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "jackMort/ChatGPT.nvim",
     config = function() 
       require('chatgpt').setup()
@@ -184,188 +104,41 @@ I think to start, I am just going to start with the smaller stuff and then work 
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
     },
-  }
+  },
   @end
   - we use nui and plenary to make it look good
   - while telescope is used as the menu that we primarily integrate with
-* {https://github.com/mrjones2014/smart-splits.nvim}[Smart-Splits]
-  We are also implementing smart splits, which implements a much more intuitive, coherent strategy for updating and changing split focus and sizing of different splits.
-
-  The part where this goes from cool to mindblowing is its support for multiplexers so that we can ensure these split hotkeys are applicable whether or not we are in neovim
-  - this includes support for wezterm! so I'm super excited to see this coming because this will help us really have the tmux-like experience that linux users have had for years.
-** Base Config
-   #tangle smartSplits.lua
-   @code lua
-   local smart_splits_config = {
-     "mrjones2014/smart-splits.nvim",
-     config = true,
-   }
-
-   @end
-   - the only thing we are doing is design
-
-*** Keymaps
-    here we have to define not just the plugin, but the keymaps that will be used for it.
-    - I could potentially use any of these first, so I will just put all of them in the keys table so that any one of them could be used to activate the plugin
-    - Do note, we must encase all of the functions within a function call because we need this to be a callback, aka, we need to this be called AFTER the plugin is loaded since we will be utilizing functions that are not available until then
-    -- without this we run into the dreaded "no plugin found" error even though we have clearly downloaded the plugin
-    -- in addition, functions called this way must have an explicit `()` call at the end, since the functions are not evaluated until we are look at them and otherwise we still get an error whereas the readme is able to refer to them without using those function signs
-       This is my first attempt at doing the config as a separate table and returning it distinctly but this allow me to actually follow the step-down principle of defining the most important bits of code first, followed by other methods
-       We are taking the config table defined above and setting the keys index to the table defined, if done well, this should enable us to define the config iteratively rather than needing to construct it all at once
-    #tangle smartSplits.lua
-    @code lua
-    smart_splits_config.keys = {}
-
-    @end
-    - in even more of a reversal I am actually going to just make an empty keys table and insert the keymaps into them one-by-one
-**** Resize Keymaps
-     First we are going to resize our current window/pane with the `ALT` Modifier
-     #tangle smartSplits.lua
-     @code lua
-     table.insert(smart_splits_config.keys,{
-       "<A-h>",
-       function()
-         require("smart-splits").resize_left()
-       end,
-       desc = "Resize Split Left",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<A-j>",
-       function()
-         require("smart-splits").resize_down()
-       end,
-       desc = "Resize Split Down",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<A-k>",
-       function()
-         require("smart-splits").resize_up()
-       end,
-       desc = "Resize Split Up",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<A-l>",
-       function()
-         require("smart-splits").resize_right()
-       end,
-       desc = "Resize Split Right",
-     })
-
-     @end
-**** Move Focused Window Keymaps
-     Now we will add keymaps to change our current focus when it comes to a window so that we can just use `CNTRL`+<direction key> to actually just move the focus to the closest directional windows/pane
-     #tangle smartSplits.lua
-     @code lua
-     table.insert(smart_splits_config.keys,{
-       "<C-h>",
-       function()
-         require("smart-splits").move_cursor_left()
-       end,
-       desc = "Move To Split on the Left",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<C-j>",
-       function()
-         require("smart-splits").move_cursor_down()
-       end,
-       desc = "Move To Split Below Current",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<C-k>",
-       function()
-         require("smart-splits").move_cursor_up()
-       end,
-       desc = "Move To Split Above Current",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<C-l>",
-       function()
-         require("smart-splits").move_cursor_right()
-       end,
-       desc = "Move To Split on the Right",
-     })
-
-     @end
-**** Swapping Windows Keymaps
-     Finally we have some keymaps behind the leader hotkeys' window subcommand to swap the currently focused window with the window in the defined direction
-     - it should be noted this will be the only set of hotkeys likely not getting into the wezterm part initially only because idk if wezterm has implemented the swap feature yet
-     #tangle smartSplits.lua
-     @code lua
-     table.insert(smart_splits_config.keys,{
-       "<<leader><leader>-h>",
-       function()
-         require("smart-splits").swap_buf_left()
-       end,
-       desc = "Swap With Window on Left",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<<leader><leader>-j>",
-       function()
-         require("smart-splits").swap_buf_down()
-       end,
-       desc = "Swap With Window Below",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<<leader><leader>-k>",
-       function()
-         require("smart-splits").swap_buf_up()
-       end,
-       desc = "Swap With Window Above",
-     })
-     table.insert(smart_splits_config.keys,{
-       "<<leader><leader>-l>",
-       function()
-         require("smart-splits").swap_buf_right()
-       end,
-       desc = "Swap With Window on Right",
-     })
-
-     @end
-     --
-     #tangle smartSplits.lua
-     @code lua
-     return smart_splits_config
-     @end
-     - Finally, we return the config object defined at the beginning, and if all goes well, this should hold all of the proper logic without needing a rework or running into errors
 * Running Rest Commands
-I'm going to be doing more rest development work so I would like to be able to run rest calls from within the editor so i don't need to rely on tools like postman or stuff like that.
-For this we are going to be using [rest.nvim] which is a plugin that allows you to run rest commands from within Neovim.
+  I'm going to be doing more rest development work so I would like to be able to run rest calls from within the editor so i don't need to rely on tools like postman or stuff like that.
+  For this we are going to be using [rest.nvim] which is a plugin that allows you to run rest commands from within Neovim.
   Nothing super interesting here, we pull in the plugin and for now just use the standard config.
-  #tangle rest.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "rest-nvim/rest.nvim",
     dependencies = {"nvim-lua/plenary.nvim"},
     config = true
-  }
+  },
   @end
 * {https://github.com/wfxr/minimap.vim/tree/726746ed02eab2eef137a7ecceda7214fbeeec41}[Code Minimap]
   In an attempt to get something close to what VSCode has, I am trying
-  #tangle minimap.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "wfxr/minimap.vim",
     keys = { { "leader>um", "<cmd>MinimapToggle<cr>", desc = "Toggle Minimap" } },
     build = "cargo install --locked code-minimap",
     lazy = false,
-  }
-  @end
-* Todoist Integration
-  While I am building the actual productivity manager of my dreams, I am going to try this plugin to handle the different todoist versions via a plugin
-  #tangle todoist.lua
-  @code lua
-  return {
-    "romgrk/todoist.nvim",
-  }
+  },
   @end
 * [symbols-outline.nvim]
   Symbol outline is a plugin that allows you to see all of the symbols in a file and jump to them.
 
-We are just doing standard setup, but we have chosen to do this now because of the release of edgy which allows these outlines to be used in a left pane window
+  We are just doing standard setup, but we have chosen to do this now because of the release of edgy which allows these outlines to be used in a left pane window
 
-  #tangle symbolsOutline.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     -- add symbols-outline
     {
       "simrat39/symbols-outline.nvim",
@@ -374,32 +147,32 @@ We are just doing standard setup, but we have chosen to do this now because of t
       opts = {},
       config = true
     },
-  }
+  },
   @end
 * Adding Support for PlantUML
   We are going to use the {https://github.com/aklt/plantuml-syntax}[PlantUML Syntax File] to actually work with PlantUML files:
-  #tangle plantUml.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     "weirongxu/plantuml-previewer.vim",
     dependencies = {"aklt/plantuml-syntax", "tyru/open-browser.vim"},
-  }
+  },
   @end
   This is going to just enable syntax highlighting for the various plantuml files while also giving us the ability to create graphviz files from these files in the future
 * Color Schemes
   We are going to try and put all of the color schemes into a single file to reduce the amount of breakage we get from adding new things
 
-  #tangle colorscheme.lua
+  #tangle plugins.lua
   @code lua
-  return {"projekt0n/github-nvim-theme"}
+  {"projekt0n/github-nvim-theme"},
   @end
   - we have the GitHub theme because I am hoping to finally get a good light theme since this apartment makes it much harder to leverage the dark themes when compared to the setups I have had before
 * Filetype Plugins
-Neo(Vim) includes support for several languages out-of-the-box, but ofcourse, it can't support everything, and for other languages, teams and individuals are able to create much more refined experiences when compared to basic syntax highlighting. This file is where we will store many of the small plugins which are primarily intended to support specific filetypes.
+  Neo(Vim) includes support for several languages out-of-the-box, but ofcourse, it can't support everything, and for other languages, teams and individuals are able to create much more refined experiences when compared to basic syntax highlighting. This file is where we will store many of the small plugins which are primarily intended to support specific filetypes.
 
-  #tangle filetypes.lua
+  #tangle plugins.lua
   @code lua
-  return {
+  {
     'cameron-wags/rainbow_csv.nvim',
     config = true,
     ft = {
@@ -419,6 +192,7 @@ Neo(Vim) includes support for several languages out-of-the-box, but ofcourse, it
     }
   }
   @end
+  - Do note, since this is the last config file in the pack, this will be the only snippet which does not include a comma to avoid the "expected expression" error
 * Plugin List
   ^ Links
   - [toggleterm.nvim]{https://github.com/akinsho/toggleterm.nvim}
