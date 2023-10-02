@@ -1,1 +1,1 @@
-../../literate_config/Neovim/init.lua
+require("config.lazy")

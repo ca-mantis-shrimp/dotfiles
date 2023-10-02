@@ -5,7 +5,7 @@ authors: root
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-02T11:35:01-0800
+updated: 2023-10-02T12:42:21-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -14,11 +14,17 @@ I think to start, I am just going to start with the smaller stuff and then work 
 * {:neorg:}[Neorg configuration]
 * {:Telescope:}[Telescope Config]
 * {:smart_splits:}[Smart Splits Config]
+  First, we just need to remember that lazy expects a table of tables so we start by opening the return table from which all other table with be contained.
+
+  #tangle
+  @code lua
+  return {
+  @end
 * Portal Configuration
   Portal is an interesting little plugin that enables us to visualize the jumplist before you just jump there.
   #tangle
   @code lua
-  return {
+  {
     "cbochs/portal.nvim",
     dependencies = { "cbochs/grapple.nvim" },
     keys = {
@@ -191,9 +197,14 @@ I think to start, I am just going to start with the smaller stuff and then work 
       'RainbowDelimQuoted',
       'RainbowMultiDelim'
     }
+  },
+  @end
+* Ending the plugin spec
+  Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
+  #tangle
+  @code lua
   }
   @end
-  - Do note, since this is the last config file in the pack, this will be the only snippet which does not include a comma to avoid the "expected expression" error
 * Plugin List
   ^ Links
   - [toggleterm.nvim]{https://github.com/akinsho/toggleterm.nvim}

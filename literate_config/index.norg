@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-10-02T11:17:18-0800
+updated: 2023-10-02T12:26:41-0800
 version: 1.0.0
 @end
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
@@ -111,7 +111,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 ** Git Credentials Using PAT Tokens
    PAT Tokens are the recommended way to get this stuff done.
    we are going to use 1Password to get this all going but we are just trying to make this all work
-   #tangle gitCredentials
    * Shell Configuration
    Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 * Bash
