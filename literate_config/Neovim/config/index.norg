@@ -3,8 +3,9 @@ title: index
 description: 
 authors: darburgess
 categories: 
+tangle: .chezmoitemplates/Neovim/lua/config/autocmds.lua
 created: 2023-04-07
-updated: 2023-10-02T08:17:40-0800
+updated: 2023-10-02T11:38:04-0800
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
@@ -14,7 +15,7 @@ From there, we have a few key files that are used to configure neovim through di
   {https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua}[Default autocmds that are always set]
 ** Options for Prose Writing
    We wrap and check for spell in text filetypes (currently just norg files)
-   #tangle autocmds.lua
+   #tangle
    @code lua
    vim.api.nvim_create_autocmd("FileType", {
      pattern = { "norg" },
@@ -31,169 +32,3 @@ From there, we have a few key files that are used to configure neovim through di
    --- wrap makes the words wrap when the hit the other side of the screen instead of just going on
    --- spell ensures that we are checking spelling in prose files where it is relevant
    ---- and for that spelling we will be using the US English Spelling dictionary loaded in memmory
-* Keymaps
-* Lazy Config
-  Since Lazy.nvim is the primary engine driving all of this, we should take a second to review how it is setup incase we ever need to make changes ourselves
-** Bootstrapping Lazy
-   One of the most important steps that LazyVim is trying to take care of is the edge case where you don't have lazy itself installed, which will then install all the other plugins.
-
-   We achieve that with this snippet:
-   #tangle lazy.lua
-   @code lua
-   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-   if not vim.loop.fs_stat(lazypath) then
-     -- stylua: ignore
-     vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable",
-       lazypath })
-   end
-   vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
-
-   @end
-   ~ First, we make a path that goes from the standard data path (usually `~/.local/share/nvim/`), and append `/lazy/lazy.nvim` to the end
-   ~ If we find the lazypath is not available, likely because we don't have lazy, we pull it using git
-   ~~ We are just pulling directly from the git CLI, we only grab the stable version
-   ~ Finally, we prepend either the new lazypath or the LAZY enviroment variable if it exists
-** Setup
-   Lazy needs to be setup with the `setup` function, but this is usually a big table of options, so to make it easier to read, we will be creating some of the larger configuration chunks as local variable tables and incorporating them into the final function call in the end
-*** LazyVim Extras
-    The spec is the actual list of plugins to be installed, and helps us easily add and remove plugins we want
-    #tangle lazy.lua
-    @code lua
-    local spec_list = {
-      { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-      {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
-      { import = "lazyvim.plugins.extras.coding.copilot" },
-      {{- end }}
-      { import = "lazyvim.plugins.extras.ui.mini-animate" },
-      { import = "lazyvim.plugins.extras.editor.mini-files" },
-      { import = "lazyvim.plugins.extras.ui.edgy" },
-      { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
-      {import = "lazyvim.plugins.extras.util.project"},
-      {import = "lazyvim.plugins.extras.dap.core"},
-      {import = "lazyvim.plugins.extras.test.core"},
-      { import = "lazyvim.plugins.extras.vscode" },
-      {import = "lazyvim.plugins.extras.coding.yanky"},
-      {import = "lazyvim.plugins.extras.lang.rust"},
-      {import = "lazyvim.plugins.extras.lang.python"},
-      {import = "plugins"},
-    }
-
-    @end
-    ~ We install the various plugins that come with LazyVim
-    ~~ it should be noted that lazyvim actually comes with extra plugins that users don't need to activate immediately
-    ~~~ we can import them with any of the `extra` files in lazyvim itself
-    ~ Speaking of which, we add the copilot extra here instead of our own home-rolled version so that I might even be able to just update the copilot work?
-    ~~ Do note, in order to keep the setup compliant, we ensure this only gets added if we are not on our work machine, ensuring compliance with the license
-    ~ We import the project plugin, which is a plugin that helps us with quickly changing to different project folders
-    ~ we import mini-animate for that sweet-sweet scrolling animation
-    ~ edgy is an interesting plugin that makes an abstraction layer around windows that are usually created around the end, we use this to make a fairly compelling upgrade to the workflow of having multiple windows open at once, with the ability to cycle and close them all with a few hotkeys
-    ~ mini-hipatterns is a simple plugin that highlights color codes with the color they represent, useful for debugging design elements
-    ~ dap core gives us the debug adapter protocol which gives us a language-agnostic debugger at our fingertips
-    ~ test.core sets up the neotest framework with a few starter languages and the default hotkeys so you can do all of your testing from the different files
-    ~ We even have vscode support working from lazy! giving us a stable experience when we need to break out the vscode editor
-    ~ Flash is a replacement for leap.nvim and has various motion hotkeys that enable us to jump around the page horizontally in a way that is pleasing to the eyes and actually leverages technology like treesitter to allow us to jump around code using the treesitter nodes themselves
-    ~ Yanky is an abstraction layer over the yanking experience to give us the experience of yanking text and putting it that we deserve
-    ~ We import the any `*.lua` files found within the `plugins` folder of the `lua` directory
-    ~~ This is the primary way we do additional plugins as a user, and can be changed if we want multiple directories for plugins
-*** Performance
-    Lazy prides itself on keeping startup time and general editor speed snappy, he also gives the ability to tweak the performance even more so you can find the balance that works right for you
-    Here is our initial performance layout:
-
-    #tangle lazy.lua
-    @code lua
-    local performance_settings = {
-      rtp = {
-        disabled_plugins = {
-          "gzip",
-          "tarPlugin",
-          "tohtml",
-          "tutor",
-          "zipPlugin",
-        },
-      },
-    }
-
-    @end
-    - Here, all we are really doing is removing some of the plugins that comes with vim
-    -- The implicit understanding is that you neither use, nor care about these tools and since they are written in vimscript primarily, removing them will improve performance
-*** Bringing it All Together
-    We call the setup function itself and use the tables we assembled before as a part of our larger configuration of Lazy
-    #tangle lazy.lua
-    @code lua
-    require("lazy").setup({
-      spec = spec_list,
-      defaults = {
-        lazy = false,
-        version = false,
-      },
-      install = { colorscheme = { "tokyonight", "habamax" } },
-      checker = { enabled = true },
-      performance = performance_settings,
-    })
-
-    @end
-    - we default to immediately loading new plugins
-    -- This helps to reduce the amount of frustration of lazy-loading related bugs at first
-    --- The implicit message is that you should make plugins lazy as you need, rather than starting from a lazy view and dealing with dependency hell
-    - version
-    -- This allows us to try and install the latest stable version of our plugins by default
-    --- however, this assumes the person implemented SemVer in their repo, and for right now we cant be sure of that so version is set to false for now
-    ---- ( ) might be interesting to see if turning this on breaks a bunch of stuff or if the community of coalescing around semver
-    - When we initially load up lazy to get plugins, we can set the colorscheme of the window that shows up
-    -- This just ensures consistency between the style you normally have and the style you have otherwise
-    --- Also colorschemes are tricky when it comes to installation so getting them installed quickly is a good idea
-    - We also enable lazy to check on our behalf if that are updates for different plugins
-    -- This results in a notification when you enter neovim about the plugins that can have updates
-    --- if this notification gets annoying you can always disable it here
-* Options
-  LazyVim actually has its' own set of options setup, you can check in the lazyvim repo itself.
-  These options are loaded AFTER both the lazyvim options, and the plugin options, meaning they will be the ones that win-out since lua is a scripted language
-  #tangle options.lua
-  @code lua
-  vim.opt.autochdir = true
-
-  vim.wo.foldmethod = "expr"
-  vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-  @end
-  - A bunch of tools seem to work better when I just automatically cd into the directory including neorg, config files, and python
-  - Next we use these two options in tandem to fold our code using treesitter rather than the normal folding methods
-  -- first, we set the method of determining folds as an expression
-  -- next is the expression to be used
-  --- specifically, we are using the `foldexpr` function for the treesitter repo itself
-  ---- Therefore, this should work for any file which you have treesitter installed and enabled
-** GUI Options
-   Neovide and other GUI applications have their own options within Neovim that allow us to have an easy API to handle the GUI-related operations all at once.
-
-   #tangle options.lua
-   @code lua
-   vim.o.guifont = "FiraCode NF:h20"
-   @end
-   - the sets the `guifont` option for Neovim to the Nerd-Font-enabled version of Fira Code at size 24
-
-*** Changing Font Sizes from Neovide
-    Neovide itself has a few options that we want to enable so we can give ourselves a good editing experience if and when we decide to full-time this as our main GUI environment for Neovim.
-
-    Specifically, we need to rely on the `neovide_scale_factor` option to increase and decrease font size at during runtime. Rather than the standard format of simply changing the font size for the terminal since there is no longer a terminal to check!
-
-    #tangle options.lua
-    @code lua
-    vim.g.neovide_scale_factor = 1.0
-
-    local change_scale_factor = function(delta)
-      vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
-    end
-
-    vim.keymap.set("n", "<C-=>", function()
-      change_scale_factor(1.25)
-    end)
-    vim.keymap.set("n", "<C-->", function()
-      change_scale_factor(1/1.25)
-    end)
-    vim.keymap.set("n", "<C-[>", function()
-      vim.g.neovide_scale_factor = 1.0
-    end)
-    @end
-    ~ We set the global Neovide scaling option to just be 1-1 with the standard scaling factor
-    ~ We define a function which takes an integer as the delta and multiplies it by the current scaling factor
-    ~ We then set the keymaps to increase and decrease the scaling factor by 25% each time
-    ~ We also set a keymap to reset the scaling factor to 1.0

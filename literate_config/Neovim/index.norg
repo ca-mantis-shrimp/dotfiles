@@ -3,8 +3,9 @@ title: index
 description: 
 authors: darburgess
 categories: 
+tangle: .chezmoitemplates/Neovim/lua/init.lua
 created: 2023-04-07
-updated: 2023-07-06
+updated: 2023-10-02T11:37:59-0800
 version: 1.0.0
 @end
 Configuring Neovim is probably our primary focus as far as keeping a dotfile configuration goes.
@@ -16,7 +17,7 @@ Neovim is the beating heart at the center of the configuration, and undergoes ra
   I finally settled my horses with LazyVim for reasons that you can explore within the main knowledge base as to what it delivers over stock neovim.
 
   One of the benefits of lazyvim is the ease of setup, our init file is literally just:
-  #tangle init.lua
+  #tangle
   @code lua
   require("config.lazy")
   @end

@@ -2,9 +2,10 @@
 title: smart_splits
 description: 
 authors: 
+tangle: .chezmoitemplates/Neovim/lua/plugins/smartSplits.lua
 categories: 
 created: 2023-10-02T09:48:45-0800
-updated: 2023-10-02T09:55:19-0800
+updated: 2023-10-02T11:19:55-0800
 version: 1.1.1
 @end
 We are also implementing smart splits, which implements a much more intuitive, coherent strategy for updating and changing split focus and sizing of different splits.
@@ -12,7 +13,7 @@ We are also implementing smart splits, which implements a much more intuitive, c
 The part where this goes from cool to mindblowing is its support for multiplexers so that we can ensure these split hotkeys are applicable whether or not we are in neovim
 - this includes support for wezterm! so I'm super excited to see this coming because this will help us really have the tmux-like experience that linux users have had for years.
 * Base Config
-  #tangle smartSplits.lua
+  #tangle
   @code lua
   local smart_splits_config = {
     "mrjones2014/smart-splits.nvim",
@@ -30,7 +31,7 @@ The part where this goes from cool to mindblowing is its support for multiplexer
    -- in addition, functions called this way must have an explicit `()` call at the end, since the functions are not evaluated until we are look at them and otherwise we still get an error whereas the readme is able to refer to them without using those function signs
       This is my first attempt at doing the config as a separate table and returning it distinctly but this allow me to actually follow the step-down principle of defining the most important bits of code first, followed by other methods
       We are taking the config table defined above and setting the keys index to the table defined, if done well, this should enable us to define the config iteratively rather than needing to construct it all at once
-   #tangle smartSplits.lua
+   #tangle
    @code lua
    smart_splits_config.keys = {}
 
@@ -38,7 +39,7 @@ The part where this goes from cool to mindblowing is its support for multiplexer
    - in even more of a reversal I am actually going to just make an empty keys table and insert the keymaps into them one-by-one
 *** Resize Keymaps
     First we are going to resize our current window/pane with the `ALT` Modifier
-    #tangle smartSplits.lua
+    #tangle
     @code lua
     table.insert(smart_splits_config.keys,{
       "<A-h>",
@@ -72,7 +73,7 @@ The part where this goes from cool to mindblowing is its support for multiplexer
     @end
 *** Move Focused Window Keymaps
     Now we will add keymaps to change our current focus when it comes to a window so that we can just use `CNTRL`+<direction key> to actually just move the focus to the closest directional windows/pane
-    #tangle smartSplits.lua
+    #tangle
     @code lua
     table.insert(smart_splits_config.keys,{
       "<C-h>",
@@ -107,7 +108,7 @@ The part where this goes from cool to mindblowing is its support for multiplexer
 *** Swapping Windows Keymaps
     Finally we have some keymaps behind the leader hotkeys' window subcommand to swap the currently focused window with the window in the defined direction
     - it should be noted this will be the only set of hotkeys likely not getting into the wezterm part initially only because idk if wezterm has implemented the swap feature yet
-    #tangle smartSplits.lua
+    #tangle
     @code lua
     table.insert(smart_splits_config.keys,{
       "<<leader><leader>-h>",
@@ -140,7 +141,7 @@ The part where this goes from cool to mindblowing is its support for multiplexer
 
     @end
     --
-    #tangle smartSplits.lua
+    #tangle
     @code lua
     return smart_splits_config
     @end

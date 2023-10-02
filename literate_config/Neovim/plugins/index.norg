@@ -3,8 +3,9 @@ title: index
 description: 
 authors: root
 categories: 
+tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-02T10:06:45-0800
+updated: 2023-10-02T11:35:01-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -15,7 +16,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
 * {:smart_splits:}[Smart Splits Config]
 * Portal Configuration
   Portal is an interesting little plugin that enables us to visualize the jumplist before you just jump there.
-  #tangle plugins.lua
+  #tangle
   @code lua
   return {
     "cbochs/portal.nvim",
@@ -37,7 +38,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   - Replacing command lines with a new popup format
   - and a bunch of other little things that make neovim really feel like an editor from the twenty first century
 
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "folke/noice.nvim",
@@ -51,7 +52,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   - doubly-so for the case where we have multiple diagnostics/errors to review
 
   {https://github.com/ErichDonGubler/lsp_lines.nvim/tree/3b57922d2d79762e6baedaf9d66d8ba71f822816}[lsp_lines.nvim] attempts to fix this issue by replacing the default virtual text solution with one where instead each diagnostic gets its own line (hence the name) so multiple/long diagnostic messages can be shown without issue
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "ErichDonGubler/lsp_lines.nvim",
@@ -75,7 +76,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   The standard diff view for Neovim is fine, but it leaves a few things to be desired.
   - It doesn't feel like a really integrated solution with the ability to show the context
   - More importantly, it can't show multiple files easily making the process of reviewing diffs for multiple files (as if often the case when we do `chezmoi apply`), then it can make the process feel cumbersome
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     { "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
@@ -83,7 +84,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @end
 * Chezmoi Support
   Chezmoi has a bunch of strange files so this (rather old) plugin justt ries to smooth over the rough edges by properly highlighting these files and whatnot.
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "alker0/chezmoi.vim",
@@ -91,7 +92,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @end
 * ChatGPT
   ChatGPT can be configured with a specific plugin someone made to engage with the 3.5 model
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "jackMort/ChatGPT.nvim",
@@ -112,7 +113,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   I'm going to be doing more rest development work so I would like to be able to run rest calls from within the editor so i don't need to rely on tools like postman or stuff like that.
   For this we are going to be using [rest.nvim] which is a plugin that allows you to run rest commands from within Neovim.
   Nothing super interesting here, we pull in the plugin and for now just use the standard config.
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "rest-nvim/rest.nvim",
@@ -122,7 +123,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @end
 * {https://github.com/wfxr/minimap.vim/tree/726746ed02eab2eef137a7ecceda7214fbeeec41}[Code Minimap]
   In an attempt to get something close to what VSCode has, I am trying
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "wfxr/minimap.vim",
@@ -136,7 +137,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
 
   We are just doing standard setup, but we have chosen to do this now because of the release of edgy which allows these outlines to be used in a left pane window
 
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     -- add symbols-outline
@@ -151,7 +152,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @end
 * Adding Support for PlantUML
   We are going to use the {https://github.com/aklt/plantuml-syntax}[PlantUML Syntax File] to actually work with PlantUML files:
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     "weirongxu/plantuml-previewer.vim",
@@ -162,7 +163,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
 * Color Schemes
   We are going to try and put all of the color schemes into a single file to reduce the amount of breakage we get from adding new things
 
-  #tangle plugins.lua
+  #tangle
   @code lua
   {"projekt0n/github-nvim-theme"},
   @end
@@ -170,7 +171,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
 * Filetype Plugins
   Neo(Vim) includes support for several languages out-of-the-box, but ofcourse, it can't support everything, and for other languages, teams and individuals are able to create much more refined experiences when compared to basic syntax highlighting. This file is where we will store many of the small plugins which are primarily intended to support specific filetypes.
 
-  #tangle plugins.lua
+  #tangle
   @code lua
   {
     'cameron-wags/rainbow_csv.nvim',

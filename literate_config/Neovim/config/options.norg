@@ -1,0 +1,61 @@
+@document.meta
+title: options
+description: 
+authors: 
+categories: 
+tangle: .chezmoitemplates/Neovim/lua/config/options.lua 
+created: 2023-10-02T11:30:23-0800
+updated: 2023-10-02T11:33:58-0800
+version: 1.1.1
+@end
+LazyVim actually has its' own set of options setup, you can check in the lazyvim repo itself.
+These options are loaded AFTER both the lazyvim options, and the plugin options, meaning they will be the ones that win-out since lua is a scripted language
+#tangle
+@code lua
+vim.opt.autochdir = true
+
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+@end
+- A bunch of tools seem to work better when I just automatically cd into the directory including neorg, config files, and python
+- Next we use these two options in tandem to fold our code using treesitter rather than the normal folding methods
+-- first, we set the method of determining folds as an expression
+-- next is the expression to be used
+--- specifically, we are using the `foldexpr` function for the treesitter repo itself
+---- Therefore, this should work for any file which you have treesitter installed and enabled
+* GUI Options
+  Neovide and other GUI applications have their own options within Neovim that allow us to have an easy API to handle the GUI-related operations all at once.
+
+  #tangle
+  @code lua
+  vim.o.guifont = "FiraCode NF:h20"
+  @end
+  - the sets the `guifont` option for Neovim to the Nerd-Font-enabled version of Fira Code at size 24
+
+** Changing Font Sizes from Neovide
+   Neovide itself has a few options that we want to enable so we can give ourselves a good editing experience if and when we decide to full-time this as our main GUI environment for Neovim.
+
+   Specifically, we need to rely on the `neovide_scale_factor` option to increase and decrease font size at during runtime. Rather than the standard format of simply changing the font size for the terminal since there is no longer a terminal to check!
+
+   #tangle
+   @code lua
+   vim.g.neovide_scale_factor = 1.0
+
+   local change_scale_factor = function(delta)
+     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+   end
+
+   vim.keymap.set("n", "<C-=>", function()
+     change_scale_factor(1.25)
+   end)
+   vim.keymap.set("n", "<C-->", function()
+     change_scale_factor(1/1.25)
+   end)
+   vim.keymap.set("n", "<C-[>", function()
+     vim.g.neovide_scale_factor = 1.0
+   end)
+   @end
+   ~ We set the global Neovide scaling option to just be 1-1 with the standard scaling factor
+   ~ We define a function which takes an integer as the delta and multiplies it by the current scaling factor
+   ~ We then set the keymaps to increase and decrease the scaling factor by 25% each time
+   ~ We also set a keymap to reset the scaling factor to 1.0
