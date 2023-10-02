@@ -4,9 +4,9 @@ description:
 authors: root
 categories: 
 created: 2023-04-09
-updated: 2023-10-02T07:05:04-0800
+updated: 2023-10-02T12:45:45-0800
 version: 1.0.0
-tangle: wezterm.lua
+tangle: dot_config/wezterm/wezterm.lua
 @end
 WezTerm is the next-generation terminal emulator made by Wez Furlong himself, one of the core maintainers of PHP and other great software projects
 - more than that it feels like the terminal emulator that is designed to go hand-in-hand with Neovim as our primary editor
