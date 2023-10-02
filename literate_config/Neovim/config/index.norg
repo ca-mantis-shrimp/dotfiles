@@ -5,11 +5,13 @@ authors: darburgess
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/config/autocmds.lua
 created: 2023-04-07
-updated: 2023-10-02T12:16:49-0800
+updated: 2023-10-02T13:31:43-0800
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
 From there, we have a few key files that are used to configure neovim through different means
+* {:lazy:}[Lazy Config]
+* {:options:}[Setting Options]
 * Auto Commands
   Autocmds are automatically loaded on the VeryLazy event
   {https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua}[Default autocmds that are always set]
