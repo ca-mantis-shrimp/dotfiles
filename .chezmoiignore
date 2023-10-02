@@ -1,1 +1,11 @@
-literate_config/.chezmoiignore
+{{ if ne .chezmoi.os "windows" }}
+AppData/
+Documents/
+.chezmoiscripts/*.ps1
+dot_ssh/config
+{{ else }}
+dot_config/nvim/
+.chezmoiscripts/*.sh
+{{ end }}
+
+./literate_config/

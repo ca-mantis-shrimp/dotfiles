@@ -4,7 +4,11 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-08-13
+<<<<<<< Updated upstream
+updated: 2023-10-02T07:01:42-0800
+=======
+updated: 2023-10-02T07:01:42-0800
+>>>>>>> Stashed changes
 version: 1.0.0
 @end
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
