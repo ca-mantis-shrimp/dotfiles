@@ -4,7 +4,7 @@ description:
 authors: darburgess
 categories: 
 created: 2023-04-07
-updated: 2023-08-12
+updated: 2023-10-02T08:17:40-0800
 version: 1.0.0
 @end
 The Config folder can be found within our configs' `lua` folder, and is used by LazyVim to configure the editor after the initial plugins have been loaded and configured
