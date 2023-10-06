@@ -5,7 +5,7 @@ authors: root
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-05T19:18:55-0800
+updated: 2023-10-05T19:28:43-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -211,7 +211,25 @@ I think to start, I am just going to start with the smaller stuff and then work 
         python = {"black"}
       }
     }
-  }
+  },
+  @end
+* Enabling Neotest for Python
+  while the extra for lazy is pretty plug-and-play, one piece that seems to need configuration up-front is the neotest module so we will try to extend it quickly here
+
+  #table
+  @code lua
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/neotest-python"
+    },
+    opts = {
+      ["neotest-python"] = {
+        runner = "pytest",
+        python = "venv/bin/python"
+      }
+    }
+  },
   @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with

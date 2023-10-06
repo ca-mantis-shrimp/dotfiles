@@ -104,6 +104,19 @@ return {
       python = {"black"}
     }
   }
-}
+},
+
+{
+  "nvim-neotest/neotest",
+  dependencies = {
+    "nvim-neotest/neotest-python"
+  },
+  opts = {
+    ["neotest-python"] = {
+      runner = "pytest",
+      python = "venv/bin/python"
+    }
+  }
+},
 
 }
