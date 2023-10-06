@@ -5,7 +5,7 @@ authors: root
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-02T13:30:43-0800
+updated: 2023-10-05T19:18:55-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -198,6 +198,20 @@ I think to start, I am just going to start with the smaller stuff and then work 
       'RainbowMultiDelim'
     }
   },
+  @end
+
+* Extending conform.nvim
+  Lazy comes equipped with conform.nvim, but it is still up to us to ensure this is configured properly for the languages we want to use so im going to try extending it here:
+
+  #table
+  @code lua
+  { "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = {"black"}
+      }
+    }
+  }
   @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
