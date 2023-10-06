@@ -1,0 +1,12 @@
+@document.meta
+title: linux_scripts
+description: 
+authors: 
+categories: 
+created: 2023-10-06T06:30:14-0800
+updated: 2023-10-06T06:40:48-0800
+version: 1.1.1
+@end
+First we will cover the linux things that need to get done since there seems to be a bit more to be done before we can use the bash shell
+* {:install_rust:}[Installing Rust Toolchain]
+* {:install_pyenv:}[Install PyEnv]

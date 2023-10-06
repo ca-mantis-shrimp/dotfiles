@@ -5,7 +5,7 @@ authors: root
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-05T19:28:43-0800
+updated: 2023-10-06T13:00:32-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -226,11 +226,16 @@ I think to start, I am just going to start with the smaller stuff and then work 
     opts = {
       ["neotest-python"] = {
         runner = "pytest",
-        python = "venv/bin/python"
+        python = os.execute('pyenv which python')
       }
     }
   },
   @end
+  - first, note that we need to specify pytest as the runner.
+  -- ofcourse, this means pytest is one dependency on this work
+  - However the next line is the most important, since we use pyenv, we need to ensure we use whatever version we have currently set in pyenv and grab that python
+  -- to do this, we run the shell command `pyenv which python` which will give the absolute path to the current python interpreter and return that as the string that neotest will use when running our tests
+  -- This allows us to dynamically get the python environment as long as we have the proper setup for handling pyenv, handled earlier in the config
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
   #tangle

@@ -21,3 +21,10 @@ eval "$(starship init bash)"
 
 export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
 export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+
+eval "$(pyenv init -)"

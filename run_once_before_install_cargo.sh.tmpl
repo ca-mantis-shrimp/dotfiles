@@ -1,0 +1,11 @@
+#!/bin/bash
+if command -v cargo > dev/null; then
+echo "rust and cargo are already installed, exiting"
+exit
+else
+{{if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+{{else}}
+curl https://sh.rustup.rs -sSf | sh
+{{end}}
+fi

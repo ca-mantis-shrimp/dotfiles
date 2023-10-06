@@ -114,7 +114,7 @@ return {
   opts = {
     ["neotest-python"] = {
       runner = "pytest",
-      python = "venv/bin/python"
+      python = os.execute('pyenv which python')
     }
   }
 },
