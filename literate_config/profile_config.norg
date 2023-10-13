@@ -1,0 +1,20 @@
+@document.meta
+title: profile_config
+description: 
+authors: 
+categories: 
+tangle: dot_profile.tmpl
+created: 2023-10-13T08:57:58-0800
+updated: 2023-10-13T13:32:03-0800
+version: 1.1.1
+@end
+#tangle
+@code bash
+#!/bin/bash
+@end
+
+all we do is use the template script we defined to add the pyenv config once they have it.
+#tangle
+@code bash
+{{template "bash/pyenv_shell_config.sh" .}}
+@end

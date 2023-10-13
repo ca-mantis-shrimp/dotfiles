@@ -5,93 +5,24 @@ authors:
 categories: 
 tangle: dot_bashrc.tmpl
 created: 2023-10-06T08:39:41-0800
-updated: 2023-10-06T08:41:57-0800
+updated: 2023-10-13T14:25:15-0800
 version: 1.1.1
 @end
-  Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
-** Adding bob-nvim to the path
-   We use bob-nvim for our managing Neovim versions, and in order to use the current version of Neovim, we need to add it to our path
-   #tangle
-   @code bash
-   export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
-   @end
-   - We are manually appending the absolute path to the binary that is currently selected for bob-nvim, the Neovim version manager
-   -- Again, this means we need to have bob-nvim already installed on the machine for this to do anything
-** Create link to proper FD Binary
-   `fd` is a tool that is used to find files iwthin a directory, and is used by fzf to find files within a directory
-
-   It's a great little tool, but suffers from the problem that someone has "name squatted" this very easy binary name as so the actual command when you install will be `fdfind` which can be strange to experience, so we will just create a symlink to the proper binary using the below line:
-   #tangle
-   @code bash
-   ln -s $(which fdfind) ~/.local/bin/fd
-   @end
-   - this is creating a symbolic link between the file given from calling which on the `fdfind` command, and just redirecting all calls to `fd` to whatever filepath that is located at.
-** Making our OpenAI API Key available
-   OpenAI is the company behind ChatGPT and other innovative products at the cutting edge of Artificial General Intelligence.
-   In order to use their API, we need to have an API key, which we store in 1Password.
-
-   We will be leveraging Chezmois' template function to read the API key from 1Password and export it as an environment variable.
-   #tangle
-   @code bash
-   export OPENAI_API_KEY="{{ onepasswordRead "op://Back-End/openai_api_key/notesPlain" }}"
-
-   @end
-   - Add the api key for open AI including ChatGPT and other tools
-   -- this is going to use the onepassword template for Chezmoi so that we can revoke and change this key should we ever need
-   -- it also means we effectively have two chained dependencies. Chezmoi for the templating functionality, which is using 1password as the secrets manager
-** Making Todoist API Key Available
-   We are going to do a similar thing for Todoist where we will put the API key behind a Op login so we can have it while still feeling secure in our usage
-   #tangle
-   @code bash
-   export TODOIST_API_KEY="{{ onepasswordRead "op://Back-End/TODOIST_API_KEY/credential" }}"
-
-   @end
-** Adding the Cargo and NodeJS version managers
-   We are going to be using Rust and NodeJS for a lot of the tooling we are going to be installing, so we need to make sure we have the version managers installed for rustup and nvm respectively
-   We are going to be using the following tools:
-   - {https://rustup.rs/}[Rust]
-   - NodeJS:
-   #tangle
-   @code bash
-   . "$HOME/.cargo/env"
-
-   export NVM_DIR="$HOME/.nvm"
-   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-   @end
-   - Remember that the `.` at the beginning is equivalent to if we had written the `source` command
-   -- Therefore, we are effectively sourcing the `.cargo/env` file from the `$HOME` directory
-   --- This requires that cargo is installed since this is ensuring we make the environment from cargo available to the shell
-   - Exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in Linux
-   -- The line after that loads a shell script that makes nvm available to the system
-   -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
-** Enable Starship Prompt
-   Lastly, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
-   #tangle
-   @code bash
-   eval "$(starship init bash)"
-   @end
-   - We have the evaluation of the starship prompt
-   -- This requires that the startship prompt is already installed on the system
-   - must be enabled last otherwise we start getting strange errors around not being able to call the starship command 
-** Work Credentials
-   At the end, we will define some credentials that are only going to be used for work so this will help keep everything up-to-shape
-*** SNOWMIRROR Username and Password
-    #tangle
-    @code bash
-    export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
-    export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
-
-    @end
-
-** Adding PyEnv to PATH
-   Assuming the startup script in {:Scripts/install_pyenv:}[the install pyenv script] went according to plan, you will have pyenv installed on your system, but be unable to run it until the below lines are added to the bashrc
-   #tangle
-   @code bash
-   export PYENV_ROOT="$HOME/.pyenv"
-
-   command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-
-   eval "$(pyenv init -)"
-   @end
+Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
+#tangle
+@code bash
+#!/bin/bash
+@end
+- just standard bash starting point, nothing strange so far hopefully
+* {:bash_templates:}[Templates]
+* {:profile_config:}[Profile Config]
+* {:bash_profile:}[Bash Profile Config]
+* Enable Starship Prompt
+  Lastly, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features
+  #tangle
+  @code bash
+  eval "$(starship init bash)"
+  @end
+  - We have the evaluation of the starship prompt
+  -- This requires that the startship prompt is already installed on the system
+  - must be enabled last otherwise we start getting strange errors around not being able to call the starship command 

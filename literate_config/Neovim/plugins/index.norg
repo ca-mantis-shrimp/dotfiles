@@ -5,7 +5,7 @@ authors: root
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-06T13:00:32-0800
+updated: 2023-10-11T14:47:54-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -14,6 +14,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
 * {:neorg:}[Neorg configuration]
 * {:Telescope:}[Telescope Config]
 * {:smart_splits:}[Smart Splits Config]
+* {:python_tools:}[Python Tools]
 * Opening the Plugin File
   First, we just need to remember that lazy expects a table of tables so we start by opening the return table from which all other table with be contained.
   #tangle
@@ -124,7 +125,14 @@ I think to start, I am just going to start with the smaller stuff and then work 
   {
     "rest-nvim/rest.nvim",
     dependencies = {"nvim-lua/plenary.nvim"},
-    config = true
+    config = true,
+    ft = "http",
+    keys = {
+      {"<leader>rc", "<cmd>RestNvim<cr>", "run request under the cursor"},
+      {"<leader>rp", "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command"},
+      {"<leader>rl", "<cmd>RestNvimLast<cr>", "re-run the last request"},
+
+    }
   },
   @end
 * {https://github.com/wfxr/minimap.vim/tree/726746ed02eab2eef137a7ecceda7214fbeeec41}[Code Minimap]
@@ -200,42 +208,6 @@ I think to start, I am just going to start with the smaller stuff and then work 
   },
   @end
 
-* Extending conform.nvim
-  Lazy comes equipped with conform.nvim, but it is still up to us to ensure this is configured properly for the languages we want to use so im going to try extending it here:
-
-  #table
-  @code lua
-  { "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        python = {"black"}
-      }
-    }
-  },
-  @end
-* Enabling Neotest for Python
-  while the extra for lazy is pretty plug-and-play, one piece that seems to need configuration up-front is the neotest module so we will try to extend it quickly here
-
-  #table
-  @code lua
-  {
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-neotest/neotest-python"
-    },
-    opts = {
-      ["neotest-python"] = {
-        runner = "pytest",
-        python = os.execute('pyenv which python')
-      }
-    }
-  },
-  @end
-  - first, note that we need to specify pytest as the runner.
-  -- ofcourse, this means pytest is one dependency on this work
-  - However the next line is the most important, since we use pyenv, we need to ensure we use whatever version we have currently set in pyenv and grab that python
-  -- to do this, we run the shell command `pyenv which python` which will give the absolute path to the current python interpreter and return that as the string that neotest will use when running our tests
-  -- This allows us to dynamically get the python environment as long as we have the proper setup for handling pyenv, handled earlier in the config
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
   #tangle

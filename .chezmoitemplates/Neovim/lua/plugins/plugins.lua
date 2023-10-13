@@ -50,7 +50,14 @@ return {
 {
   "rest-nvim/rest.nvim",
   dependencies = {"nvim-lua/plenary.nvim"},
-  config = true
+  config = true,
+  ft = "http",
+  keys = {
+    {"<leader>rc", "<cmd>RestNvim<cr>", "run request under the cursor"},
+    {"<leader>rp", "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command"},
+    {"<leader>rl", "<cmd>RestNvimLast<cr>", "re-run the last request"},
+
+  }
 },
 
 {
@@ -95,27 +102,6 @@ return {
     'RainbowDelimSimple',
     'RainbowDelimQuoted',
     'RainbowMultiDelim'
-  }
-},
-
-{ "stevearc/conform.nvim",
-  opts = {
-    formatters_by_ft = {
-      python = {"black"}
-    }
-  }
-},
-
-{
-  "nvim-neotest/neotest",
-  dependencies = {
-    "nvim-neotest/neotest-python"
-  },
-  opts = {
-    ["neotest-python"] = {
-      runner = "pytest",
-      python = os.execute('pyenv which python')
-    }
   }
 },
 

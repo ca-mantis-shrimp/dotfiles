@@ -5,7 +5,7 @@ authors:
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/config/lazy.lua
 created: 2023-10-02T11:29:59-0800
-updated: 2023-10-02T13:35:21-0800
+updated: 2023-10-12T08:18:38-0800
 version: 1.1.1
 @end
 Since Lazy.nvim is the primary engine driving all of this, we should take a second to review how it is setup incase we ever need to make changes ourselves
@@ -45,8 +45,7 @@ Since Lazy.nvim is the primary engine driving all of this, we should take a seco
      {import = "lazyvim.plugins.extras.util.mini-hipatterns"},
      {import = "lazyvim.plugins.extras.util.project"},
      {import = "lazyvim.plugins.extras.dap.core"},
-     {import = "lazyvim.plugins.extras.formatting.conform"},
-     {import = "lazyvim.plugins.extras.linting.nvim-lint"},
+     {import = "lazyvim.plugins.extras.formatting.black" },
      {import = "lazyvim.plugins.extras.test.core"},
      {import = "lazyvim.plugins.extras.vscode"},
      {import = "lazyvim.plugins.extras.coding.yanky"},

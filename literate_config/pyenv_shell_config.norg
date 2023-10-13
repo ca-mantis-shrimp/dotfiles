@@ -1,0 +1,23 @@
+@document.meta
+title: pyenv_shell_config
+description: 
+authors: 
+categories: 
+tangle: .chezmoitemplates/bash/pyenv_shell_config.sh
+created: 2023-10-13T09:03:14-0800
+updated: 2023-10-13T13:25:27-0800
+version: 1.1.1
+@end
+For pyenv, we need to set a few things up before it becomes usable within the environment.
+
+However, we need to do this in a few files to ensure this is captured from the right perspective
+
+To that end, we will be leaving this in a separate file so that we are able to reference it externally within other scripts
+#tangle
+@code bash
+export PYENV_ROOT="$HOME/.pyenv"
+
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+
+eval "$(pyenv init -)"
+@end
