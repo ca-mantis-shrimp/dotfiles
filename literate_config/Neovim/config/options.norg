@@ -5,7 +5,7 @@ authors:
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/config/options.lua 
 created: 2023-10-02T11:30:23-0800
-updated: 2023-10-13T08:43:29-0800
+updated: 2023-10-13T20:48:56-0800
 version: 1.1.1
 @end
 LazyVim actually has its' own set of options setup, you can check in the lazyvim repo itself.
@@ -68,8 +68,8 @@ vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
   so here we have the single line in which we set the actual piece:
   #tangle
   @code lua
-  vim.g.python_host_prog = vim.fn.expand('$HOME/.pyenv/versions/dev3.12.0/bin/python')
-  vim.g.python3_host_prog = vim.fn.expand('$HOME/.pyenv/versions/dev3.12.0/bin/python')
+  vim.g.python_host_prog = vim.fn.expand('$HOME/.pyenv/versions/3.12.0/envs/dev3.12.0/bin/python')
+  vim.g.python3_host_prog = vim.fn.expand('$HOME/.pyenv/versions/3.12.0/envs/dev3.12.0/bin/python')
   @end
   - the `python3_host_prog` setting will choose the python executible (and more importantly, the virtual environment) that will be used to create this work
   - we use the `vim.fn.expand` to easily create a path that starts with an environment variable

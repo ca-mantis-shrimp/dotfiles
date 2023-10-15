@@ -15,6 +15,7 @@ local spec_list = {
   {import = "lazyvim.plugins.extras.ui.mini-animate"},
   {import = "lazyvim.plugins.extras.editor.mini-files"},
   {import = "lazyvim.plugins.extras.ui.edgy"},
+  {import = "lazyvim.plugins.extras.editor.aerial"},
   {import = "lazyvim.plugins.extras.util.mini-hipatterns"},
   {import = "lazyvim.plugins.extras.util.project"},
   {import = "lazyvim.plugins.extras.dap.core"},

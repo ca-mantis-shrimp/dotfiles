@@ -21,5 +21,5 @@ vim.keymap.set("n", "<C-[>", function()
   vim.g.neovide_scale_factor = 1.0
 end)
 
-vim.g.python_host_prog = vim.fn.expand('$HOME/.pyenv/versions/dev3.12.0/bin/python')
-vim.g.python3_host_prog = vim.fn.expand('$HOME/.pyenv/versions/dev3.12.0/bin/python')
+vim.g.python_host_prog = vim.fn.expand('$HOME/.pyenv/versions/3.12.0/envs/dev3.12.0/bin/python')
+vim.g.python3_host_prog = vim.fn.expand('$HOME/.pyenv/versions/3.12.0/envs/dev3.12.0/bin/python')

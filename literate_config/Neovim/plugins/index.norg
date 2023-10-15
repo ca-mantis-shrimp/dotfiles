@@ -5,7 +5,7 @@ authors: root
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-11T14:47:54-0800
+updated: 2023-10-13T15:07:41-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -144,24 +144,6 @@ I think to start, I am just going to start with the smaller stuff and then work 
     keys = { { "leader>um", "<cmd>MinimapToggle<cr>", desc = "Toggle Minimap" } },
     build = "cargo install --locked code-minimap",
     lazy = false,
-  },
-  @end
-* [symbols-outline.nvim]
-  Symbol outline is a plugin that allows you to see all of the symbols in a file and jump to them.
-
-  We are just doing standard setup, but we have chosen to do this now because of the release of edgy which allows these outlines to be used in a left pane window
-
-  #tangle
-  @code lua
-  {
-    -- add symbols-outline
-    {
-      "simrat39/symbols-outline.nvim",
-      cmd = "SymbolsOutline",
-      keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
-      opts = {},
-      config = true
-    },
   },
   @end
 * Adding Support for PlantUML

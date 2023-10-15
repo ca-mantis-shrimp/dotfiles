@@ -68,17 +68,6 @@ return {
 },
 
 {
-  -- add symbols-outline
-  {
-    "simrat39/symbols-outline.nvim",
-    cmd = "SymbolsOutline",
-    keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
-    opts = {},
-    config = true
-  },
-},
-
-{
   "weirongxu/plantuml-previewer.vim",
   dependencies = {"aklt/plantuml-syntax", "tyru/open-browser.vim"},
 },
