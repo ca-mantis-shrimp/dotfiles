@@ -2,10 +2,11 @@
 AppData/
 Documents/
 dot_ssh/config
-*.sh
+*.ps1
 {{ else }}
 dot_config/nvim/
-*.ps1
+*.sh
+*.sh.tmpl
 {{ end }}
 
 ./literate_config/
