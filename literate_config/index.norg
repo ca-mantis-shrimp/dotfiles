@@ -4,7 +4,7 @@ description:
 authors: root
 categories: 
 created: 2023-04-05
-updated: 2023-10-13T15:00:18-0800
+updated: 2023-10-20T21:20:32-0800
 version: 1.0.0
 @end
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
@@ -25,6 +25,7 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** {:bash_config:}[Bash]
+** {:powershell_config:}[PowerShell]
 * Chezmoi
   Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
   Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did

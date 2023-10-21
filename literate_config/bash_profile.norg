@@ -5,7 +5,7 @@ authors:
 categories: 
 tangle: dot_bash_profile.tmpl
 created: 2023-10-13T13:31:10-0800
-updated: 2023-10-13T14:16:59-0800
+updated: 2023-10-20T21:18:41-0800
 version: 1.1.1
 @end
 #tangle
@@ -43,8 +43,9 @@ version: 1.1.1
   We will be leveraging Chezmois' template function to read the API key from 1Password and export it as an environment variable.
   #tangle
   @code bash
-  export OPENAI_API_KEY="{{ onepasswordRead "op://Back-End/openai_api_key/notesPlain" }}"
-
+  {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
+  export OPENAI_API_KEY= op read op://Back-End/openai_api_key/credential
+  {{- end }}
   @end
   - Add the api key for open AI including ChatGPT and other tools
   -- this is going to use the onepassword template for Chezmoi so that we can revoke and change this key should we ever need
@@ -53,7 +54,7 @@ version: 1.1.1
   We are going to do a similar thing for Todoist where we will put the API key behind a Op login so we can have it while still feeling secure in our usage
   #tangle
   @code bash
-  export TODOIST_API_KEY="{{ onepasswordRead "op://Back-End/TODOIST_API_KEY/credential" }}"
+  export TODOIST_API_KEY=op read op://Back-End/todoist_api_key/credential
 
   @end
 * Adding the Cargo and NodeJS version managers
@@ -81,7 +82,8 @@ version: 1.1.1
 ** SNOWMIRROR Username and Password
    #tangle
    @code bash
-   export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
-   export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
-
+  {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+   export SNOWMIRROR_USERNAME= op read op://work/SNOWMIRROR/username
+   export SNOWMIRROR_PASSWORD= op read op://work/SNOWMIRROR_password
+  {{- end }}
    @end

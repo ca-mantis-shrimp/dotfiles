@@ -1,0 +1,44 @@
+@document.meta
+title: powershell_config
+description: 
+authors: dargo
+categories: 
+tangle: Documents/PowerShell/Profile.ps1
+created: 2023-10-20T20:54:10-0800
+updated: 2023-10-20T21:19:52-0800
+version: 1.1.1
+@end
+This is primarily around setting up powershell properly in such a way that we are able to set up a local environment without much fuss and without feeling like we have to rebuild it each time. 
+
+* Export Environment variables
+  #tangle
+  @code pwsh
+  {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
+  export OPENAI_API_KEY= op read op://Back-End/openai_api_key/credential
+  {{- end }}
+
+  $Env:TODOIST_API_KEY = op read op://Back-End/todoist_api_key/credential
+  @end
+  - just using the onepassword CLI to actually pull the credentials themselves
+  -- remember, this assumes you have already set your service account key BEFORE running chezmoi
+  - we are now also ensuring we dont use open api stuff when we arent on the proper computer for work
+* Setup Starship Prompt
+Primary thing we are doing right now is setting up starship prompt, while it is relatively straightforward, we need to be careful that we dont just update shit without thinking about it.
+
+  #tangle
+  @code pwsh
+  $prompt = ""
+  function Invoke-Starship-PreCommand {
+    $current_location = $executionContext.SessionState.Path.CurrentLocation
+    if ($current_location.Provider.Name -eq "FileSystem") {
+      $ansi_escape = [char]27
+      $provider_path = $current_location.ProviderPath -replace "\\", "/"
+      $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
+    }
+    $host.ui.Write($prompt)
+  }
+
+  Invoke-Expression (&starship init powershell)
+  @end
+
+
