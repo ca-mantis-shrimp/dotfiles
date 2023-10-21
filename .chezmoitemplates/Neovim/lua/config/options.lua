@@ -22,8 +22,8 @@ vim.keymap.set("n", "<C-[>", function()
 end)
 
 if vim.fn.has("windows") then
-  vim.g.python_host_prog = vim.fn.expand('$HOME/python_virtual_environments/dev3.12.0/bin/python')
-  vim.g.python3_host_prog = vim.fn.expand('$HOME/python_virtual_environments/dev3.12.0/bin/python')
+  vim.g.python_host_prog = vim.fn.expand('$HOME/python_virtual_environments/dev3.12.0/Scripts/python')
+  vim.g.python3_host_prog = vim.fn.expand('$HOME/python_virtual_environments/dev3.12.0/Scripts/python')
 else
   vim.g.python_host_prog = vim.fn.expand('$HOME/.pyenv/versions/3.12.0/envs/dev3.12.0/bin/python')
   vim.g.python3_host_prog = vim.fn.expand('$HOME/.pyenv/versions/3.12.0/envs/dev3.12.0/bin/python')

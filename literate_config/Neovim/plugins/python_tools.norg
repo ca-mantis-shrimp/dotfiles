@@ -5,7 +5,7 @@ authors:
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/plugins/python_tools.lua
 created: 2023-10-06T13:56:16-0800
-updated: 2023-10-13T21:02:34-0800
+updated: 2023-10-21T10:48:45-0800
 version: 1.1.1
 @end
 * Setup
@@ -45,22 +45,6 @@ version: 1.1.1
   - However the next line is the most important, since we use pyenv, we need to ensure we use whatever version we have currently set in pyenv and grab that python
   -- to do this, we run the shell command `pyenv which python` which will give the absolute path to the current python interpreter and return that as the string that neotest will use when running our tests
   -- This allows us to dynamically get the python environment as long as we have the proper setup for handling pyenv, handled earlier in the config
-* Enabling DAP for Python
-  DAP has been a pain in the ass but i think lazy has it mostly done, we just need to set the runner and ensure that everything is setup BEFORE we get going.
-
-  #tangle
-  @code lua
-  {
-  "mfussenegger/nvim-dap-python",
-  config = function()
-    require("dap-python").setup(vim.g.python_host_prog)
-    require('dap-python').test_runner = 'pytest'
-    require('dap-python').resolve_python = function()
-        return vim.g.python_host_prog
-    end
-  end,
-  },
-  @end
 * Ending it all
   Finally, we remember to close the return
   #tangle
