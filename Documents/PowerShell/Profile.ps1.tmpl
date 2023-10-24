@@ -1,0 +1,9 @@
+$env:SHELL="pwsh"
+
+{{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
+$env:OPENAI_API_KEY= op read op://Back-End/openai_api_key/credential
+{{- end }}
+
+$env:TODOIST_API_KEY = op read op://Back-End/todoist_api_key/credential
+
+Invoke-Expression (&starship init powershell)
