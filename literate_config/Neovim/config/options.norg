@@ -5,7 +5,7 @@ authors:
 categories: 
 tangle: .chezmoitemplates/Neovim/lua/config/options.lua 
 created: 2023-10-02T11:30:23-0800
-updated: 2023-10-13T20:48:56-0800
+updated: 2023-10-16T19:09:29-0800
 version: 1.1.1
 @end
 LazyVim actually has its' own set of options setup, you can check in the lazyvim repo itself.

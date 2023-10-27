@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ -f ~/.bashrc ]; then
-. ~/.bashrc
-fi
-
 {{template "bash/pyenv_shell_config.sh" .}}
 
 export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
@@ -21,5 +17,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 
+export PATH=$PATH":$HOME/bin"
+
 export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
 export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
+
+
+export DYNATRACE_EA_PROD_API_KEY="{{ onepasswordRead "op://work/dynatrace_ea_prod_api_key/credential" }}"
+
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi

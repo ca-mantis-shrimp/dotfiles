@@ -1,12 +1,12 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
-dot_ssh/config
 *.ps1
 {{ else }}
+dot_ssh/config
 dot_config/nvim/
 *.sh
-*.sh.tmpl
+bin/
 {{ end }}
 
 ./literate_config/

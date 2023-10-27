@@ -1,3 +1,4 @@
+#!/bin/bash
 curl https://pyenv.run | bash
 
 sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \

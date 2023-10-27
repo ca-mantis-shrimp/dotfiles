@@ -1,0 +1,25 @@
+@document.meta
+title: nvim_paste_wsl
+description: 
+authors: 
+categories: 
+tangle: bin/nvim_paste_wsl.sh
+created: 2023-10-16T13:39:06-0800
+updated: 2023-10-16T13:45:11-0800
+version: 1.1.1
+@end
+As always, WSL makes it necessary to do these little things to get things working the way that we want so in order to get it all ready is the ability to work through the clipboard integration, allowing the work to be done through our terminal when needed
+
+#tangle
+@code bash
+#!/bin/sh
+
+if command -v win32yank.exe >/dev/null 2>/dev/null; then
+    win32yank.exe -o --lf
+else
+    powershell.exe Get-Clipboard | tr -d '\r' | sed -z '$ s/\n$//'
+fi
+@end
+~ First, we check to see if the very good win32yank executible is available 
+~ If so, we paste using the unix style of new-line returns using the `lf` flags
+~ else, we check that powershell is available and use the OOTB Get-Clipboard command

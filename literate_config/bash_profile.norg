@@ -5,21 +5,13 @@ authors:
 categories: 
 tangle: dot_bash_profile.tmpl
 created: 2023-10-13T13:31:10-0800
-updated: 2023-10-13T14:16:59-0800
+updated: 2023-10-16T14:38:30-0800
 version: 1.1.1
 @end
 #tangle
 @code bash
 #!/bin/bash
 @end
-* Sourcing your .bashrc
-  as it stands, the bash_profile is the only thing that runs when you login, if you want to ALSO source your bashrc at the same time, you need to add  the following line so you can source the bashrc while we were working
-  #tangle
-  @code bash
-  if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
-  fi
-  @end
 * Adding Penv to PATH and making it executible
   all we do is use the template script we defined to add the pyenv config once they have it.
   #tangle
@@ -76,6 +68,11 @@ version: 1.1.1
   - Exports nvms' bin via your `.bashrc` automatically after it is installed via the installation script in Linux
   -- The line after that loads a shell script that makes nvm available to the system
   -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
+* Add Personal Bin of shell commands to path
+  #tangle
+  @code bash
+  export PATH=$PATH":$HOME/bin"
+  @end
 * Work Credentials
   At the end, we will define some credentials that are only going to be used for work so this will help keep everything up-to-shape
 ** SNOWMIRROR Username and Password
@@ -85,3 +82,18 @@ version: 1.1.1
    export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
 
    @end
+
+** Dynatrace API Key
+   #tangle
+   @code bash
+   export DYNATRACE_EA_PROD_API_KEY="{{ onepasswordRead "op://work/dynatrace_ea_prod_api_key/credential" }}"
+   @end
+
+* Sourcing your .bashrc
+  as it stands, the bash_profile is the only thing that runs when you login, if you want to ALSO source your bashrc at the same time, you need to add  the following line so you can source the bashrc while we were working
+  #tangle
+  @code bash
+  if [ -f ~/.bashrc ]; then
+  . ~/.bashrc
+  fi
+  @end

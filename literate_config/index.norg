@@ -60,11 +60,12 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    {{ if ne .chezmoi.os "windows" }}
    AppData/
    Documents/
-   dot_ssh/config
-   *.sh
-   {{ else }}
-   dot_config/nvim/
    *.ps1
+   {{ else }}
+   dot_ssh/config
+   dot_config/nvim/
+   *.sh
+   bin/
    {{ end }}
 
    ./literate_config/

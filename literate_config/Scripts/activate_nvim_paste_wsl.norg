@@ -1,0 +1,20 @@
+@document.meta
+title: activate_nvim_paste_wsl
+description: 
+authors: 
+categories: 
+tangle: run_once_after_activate_nvim_paste_wsl.sh
+created: 2023-10-16T13:53:26-0800
+updated: 2023-10-16T13:58:37-0800
+version: 1.1.1
+@end
+If all goes well we should have a script at `~/bin/nvim_paste_wsl.sh` that will be used by neovim to ensure our provider is able to use all the utilities possible.
+
+It just needs to be made executible upon first installation so we will put a small installation scipt here to find it later
+
+#tangle
+@code bash
+#!/bin/sh
+
+chmod a+x bin/nvim_paste_wsl.sh
+@end
