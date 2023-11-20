@@ -1,8 +1,8 @@
 @document.meta
-title: options
-description: 
-authors: 
-categories: 
+title: Options
+description: Setting options for Neovim itself
+authors: Darrion Burgess
+categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/config/options.lua 
 created: 2023-10-02T11:30:23-0800
 updated: 2023-10-16T19:09:29-0800

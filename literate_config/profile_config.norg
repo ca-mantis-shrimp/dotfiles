@@ -1,8 +1,8 @@
 @document.meta
-title: profile_config
-description: 
-authors: 
-categories: 
+title: Profile
+description: the `.profile` for bash shell
+authors: Darrion Burgess
+categories: bash
 tangle: dot_profile.tmpl
 created: 2023-10-13T08:57:58-0800
 updated: 2023-10-13T13:32:03-0800

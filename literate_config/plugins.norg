@@ -1,8 +1,8 @@
 @document.meta
-title: index
-description: 
-authors: root
-categories: 
+title: Plugin Index
+description: List of Extra plugins above LazyVim itself
+authors: Darrion Burgess
+categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
 updated: 2023-10-13T15:07:41-0800

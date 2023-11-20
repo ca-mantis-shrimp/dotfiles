@@ -1,8 +1,8 @@
 @document.meta
-title: index
-description: 
-authors: root
-categories: 
+title: Literate Configuration Directory
+description: Starting Point, Chezmoi Configuration, and Home Directory Files
+authors: Darrion Burgess
+categories: index
 created: 2023-04-05
 updated: 2023-10-20T21:20:32-0800
 version: 1.0.0
@@ -18,10 +18,41 @@ We have gotten to the point where the code is rather concise, but it would take 
 This is where tangling comes in. These neorg files will actually generate the data that we expect to use throught this work.
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
-
+* Index
+** Bash
+   - {:$\activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
+   - {:$\bash_commands:}[Bash Commands] - One-Time commands that occasionally need to be run on a new machine
+   - {:$\bash_config:}[Bash Configuration Index] - Starting point for configuring the bash shell files
+   - {:$\bash_profile:}[Bash Profile] - Definition of the .bash_profile
+   - {:$\install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
+   - {:$\install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
+   - {:$\linux_scripts:}[Script Index] - Index of one-time scripts that need to be run
+   - {:$\nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
+   - {:$\profile_config:}[Profile] - the `.profile` for bash shell
+   - {:$\pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+** Index
+   - {:$\index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+   - {:$\scripts:}[Script Index] - index of both bash and powershell scripts
+** Neovim
+   - {:$\config:}[Config Folder] - Root of the config folder for Neovim
+   - {:$\lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
+   - {:$\neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
+   - {:$\neovim:}[Configuration Index] - Starting point for Neovim Configuration
+   - {:$\options:}[Options] - Setting options for Neovim itself
+   - {:$\plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
+   - {:$\python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
+   - {:$\smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
+   - {:$\telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
+** Powershell
+   - {:$\powershell:}[Profile] - the bashrc equivalent for powershell
+   - {:$\powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
+** Scripts
+   - {:$\bash_templates:}[Bash Templates] - templates for common bash operations
+** Wezterm
+   - {:$\wezterm:}[Wezterm] - configuration for wezs' terminal emulator
 * {:wezterm:}[Wezterm Configuration]
-* {:Neovim/index:}[Neovim Configuration]
-* {:Scripts/index:}[Single-Run Scripts]
+* {:neovim:}[Neovim Configuration]
+* {:scripts:}[Single-Run Scripts]
 * Shell Configuration
   Here, we are going to walk through any configuration that is needed for the Shell in question, this will likely look largely the same, but with minor tweaks based on the OS or if it is a work machine but should otherwise remain minimal
 ** {:bash_config:}[Bash]

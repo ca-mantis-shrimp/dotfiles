@@ -1,9 +1,9 @@
 @document.meta
-title: smart_splits
-description: 
-authors: 
+title: Smart Splits Config
+description: Configuration for the `smart_splits.nvim` plugin
+authors: Darrion Burgess
 tangle: .chezmoitemplates/Neovim/lua/plugins/smartSplits.lua
-categories: 
+categories: neovim
 created: 2023-10-02T09:48:45-0800
 updated: 2023-10-02T11:19:55-0800
 version: 1.1.1

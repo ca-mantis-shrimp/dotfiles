@@ -1,8 +1,8 @@
 @document.meta
-title: activate_nvim_paste_wsl
-description: 
-authors: 
-categories: 
+title: Make wsl_paste executible
+description: 1-line script to make the `nvim_paste_wsl` script executible
+authors: Darrion Burgess
+categories: bash
 tangle: run_once_after_activate_nvim_paste_wsl.sh
 created: 2023-10-16T13:53:26-0800
 updated: 2023-10-16T13:58:37-0800

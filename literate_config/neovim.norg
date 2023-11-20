@@ -1,8 +1,8 @@
 @document.meta
-title: index
-description: 
+title: Configuration Index
+description: Starting point for Neovim Configuration
 authors: darburgess
-categories: 
+categories: neovim
 tangle: .chezmoitemplates/Neovim/init.lua
 created: 2023-04-07
 updated: 2023-10-02T12:23:24-0800

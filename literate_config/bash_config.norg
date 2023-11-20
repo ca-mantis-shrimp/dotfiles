@@ -1,8 +1,8 @@
 @document.meta
-title: bash_config
-description: 
-authors: 
-categories: 
+title: Bash Configuration Index
+description: Starting point for configuring the bash shell files
+authors: Darrion Burgess
+categories: bash
 tangle: dot_bashrc.tmpl
 created: 2023-10-06T08:39:41-0800
 updated: 2023-10-16T13:38:12-0800

@@ -1,8 +1,8 @@
 @document.meta
-title: telescope
-description: 
-authors: 
-categories: 
+title: Telescope Updates
+description: Changes to the LazyVim Telescope Config
+authors: Darrion Burgess
+categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/telescope.lua
 created: 2023-10-02T09:45:26-0800
 updated: 2023-10-02T11:21:42-0800

@@ -1,8 +1,8 @@
 @document.meta
-title: index
-description: 
+title: Config Folder
+description: Root of the config folder for Neovim
 authors: darburgess
-categories: 
+categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/config/autocmds.lua
 created: 2023-04-07
 updated: 2023-10-02T13:31:43-0800

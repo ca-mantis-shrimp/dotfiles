@@ -1,8 +1,8 @@
 @document.meta
-title: neorg
-description: 
-authors: root
-categories: 
+title: Neorg Configuration
+description: Configuration of the neorg note taking plugin
+authors: Darrion Burgess
+categories: neovim
 created: 2023-04-09
 updated: 2023-10-02T11:20:47-0800
 version: 1.0.0

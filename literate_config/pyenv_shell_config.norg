@@ -1,8 +1,8 @@
 @document.meta
-title: pyenv_shell_config
-description: 
-authors: 
-categories: 
+title: PyEnv Shell Configuration Prep
+description: Some extra steps to get us ready for pyenv
+authors: Darrion Burgess
+categories: bash
 tangle: .chezmoitemplates/bash/pyenv_shell_config.sh
 created: 2023-10-13T09:03:14-0800
 updated: 2023-10-13T13:25:27-0800

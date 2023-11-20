@@ -1,8 +1,8 @@
 @document.meta
-title: python_tools
-description: 
-authors: 
-categories: 
+title: Python Plugins
+description: The plugins needed to make python development possible in neovim
+authors: Darrion Burgess
+categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/python_tools.lua
 created: 2023-10-06T13:56:16-0800
 updated: 2023-10-21T10:48:45-0800

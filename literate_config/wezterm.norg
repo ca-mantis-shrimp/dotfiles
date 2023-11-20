@@ -1,8 +1,8 @@
 @document.meta
-title: wezterm
-description: 
-authors: root
-categories: 
+title: WezTerm
+description: configuration for wezs' terminal emulator
+authors: Darrion Burgess
+categories: wezterm
 created: 2023-04-09
 updated: 2023-10-02T12:45:45-0800
 version: 1.0.0
