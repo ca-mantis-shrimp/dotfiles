@@ -7,6 +7,7 @@ created: 2023-04-05
 updated: 2023-10-20T21:20:32-0800
 version: 1.0.0
 @end
+= TOC
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
 
 We are going to attempt something I have wanted to try but have never felt like I had the tooling required.
@@ -150,12 +151,9 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 ** Git Credentials Using PAT Tokens
    PAT Tokens are the recommended way to get this stuff done.
    we are going to use 1Password to get this all going but we are just trying to make this all work
-** Git ignore
-   we have a few generated files so we want to just ignore the file itself so that we can ensure there is something to do for these various pieces
-   #tangle .gitignore
-   @code .gitignore
-   wiki/*
-   @end
-   - we want to ignore the contents of the wiki folder, but not the folder itself because we dont want to have to create it each time.
-   -- Instead, we are going to just export these different pieces and get to the point where we can just review work and ensure this is something we can review from the container so we have something to review
+* Docker 
+One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 
 
+  Specifically, we are going to have two separate containers:
+  - The presentation container
+  -- used to present the wiki
