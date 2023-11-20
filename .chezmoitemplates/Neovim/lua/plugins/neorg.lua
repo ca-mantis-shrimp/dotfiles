@@ -77,7 +77,11 @@ local module_list = {
     },
   },
   ["core.export"] = {},
-  ["core.export.markdown"] = {},
+  ["core.export.markdown"] = {
+    config = {
+      extensions = "all"
+    },
+  },
   ["core.integrations.telescope"] = {},
   ["core.summary"] = {},
   ["core.ui.calendar"] = {},

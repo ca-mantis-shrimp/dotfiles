@@ -169,7 +169,11 @@ It takes more to setup than many of the other plugins but it can help with the a
        },
      },
      ["core.export"] = {},
-     ["core.export.markdown"] = {},
+     ["core.export.markdown"] = {
+       config = {
+         extensions = "all"
+       },
+     },
      ["core.integrations.telescope"] = {},
      ["core.summary"] = {},
      ["core.ui.calendar"] = {},
