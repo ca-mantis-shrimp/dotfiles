@@ -170,3 +170,15 @@ One of the primary changes that have been made over this time is the need to con
 
   WORKDIR /root/.local/share/chezmoi
   @end
+
+  Next, we are going to define a devcontainer.json which will largely just use this stupid thing so that i can actually ensure this is going to work as a development container
+
+  #tangle .devcontainer.json
+  @code json
+  {
+    "name": "dotfiles_config",
+    "dockerFile": "Dockerfile",
+  }
+  @end
+  - we give it a little name that will help us identify the container itself
+  - as well as making it clear we want to use the dockerfile we just defined
