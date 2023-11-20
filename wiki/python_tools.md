@@ -1,0 +1,48 @@
+
+
+# Setup
+
+First, we need to remember that we primarily use the virtual environment tool pyenv.
+
+We will need to take extra care to utilize this when we are working through the configuration of different tools as we are often hoping to utilize a single tool for the job in most cases
+``` lua
+return {
+```
+- first, we calculate the python path currently being used by pyenv using a command shell with this very purpose in mind
+- then we start the work of pulling everything together by starting the return
+
+# Enabling Neotest for Python
+
+while the extra for lazy is pretty plug-and-play, one piece that seems to need configuration up-front is the neotest module so we will try to extend it quickly here
+
+``` lua
+{
+  "nvim-neotest/neotest",
+  optional = true,
+  dependencies = {
+    "nvim-neotest/neotest-python",
+  },
+  opts = {
+    adapters = {
+      ["neotest-python"] = {
+        -- Here you can specify the settings for the adapter, i.e.
+        runner = "pytest",
+        python = vim.g.python_host_prog,
+      },
+    },
+  },
+},
+```
+- first, note that we need to specify pytest as the runner.
+    - ofcourse, this means pytest is one dependency on this work
+- However the next line is the most important, since we use pyenv, we need to ensure we use whatever version we have currently set in pyenv and grab that python
+    - to do this, we run the shell command `pyenv which python` which will give the absolute path to the current python interpreter and return that as the string that neotest will use when running our tests
+    - This allows us to dynamically get the python environment as long as we have the proper setup for handling pyenv, handled earlier in the config
+
+# Ending it all
+
+Finally, we remember to close the return
+``` lua
+}
+```
+

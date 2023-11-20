@@ -1,0 +1,24 @@
+
+
+The rust toolchains (including rustup, cargo, clippy, and more) can be installed with a one-line script:
+```bash
+#!/bin/bash
+if command -v cargo > dev/null; then
+echo "rust and cargo are already installed, exiting"
+exit
+else
+{{if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+{{else}}
+curl https://sh.rustup.rs -sSf | sh
+{{end}}
+fi
+```
+- The first level of logic simply checks if we already have rust installed, since chezmoi tries to run the script each time to do an apply
+    - We only want to run the curl command(s) if we need to so first we check if cargo is executable, if so, we just exit early
+- This was grabbed directly from the [Rust Book's Installation Section](https://doc.rust-lang.org/cargo/getting-started/installation.html)
+    - If all goes well, you should see a message that says "Rust is installed now. Great!"
+        - You will also need to restart your shell to ensure the new cargo environment is loaded
+            - or you can just source your bashrc
+- We run one script if we are in a WSL distro specifically
+    - Otherwise, we are just going to run the standard installation script

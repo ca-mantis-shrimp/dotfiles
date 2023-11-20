@@ -1,0 +1,66 @@
+
+
+
+Telescope is one of the great plugins of neovim that makes it a pleasure to use
+
+Lazyvim already comes with it mostly installed and configured with the basics:
+- searching files
+- grepping files
+- searching buffers
+- and even searching diagnostic results OOTB
+  I just wanted to add the functionality to search my URL bookmarks since that is the part that I think i was missing
+
+# Buku Bookmarks Search
+
+Pretty much the only part i add on from lazyvim is the ability to do a search on my local buku repository using a combination of buku itself, and the `telescoppe-bookmarks.nvim` plugin which can read from the sqlite database located on your machine
+``` lua
+local buku_telescope_plugin_spec = {
+  "dhruvmanila/telescope-bookmarks.nvim",
+  dependencies = { "kkharji/sqlite.lua", "tyru/open-browser.vim" },
+  keys = { { "<leader>sB", "<cmd>Telescope bookmarks<cr>", desc = "Search Bookmarks" } },
+}
+local telescope_browser_setup_options = {
+  selected_browser = "buku",
+  url_open_plugin = "open_browser",
+  buku_include_tags = true,
+}
+local load_bookmark_extension = function()
+  require("telescope").load_extension("bookmarks")
+end
+
+```
+- We define the spec for installing and configuring the telescope-bookmarks plugin in the first place
+    - we need sqlite.lua to access the buku bookmarks themselves
+    - while open-browser is used to integrate with the browser of our choice so it opens our selection properly to the browser
+    - This whole thing is done with a single activation keymap and otherwise it just never gets loaded
+- Once we have installed the plugin we need to configure it within telescope itself
+    - here we pass the configuration saying we are using buku for where to get our bookmarks
+    - we are also noting that we have opten for the open-browser plugin see in the spec as our plugin of choice for opening links
+    - we also include the buku tags because I put allot of work into making those accurate and it can make it easier to find the bookmark if you know the tag it is likely a part of
+- Once all of that is done we can actually load the extension only AFTER telescope itself has completed its own setup
+
+
+# Setup Call
+
+``` lua
+return {
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim",
+      buku_telescope_plugin_spec,
+    },
+    config = function()
+      require("telescope").setup({
+        extensions = {
+          bookmarks = telescope_browser_setup_options,
+        },
+      })
+      load_bookmark_extension()
+    end,
+  }
+}
+```
+Other than loading, configurating, and running the bookmarks plugin, this is a fairly standard telescope configuration
+- we put the plugin spec in the dependencies listing like any other
+- we configure telescope to include the new browser options as a table
+- and once telescope is loaded we can load the bookmarks extension itself

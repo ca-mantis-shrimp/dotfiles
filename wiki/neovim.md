@@ -18,8 +18,8 @@ require("config.lazy")
     - Since Lazy is the engine of the configuration, all we need to do is ensure this is able to be loaded on startup
         - if done properly, it will even setup new machines properly if all of the dependencies are already worked out!
 
-# [Neovim Base Config](#configindexmd)
+# [Neovim Base Config](#configmd)
 
 
-# [Plugins Config](#pluginsindexmd)
+# [Plugins Config](#pluginsmd)
 

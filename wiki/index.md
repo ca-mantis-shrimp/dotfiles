@@ -1,5 +1,6 @@
 
 
+ TOC
 This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
 
 We are going to attempt something I have wanted to try but have never felt like I had the tooling required.
@@ -12,14 +13,58 @@ This is where tangling comes in. These neorg files will actually generate the da
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 
+# Index
+
+## Bash
+
+- [Make Wsl_paste Executible](#5cactivatenvimpastewslmd) - 1-line script to make the `nvim_paste_wsl` script executible
+- [Bash Commands](#5cbashcommandsmd) - One-Time commands that occasionally need to be run on a new machine
+- [Bash Configuration Index](#5cbashconfigmd) - Starting point for configuring the bash shell files
+- [Bash Profile](#5cbashprofilemd) - Definition of the .bash_profile
+- [Pyenv Installer](#5cinstallpyenvmd) - Smaller script to install pyenv via apt along with dependencies
+- [Rust Installer](#5cinstallrustmd) - script to install rust, either in linux or WSL
+- [Script Index](#5clinuxscriptsmd) - Index of one-time scripts that need to be run
+- [Clipboard Integration For Wsl](#5cnvimpastewslmd) - script to pull clipboard into WSL terminal
+- [Profile](#5cprofileconfigmd) - the `.profile` for bash shell
+- [Pyenv Shell Configuration Prep](#5cpyenvshellconfigmd) - Some extra steps to get us ready for pyenv
+
+## Index
+
+- [Literate Configuration Directory](#5cindexmd) - Starting Point, Chezmoi Configuration, and Home Directory Files
+- [Script Index](#5cscriptsmd) - index of both bash and powershell scripts
+
+## Neovim
+
+- [Config Folder](#5cconfigmd) - Root of the config folder for Neovim
+- [Lazy Configuration](#5clazymd) - Configuration for `lazy.nvim`
+- [Neorg Configuration](#5cneorgmd) - Configuration of the neorg note taking plugin
+- [Configuration Index](#5cneovimmd) - Starting point for Neovim Configuration
+- [Options](#5coptionsmd) - Setting options for Neovim itself
+- [Plugin Index](#5cpluginsmd) - List of Extra plugins above LazyVim itself
+- [Python Plugins](#5cpythontoolsmd) - The plugins needed to make python development possible in neovim
+- [Smart Splits Config](#5csmartsplitsmd) - Configuration for the `smart_splits.nvim` plugin
+- [Telescope Updates](#5ctelescopemd) - Changes to the LazyVim Telescope Config
+
+## Powershell
+
+- [Profile](#5cpowershellmd) - the bashrc equivalent for powershell
+- [Alt Profile](#5cpowershellconfigmd) - Alternative Powershell profile with template support
+
+## Scripts
+
+- [Bash Templates](#5cbashtemplatesmd) - templates for common bash operations
+
+## Wezterm
+
+- [Wezterm](#5cweztermmd) - configuration for wezs' terminal emulator
 
 # [Wezterm Configuration](#weztermmd)
 
 
-# [Neovim Configuration](#neovimindexmd)
+# [Neovim Configuration](#neovimmd)
 
 
-# [Single-Run Scripts](#scriptsindexmd)
+# [Single-Run Scripts](#scriptsmd)
 
 
 # Shell Configuration
@@ -35,7 +80,7 @@ Here, we are going to walk through any configuration that is needed for the Shel
 # Chezmoi
 
 Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
-Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
+  Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
 
 ## Config File
 
@@ -78,15 +123,17 @@ dot_config/nvim/
 bin/
 {{ end }}
 
-./literate_config/
+literate_config/
+wiki/
 ```
 - If we are not in windows, we are removing the `AppData`, `Documents`, and all PowerShell files from the `.chezmoiscripts` directory
     - These folders are a microsoft thing, and shouldn't make their way into linux directories
         - specifically, this is where the neovim config and powershell script are respectively.
 - Otherwise, we are removing the `nvim` folder from the `.config` file
     - so we don't conflict with the version that is used in windows
-- finally, we ignore this folder! 
+- dont forget to ignore this folder! 
     - because it is not intended to be copied to the machine's home directory, it is intended to serve as the brain of the repository itself and thus should never be included
+- we have a similar thing going on with the wiki folder. this is intended to be the main point that we use to just represent the exported directory
 
 
 # Git
@@ -129,3 +176,11 @@ helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
 
 PAT Tokens are the recommended way to get this stuff done.
   we are going to use 1Password to get this all going but we are just trying to make this all work
+
+# Docker 
+
+One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 
+
+Specifically, we are going to have two separate containers:
+- The presentation container
+    - used to present the wiki
