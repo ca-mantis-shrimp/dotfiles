@@ -77,19 +77,15 @@ version: 1.1.1
   @end
 * Work Credentials
   At the end, we will define some credentials that are only going to be used for work so this will help keep everything up-to-shape
-** SNOWMIRROR Username and Password
+** Work API Tokens
+   Obviously we are only going to even push these if we are actually running within our work computer as to reduce risk to the firm from my personal machine.
    #tangle
    @code bash
-  {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
    export SNOWMIRROR_USERNAME= op read op://work/SNOWMIRROR/username
    export SNOWMIRROR_PASSWORD= op read op://work/SNOWMIRROR_password
-  {{- end }}
-   @end
-
-** Dynatrace API Key
-   #tangle
-   @code bash
-   export DYNATRACE_EA_PROD_API_KEY="{{ onepasswordRead "op://work/dynatrace_ea_prod_api_key/credential" }}"
+   export DYNATRACE_EA_PROD_API_KEY= op read op://work/dynatrace_ea_prod_api_key/credential
+   {{- end }}
    @end
 
 * Sourcing your .bashrc

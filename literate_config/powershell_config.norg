@@ -5,7 +5,7 @@ authors: dargo
 categories: 
 tangle: Documents/PowerShell/Profile.ps1.tmpl
 created: 2023-10-20T20:54:10-0800
-updated: 2023-10-23T20:55:02-0800
+updated: 2023-11-18T16:29:00-0800
 version: 1.1.1
 @end
 This is primarily around setting up powershell properly in such a way that we are able to set up a local environment without much fuss and without feeling like we have to rebuild it each time.

@@ -4,10 +4,11 @@
 
 export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
-export OPENAI_API_KEY="{{ onepasswordRead "op://Back-End/openai_api_key/notesPlain" }}"
+{{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
+export OPENAI_API_KEY= op read op://Back-End/openai_api_key/credential
+{{- end }}
 
-
-export TODOIST_API_KEY="{{ onepasswordRead "op://Back-End/TODOIST_API_KEY/credential" }}"
+export TODOIST_API_KEY=op read op://Back-End/todoist_api_key/credential
 
 
 . "$HOME/.cargo/env"
@@ -19,11 +20,11 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH=$PATH":$HOME/bin"
 
-export SNOWMIRROR_USERNAME="{{ onepasswordRead "op://work/SNOWMIRROR/username" }}"
-export SNOWMIRROR_PASSWORD="{{ onepasswordRead "op://work/SNOWMIRROR/password" }}"
-
-
-export DYNATRACE_EA_PROD_API_KEY="{{ onepasswordRead "op://work/dynatrace_ea_prod_api_key/credential" }}"
+{{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+export SNOWMIRROR_USERNAME= op read op://work/SNOWMIRROR/username
+export SNOWMIRROR_PASSWORD= op read op://work/SNOWMIRROR_password
+export DYNATRACE_EA_PROD_API_KEY= op read op://work/dynatrace_ea_prod_api_key/credential
+{{- end }}
 
 if [ -f ~/.bashrc ]; then
 . ~/.bashrc

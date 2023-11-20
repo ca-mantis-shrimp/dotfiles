@@ -69,15 +69,17 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    bin/
    {{ end }}
 
-   ./literate_config/
+   literate_config/
+   wiki/
    @end
    - If we are not in windows, we are removing the `AppData`, `Documents`, and all PowerShell files from the `.chezmoiscripts` directory
    -- These folders are a microsoft thing, and shouldn't make their way into linux directories
    --- specifically, this is where the neovim config and powershell script are respectively.
    - Otherwise, we are removing the `nvim` folder from the `.config` file
    -- so we don't conflict with the version that is used in windows
-   - finally, we ignore this folder! 
+   - dont forget to ignore this folder! 
    -- because it is not intended to be copied to the machine's home directory, it is intended to serve as the brain of the repository itself and thus should never be included
+   - we have a similar thing going on with the wiki folder. this is intended to be the main point that we use to just represent the exported directory
 
 * Git
   The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
@@ -117,3 +119,12 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 ** Git Credentials Using PAT Tokens
    PAT Tokens are the recommended way to get this stuff done.
    we are going to use 1Password to get this all going but we are just trying to make this all work
+** Git ignore
+   we have a few generated files so we want to just ignore the file itself so that we can ensure there is something to do for these various pieces
+   #tangle .gitignore
+   @code .gitignore
+   wiki/*
+   @end
+   - we want to ignore the contents of the wiki folder, but not the folder itself because we dont want to have to create it each time.
+   -- Instead, we are going to just export these different pieces and get to the point where we can just review work and ensure this is something we can review from the container so we have something to review
+

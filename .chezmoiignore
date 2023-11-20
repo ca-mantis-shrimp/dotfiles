@@ -9,4 +9,5 @@ dot_config/nvim/
 bin/
 {{ end }}
 
-./literate_config/
+literate_config/
+wiki/
