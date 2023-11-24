@@ -21,36 +21,38 @@ This is where tangling comes in. These neorg files will actually generate the da
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 * Index
 ** Bash
-   - {:$\activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
-   - {:$\bash_commands:}[Bash Commands] - One-Time commands that occasionally need to be run on a new machine
-   - {:$\bash_config:}[Bash Configuration Index] - Starting point for configuring the bash shell files
-   - {:$\bash_profile:}[Bash Profile] - Definition of the .bash_profile
-   - {:$\install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
-   - {:$\install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
-   - {:$\linux_scripts:}[Script Index] - Index of one-time scripts that need to be run
-   - {:$\nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
-   - {:$\profile_config:}[Profile] - the `.profile` for bash shell
-   - {:$\pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+   - {:$/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
+   - {:$/bash_commands:}[Bash Commands] - One-Time commands that occasionally need to be run on a new machine
+   - {:$/bash_config:}[Bash Configuration Index] - Starting point for configuring the bash shell files
+   - {:$/bash_profile:}[Bash Profile] - Definition of the .bash_profile
+   - {:$/install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
+   - {:$/install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
+   - {:$/linux_scripts:}[Script Index] - Index of one-time scripts that need to be run
+   - {:$/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
+   - {:$/profile_config:}[Profile] - the `.profile` for bash shell
+   - {:$/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+** Git
+   - {:$/global_git_config:}[Default Git Config] - The templated variation of the git configuration files to enable
 ** Index
-   - {:$\index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
-   - {:$\scripts:}[Script Index] - index of both bash and powershell scripts
+   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+   - {:$/scripts:}[Script Index] - index of both bash and powershell scripts
 ** Neovim
-   - {:$\config:}[Config Folder] - Root of the config folder for Neovim
-   - {:$\lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
-   - {:$\neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
-   - {:$\neovim:}[Configuration Index] - Starting point for Neovim Configuration
-   - {:$\options:}[Options] - Setting options for Neovim itself
-   - {:$\plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
-   - {:$\python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
-   - {:$\smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
-   - {:$\telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
+   - {:$/config:}[Config Folder] - Root of the config folder for Neovim
+   - {:$/lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
+   - {:$/neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
+   - {:$/neovim:}[Configuration Index] - Starting point for Neovim Configuration
+   - {:$/options:}[Options] - Setting options for Neovim itself
+   - {:$/plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
+   - {:$/python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
+   - {:$/smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
+   - {:$/telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
 ** Powershell
-   - {:$\powershell:}[Profile] - the bashrc equivalent for powershell
-   - {:$\powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
+   - {:$/powershell:}[Profile] - the bashrc equivalent for powershell
+   - {:$/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
 ** Scripts
-   - {:$\bash_templates:}[Bash Templates] - templates for common bash operations
+   - {:$/bash_templates:}[Bash Templates] - templates for common bash operations
 ** Wezterm
-   - {:$\wezterm:}[Wezterm] - configuration for wezs' terminal emulator
+   - {:$/wezterm:}[Wezterm] - configuration for wezs' terminal emulator
 * Chezmoi
   Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
   Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
@@ -106,44 +108,6 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
    -- because it is not intended to be copied to the machine's home directory, it is intended to serve as the brain of the repository itself and thus should never be included
    - we have a similar thing going on with the wiki folder. this is intended to be the main point that we use to just represent the exported directory
 
-* Git
-  The software that has enabled all of this is Chezmoi, a dotfile manager that can give users the ability to have a single configuration with minor edits to accomodate different OSs as well as different needs for different machines.
-
-  While this wont be the main place we talk about the inner workings of Chezmoi, I will leave that to the {:$knowledge_base/Applications/Chezmoi/index:}[Chezmoi Knowledge Files]
-
-  Instead, here we are going to define our chezmoi files and explain why we have made the decisions we did
-
-  Our git configuration file is one of the first places where we start leveraging the template abilities of chezmoi:
-  #tangle .gitconfig.tmpl
-  @code gitconfig
-  [user]
-  {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-  email = darburgess@deloitte.com
-  {{ else }}
-  email = dargondab9@gmail.com
-  {{- end }}
-  name = Darrion Burgess
-
-  [core]
-  symlinks = true
-
-  [credential]
-  {{- if eq .chezmoi.os "windows" }}
-  helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
-  {{- else }}
-  helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
-  {{- end}}
-  @end
-  - The main variation comes with the email that gets set for the git pieces
-  -- the work one just changes the email to my standard work email
-  -- While any other time we use the standard email associated with our personal GH account
-  - Finally, we are using gits' built-in credential storing feature to store our PAT tokens within the local machine
-  -- While it is generally considered bad-practice to store secret in plaintext in a repo, we have avoided that in the credential file itself by outsourcing this work to the 1password CLI which you will see below
-  - finally we need to put in this symlinks option to make this symlink hack we are relying on work between windows and linux per {https://stackoverflow.com/questions/5917249/git-symbolic-links-in-windows/59761201#59761201}[This discussion about symlinks between linux and windows]
-  - we also also make openSSH our agent on windows per {https://developer.1password.com/docs/ssh/get-started}[This 1password tutorial]
-** Git Credentials Using PAT Tokens
-   PAT Tokens are the recommended way to get this stuff done.
-   we are going to use 1Password to get this all going but we are just trying to make this all work
 * Docker 
 One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 
 
