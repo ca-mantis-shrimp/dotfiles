@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: git
 tangle: ./dot_gitconfig.tmpl
 created: 2023-11-24T15:11:15-0600
-updated: 2023-11-24T16:39:28-0600
+updated: 2023-11-24T16:40:42-0600
 version: 1.1.1
 @end
 our central git config file that will be located in the main home directory
@@ -28,5 +28,7 @@ helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
 helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
 {{- else }}
 helper = /usr/bin/git-credential-manager
+credentailStore = cache
+{{end}}
 {{end}}
 @end
