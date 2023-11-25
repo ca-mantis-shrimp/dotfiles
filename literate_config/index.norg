@@ -123,16 +123,14 @@ One of the primary changes that have been made over this time is the need to con
   ARG op_service_account
   ENV OP_SERVICE_ACCOUNT_TOKEN $op_service_account
 
-  COPY ./ /root/.local/share/chezmoi
-
   RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
   echo https://downloads.1password.com/linux/alpinelinux/stable/ >> /etc/apk/repositories && \
   wget https://downloads.1password.com/linux/keys/alpinelinux/support@1password.com-61ddfc31.rsa.pub -P /etc/apk/keys && \
   apk update && apk add 1password-cli && \
   chezmoi init --apply && \
-  nvim --headless -c "+Lazy! sync" -c "TSUpdateSync" -c "sleep 20" -c "qall"
+  nvim --headless -c "+Lazy! sync" -c "TSUpdateSync" -c "qall" 
 
-  WORKDIR /root/.local/share/chezmoi
+  COPY ./ /root/.local/share/chezmoi
   @end
 
   Next, we are going to define a devcontainer.json which will largely just use this stupid thing so that i can actually ensure this is going to work as a development container
