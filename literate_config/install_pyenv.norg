@@ -2,7 +2,7 @@
 title: PyEnv Installer
 description: Smaller script to install pyenv via apt along with dependencies
 authors: Darrion Burgess
-categories: bash
+categories: bash scripts
 tangle: run_once_before_install_pyenv.sh
 created: 2023-10-06T06:40:48-0800
 updated: 2023-10-06T08:51:41-0800

@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2023-10-20T21:20:32-0800
+updated: 2023-11-25T11:28:10-0800
 version: 1.0.0
 @end
 = TOC
@@ -20,127 +20,39 @@ This is where tangling comes in. These neorg files will actually generate the da
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 * Index
-** Bash
-   - {:$/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
-   - {:$/bash_commands:}[Bash Commands] - One-Time commands that occasionally need to be run on a new machine
-   - {:$/bash_config:}[Bash Configuration Index] - Starting point for configuring the bash shell files
-   - {:$/bash_profile:}[Bash Profile] - Definition of the .bash_profile
-   - {:$/install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
-   - {:$/install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
-   - {:$/linux_scripts:}[Script Index] - Index of one-time scripts that need to be run
-   - {:$/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
-   - {:$/profile_config:}[Profile] - the `.profile` for bash shell
-   - {:$/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+** Bash Scripts
+   - {:$\activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
+   - {:$\bash_templates:}[Bash Templates] - templates for common bash operations
+   - {:$\install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
+   - {:$\install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
+   - {:$\nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
+** Bash Shell Config
+   - {:$\bash_profile:}[Bash Profile] - Definition of the .bash_profile
+   - {:$\profile_config:}[Profile] - the `.profile` for bash shell
+   - {:$\pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+** Chezmoi
+   - {:$\chezmoi:}[Chezmoi File Configuration] - Covers files needed to make chezmoi work on multiple machines and containers
+** Containers
+   - {:$\containers:}[Chezmoi Repo Container Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
 ** Git
-   - {:$/global_git_config:}[Default Git Config] - The templated variation of the git configuration files to enable
+   - {:$\global_git_config:}[User Git Config] - User git config for setting up the main formatter
 ** Index
-   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
-   - {:$/scripts:}[Script Index] - index of both bash and powershell scripts
+   - {:$\bash_config:}[Bash Shell Configuration] - Starting point for configuring the bash shell files
+   - {:$\index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+   - {:$\linux_scripts:}[Bash Scripts] - Index of one-time scripts that need to be run
+   - {:$\neovim:}[Neovim Configuration] - Starting point for Neovim Configuration
+   - {:$\scripts:}[Scripts] - index of both bash and powershell scripts
 ** Neovim
-   - {:$/config:}[Config Folder] - Root of the config folder for Neovim
-   - {:$/lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
-   - {:$/neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
-   - {:$/neovim:}[Configuration Index] - Starting point for Neovim Configuration
-   - {:$/options:}[Options] - Setting options for Neovim itself
-   - {:$/plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
-   - {:$/python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
-   - {:$/smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
-   - {:$/telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
+   - {:$\config:}[Config Folder] - Root of the config folder for Neovim
+   - {:$\lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
+   - {:$\neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
+   - {:$\options:}[Options] - Setting options for Neovim itself
+   - {:$\plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
+   - {:$\python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
+   - {:$\smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
+   - {:$\telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
 ** Powershell
-   - {:$/powershell:}[Profile] - the bashrc equivalent for powershell
-   - {:$/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
-** Scripts
-   - {:$/bash_templates:}[Bash Templates] - templates for common bash operations
+   - {:$\powershell:}[Profile] - the bashrc equivalent for powershell
+   - {:$\powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
 ** Wezterm
-   - {:$/wezterm:}[Wezterm] - configuration for wezs' terminal emulator
-* Chezmoi
-  Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
-  Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
-** Config File
-   We are opting to do the standard chezmoi TOML file
-   #tangle .chezmoi.toml.tmpl
-   @code toml
-   {{ if eq .chezmoi.os "windows" }}
-   [cd]
-   command = "pwsh"
-   {{ end }}
-
-   [diff]
-   command = "nvim"
-   args = "-d"
-
-   [edit]
-   command = "nvim"
-
-   [git]
-   autoCommit = true
-   @end
-   - windows has this annoying thing where it defaults to the cmd for most things so we need to just start it in powershell whenever we use the `chezmoi cd` command
-   - for the diffing mechanism between chezmoi and the files, I use neovim's default diff mode
-   -- we do this by running neovim with the `-d` argument
-   --- ( ) However, in the future I still want to change this over to using the diffview plugin instead to improve the user experience and get them all in one go
-   - We are using neovim whenever we do `chezmoi edit`
-   - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
-** Ignore File
-   Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
-   #tangle .chezmoiignore
-   @code gitignore
-   {{ if ne .chezmoi.os "windows" }}
-   AppData/
-   Documents/
-   *.ps1
-   {{ else }}
-   dot_ssh/config
-   dot_config/nvim/
-   *.sh
-   bin/
-   {{ end }}
-
-   literate_config/
-   wiki/
-   @end
-   - If we are not in windows, we are removing the `AppData`, `Documents`, and all PowerShell files from the `.chezmoiscripts` directory
-   -- These folders are a microsoft thing, and shouldn't make their way into linux directories
-   --- specifically, this is where the neovim config and powershell script are respectively.
-   - Otherwise, we are removing the `nvim` folder from the `.config` file
-   -- so we don't conflict with the version that is used in windows
-   - dont forget to ignore this folder! 
-   -- because it is not intended to be copied to the machine's home directory, it is intended to serve as the brain of the repository itself and thus should never be included
-   - we have a similar thing going on with the wiki folder. this is intended to be the main point that we use to just represent the exported directory
-
-* Docker 
-One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 
-
-  Specifically, we are going to have two separate containers:
-  - The presentation container
-  - The development container
-
-  From here we can make them orthogonal concerns and we can talk about them separately
-  #tangle Dockerfile
-  @code Dockerfile
-  FROM alpine:latest
-
-  ARG op_service_account
-  ENV OP_SERVICE_ACCOUNT_TOKEN $op_service_account
-
-  RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
-  echo https://downloads.1password.com/linux/alpinelinux/stable/ >> /etc/apk/repositories && \
-  wget https://downloads.1password.com/linux/keys/alpinelinux/support@1password.com-61ddfc31.rsa.pub -P /etc/apk/keys && \
-  apk update && apk add 1password-cli && \
-  chezmoi init --apply && \
-  nvim --headless -c "+Lazy! sync" -c "TSUpdateSync" -c "qall" 
-
-  COPY ./ /root/.local/share/chezmoi
-  @end
-
-  Next, we are going to define a devcontainer.json which will largely just use this stupid thing so that i can actually ensure this is going to work as a development container
-
-  #tangle .devcontainer.json
-  @code json
-  {
-    "name": "dotfiles_config",
-    "dockerFile": "Dockerfile",
-  }
-  @end
-  - we give it a little name that will help us identify the container itself
-  - as well as making it clear we want to use the dockerfile we just defined
+   - {:$\wezterm:}[Wezterm] - configuration for wezs' terminal emulator

@@ -2,7 +2,7 @@
 title: Clipboard Integration for WSL
 description: script to pull clipboard into WSL terminal
 authors: Darrion Burgess
-categories: bash
+categories: bash scripts
 tangle: bin/nvim_paste_wsl.sh
 created: 2023-10-16T13:39:06-0800
 updated: 2023-10-16T13:45:11-0800

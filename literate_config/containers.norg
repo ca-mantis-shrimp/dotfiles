@@ -1,0 +1,71 @@
+@document.meta
+title: Chezmoi Repo Container Configuration
+description: contains information for both the regular docker file as well as the devcontainer.json file
+authors: Darrion Burgess
+categories: containers
+created: 2023-11-25T11:11:26-0800
+updated: 2023-11-25T11:12:14-0800
+version: 1.1.1
+@end
+One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 
+
+Specifically, we are going to have two separate containers:
+- The presentation container
+- The development container
+
+From here we can make them orthogonal concerns and we can talk about them separately
+#tangle Dockerfile
+@code Dockerfile
+FROM alpine:latest
+
+ARG op_service_account
+ENV OP_SERVICE_ACCOUNT_TOKEN $op_service_account
+
+COPY ./ /root/.local/share/chezmoi
+RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
+@end
+~ we are going to use the latest alpine image as our base
+~ the contents of this repo will be copied into the configuration folder of the root user so that we are able to itilize chezmoi without needing another network hop to get the files we already have here
+~ in order to get our service account key, we are going to make it a build argument
+~ and the next line will actually capture that argument at the command line and set it as an environment variable within the container itself
+~ we start this all as a single `RUN` command due to wanting to maximize performance and minimize the number of layers we have to build
+~ neovim is necessary here because we actually use it as a running engine for our end product
+~ chezmoi is available via apk so that will be how we implement this repository
+~ git is actually not installed on alpine by default so we need to add it to make any changes
+~~ although this is a good candidate for being installed in the devcontainer
+~ curl will be necessary for the work we need later
+~ build-base is necessary for the rust installation
+~ rust is necessary for the starship installation
+~ starship is the prompt that we use
+~ nodejs is necessary for getting things like copilot working
+~~ another good candidate for the devcontainer
+
+* OnePassword Install for Alpine
+  #tangle Dockerfile
+  @code Dockerfile
+  echo https://downloads.1password.com/linux/alpinelinux/stable/ >> /etc/apk/repositories && \
+  wget https://downloads.1password.com/linux/keys/alpinelinux/support@1password.com-61ddfc31.rsa.pub -P /etc/apk/keys && \
+  apk update && apk add 1password-cli && \
+  @end
+  ~ we need to add the 1password repository to the apk repositories
+  ~ we need to add the 1password public key to the apk keys
+  ~ Finally, we can actually download and install 1password with both the repo and keys in place
+* Prepping Chezmoi and Neovim
+  Once everything is setup, we should be able to setup our standard dotfiles
+  #tangle Dockerfile
+  @code Dockerfile
+  chezmoi init --apply && \
+  nvim --headless -c "+Lazy! sync" -c "TSUpdateSync" -c "qall" 
+  @end
+
+  Next, we are going to define a devcontainer.json which will largely just use this stupid thing so that i can actually ensure this is going to work as a development container
+* Devcontainer spec
+  #tangle .devcontainer.json
+  @code json
+ {
+    "name": "dotfiles_config",
+    "dockerFile": "Dockerfile",
+  }
+  @end
+  - we give it a little name that will help us identify the container itself
+  - as well as making it clear we want to use the dockerfile we just defined

@@ -1,10 +1,10 @@
 @document.meta
-title: Script Index
+title: Scripts
 description: index of both bash and powershell scripts
 authors: Darrion Burgess
 categories: index
 created: 2023-10-02T12:51:57-0800
-updated: 2023-11-19T17:50:39-0800
+updated: 2023-11-25T11:25:17-0800
 version: 1.1.1
 @end
 When we first get a machine, unless we are operating from a dockerized mindset, we will likely need to setup the environment first to ensure that everything we have setup above works as intended.

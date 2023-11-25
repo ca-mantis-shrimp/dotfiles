@@ -1,0 +1,64 @@
+@document.meta
+title: Chezmoi file configuration
+description: Covers files needed to make chezmoi work on multiple machines and containers
+authors: Darrion Burgess
+categories: chezmoi
+created: 2023-11-25T11:14:55-0800
+updated: 2023-11-25T11:15:36-0800
+version: 1.1.1
+@end
+
+Chezmoi is the glue that is holding all of this together, and as such should be understood first only after Neovim itself
+Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
+* Config File
+  We are opting to do the standard chezmoi TOML file
+  #tangle .chezmoi.toml.tmpl
+  @code toml
+   {{ if eq .chezmoi.os "windows" }}
+   [cd]
+   command = "pwsh"
+   {{ end }}
+
+   [diff]
+   command = "nvim"
+   args = "-d"
+
+   [edit]
+   command = "nvim"
+
+   [git]
+   autoCommit = true
+  @end
+  - windows has this annoying thing where it defaults to the cmd for most things so we need to just start it in powershell whenever we use the `chezmoi cd` command
+  - for the diffing mechanism between chezmoi and the files, I use neovim's default diff mode
+  -- we do this by running neovim with the `-d` argument
+  --- ( ) However, in the future I still want to change this over to using the diffview plugin instead to improve the user experience and get them all in one go
+  - We are using neovim whenever we do `chezmoi edit`
+  - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
+* Ignore File
+  Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
+  #tangle .chezmoiignore
+  @code gitignore
+  {{ if ne .chezmoi.os "windows" }}
+  AppData/
+  Documents/
+  *.ps1
+  {{ else }}
+  dot_ssh/config
+  dot_config/nvim/
+  *.sh
+  bin/
+  {{ end }}
+
+  literate_config/
+  wiki/
+  @end
+  - If we are not in windows, we are removing the `AppData`, `Documents`, and all PowerShell files from the `.chezmoiscripts` directory
+  -- These folders are a microsoft thing, and shouldn't make their way into linux directories
+  --- specifically, this is where the neovim config and powershell script are respectively.
+  - Otherwise, we are removing the `nvim` folder from the `.config` file
+  -- so we don't conflict with the version that is used in windows
+  - dont forget to ignore this folder! 
+  -- because it is not intended to be copied to the machine's home directory, it is intended to serve as the brain of the repository itself and thus should never be included
+  - we have a similar thing going on with the wiki folder. this is intended to be the main point that we use to just represent the exported directory
+
