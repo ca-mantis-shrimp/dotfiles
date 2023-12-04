@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2023-11-25T11:28:10-0800
+updated: 2023-12-03T20:13:35-0800
 version: 1.0.0
 @end
 = TOC
@@ -54,5 +54,8 @@ As far as the structure goes I'm still tinkering with it but for right now I thi
 ** Powershell
    - {:$\powershell:}[Profile] - the bashrc equivalent for powershell
    - {:$\powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
+** Tiling Wm
+   - {:$\komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
+   - {:$\whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
 ** Wezterm
    - {:$\wezterm:}[Wezterm] - configuration for wezs' terminal emulator

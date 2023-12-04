@@ -22,7 +22,7 @@ ARG op_service_account
 ENV OP_SERVICE_ACCOUNT_TOKEN $op_service_account
 
 COPY ./ /root/.local/share/chezmoi
-RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
+RUN apk add neovim chezmoi git curl build-base rust starship nodejs
 @end
 ~ we are going to use the latest alpine image as our base
 ~ the contents of this repo will be copied into the configuration folder of the root user so that we are able to itilize chezmoi without needing another network hop to get the files we already have here
@@ -43,9 +43,9 @@ RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
 * OnePassword Install for Alpine
   #tangle Dockerfile
   @code Dockerfile
-  echo https://downloads.1password.com/linux/alpinelinux/stable/ >> /etc/apk/repositories && \
+  RUN echo https://downloads.1password.com/linux/alpinelinux/stable/ >> /etc/apk/repositories && \
   wget https://downloads.1password.com/linux/keys/alpinelinux/support@1password.com-61ddfc31.rsa.pub -P /etc/apk/keys && \
-  apk update && apk add 1password-cli && \
+  apk update && apk add 1password-cli
   @end
   ~ we need to add the 1password repository to the apk repositories
   ~ we need to add the 1password public key to the apk keys
@@ -54,7 +54,7 @@ RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
   Once everything is setup, we should be able to setup our standard dotfiles
   #tangle Dockerfile
   @code Dockerfile
-  chezmoi init --apply && \
+  RUN chezmoi init --apply && \
   nvim --headless -c "+Lazy! sync" -c "TSUpdateSync" -c "qall" 
   @end
 
@@ -62,7 +62,7 @@ RUN apk add neovim chezmoi git curl build-base rust starship nodejs && \
 * Devcontainer spec
   #tangle .devcontainer.json
   @code json
- {
+  {
     "name": "dotfiles_config",
     "dockerFile": "Dockerfile",
   }

@@ -2,6 +2,9 @@
 AppData/
 Documents/
 *.ps1
+komorebi.json
+dot_config/whkdrc
+
 {{ else }}
 dot_ssh/config
 dot_config/nvim/
