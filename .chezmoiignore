@@ -8,6 +8,7 @@ dot_config/whkdrc
 {{ else }}
 dot_ssh/config
 dot_config/nvim/
+dot_config/sway/
 *.sh
 bin/
 {{ end }}

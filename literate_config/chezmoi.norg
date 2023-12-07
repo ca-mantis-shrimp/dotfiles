@@ -59,6 +59,7 @@ Feel free to review the Chezmoi knowledge itself for further reference, here we 
    {{ else }}
    dot_ssh/config
    dot_config/nvim/
+   dot_config/sway/
    *.sh
    bin/
    {{ end }}
