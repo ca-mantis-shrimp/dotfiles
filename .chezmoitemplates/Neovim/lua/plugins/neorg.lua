@@ -17,6 +17,7 @@ local lazy_loading_keymaps = {
   { "<leader>nm", "<cmd>Neorg workspace main<cr>",           desc = "Edit Primary Notes" },
   { "<leader>nk", "<cmd>Neorg workspace knowledge_base<cr>", desc = "Edit Knowledge Base" },
   { "<leader>nc", "<cmd>Neorg workspace config<cr>",         desc = "Edit Literate Configuration" },
+  { "<leader>ns", "<cmd>Neorg generate-workspace-summary<cr>", desc = "Generate Workspace Summary" },
 }
 local norg_buffer_keymaps = {
   config = {
@@ -40,6 +41,7 @@ local dirman_configuration = {
       work_notes = "~/work_neorg_notes",
       knowledge_base = "~/knowledge_base",
       config = "~/.local/share/chezmoi/literate_config",
+      journal = "~/journal"
     },
     autochdir = true,
     index = "index.norg",
@@ -66,9 +68,9 @@ local module_list = {
   ["core.qol.toc"] = {},
   ["core.journal"] = {
     config = {
-      journal_folder = "/journal/",
+      journal_folder = "/years/",
       use_folders = true,
-      workspace = "main",
+      workspace = "journal",
     },
   },
   ["core.esupports.metagen"] = {
