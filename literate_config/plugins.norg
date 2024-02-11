@@ -1,11 +1,11 @@
 @document.meta
 title: Plugin Index
 description: List of Extra plugins above LazyVim itself
-authors: Darrion Burgess
+authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-13T15:07:41-0800
+updated: 2024-02-10T21:01:05-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -104,13 +104,19 @@ I think to start, I am just going to start with the smaller stuff and then work 
   {
     "jackMort/ChatGPT.nvim",
     config = function() 
-      require('chatgpt').setup()
+      require('chatgpt').setup({
+        api_key_cmd = "op read op://Back-End/openai_api_key/credential",
+        openai_params = {
+          model = "gpt-4.0"
+        }
+      })
     end,
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
+      "folke/trouble.nvim"
     },
   },
   @end
