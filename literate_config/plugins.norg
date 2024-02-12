@@ -5,7 +5,7 @@ authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2024-02-11T18:54:57-0800
+updated: 2024-02-11T22:09:17-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -201,6 +201,8 @@ I think to start, I am just going to start with the smaller stuff and then work 
 
 got the config directly from the main site so for the one we chose you just need `npm` or `yarn` installed, otherwise you can do it with native neovim tech
 
+We are also going to include access to glow.nvim which can be used if we dont want to deal with the whole rigamarol of the browser
+
   #tangle
   @code lua
   {
@@ -212,6 +214,7 @@ got the config directly from the main site so for the one we chose you just need
     end,
     ft = { "markdown" },
   },
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}
   @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
