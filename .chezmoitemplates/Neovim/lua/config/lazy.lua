@@ -17,6 +17,7 @@ local spec_list = {
   {import = "lazyvim.plugins.extras.util.mini-hipatterns"},
   {import = "lazyvim.plugins.extras.util.project"},
   {import = "lazyvim.plugins.extras.dap.core"},
+  {import = "lazyvim.plugins.extras.dap.nlua"},
   {import = "lazyvim.plugins.extras.formatting.black" },
   {import = "lazyvim.plugins.extras.test.core"},
   {import = "lazyvim.plugins.extras.vscode"},

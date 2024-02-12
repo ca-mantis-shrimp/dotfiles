@@ -1,11 +1,11 @@
 @document.meta
 title: Plugin Index
 description: List of Extra plugins above LazyVim itself
-authors: Darrion Burgess
+authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2023-10-13T15:07:41-0800
+updated: 2024-02-11T22:09:17-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -104,13 +104,19 @@ I think to start, I am just going to start with the smaller stuff and then work 
   {
     "jackMort/ChatGPT.nvim",
     config = function() 
-      require('chatgpt').setup()
+      require('chatgpt').setup({
+        api_key_cmd = "op read op://Back-End/openai_api_key/credential",
+        openai_params = {
+          model = "gpt-4"
+        }
+      })
     end,
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
+      "folke/trouble.nvim"
     },
   },
   @end
@@ -190,6 +196,26 @@ I think to start, I am just going to start with the smaller stuff and then work 
   },
   @end
 
+* Markdown Preview
+  Markdown is still the default way to view documentation and the like, so we are going to use the wonderful {https://github.com/iamcco/markdown-preview.nvim/tree/a923f5fc5ba36a3b17e289dc35dc17f66d0548ee}[Markdown Preview] plugin to show our markdown files in their native web format with none of the fluff required by GitHub
+
+got the config directly from the main site so for the one we chose you just need `npm` or `yarn` installed, otherwise you can do it with native neovim tech
+
+We are also going to include access to glow.nvim which can be used if we dont want to deal with the whole rigamarol of the browser
+
+  #tangle
+  @code lua
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}
+  @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
   #tangle

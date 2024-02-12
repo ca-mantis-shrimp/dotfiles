@@ -37,13 +37,19 @@ return {
 {
   "jackMort/ChatGPT.nvim",
   config = function() 
-    require('chatgpt').setup()
+    require('chatgpt').setup({
+      api_key_cmd = "op read op://Back-End/openai_api_key/credential",
+      openai_params = {
+        model = "gpt-4"
+      }
+    })
   end,
   event = "VeryLazy",
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
+    "folke/trouble.nvim"
   },
 },
 
@@ -93,5 +99,16 @@ return {
     'RainbowMultiDelim'
   }
 },
+
+{
+  "iamcco/markdown-preview.nvim",
+  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  build = "cd app && yarn install",
+  init = function()
+    vim.g.mkdp_filetypes = { "markdown" }
+  end,
+  ft = { "markdown" },
+},
+{"ellisonleao/glow.nvim", config = true, cmd = "Glow"}
 
 }
