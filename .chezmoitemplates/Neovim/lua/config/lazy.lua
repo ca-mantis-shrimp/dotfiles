@@ -9,9 +9,7 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 local spec_list = {
   {"LazyVim/LazyVim", import = "lazyvim.plugins"},
-  {{- if ne .chezmoi.hostname "USMINDARBURGES1"}}
   { import = "lazyvim.plugins.extras.coding.copilot"},
-  {{- end }}
   {import = "lazyvim.plugins.extras.ui.mini-animate"},
   {import = "lazyvim.plugins.extras.editor.mini-files"},
   {import = "lazyvim.plugins.extras.ui.edgy"},
