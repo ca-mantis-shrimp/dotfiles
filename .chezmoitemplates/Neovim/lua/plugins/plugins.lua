@@ -40,7 +40,7 @@ return {
     require('chatgpt').setup({
       api_key_cmd = "op read op://Back-End/openai_api_key/credential",
       openai_params = {
-        model = "gpt-4.0"
+        model = "gpt-4"
       }
     })
   end,
@@ -98,6 +98,16 @@ return {
     'RainbowDelimQuoted',
     'RainbowMultiDelim'
   }
+},
+
+{
+  "iamcco/markdown-preview.nvim",
+  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  build = "cd app && yarn install",
+  init = function()
+    vim.g.mkdp_filetypes = { "markdown" }
+  end,
+  ft = { "markdown" },
 },
 
 }

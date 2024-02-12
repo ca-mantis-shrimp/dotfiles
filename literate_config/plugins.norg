@@ -5,7 +5,7 @@ authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2024-02-10T21:01:05-0800
+updated: 2024-02-11T18:54:57-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -107,7 +107,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
       require('chatgpt').setup({
         api_key_cmd = "op read op://Back-End/openai_api_key/credential",
         openai_params = {
-          model = "gpt-4.0"
+          model = "gpt-4"
         }
       })
     end,
@@ -196,6 +196,23 @@ I think to start, I am just going to start with the smaller stuff and then work 
   },
   @end
 
+* Markdown Preview
+  Markdown is still the default way to view documentation and the like, so we are going to use the wonderful {https://github.com/iamcco/markdown-preview.nvim/tree/a923f5fc5ba36a3b17e289dc35dc17f66d0548ee}[Markdown Preview] plugin to show our markdown files in their native web format with none of the fluff required by GitHub
+
+got the config directly from the main site so for the one we chose you just need `npm` or `yarn` installed, otherwise you can do it with native neovim tech
+
+  #tangle
+  @code lua
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
+  @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
   #tangle
