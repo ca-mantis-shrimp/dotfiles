@@ -3,12 +3,21 @@ title: Bash Profile
 description: Definition of the .bash_profile
 authors: Darrion Burgess
 categories: bash shell config
-tangle: dot_bash_profile.tmpl
+tangle: passwordless_bash_profile.tmpl
 created: 2023-10-13T13:31:10-0800
-updated: 2023-10-16T14:38:30-0800
-updated: 2023-10-20T21:18:41-0800
+updated: 2024-02-19T00:40:02-0600
 version: 1.1.1
 @end
+This is probably the most annoying file in almost all of chezmoi.
+
+We will be leveraging the 1password reference format to actually just put the reference URL directly here, 
+
+This means we will have to have two things done BEFORE this file can be used as a proper `.bash_profile`
+~ we need the `op` command installed
+~ we need to have the `OP_SERVICE_ACCOUNT_TOKEN` environment variable set to the service account that has access to the relevant vault
+~ Finally, after running the initial `chezmoi update` command or whatever, we will run `op inject -i passwordless_bash_profile -o .bash_profile` to actually inject the file with the secrets, and put it as the PROPER file
+
+This strategy was chosen because it reduces both the risk as well as the simple PITA factor that comes from actually running the injection within chezmoi
 #tangle
 @code bash
 #!/bin/bash
@@ -33,11 +42,10 @@ version: 1.1.1
   OpenAI is the company behind ChatGPT and other innovative products at the cutting edge of Artificial General Intelligence.
   In order to use their API, we need to have an API key, which we store in 1Password.
 
-  We will be leveraging Chezmois' template function to read the API key from 1Password and export it as an environment variable.
   #tangle
   @code bash
   {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
-  export OPENAI_API_KEY= op read op://Back-End/openai_api_key/credential
+  export OPENAI_API_KEY=op://Back-End/openai_api_key/credential
   {{- end }}
   @end
   - Add the api key for open AI including ChatGPT and other tools
@@ -47,7 +55,7 @@ version: 1.1.1
   We are going to do a similar thing for Todoist where we will put the API key behind a Op login so we can have it while still feeling secure in our usage
   #tangle
   @code bash
-  export TODOIST_API_KEY=op read op://Back-End/todoist_api_key/credential
+  export TODOIST_API_KEY=op://Back-End/todoist_api_key/credential
 
   @end
 * Adding the Cargo and NodeJS version managers
@@ -82,9 +90,9 @@ version: 1.1.1
    #tangle
    @code bash
    {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-   export SNOWMIRROR_USERNAME= op read op://work/SNOWMIRROR/username
-   export SNOWMIRROR_PASSWORD= op read op://work/SNOWMIRROR_password
-   export DYNATRACE_EA_PROD_API_KEY= op read op://work/dynatrace_ea_prod_api_key/credential
+   export SNOWMIRROR_USERNAME=op://work/SNOWMIRROR/username
+   export SNOWMIRROR_PASSWORD=op://work/SNOWMIRROR_password
+   export DYNATRACE_EA_PROD_API_KEY=op://work/dynatrace_ea_prod_api_key/credential
    {{- end }}
    @end
 
