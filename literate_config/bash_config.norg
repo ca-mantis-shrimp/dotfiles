@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: index
 tangle: dot_bashrc.tmpl
 created: 2023-10-06T08:39:41-0800
-updated: 2023-10-16T13:38:12-0800
+updated: 2024-02-19T01:05:28-0600
 version: 1.1.1
 @end
 Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
@@ -16,7 +16,7 @@ Bash should be relatively straightforward, with the exception of my custom promp
 - just standard bash starting point, nothing strange so far hopefully
 * {:bash_templates:}[Templates]
 * {:profile_config:}[Profile Config]
-* {:bash_profile:}[Bash Profile Config]
+* {:bashrc:}[Bash RC Config]
 * {:bash_commands:}[Bash Commands]
 * Enable Starship Prompt
   Lastly, we will enable the starship prompt, this is a nice prompt that is highly customizable and has a lot of nice features

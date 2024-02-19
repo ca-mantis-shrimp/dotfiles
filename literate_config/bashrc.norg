@@ -3,19 +3,19 @@ title: Bash Profile
 description: Definition of the .bash_profile
 authors: Darrion Burgess
 categories: bash shell config
-tangle: passwordless_bash_profile.tmpl
+tangle: passwordless_bashrc.tmpl
 created: 2023-10-13T13:31:10-0800
-updated: 2024-02-19T00:40:02-0600
+updated: 2024-02-19T01:07:26-0600
 version: 1.1.1
 @end
 This is probably the most annoying file in almost all of chezmoi.
 
 We will be leveraging the 1password reference format to actually just put the reference URL directly here, 
 
-This means we will have to have two things done BEFORE this file can be used as a proper `.bash_profile`
+This means we will have to have two things done BEFORE this file can be used as a proper `.bashrc`
 ~ we need the `op` command installed
 ~ we need to have the `OP_SERVICE_ACCOUNT_TOKEN` environment variable set to the service account that has access to the relevant vault
-~ Finally, after running the initial `chezmoi update` command or whatever, we will run `op inject -i passwordless_bash_profile -o .bash_profile` to actually inject the file with the secrets, and put it as the PROPER file
+~ Finally, after running the initial `chezmoi update` command or whatever, we will run `op inject -i passwordless_bashrc -o .bashrc` to actually inject the file with the secrets, and put it as the PROPER file
 
 This strategy was chosen because it reduces both the risk as well as the simple PITA factor that comes from actually running the injection within chezmoi
 #tangle
@@ -96,11 +96,9 @@ This strategy was chosen because it reduces both the risk as well as the simple 
    {{- end }}
    @end
 
-* Sourcing your .bashrc
-  as it stands, the bash_profile is the only thing that runs when you login, if you want to ALSO source your bashrc at the same time, you need to add  the following line so you can source the bashrc while we were working
+* Starship Prompt
+  starship needs to be started last as it causes problems otherwise
   #tangle
   @code bash
-  if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
-  fi
+  eval "$(starship init bash)"
   @end
