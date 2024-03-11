@@ -5,7 +5,7 @@ authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2024-02-11T22:09:17-0800
+updated: 2024-03-10T20:53:00-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -134,22 +134,11 @@ I think to start, I am just going to start with the smaller stuff and then work 
     config = true,
     ft = "http",
     keys = {
-      {"<leader>rc", "<cmd>RestNvim<cr>", "run request under the cursor"},
+      {"<leader>ric", "<cmd>RestNvim<cr>", "run request under the cursor"},
       {"<leader>rp", "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command"},
       {"<leader>rl", "<cmd>RestNvimLast<cr>", "re-run the last request"},
 
     }
-  },
-  @end
-* {https://github.com/wfxr/minimap.vim/tree/726746ed02eab2eef137a7ecceda7214fbeeec41}[Code Minimap]
-  In an attempt to get something close to what VSCode has, I am trying
-  #tangle
-  @code lua
-  {
-    "wfxr/minimap.vim",
-    keys = { { "leader>um", "<cmd>MinimapToggle<cr>", desc = "Toggle Minimap" } },
-    build = "cargo install --locked code-minimap",
-    lazy = false,
   },
   @end
 * Adding Support for PlantUML
@@ -214,7 +203,30 @@ We are also going to include access to glow.nvim which can be used if we dont wa
     end,
     ft = { "markdown" },
   },
-  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+  @end
+
+* Harpoon
+The plugin from the one, the only, the Primegen: {https://github.com/ThePrimeagen/harpoon/tree/harpoon2}[harpoon 2]
+  Now we are wanting to use this because it gets closer to our dream of having a way to do something similar to camera hotkeys so that we are able to work through the different pieces such that we are able to jump to different files and places like they are locations on an SC2 map
+
+  #tangle
+  @code lua
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = true,
+    keys = {
+      {
+        "<leader>a",
+        function()
+          harpoon:list():append()
+        end,
+        desc = "add current buffer to list",
+      },
+    },
+  },
   @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with

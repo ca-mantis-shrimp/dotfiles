@@ -59,18 +59,11 @@ return {
   config = true,
   ft = "http",
   keys = {
-    {"<leader>rc", "<cmd>RestNvim<cr>", "run request under the cursor"},
+    {"<leader>ric", "<cmd>RestNvim<cr>", "run request under the cursor"},
     {"<leader>rp", "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command"},
     {"<leader>rl", "<cmd>RestNvimLast<cr>", "re-run the last request"},
 
   }
-},
-
-{
-  "wfxr/minimap.vim",
-  keys = { { "leader>um", "<cmd>MinimapToggle<cr>", desc = "Toggle Minimap" } },
-  build = "cargo install --locked code-minimap",
-  lazy = false,
 },
 
 {
@@ -109,6 +102,22 @@ return {
   end,
   ft = { "markdown" },
 },
-{"ellisonleao/glow.nvim", config = true, cmd = "Glow"}
+{"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+
+{
+  "ThePrimeagen/harpoon",
+  branch = "harpoon2",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  config = true,
+  keys = {
+    {
+      "<leader>a",
+      function()
+        harpoon:list():append()
+      end,
+      desc = "add current buffer to list",
+    },
+  },
+},
 
 }
