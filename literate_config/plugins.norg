@@ -228,6 +228,15 @@ The plugin from the one, the only, the Primegen: {https://github.com/ThePrimeage
     },
   },
   @end
+
+* Search the web from Nvim
+  little functionality to search from neovim so we dont need to keep using the god-awefule search functionality within windows if we can help it
+
+  @code lua
+  {
+    "voldikss/vim-browser-search"
+  },
+  @end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
   #tangle
