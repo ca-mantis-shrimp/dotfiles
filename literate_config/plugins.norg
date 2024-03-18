@@ -5,7 +5,7 @@ authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2024-03-10T20:53:00-0800
+updated: 2024-03-18T07:40:57-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community
@@ -37,7 +37,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   - {https://github.com/cbochs/grapple.nvim/tree/ab274a3bfb674442d57fca05df866b71895853bc}[grapple.nvim] serves as the core library that allows for this file list and enable the preview capabilities
   - Otherwise, the plugin is only loaded when you use either of the keybinds above
   -- we chose `<leader>`o and i because it mirrors the normal jumplist hotkeys to express that they are paralell but different features
-* Noice
+* ( ) Noice
   {https://github.com/folke/noice.nvim}[noice.nvim] is a super interesting, experimental plugin that was made by our resident hero folke.
 
   This plugin does many things, but chief among them is:
@@ -103,7 +103,7 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @code lua
   {
     "jackMort/ChatGPT.nvim",
-    config = function() 
+    config = function()
       require('chatgpt').setup({
         api_key_cmd = "op read op://Back-End/openai_api_key/credential",
         openai_params = {
@@ -130,13 +130,13 @@ I think to start, I am just going to start with the smaller stuff and then work 
   @code lua
   {
     "rest-nvim/rest.nvim",
-    dependencies = {"nvim-lua/plenary.nvim"},
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = true,
     ft = "http",
     keys = {
-      {"<leader>ric", "<cmd>RestNvim<cr>", "run request under the cursor"},
-      {"<leader>rp", "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command"},
-      {"<leader>rl", "<cmd>RestNvimLast<cr>", "re-run the last request"},
+      { "<leader>ric", "<cmd>RestNvim<cr>",        "run request under the cursor" },
+      { "<leader>rp",  "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command" },
+      { "<leader>rl",  "<cmd>RestNvimLast<cr>",    "re-run the last request" },
 
     }
   },
@@ -203,12 +203,42 @@ We are also going to include access to glow.nvim which can be used if we dont wa
     end,
     ft = { "markdown" },
   },
-  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+
+  {
+    "ellisonleao/glow.nvim",
+    config = true,
+    cmd = "Glow"
+  },
   @end
 
 * Harpoon
 The plugin from the one, the only, the Primegen: {https://github.com/ThePrimeagen/harpoon/tree/harpoon2}[harpoon 2]
   Now we are wanting to use this because it gets closer to our dream of having a way to do something similar to camera hotkeys so that we are able to work through the different pieces such that we are able to jump to different files and places like they are locations on an SC2 map
+
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+  @end
+
+* Database Support
+For this task, all we are going to need is the master TPOPE`s plugin {https://github.com/tpope/vim-dadbod}[dadbod] which gives a one-stop-shop for all the databases we could need without any of the cruft
+
+  we will also be using {https://github.com/kristijanhusak/vim-dadbod-ui}[dadbod-ui] to make a nice left split that will allow us to work through the individual connections we accumulate and switch easily between two or more databases
+  #tangle
+  @code lua
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = { "tpope/vim-dadbod", lazy = true },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
+  @end
+
 
   #tangle
   @code lua
@@ -237,6 +267,7 @@ The plugin from the one, the only, the Primegen: {https://github.com/ThePrimeage
     "voldikss/vim-browser-search"
   },
   @end
+  as we can see we use lazy to ensure that dadbod exists before the ui portion, and we do need to do a funcky init in order to configure the plugin, but this is just the alternative and is probably a little worse than the normal way of doing things because now we have a global variable floating around but whatever it really doesnt matter in the end
 * Ending the plugin spec
   Finally, we end the plugin spec so everything is contained as a single table and we finish the piece we started with
   #tangle

@@ -36,7 +36,7 @@ return {
 
 {
   "jackMort/ChatGPT.nvim",
-  config = function() 
+  config = function()
     require('chatgpt').setup({
       api_key_cmd = "op read op://Back-End/openai_api_key/credential",
       openai_params = {
@@ -55,13 +55,13 @@ return {
 
 {
   "rest-nvim/rest.nvim",
-  dependencies = {"nvim-lua/plenary.nvim"},
+  dependencies = { "nvim-lua/plenary.nvim" },
   config = true,
   ft = "http",
   keys = {
-    {"<leader>ric", "<cmd>RestNvim<cr>", "run request under the cursor"},
-    {"<leader>rp", "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command"},
-    {"<leader>rl", "<cmd>RestNvimLast<cr>", "re-run the last request"},
+    { "<leader>ric", "<cmd>RestNvim<cr>",        "run request under the cursor" },
+    { "<leader>rp",  "<cmd>RestNvimPreview<cr>", "Preview Request Curl Command" },
+    { "<leader>rl",  "<cmd>RestNvimLast<cr>",    "re-run the last request" },
 
   }
 },
@@ -102,7 +102,26 @@ return {
   end,
   ft = { "markdown" },
 },
-{"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+
+{
+  "ellisonleao/glow.nvim",
+  config = true,
+  cmd = "Glow"
+},
+
+{
+  "kristijanhusak/vim-dadbod-ui",
+  dependencies = { "tpope/vim-dadbod", lazy = true },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  },
+  init = function()
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+},
 
 {
   "ThePrimeagen/harpoon",
