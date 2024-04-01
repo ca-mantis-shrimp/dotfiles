@@ -5,8 +5,8 @@ authors: root
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/plugins/plugins.lua
 created: 2023-04-07
-updated: 2024-03-31T18:37:33-0800
-updated: 2024-03-18T07:40:57-0800
+updated: 2024-03-31T19:11:28-0800
+updated: 2024-03-31T19:11:28-0800
 version: 1.0.0
 @end
 Plugins are what really makes Neovim special, and here we can explore the magic (and frustration) of using plugins created for Neovim by the community

@@ -5,8 +5,8 @@ authors: Darrion Burgess
 categories: neovim
 tangle: .chezmoitemplates/Neovim/lua/config/options.lua 
 created: 2023-10-02T11:30:23-0800
-updated: 2023-10-16T19:09:29-0800
-updated: 2023-10-21T08:10:10-0800
+updated: 2024-03-31T19:58:01-0800
+updated: 2024-03-31T19:58:01-0800
 version: 1.1.1
 @end
 LazyVim actually has its' own set of options setup, you can check in the lazyvim repo itself.
@@ -24,6 +24,16 @@ vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 -- next is the expression to be used
 --- specifically, we are using the `foldexpr` function for the treesitter repo itself
 ---- Therefore, this should work for any file which you have treesitter installed and enabled
+
+* System Control Keymaps
+  For some things we have these small workflows that we want to be able to actually pull off and they dont generally have dependencies so we just want them to be here rather than some plugin config
+  #tangle
+  @code lua
+  vim.keymap.set('n', '<leader><tab>c', '<cmd>tcd ~/.local/share/chezmoi<CR>', {})
+  vim.keymap.set('n', '<leader><tab>r', '<cmd>tcd -<CR>', {})
+  @end
+  - we utilize chezmoi to do much of our work, and the tangling functionality requires CD'ing into the chezmoi directory of our needs so we need to ensure that we are able to cd to that directory quickly
+  - therefore, we also have a keymap that enables us to return to the last place we were at
 * GUI Options
   Neovide and other GUI applications have their own options within Neovim that allow us to have an easy API to handle the GUI-related operations all at once.
 

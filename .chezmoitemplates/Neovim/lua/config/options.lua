@@ -3,6 +3,9 @@ vim.opt.autochdir = true
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
+vim.keymap.set('n', '<leader><tab>c', '<cmd>tcd ~/.local/share/chezmoi<CR>', {})
+vim.keymap.set('n', '<leader><tab>r', '<cmd>tcd -<CR>', {})
+
 vim.o.guifont = "FiraCode NF:h20"
 
 vim.g.neovide_scale_factor = 1.0
