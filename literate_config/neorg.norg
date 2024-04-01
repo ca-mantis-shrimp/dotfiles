@@ -4,7 +4,7 @@ description: Configuration of the neorg note taking plugin
 authors: Darrion Burgess
 categories: neovim
 created: 2023-04-09
-updated: 2023-10-02T11:20:47-0800
+updated: 2024-03-31T18:44:24-0800
 version: 1.0.0
 tangle: .chezmoitemplates/Neovim/lua/plugins/neorg.lua
 @end
@@ -27,8 +27,8 @@ It takes more to setup than many of the other plugins but it can help with the a
       config = true,
       dependencies = { "folke/twilight.nvim", config = true },
     },
+    { "luarocks.nvim" },
   }
-
   @end
   - Treesitter is the primary way that we are able to make sense of neorg files and are required to get not only syntax highlighting, but much of our other functionality as well since we rely on treesitter queries to do allot of automation.
   - These queries power cmp which uses some automation skripts created by the team to create completion entries while you type
@@ -206,6 +206,11 @@ It takes more to setup than many of the other plugins but it can help with the a
   #tangle
   @code lua
   return {
+    {
+      "vhyrro/luarocks.nvim",
+      priority = 1000,
+      config = true,
+    },
     {
       "nvim-neorg/neorg",
       build = ":Neorg sync-parsers",

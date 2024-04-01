@@ -8,8 +8,8 @@ local neorg_dependencies = {
     config = true,
     dependencies = { "folke/twilight.nvim", config = true },
   },
+  { "luarocks.nvim" },
 }
-
 
 local lazy_loading_keymaps = {
   { "<leader>nt", "<cmd>Neorg journal today<cr>",            desc = "Today's Journal Page" },
@@ -90,6 +90,11 @@ local module_list = {
 }
 
 return {
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    config = true,
+  },
   {
     "nvim-neorg/neorg",
     build = ":Neorg sync-parsers",
