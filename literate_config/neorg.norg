@@ -4,7 +4,7 @@ description: Configuration of the neorg note taking plugin
 authors: Darrion Burgess
 categories: neovim
 created: 2023-04-09
-updated: 2024-03-31T18:44:24-0800
+updated: 2024-03-31T18:48:09-0800
 version: 1.0.0
 tangle: .chezmoitemplates/Neovim/lua/plugins/neorg.lua
 @end
@@ -228,6 +228,6 @@ It takes more to setup than many of the other plugins but it can help with the a
   - As I noted earlier, treesitter is an important part of making this all work so whenever we build a new version of neorg, we need to be sure to run that sync-parsers command
   -- this will go out and install the latest treesitter grammars and ensure we dont run into issues where we have an older treesitter grammer than the version of neorg itself
   - we place the dependencies from earlier here
-  - we also place the activiation hotkeys here to tell lazy to load neorg only after we click one of these hotkeys
+  - we also place the activation hotkeys here to tell lazy to load neorg only after we click one of these hotkeys
   - we also have set a lazy load on filetype condition where we will load the plugin if we are editing a norg file within the current buffer
   - After that all we have to do is load the module list for our setup function and we are off to the races!
