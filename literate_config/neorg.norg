@@ -213,7 +213,6 @@ It takes more to setup than many of the other plugins but it can help with the a
     },
     {
       "nvim-neorg/neorg",
-      build = ":Neorg sync-parsers",
       dependencies = neorg_dependencies,
       ft = "norg",
       keys = lazy_loading_keymaps,

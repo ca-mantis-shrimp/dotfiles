@@ -97,7 +97,6 @@ return {
   },
   {
     "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
     dependencies = neorg_dependencies,
     ft = "norg",
     keys = lazy_loading_keymaps,
