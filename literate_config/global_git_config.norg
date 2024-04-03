@@ -5,29 +5,40 @@ authors: Darrion Burgess
 categories: git
 tangle: ./dot_gitconfig.tmpl
 created: 2023-11-24T15:11:15-0600
-updated: 2023-11-24T16:58:35-0600
+updated: 2024-04-02T20:47:47-0800
 version: 1.1.1
 @end
 our central git config file that will be located in the main home directory
-@code gitconfig
-[user]
-{{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-email = darburgess@deloitte.com
-{{ else }}
-email = dargondab9@gmail.com
-{{- end }}
-name = Darrion Burgess
-
-[core]
-symlinks = true
-
-[credentials]
-{{- if eq .chezmoi.os "windows" }}
-helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
-{{else if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
-{{- else }}
-helper = /usr/bin/git-credential-manager
-credentailStore = cache
-{{end}}
-@end
+* User config
+  For the email that is associated with what we send
+  @code gitconfig
+  [user]
+  {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+  email = darburgess@deloitte.com
+  {{ else }}
+  email = dargondab9@gmail.com
+  {{- end }}
+  name = Darrion Burgess
+  @end
+* Core Git Config
+  The basic pieces for working with git on the config side
+  @code gitconfig
+  [core]
+  symlinks = true
+  credentailStore = cache
+  @end
+* Credential Helper
+  We want to use the gh helper as our primary credential manager so to do that we need to run it properly from either linux, or windows and make sure we have the proper setup for the path so it always works
+  @code gitconfig
+  [credential "https://github.com"]
+  {{- if eq .chezmoi.os "windows" }}
+  helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
+  {{- else }}
+  helper = !/usr/bin/gh auth git-credential
+  {{end}}
+  [credential "https://gist.github.com"]
+  {{- if eq .chezmoi.os "windows" }}
+  helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
+  {{- else }}
+  helper = !/usr/bin/gh auth git-credential
+  @end
