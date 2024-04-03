@@ -3,9 +3,9 @@ title: Python Plugins
 description: The plugins needed to make python development possible in neovim
 authors: Darrion Burgess
 categories: neovim
-tangle: .chezmoitemplates/Neovim/lua/plugins/python_tools.lua
+tangle: .local/share/chezmoi/.chezmoitemplates/Neovim/lua/plugins/python_tools.lua
 created: 2023-10-06T13:56:16-0800
-updated: 2023-10-21T10:48:45-0800
+updated: 2024-04-02T20:10:02-0800
 version: 1.1.1
 @end
 * Setup

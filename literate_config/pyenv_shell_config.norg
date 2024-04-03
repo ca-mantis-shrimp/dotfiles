@@ -3,9 +3,9 @@ title: PyEnv Shell Configuration Prep
 description: Some extra steps to get us ready for pyenv
 authors: Darrion Burgess
 categories: bash shell config
-tangle: .chezmoitemplates/bash/pyenv_shell_config.sh
+tangle: .local/share/chezmoi/.chezmoitemplates/bash/pyenv_shell_config.sh
 created: 2023-10-13T09:03:14-0800
-updated: 2023-10-13T13:25:27-0800
+updated: 2024-04-02T19:56:48-0800
 version: 1.1.1
 @end
 For pyenv, we need to set a few things up before it becomes usable within the environment.

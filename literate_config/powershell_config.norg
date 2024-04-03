@@ -3,9 +3,9 @@ title: Alt Profile
 description: Alternative Powershell profile with template support
 authors: Darrion Burgess
 categories: powershell
-tangle: Documents/PowerShell/Profile.ps1.tmpl
+tangle: .local/share/chezmoi/Documents/PowerShell/Profile.ps1.tmpl
 created: 2023-10-20T20:54:10-0800
-updated: 2023-11-19T17:48:11-0800
+updated: 2024-04-02T20:12:00-0800
 version: 1.1.1
 @end
 This is primarily around setting up powershell properly in such a way that we are able to set up a local environment without much fuss and without feeling like we have to rebuild it each time.

@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2024-03-31T18:37:56-0800
+updated: 2024-04-02T20:11:37-0800
 version: 1.0.0
 @end
 = TOC
@@ -16,47 +16,48 @@ Specifically, we are going to leverage the tangling feature of neorg to actually
 
 We have gotten to the point where the code is rather concise, but it would take allot of context to understand what is going on in each file and how each one connects with the other.
 
-This is where tangling comes in. These neorg files will actually generate the data that we expect to use throught this work.
+This is where tangling comes in. These norg files will actually generate the data that we expect to use throughout this work.
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
 * Index
 ** Bash Scripts
-   - {:$\activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
-   - {:$\bash_templates:}[Bash Templates] - templates for common bash operations
-   - {:$\install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
-   - {:$\install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
-   - {:$\nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
+  - {:$/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
+  - {:$/bash_templates:}[Bash Templates] - templates for common bash operations
+  - {:$/install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
+  - {:$/install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
+  - {:$/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
 ** Bash Shell Config
-   - {:$\bash_profile:}[Bash Profile] - Definition of the .bash_profile
-   - {:$\profile_config:}[Profile] - the `.profile` for bash shell
-   - {:$\pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+  - {:$/bashrc:}[Bash Profile] - Definition of the .bash_profile
+  - {:$/profile_config:}[Profile] - the `.profile` for bash shell
+  - {:$/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
 ** Chezmoi
-   - {:$\chezmoi:}[Chezmoi File Configuration] - Covers files needed to make chezmoi work on multiple machines and containers
+  - {:$/chezmoi_config:}[Chezmoi Configuration] - Configuring Chezmoi itself
+  - {:$/chezmoi_ignore:}[Chezmoi Ignore] - outlines the files to be ignored by chezmoi
 ** Containers
-   - {:$\containers:}[Chezmoi Repo Container Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
+  - {:$/containers:}[Chezmoi Repo Container Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
 ** Git
-   - {:$\global_git_config:}[User Git Config] - User git config for setting up the main formatter
+  - {:$/global_git_config:}[User Git Config] - User git config for setting up the main formatter
 ** Index
-   - {:$\bash_config:}[Bash Shell Configuration] - Starting point for configuring the bash shell files
-   - {:$\index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
-   - {:$\linux_scripts:}[Bash Scripts] - Index of one-time scripts that need to be run
-   - {:$\neovim:}[Neovim Configuration] - Starting point for Neovim Configuration
-   - {:$\scripts:}[Scripts] - index of both bash and powershell scripts
+  - {:$/bash_config:}[Bash Shell Configuration] - Starting point for configuring the bash shell files
+  - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+  - {:$/linux_scripts:}[Bash Scripts] - Index of one-time scripts that need to be run
+  - {:$/neovim:}[Neovim Configuration] - Starting point for Neovim Configuration
+  - {:$/scripts:}[Scripts] - index of both bash and powershell scripts
 ** Neovim
-   - {:$\config:}[Config Folder] - Root of the config folder for Neovim
-   - {:$\lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
-   - {:$\neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
-   - {:$\options:}[Options] - Setting options for Neovim itself
-   - {:$\plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
-   - {:$\python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
-   - {:$\smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
-   - {:$\telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
+  - {:$/config:}[Config Folder] - Root of the config folder for Neovim
+  - {:$/lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
+  - {:$/neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
+  - {:$/options:}[Options] - Setting options for Neovim itself
+  - {:$/plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
+  - {:$/python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
+  - {:$/smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
+  - {:$/telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
 ** Powershell
-   - {:$\powershell:}[Profile] - the bashrc equivalent for powershell
-   - {:$\powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
+  - {:$/powershell:}[Profile] - the bashrc equivalent for powershell
+  - {:$/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
 ** Tiling Wm
-   - {:$\komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
-   - {:$\sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
-   - {:$\whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
+  - {:$/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
+  - {:$/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
+  - {:$/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
 ** Wezterm
-   - {:$\wezterm:}[Wezterm] - configuration for wezs' terminal emulator
+  - {:$/wezterm:}[Wezterm] - configuration for wezs' terminal emulator

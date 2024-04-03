@@ -3,10 +3,10 @@ title: Lazy Configuration
 description: Configuration for `lazy.nvim`
 authors: Darrion Burgess
 categories: neovim
-tangle: .chezmoitemplates/Neovim/lua/config/lazy.lua
+tangle: .local/share/chezmoi/.chezmoitemplates/Neovim/lua/config/lazy.lua
 created: 2023-10-02T11:29:59-0800
-updated: 2024-01-22T11:21:49-0800
-updated: 2024-01-14T14:15:39-0800
+updated: 2024-04-02T20:09:14-0800
+updated: 2024-04-02T20:09:14-0800
 version: 1.1.1
 @end
 Since Lazy.nvim is the primary engine driving all of this, we should take a second to review how it is setup incase we ever need to make changes ourselves
