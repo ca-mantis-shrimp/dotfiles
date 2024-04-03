@@ -3,9 +3,9 @@ title: User Git Config
 description: User git config for setting up the main formatter
 authors: Darrion Burgess
 categories: git
-tangle: ./dot_gitconfig.tmpl
+tangle: .local/share/chezmoi/dot_gitconfig.tmpl
 created: 2023-11-24T15:11:15-0600
-updated: 2024-04-02T20:47:47-0800
+updated: 2024-04-02T20:52:07-0800
 version: 1.1.1
 @end
 our central git config file that will be located in the main home directory
@@ -25,7 +25,6 @@ our central git config file that will be located in the main home directory
   @code gitconfig
   [core]
   symlinks = true
-  credentailStore = cache
   @end
 * Credential Helper
   We want to use the gh helper as our primary credential manager so to do that we need to run it properly from either linux, or windows and make sure we have the proper setup for the path so it always works
@@ -41,4 +40,5 @@ our central git config file that will be located in the main home directory
   helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
   {{- else }}
   helper = !/usr/bin/gh auth git-credential
+  {{end}}
   @end

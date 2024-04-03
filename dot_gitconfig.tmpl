@@ -9,12 +9,15 @@ name = Darrion Burgess
 [core]
 symlinks = true
 
-[credentials]
+[credential "https://github.com"]
 {{- if eq .chezmoi.os "windows" }}
 helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
-{{else if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
 {{- else }}
-helper = /usr/bin/git-credential-manager
-credentailStore = cache
+helper = !/usr/bin/gh auth git-credential
+{{end}}
+[credential "https://gist.github.com"]
+{{- if eq .chezmoi.os "windows" }}
+helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
+{{- else }}
+helper = !/usr/bin/gh auth git-credential
 {{end}}
