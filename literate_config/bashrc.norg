@@ -3,9 +3,9 @@ title: Bash Profile
 description: Definition of the .bash_profile
 authors: Darrion Burgess
 categories: bash shell config
-tangle: passwordless_bashrc.tmpl
+tangle: .local/share/chezmoi/passwordless_bashrc.tmpl
 created: 2023-10-13T13:31:10-0800
-updated: 2024-02-19T01:07:26-0600
+updated: 2024-04-02T21:02:53-0800
 version: 1.1.1
 @end
 This is probably the most annoying file in almost all of chezmoi.
@@ -18,20 +18,17 @@ This means we will have to have two things done BEFORE this file can be used as 
 ~ Finally, after running the initial `chezmoi update` command or whatever, we will run `op inject -i passwordless_bashrc -o .bashrc` to actually inject the file with the secrets, and put it as the PROPER file
 
 This strategy was chosen because it reduces both the risk as well as the simple PITA factor that comes from actually running the injection within chezmoi
-#tangle
 @code bash
 #!/bin/bash
 @end
 * Adding Penv to PATH and making it executible
   all we do is use the template script we defined to add the pyenv config once they have it.
-  #tangle
   @code bash
   {{template "bash/pyenv_shell_config.sh" .}}
   @end
 
 * Adding bob-nvim to the path
   We use bob-nvim for our managing Neovim versions, and in order to use the current version of Neovim, we need to add it to our path
-  #tangle
   @code bash
   export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
   @end
@@ -42,7 +39,6 @@ This strategy was chosen because it reduces both the risk as well as the simple 
   OpenAI is the company behind ChatGPT and other innovative products at the cutting edge of Artificial General Intelligence.
   In order to use their API, we need to have an API key, which we store in 1Password.
 
-  #tangle
   @code bash
   {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
   export OPENAI_API_KEY=op://Back-End/openai_api_key/credential
@@ -53,7 +49,6 @@ This strategy was chosen because it reduces both the risk as well as the simple 
   -- it also means we effectively have two chained dependencies. Chezmoi for the templating functionality, which is using 1password as the secrets manager
 * Making Todoist API Key Available
   We are going to do a similar thing for Todoist where we will put the API key behind a Op login so we can have it while still feeling secure in our usage
-  #tangle
   @code bash
   export TODOIST_API_KEY=op://Back-End/todoist_api_key/credential
 
@@ -63,7 +58,6 @@ This strategy was chosen because it reduces both the risk as well as the simple 
   We are going to be using the following tools:
   - {https://rustup.rs/}[Rust]
   - NodeJS:
-  #tangle
   @code bash
   . "$HOME/.cargo/env"
 
@@ -79,7 +73,6 @@ This strategy was chosen because it reduces both the risk as well as the simple 
   -- The line after that loads a shell script that makes nvm available to the system
   -- and finally loads bash completions once the first two steps are done so that the application is ready to use out of the box
 * Add Personal Bin of shell commands to path
-  #tangle
   @code bash
   export PATH=$PATH":$HOME/bin"
   @end
@@ -87,8 +80,8 @@ This strategy was chosen because it reduces both the risk as well as the simple 
   At the end, we will define some credentials that are only going to be used for work so this will help keep everything up-to-shape
 ** Work API Tokens
    Obviously we are only going to even push these if we are actually running within our work computer as to reduce risk to the firm from my personal machine.
-   #tangle
    @code bash
+   #something new
    {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
    export SNOWMIRROR_USERNAME=op://work/SNOWMIRROR/username
    export SNOWMIRROR_PASSWORD=op://work/SNOWMIRROR_password
@@ -98,7 +91,6 @@ This strategy was chosen because it reduces both the risk as well as the simple 
 
 * Starship Prompt
   starship needs to be started last as it causes problems otherwise
-  #tangle
   @code bash
   eval "$(starship init bash)"
   @end

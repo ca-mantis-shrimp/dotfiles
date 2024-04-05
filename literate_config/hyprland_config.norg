@@ -5,13 +5,12 @@ authors: primary_desktop
 categories: tiling_wm
 tangle: .local/share/chezmoi/dot_config/hypr/hyprland.conf
 created: 2024-04-02T20:12:56-0800
-updated: 2024-04-02T20:38:28-0800
+updated: 2024-04-04T20:05:59-0800
 version: 1.1.1
 @end
 
 * Monitors
   See https://wiki.hyprland.org/Configuring/Monitors/
-  #tangle
   @code conf
   monitor=DP-1,2560x1440@144,0x0,1
   @end
@@ -19,7 +18,6 @@ version: 1.1.1
   See {https://wiki.hyprland.org/Configuring/Keywords/}[The Keywords wiki page] for more
 
   Execute your favorite apps at launch
-  #tangle
   @code conf
   exec-once = waybar & hyprpaper & firefox
   @end
@@ -28,7 +26,6 @@ version: 1.1.1
   `source = ~/.config/hypr/myColors.conf`
 
 * Set programs that you use
-  #tangle
   @code conf
   $terminal = kitty
   $fileManager = dolphin
@@ -36,13 +33,11 @@ version: 1.1.1
   @end
 
 * Some default env vars.
-  #tangle
   @code conf
   env = XCURSOR_SIZE,24
   env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
   @end
 * NVIDIA Stuff
-  #tangle
   @code conf
   env = LIBVA_DRIVER_NAME,nvidia
   env = XDG_SESSION_TYPE,wayland
@@ -53,7 +48,6 @@ version: 1.1.1
 * Categories
   For all categories, see {https://wiki.hyprland.org/Configuring/Variables/}[the Variables wiki page]
 ** Input
-   #tangle
    @code conf
    input {
    kb_layout = us
@@ -74,7 +68,6 @@ version: 1.1.1
 ** General config
    See {https://wiki.hyprland.org/Configuring/Variables/}[Variables wiki page] for more
    Please see {https://wiki.hyprland.org/Configuring/Tearing/}[Tearing wiki entry] before you turn `allow_tearing` on
-   #tangle
    @code conf
    general {
 
@@ -93,7 +86,6 @@ version: 1.1.1
    See {https://wiki.hyprland.org/Configuring/Variables/}[Variables] for more options and explanations on decoration config
    Some default animations, see {https://wiki.hyprland.org/Configuring/Animations/}[The animations wiki page] for more
    See {https://wiki.hyprland.org/Configuring/Master-Layout/}[Master Layout] for more options
-   #tangle
    @code conf
    decoration {
 
@@ -113,7 +105,6 @@ version: 1.1.1
    @end
 ** Animations
    See {https://wiki.hyprland.org/Configuring/Animations/}[The animations wiki page] for more
-   #tangle
    @code conf
    animations {
    enabled = yes
@@ -131,17 +122,15 @@ version: 1.1.1
    @end
 ** Dwindle layout
    See {https://wiki.hyprland.org/Configuring/Dwindle-Layout/}[The Dwindle Layout wiki page] for more
-   #tangle
+   master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
    @code conf
-
    dwindle {
-   pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-   preserve_split = yes # you probably want this
+   pseudotile = yes 
+   preserve_split = yes
    }
    @end
 ** Master layout
    see {https://wiki.hyprland.org/Configuring/Master-Layout/}[The Master Layout wiki page] for more
-   #tangle
    @code conf
    master {
    new_is_master = true
@@ -149,7 +138,6 @@ version: 1.1.1
    @end
 ** Misc
    See {https://wiki.hyprland.org/Configuring/Variables/}[Variables] for more options and explanations on decoration config
-   #tangle
    @code conf
    gestures {
    workspace_swipe = off
@@ -174,13 +162,11 @@ version: 1.1.1
    @end
 
    See {https://wiki.hyprland.org/Configuring/Keywords/}[keywords wiki page] for more
-   #tangle
    @code conf
    $mainMod = SUPER
    @end
 * Example binds 
   see {https://wiki.hyprland.org/Configuring/Binds/}[the binds wiki page] for more
-  #tangle
   @code conf
   bind = $mainMod, Q, exec, $terminal
   bind = $mainMod, C, killactive, 
@@ -220,21 +206,23 @@ version: 1.1.1
   bind = $mainMod SHIFT, 8, movetoworkspace, 8
   bind = $mainMod SHIFT, 9, movetoworkspace, 9
   bind = $mainMod SHIFT, 0, movetoworkspace, 10
+
+  binde=$mainMod ALT,l,resizeactive,10 0
+  binde=$mainMod ALT,h,resizeactive,-10 0
+  binde=$mainMod ALT,k,resizeactive,0 -10
+  binde=$mainMod ALT,j,resizeactive,0 10
   @end
 * Example special workspace (scratchpad)
-  #tangle
   @code conf
   bind = $mainMod, S, togglespecialworkspace, magic
   bind = $mainMod SHIFT, S, movetoworkspace, special:magic
   @end
 * Scroll through existing workspaces with mainMod + scroll
-  #tangle
   @code conf
   bind = $mainMod, mouse_down, workspace, e+1
   bind = $mainMod, mouse_up, workspace, e-1
   @end
 * Move/resize windows with mainMod + LMB/RMB and dragging
-  #tangle
   @code conf
   bindm = $mainMod, mouse:272, movewindow
   bindm = $mainMod, mouse:273, resizewindow
