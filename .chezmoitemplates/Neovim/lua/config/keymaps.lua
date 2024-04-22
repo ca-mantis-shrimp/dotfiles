@@ -34,7 +34,7 @@ vim.keymap.set("n", "<leader><tab>r", "<cmd>tcd -<CR>", { desc = "CD to previous
 -- yet another comment
 -- one more example comment
 -- saving and applying chezmoi
-vim.keymap.set("n", "<leader>A", function()
+vim.keymap.set("n", "<leader><tab>a", function()
 	os.execute("chezmoi apply")
 end, { desc = "Apply to Chezmoi" })
 vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", { desc = "Save current Buffer" })
