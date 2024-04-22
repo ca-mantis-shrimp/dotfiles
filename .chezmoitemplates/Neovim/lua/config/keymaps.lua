@@ -29,11 +29,6 @@ end)
 vim.keymap.set("n", "<leader><tab>c", "<cmd>tcd ~/.local/share/chezmoi<CR>", { desc = "CD to chezmoi in current tab" })
 vim.keymap.set("n", "<leader><tab>r", "<cmd>tcd -<CR>", { desc = "CD to previous directory in current tab" })
 
---test comment
--- another test comment
--- yet another comment
--- one more example comment
--- saving and applying chezmoi
 vim.keymap.set("n", "<leader><tab>a", function()
 	os.execute("chezmoi apply")
 end, { desc = "Apply to Chezmoi" })

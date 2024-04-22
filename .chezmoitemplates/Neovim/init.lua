@@ -73,6 +73,7 @@ require("lazy").setup({
 			"nvim-telescope/telescope.nvim",
 		},
 		config = true,
+		keys = { { "<leader>g", "<cmd>Neogit<CR>", desc = "NeoGit" } },
 	},
 
 	{
