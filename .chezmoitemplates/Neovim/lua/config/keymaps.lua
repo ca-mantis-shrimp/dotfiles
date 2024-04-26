@@ -28,8 +28,10 @@ end)
 
 vim.keymap.set("n", "<leader><tab>c", "<cmd>tcd ~/.local/share/chezmoi<CR>", { desc = "CD to chezmoi in current tab" })
 vim.keymap.set("n", "<leader><tab>r", "<cmd>tcd -<CR>", { desc = "CD to previous directory in current tab" })
+vim.keymap.set("n", "<leader><tab>b", "<cmd>tcd %:p:h<CR>", { desc = "CD to [B]uffer Directory" })
 
 vim.keymap.set("n", "<leader><tab>a", function()
 	os.execute("chezmoi apply")
 end, { desc = "Apply to Chezmoi" })
 vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", { desc = "Save current Buffer" })
+vim.keymap.set("n", "<leader>l", "<cmd>Lazy<CR>", { desc = "Start Lazy" })
