@@ -8,6 +8,15 @@ return {
 			enable = true,
 		},
 		indent = { enable = true },
+		incremental_selection = {
+			enable = true,
+			keymaps = {
+				init_selection = "gsi",
+				node_incremental = "gsn",
+				scope_incremental = "gss",
+				node_decremental = "gsd",
+			},
+		},
 	},
 
 	config = function(_, opts)
