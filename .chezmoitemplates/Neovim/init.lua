@@ -10,7 +10,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
 	{ import = "plugins" },
-})
+}, { dev = { path = "~/Products" } })
 
 require("config.keymaps")
 require("config.autocmds")

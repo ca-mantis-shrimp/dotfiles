@@ -19,6 +19,17 @@ return {
 						end,
 					},
 				},
+				{
+					"zbirenbaum/copilot-cmp",
+					config = true,
+					dependencies = {
+						"zbirenbaum/copilot.lua",
+						opts = {
+							suggestion = { enabled = false },
+							panel = { enabled = false },
+						},
+					},
+				},
 			},
 			"saadparwaiz1/cmp_luasnip",
 
@@ -58,6 +69,7 @@ return {
 					end, { "i", "s" }),
 				}),
 				sources = {
+					{ name = "copilot", group_index = 2 },
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
