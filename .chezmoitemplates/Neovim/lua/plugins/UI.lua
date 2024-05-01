@@ -27,6 +27,10 @@ return {
 			"MunifTanjim/nui.nvim",
 			"rcarriga/nvim-notify",
 		},
+		-- taking it out on windows to hopefully fix those damn bugs!
+		cond = function()
+			return vim.uv.os_uname().sysname ~= "win32"
+		end,
 	},
 	{
 		"folke/todo-comments.nvim",
