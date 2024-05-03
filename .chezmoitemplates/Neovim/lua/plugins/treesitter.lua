@@ -21,6 +21,9 @@ return {
 
 	config = function(_, opts)
 		require("nvim-treesitter.install").prefer_git = true
+		if vim.fn.has("win32") == 1 then
+			require("nvim-treesitter.install").compilers = { "zig" }
+		end
 		---@diagnostic disable-next-line: missing-fields
 		require("nvim-treesitter.configs").setup(opts)
 		vim.opt.foldmethod = "expr"
