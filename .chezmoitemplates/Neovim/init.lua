@@ -13,3 +13,4 @@ require("lazy").setup({
 
 require("config.keymaps")
 require("config.autocmds")
+require("config.tree-sitter_config")
