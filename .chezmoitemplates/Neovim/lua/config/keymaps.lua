@@ -1,3 +1,16 @@
+require("which-key").add({
+	{ "<leader>c", group = "[C]ode" },
+	{ "<leader>d", group = "[D]ocument" },
+	{ "<leader>h", group = "Git [H]unk" },
+	{ "<leader>r", group = "[R]ename" },
+	{ "<leader>s", group = "[S]earch" },
+	{ "<leader>t", group = "[T]oggle" },
+	{ "<leader>w", group = "[W]orkspace" },
+	{ "<leader>n", group = "[N]eorg" },
+	{ "<leader>l", group = "[L]ists in Neorg" },
+	{ "<leader>h", desc = "Git [H]unk", mode = "v" },
+})
+
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
