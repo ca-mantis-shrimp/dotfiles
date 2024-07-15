@@ -83,7 +83,6 @@ local module_list = {
 	},
 	["core.integrations.telescope"] = {},
 	["core.summary"] = {},
-	["core.ui.calendar"] = {},
 }
 
 return {
