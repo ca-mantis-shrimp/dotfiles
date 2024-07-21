@@ -10,7 +10,7 @@ dot_ssh/config
 dot_config/nvim/
 dot_config/sway/
 *.sh
-bin/
+dot_local/
 {{ end }}
 
 literate_config/
