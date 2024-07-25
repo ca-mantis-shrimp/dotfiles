@@ -18,19 +18,6 @@ local lazy_loading_keymaps = {
 	{ "<leader>nc", "<cmd>Neorg workspace config<cr>", desc = "Edit Literate Configuration" },
 	{ "<leader>ns", "<cmd>Neorg generate-workspace-summary<cr>", desc = "Generate Workspace Summary" },
 }
-local norg_buffer_keymaps = {
-	config = {
-		neorg_leader = "<Leader>",
-		hook = function(keybinds)
-			keybinds.remap_key("norg", "n", "<C-s>", "<C-t>")
-			keybinds.remap_key("norg", "i", "<C-l>", "<CS-l>")
-			keybinds.map("norg", "n", "<leader>se", "<cmd>Telescope neorg search_headings<CR>")
-			keybinds.map("norg", "n", "<leader>nr", "<cmd>Neorg return<CR>")
-			keybinds.map("norg", "n", "<leader>nT", "<cmd>Neorg tangle current-file<CR>")
-			keybinds.map("norg", "n", "<leader>ni", "<cmd>Neorg index<CR>")
-		end,
-	},
-}
 
 local dirman_configuration = {
 	config = {
@@ -61,7 +48,6 @@ local module_list = {
 			engine = "nvim-cmp",
 		},
 	},
-	["core.keybinds"] = norg_buffer_keymaps,
 	["core.qol.toc"] = {},
 	["core.journal"] = {
 		config = {
