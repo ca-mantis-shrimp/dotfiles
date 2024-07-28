@@ -21,6 +21,13 @@ return {
 				require("project_nvim").setup()
 			end,
 		},
+		{
+			"xvzc/chezmoi.nvim",
+			dependencies = { "nvim-lua/plenary.nvim" },
+			config = function()
+				require("chezmoi").setup({})
+			end,
+		},
 	},
 	config = function()
 		require("telescope").setup({
@@ -39,6 +46,7 @@ return {
 		pcall(require("telescope").load_extension, "fzf")
 		pcall(require("telescope").load_extension, "ui-select")
 		pcall(require("telescope").load_extension, "projects")
+		pcall(require("telescope").load_extension, "chezmoi")
 
 		local builtin = require("telescope.builtin")
 		vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
@@ -68,5 +76,6 @@ return {
 				prompt_title = "Live Grep in Open Files",
 			})
 		end, { desc = "[S]earch [/] in Open Files" })
+		vim.keymap.set("n", "<leader>sc", require("telescope").extensions.chezmoi.find_files, {})
 	end,
 }

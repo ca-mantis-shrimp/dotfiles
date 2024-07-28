@@ -74,6 +74,6 @@ vim.opt.scrolloff = 10
 
 vim.opt.hlsearch = true
 
-vim.o.guifont = "FiraCode NF:h20"
+vim.o.guifont = "FiraCode Nerd Font:h20"
 
 vim.g.neovide_scale_factor = 1.0
