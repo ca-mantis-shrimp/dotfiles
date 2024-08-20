@@ -2,6 +2,7 @@ return {
 	{
 		"alker0/chezmoi.vim",
 	},
+	{ "nvim-lua/plenary.nvim", lazy = true },
 
 	{
 		"weirongxu/plantuml-previewer.vim",
