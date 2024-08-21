@@ -1,4 +1,4 @@
-vim.g.mapleader = " "
+vim.g.mapleaer = " "
 vim.g.maplocalleader = " "
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -79,5 +79,6 @@ vim.o.guifont = "FiraCode Nerd Font:h20"
 vim.g.neovide_scale_factor = 1.0
 
 if vim.fn.has("win32") == 1 then
-  vim.g.python_host_prog = '~/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/python.exe'
+	vim.g.python_host_prog =
+		"~/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/python.exe"
 end
