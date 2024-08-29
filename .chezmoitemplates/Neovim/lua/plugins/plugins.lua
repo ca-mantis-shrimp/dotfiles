@@ -32,4 +32,5 @@ return {
 	"tpope/vim-sleuth",
 
 	{ "numToStr/Comment.nvim", opts = {} },
+	{ "rest-nvim/rest.nvim" },
 }

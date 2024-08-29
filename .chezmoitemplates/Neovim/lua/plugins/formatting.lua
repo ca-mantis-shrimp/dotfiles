@@ -23,7 +23,8 @@ return {
 		formatters_by_ft = {
 			lua = { "stylua" },
 			python = { "black" },
-			sql = {"sqlfluff"}
+			sql = { "sqlfluff" },
+			json = { "jq" },
 		},
 	},
 }
