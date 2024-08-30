@@ -2,13 +2,7 @@ return {
 	"neovim/nvim-lspconfig",
 	priority = 0,
 	dependencies = {
-		{ "williamboman/mason.nvim", config = true },
-		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-
 		"j-hui/fidget.nvim",
-
-		"hrsh7th/nvim-cmp",
 		"folke/neodev.nvim",
 	},
 
@@ -70,8 +64,6 @@ return {
 				},
 			},
 		}
-
-		require("mason").setup()
 
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {

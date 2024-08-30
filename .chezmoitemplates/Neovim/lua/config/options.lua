@@ -82,3 +82,5 @@ if vim.fn.has("win32") == 1 then
 	vim.g.python_host_prog =
 		"~/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/python.exe"
 end
+
+vim.opt.formatexpr = "require'conform'.formatexpr()"

@@ -33,4 +33,8 @@ return {
 
 	{ "numToStr/Comment.nvim", opts = {} },
 	{ "rest-nvim/rest.nvim" },
+	{ "williamboman/mason.nvim", config = true, lazy = true },
+	{ "williamboman/mason-lspconfig.nvim", lazy = true },
+	{ "WhoIsSethDaniel/mason-tool-installer.nvim", lazy = true },
+	{ "hrsh7th/nvim-cmp", lazy = true },
 }
