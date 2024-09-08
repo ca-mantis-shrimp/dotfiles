@@ -37,8 +37,4 @@ return {
 	{ "williamboman/mason-lspconfig.nvim", lazy = true },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim", lazy = true },
 	{ "akinsho/toggleterm.nvim", opts = { direction = "tab" } },
-	{
-		"AntonVanAssche/music-controls.nvim",
-		dependencies = { "rcarriga/nvim-notify" },
-	},
 }
