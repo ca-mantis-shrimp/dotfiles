@@ -98,10 +98,19 @@ vim.keymap.set("n", "<leader>nT", "<cmd>Neorg tangle current-file<CR>")
 vim.keymap.set("n", "<leader>ni", "<cmd>Neorg index<CR>")
 
 -- Terminal keymaps
-vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm<CR>", { desc = "[t]oggle [t]erminal" })
+vim.keymap.set({ "n", "t" }, "<C-x>", "<cmd>ToggleTerm<CR>", { desc = "toggle terminal" })
 
 -- Music Keymaps
 vim.keymap.set("n", "<leader>mp", "<cmd>MusicPlay firefox<CR>", { desc = "[p]lay [m]usic from firefox" })
 vim.keymap.set("n", "<leader>mP", "<cmd>MusicPause firefox<CR>", { desc = "[P]ause [m]usic from firefox" })
 vim.keymap.set("n", "<leader>mn", "<cmd>MusicNext firefox<CR>", { desc = "Play [n]ext [m]usic song from firefox" })
 vim.keymap.set("n", "<leader>mr", "<cmd>MusicPrev firefox<CR>", { desc = "Play p[r]evious [m]usic song from firefox" })
+
+-- Google Search
+vim.keymap.set("n", "<leader>sb", function()
+	local query = vim.fn.input("Search Google: ")
+
+	if query ~= "" then
+		vim.cmd({ cmd = "OpenBrowserSmartSearch", args = { "'" .. query .. "'" } })
+	end
+end, { desc = "search browser with google" })
