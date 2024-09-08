@@ -31,10 +31,14 @@ return {
 
 	"tpope/vim-sleuth",
 
-	{ "numToStr/Comment.nvim", opts = {} },
+	{ "numToStr/Comment.nvim", config = true },
 	{ "rest-nvim/rest.nvim" },
 	{ "williamboman/mason.nvim", config = true, lazy = true },
 	{ "williamboman/mason-lspconfig.nvim", lazy = true },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim", lazy = true },
-	{ "hrsh7th/nvim-cmp", lazy = true },
+	{ "akinsho/toggleterm.nvim", opts = { direction = "tab" } },
+	{
+		"AntonVanAssche/music-controls.nvim",
+		dependencies = { "rcarriga/nvim-notify" },
+	},
 }
