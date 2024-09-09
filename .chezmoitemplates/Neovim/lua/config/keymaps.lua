@@ -108,3 +108,9 @@ vim.keymap.set("n", "<leader>sb", function()
 		vim.cmd({ cmd = "OpenBrowserSmartSearch", args = { "'" .. query .. "'" } })
 	end
 end, { desc = "search browser with google" })
+
+-- REPL
+vim.keymap.set("n", "<space>rs", "<cmd>IronRepl<cr>", { desc = "[r]epl [s]tart" })
+vim.keymap.set("n", "<space>rr", "<cmd>IronRestart<cr>", { desc = "[r]epl [r]estart" })
+vim.keymap.set("n", "<space>rf", "<cmd>IronFocus<cr>", { desc = "[r]epl [f]ocus" })
+vim.keymap.set("n", "<space>rh", "<cmd>IronHide<cr>", { desc = "[r]epl [h]ide" })
