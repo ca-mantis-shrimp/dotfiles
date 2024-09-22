@@ -62,6 +62,7 @@ return {
 					},
 				},
 			},
+			fennel_ls = {},
 		}
 		require("lspconfig").ruff_lsp.setup({
 			init_options = {

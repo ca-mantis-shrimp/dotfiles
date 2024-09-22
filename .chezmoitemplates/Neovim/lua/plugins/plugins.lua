@@ -73,4 +73,6 @@ return {
 			})
 		end,
 	},
+	{ "Olical/nfnl", ft = "fennel" },
+	{ "Olical/conjure" },
 }
