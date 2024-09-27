@@ -62,7 +62,7 @@ return {
 					},
 				},
 			},
-			fennel_ls = { settings = { extra_globals = { "vim" } } },
+			fennel_ls = {},
 		}
 		require("lspconfig").ruff_lsp.setup({
 			init_options = {
