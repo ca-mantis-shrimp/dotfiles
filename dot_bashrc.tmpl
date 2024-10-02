@@ -5,12 +5,12 @@
 export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
 {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
-export OPENAI_API_KEY=op://Back-End/openai_api_key/credential
-export ANTHROPIC_API_KEY=op://Back-End/anthropic_api_key/credential
+export OPENAI_API_KEY={{ onepasswordRead "op://Back-End/openai_api_key/credential" }}
+export ANTHROPIC_API_KEY={{ onepasswordRead "op://Back-End/anthropic_api_key/credential" }}
 {{- end }}
 
-export TODOIST_API_KEY=op://Back-End/todoist_api_key/credential
-export TODOIST_TEST_API_KEY=op://Back-End/todoist_test_api_key/credential
+export TODOIST_API_KEY={{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
+export TODOIST_TEST_API_KEY={{ onepasswordRead "op://Back-End/todoist_test_api_key/credential" }}
 
 
 . "$HOME/.cargo/env"
@@ -27,9 +27,9 @@ export PATH=$PATH:$HOME/.local/bin/structurizr-cli
 {{- end }}
 
 {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-export SNOWMIRROR_USERNAME=op://work/SNOWMIRROR/username
-export SNOWMIRROR_PASSWORD=op://work/SNOWMIRROR_password
-export DYNATRACE_EA_PROD_API_KEY=op://work/dynatrace_ea_prod_api_key/credential
+export SNOWMIRROR_USERNAME={{ onepasswordRead "op://work/SNOWMIRROR/username" }}
+export SNOWMIRROR_PASSWORD={{ onepasswordRead "op://work/SNOWMIRROR_password" }}
+export DYNATRACE_EA_PROD_API_KEY={{ onepasswordRead "op://work/dynatrace_ea_prod_api_key/credential" }}
 {{- end }}
 
 eval "$(starship init bash)"
