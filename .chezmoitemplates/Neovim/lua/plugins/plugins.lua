@@ -2,7 +2,6 @@ return {
 	{
 		"alker0/chezmoi.vim",
 	},
-	{ "nvim-lua/plenary.nvim", lazy = true },
 
 	{
 		"weirongxu/plantuml-previewer.vim",
@@ -31,11 +30,8 @@ return {
 
 	"tpope/vim-sleuth",
 
-	{ "numToStr/Comment.nvim", config = true },
 	{ "rest-nvim/rest.nvim" },
-	{ "williamboman/mason.nvim", config = true, lazy = true },
-	{ "williamboman/mason-lspconfig.nvim", lazy = true },
-	{ "WhoIsSethDaniel/mason-tool-installer.nvim", lazy = true },
+
 	{ "akinsho/toggleterm.nvim", opts = { direction = "tab" } },
 	{
 		"Vigemus/iron.nvim",
