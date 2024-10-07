@@ -25,6 +25,7 @@ return {
 			python = { "black" },
 			sql = { "sqlfluff" },
 			json = { "jq" },
+			fennel = { "fnlfmt" },
 		},
 	},
 }

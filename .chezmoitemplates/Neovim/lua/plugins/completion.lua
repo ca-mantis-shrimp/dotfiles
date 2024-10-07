@@ -30,7 +30,6 @@ return {
 						},
 					},
 				},
-				{ "kristijanhusak/vim-dadbod-completion" },
 			},
 			"saadparwaiz1/cmp_luasnip",
 
