@@ -1,82 +1,32 @@
+-- [nfnl] Compiled from lua/plugins/navigation.fnl by https://github.com/Olical/nfnl, do not edit.
+local function _1_()
+	return require("flash").jump()
+end
+local function _2_()
+	return require("flash").treesitter()
+end
+local function _3_()
+	return require("flash").remote()
+end
+local function _4_()
+	return require("flash").treesitter_search()
+end
+local function _5_()
+	return require("flash").toggle()
+end
 return {
-	{
-		"ThePrimeagen/harpoon",
-		config = true,
-	},
-	{
-		"cbochs/portal.nvim",
-		dependencies = { "cbochs/grapple.nvim" },
-		keys = {
-			{ "<leader>o", "<cmd>Portal jumplist backward<cr>", desc = "Open portal for Backwards Jump" },
-			{ "<leader>i", "<cmd>Portal jumplist forward<cr>", desc = "Open Portal for Forwards Jump" },
-		},
-	},
+	{ "ThePrimeagen/harpoon", branch = "harpoon2", lazy = true, config = true },
 	{
 		"folke/flash.nvim",
-		event = "VeryLazy",
+		even = "VeryLazy",
 		opts = {},
 		keys = {
-			{
-				"<leader>j",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump()
-				end,
-				desc = "Flash",
-			},
-			{
-				"<leader>J",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").treesitter()
-				end,
-				desc = "Flash Treesitter",
-			},
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Treesitter Search",
-			},
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
+			{ "<leader>j", _1_, mode = { "n", "x", "o" } },
+			{ "<leader>J", _2_, mode = { "n", "x", "o" } },
+			{ "r", _3_, mode = "o" },
+			{ "R", _4_, mode = { "o", "x" } },
+			{ "<c-s>", _5_, mode = "c" },
 		},
 	},
-	{
-		"stevearc/oil.nvim",
-		opts = {},
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		keys = {
-			{ "<leader>O", "<cmd>Oil<cr>", desc = "Open Oil" },
-		},
-	},
-	{
-		"https://git.sr.ht/~swaits/scratch.nvim",
-		lazy = true,
-		keys = {
-			{ "<leader>bs", "<cmd>Scratch<cr>", desc = "Scratch Buffer", mode = "n" },
-			{ "<leader>bS", "<cmd>ScratchSplit<cr>", desc = "Scratch Buffer (split)", mode = "n" },
-		},
-		cmd = {
-			"Scratch",
-			"ScratchSplit",
-		},
-		opts = {},
-	},
+	{ "stevearc/oil.nvim", opts = {}, keys = { { "<leader>O", "<cmd>Oil<cr>", desc = "Open Oil" } } },
 }

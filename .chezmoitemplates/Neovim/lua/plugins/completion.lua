@@ -1,3 +1,51 @@
+-- [nfnl] Compiled from lua/plugins/completion.fnl by https://github.com/Olical/nfnl, do not edit.
+local function _1_()
+	if _G.vim.fn.has("win32") or (_G.vim.fn.executable("make") == 0) then
+		return nil
+	else
+		return "make install_jsregexp"
+	end
+end
+local function _3_()
+	return require("luasnip.loaders.from_vscode").lazy_load()
+end
+local function _4_()
+	local cmp = require("cmp")
+	local luasnip = require("luasnip")
+	luasnip.config.setup({})
+	local function _5_(args)
+		return luasnip.lsp_expand(args.body)
+	end
+	local function _6_()
+		local _7_
+		if luasnip.expand_or_locally_jumpable(-1) then
+			_7_ = luasnip.jump(-1)
+		else
+			_7_ = nil
+		end
+		return _7_()
+	end
+	return cmp.setup({
+		snippet = { expand = _5_ },
+		completion = { completeopt = ":menu,menuone,noinsert" },
+		mapping = cmp.mapping.preset.insert({
+			["<C-n>"] = cmp.mapping.select_next_item(),
+			["<C-p>"] = cmp.mapping.select_prev_item(),
+			["<C-b>"] = cmp.mapping.scroll_docs(-4),
+			["<C-f>"] = cmp.mapping.scroll_docs(4),
+			["<C-y>"] = cmp.mapping.confirm({ select = true }),
+			["<C-Space>"] = cmp.mapping.complete({}),
+			["<C-l>"] = cmp.mapping(_6_, { "i", "s" }),
+		}),
+		sources = {
+			{ name = "copilot", group_index = 2 },
+			{ name = "nvim_lsp" },
+			{ name = "luasnip" },
+			{ name = "path" },
+			{ name = "conjure" },
+		},
+	})
+end
 return {
 	{
 		"hrsh7th/nvim-cmp",
@@ -5,118 +53,51 @@ return {
 		dependencies = {
 			{
 				"L3MON4D3/LuaSnip",
-				build = (function()
-					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-						return
-					end
-					return "make install_jsregexp"
-				end)(),
+				build = _1_,
 				dependencies = {
+					{ "rafamadriz/friendly-snippets", config = _3_ },
 					{
-						"rafamadriz/friendly-snippets",
-						config = function()
-							require("luasnip.loaders.from_vscode").lazy_load()
-						end,
+						"zbirenbaum/copilot-cmp",
+						config = true,
+						dependencies = { { "zbirenbaum/copilot.lua", config = true } },
+						opts = { suggestion = { enabled = false }, panel = { enabled = false } },
 					},
-				},
-				{
-					"zbirenbaum/copilot-cmp",
-					config = true,
-					dependencies = {
-						"zbirenbaum/copilot.lua",
-						opts = {
-							suggestion = { enabled = false },
-							panel = { enabled = false },
-						},
-					},
+					"saadparwaiz1/cmp_luasnip",
+					"hrsh7th/cmp-nvim-lsp",
+					"hrsh7th/cmp-path",
+					"Paterjason/cmp-conjure",
 				},
 			},
-			"saadparwaiz1/cmp_luasnip",
-
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-path",
-			"Paterjason/cmp-conjure",
 		},
-		config = function()
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			luasnip.config.setup({})
-
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				completion = { completeopt = "menu,menuone,noinsert" },
-
-				mapping = cmp.mapping.preset.insert({
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					["<C-p>"] = cmp.mapping.select_prev_item(),
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
-					["<C-Space>"] = cmp.mapping.complete({}),
-
-					["<C-l>"] = cmp.mapping(function()
-						if luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
-						end
-					end, { "i", "s" }),
-					["<C-h>"] = cmp.mapping(function()
-						if luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						end
-					end, { "i", "s" }),
-				}),
-				sources = {
-					{ name = "copilot", group_index = 2 },
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "path" },
-					{ name = "conjure" },
-				},
-			})
-		end,
+		config = _4_,
 	},
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
 		config = true,
-		build = vim.env.OS == "Windows_NT"
+		build = (
+			(
+				(_G.vim.env.OS == "Windows_NT")
 				and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-			or "make",
+			) or "make"
+		),
 		dependencies = {
-			"stevearc/dressing.nvim",
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			--- The below dependencies are optional,
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua", -- for providers='copilot'
+			"zbirenbaum/copilot.lua",
 			{
-				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
 				event = "VeryLazy",
 				opts = {
-					-- recommended settings
 					default = {
+						drag_and_drop = { insert_mode = true },
+						use_absolute_path = true,
 						embed_image_as_base64 = false,
 						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-						-- required for Windows users
-						use_absolute_path = true,
 					},
 				},
 			},
 			{
-				-- Make sure to set this up properly if you have lazy=true
 				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
+				opts = { file_types = { "markdown", "Avante" }, ft = { "markdown", "Avante" } },
 			},
 		},
 	},

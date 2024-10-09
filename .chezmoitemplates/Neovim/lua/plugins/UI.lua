@@ -1,40 +1,27 @@
+-- [nfnl] Compiled from lua/plugins/UI.fnl by https://github.com/Olical/nfnl, do not edit.
+local function _1_()
+	return require("which-key").show({ global = false })
+end
+local function _2_()
+	return require("dashboard").setup({})
+end
 return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		keys = {
-			{
-				"<leader>?",
-				function()
-					require("which-key").show({ global = false })
-				end,
-				desc = "Buffer Local Keymaps (which-key)",
-			},
-		},
+		keys = { { "<leader>?", _1_, desc = "Buffer local keymaps (which-key)" } },
 	},
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
+		dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
 	},
 	{
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = { signs = false },
+		opt = { sign = false },
 	},
-	{
-		"nvimdev/dashboard-nvim",
-		event = "VimEnter",
-		config = function()
-			require("dashboard").setup({
-				-- config
-			})
-		end,
-		dependencies = { { "nvim-tree/nvim-web-devicons" } },
-	},
+	{ "nvimdev/dashboard-nvim", event = "VimEnter", config = _2_, dependencies = { "nvim-tree/nvim-web-devicons" } },
 }
