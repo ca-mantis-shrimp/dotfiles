@@ -1,21 +1,18 @@
-return {
-	"echasnovski/mini.nvim",
-	version = "*",
-	config = function()
-		require("mini.ai").setup({ n_lines = 500 })
-
-		require("mini.surround").setup()
-
+-- [nfnl] Compiled from lua/plugins/mini.fnl by https://github.com/Olical/nfnl, do not edit.
+local function _1_()
+	require("mini.ai").setup({ n_lines = 500 })
+	require("mini.surround").setup()
+	do
 		local statusline = require("mini.statusline")
-		statusline.setup({ use_icons = vim.g.have_nerd_font })
-
-		---@diagnostic disable-next-line: duplicate-set-field
-		statusline.section_location = function()
+		local function _2_()
 			return "%2l:%-2v"
 		end
-		require("mini.files").setup()
-		vim.keymap.set("n", "<leader>F", function()
-			MiniFiles.open()
-		end, { desc = "Open File Explorer" })
-	end,
-}
+		statusline["section_location"] = _2_
+	end
+	require("mini.files").setup()
+	local function _3_()
+		return MiniFiles.open()
+	end
+	return _G.vim.keymap.set("n", "<leader>F", _3_, { desc = "Open File Explorer" })
+end
+return { "echasnovsk/mini.nvim", version = "*", config = _1_ }
