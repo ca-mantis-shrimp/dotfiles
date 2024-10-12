@@ -7,4 +7,5 @@ return {
 	{ "nvim-lua/plenary.nvim", lazy = true },
 	{ "stevearc/dressing.nvim", lazy = true },
 	{ "nvim-treesitter/nvim-treesitter", lazy = true },
+	{ "MunifTanjim/nui.nvim", lazy = true },
 }

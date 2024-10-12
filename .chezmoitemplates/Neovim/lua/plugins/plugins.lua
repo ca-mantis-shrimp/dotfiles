@@ -1,74 +1,32 @@
+-- [nfnl] Compiled from lua/plugins/plugins.fnl by https://github.com/Olical/nfnl, do not edit.
+local function _1_()
+	local iron = require("iron.core")
+	return iron.setup({
+		config = {
+			scratch_repl = true,
+			repl_definition = {
+				sh = { command = { "bash" } },
+				python = { command = { "python3" }, format = iron.bracketed_paste_python },
+				lua = { command = { "lua" } },
+				["lua.chezmoitmpl"] = { command = { "lua" } },
+			},
+			repl_open_cmd = require("iron.view").bottom(40),
+			highlight = { italic = true },
+			ignore_blank_lines = true,
+		},
+	})
+end
 return {
-	{
-		"alker0/chezmoi.vim",
-	},
-
-	{
-		"weirongxu/plantuml-previewer.vim",
-		dependencies = { "aklt/plantuml-syntax", "tyru/open-browser.vim" },
-	},
-
+	{ "alker0/chezmoi.vim" },
+	{ "weirongxu/plantuml-previewer.vim", dependencies = { "aklt/plantuml-syntax", "tyru/open-browser.vim" } },
 	{
 		"cameron-wags/rainbow_csv.nvim",
 		config = true,
-		ft = {
-			"csv",
-			"tsv",
-			"csv_semicolon",
-			"csv_whitespace",
-			"csv_pipe",
-			"rfc_csv",
-			"rfc_semicolon",
-		},
-		cmd = {
-			"RainbowDelim",
-			"RainbowDelimSimple",
-			"RainbowDelimQuoted",
-			"RainbowMultiDelim",
-		},
+		ft = { "csv", "tsv", "csv_semicolon", "csv_whitespace", "csv_pipe", "rfc_csv", "rfc_semicolon" },
+		cmd = { "RainboxDelim", "RainboxDelimSimple", "RainboxDelimQuoted", "RainboxMultiDelim" },
 	},
-
-	"tpope/vim-sleuth",
-
 	{ "rest-nvim/rest.nvim" },
-
-	{ "akinsho/toggleterm.nvim", opts = { direction = "tab" } },
-	{
-		"Vigemus/iron.nvim",
-		config = function()
-			local iron = require("iron.core")
-
-			iron.setup({
-				config = {
-					-- Whether a repl should be discarded or not
-					scratch_repl = true,
-					-- Your repl definitions come here
-					repl_definition = {
-						sh = {
-							-- Can be a table or a function that
-							-- returns a table (see below)
-							command = { "zsh" },
-						},
-						python = {
-							command = { "python3" }, -- or { "ipython", "--no-autoindent" }
-							format = require("iron.fts.common").bracketed_paste_python,
-						},
-						lua = {
-							command = { "lua" },
-						},
-						["lua.chezmoitmpl"] = { command = { "lua" } },
-					},
-					-- How the repl window will be displayed
-					-- See below for more information
-					repl_open_cmd = require("iron.view").bottom(40),
-				},
-				highlight = {
-					italic = true,
-				},
-				ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
-			})
-		end,
-	},
+	{ "Vigemus/iron.nvim", config = _1_ },
 	{ "Olical/nfnl", ft = "fennel" },
 	{ "Olical/conjure" },
 }

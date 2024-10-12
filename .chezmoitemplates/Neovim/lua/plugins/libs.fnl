@@ -4,5 +4,6 @@
  {1 :WhoIsSethDaniel/mason-tool-installer.nvim :lazy true}
  {1 :nvim-lua/plenary.nvim :lazy true}
  {1 :stevearc/dressing.nvim :lazy true}
- {1 :nvim-treesitter/nvim-treesitter :lazy true}]
+ {1 :nvim-treesitter/nvim-treesitter :lazy true}
+ {1 :MunifTanjim/nui.nvim :lazy true}]
 
