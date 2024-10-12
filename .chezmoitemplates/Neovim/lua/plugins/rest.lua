@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/rest.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] Compiled from lua/plugins/rest.fnl by https://github.com/Olical/nfnl, do not edit.q
 return {
 	"jellydn/hurl.nvim",
 	ft = "hurl",
