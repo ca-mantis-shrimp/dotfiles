@@ -1,8 +1,10 @@
+-- [nfnl] Compiled from lua/plugins/libs.fnl by https://github.com/Olical/nfnl, do not edit.
 return {
-	{ "numToStr/Comment.nvim", config = true },
+	{ "numToStr/Comment.nvim", config = true, lazy = true },
 	{ "williamboman/mason.nvim", config = true, lazy = true },
 	{ "williamboman/mason-lspconfig.nvim", lazy = true },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim", lazy = true },
 	{ "nvim-lua/plenary.nvim", lazy = true },
 	{ "stevearc/dressing.nvim", lazy = true },
+	{ "nvim-treesitter/nvim-treesitter", lazy = true },
 }
