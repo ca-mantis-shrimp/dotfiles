@@ -2,17 +2,11 @@
 local function _1_()
 	require("mini.ai").setup({ n_lines = 500 })
 	require("mini.surround").setup()
-	do
-		local statusline = require("mini.statusline")
-		local function _2_()
-			return "%2l:%-2v"
-		end
-		statusline["section_location"] = _2_
-	end
+	require("mini.statusline").setup()
 	require("mini.files").setup()
-	local function _3_()
+	local function _2_()
 		return MiniFiles.open()
 	end
-	return _G.vim.keymap.set("n", "<leader>F", _3_, { desc = "Open File Explorer" })
+	return _G.vim.keymap.set("n", "<leader>F", _2_, { desc = "Open File Explorer" })
 end
-return { "echasnovsk/mini.nvim", version = "*", config = _1_ }
+return { "echasnovski/mini.nvim", version = "*", config = _1_ }

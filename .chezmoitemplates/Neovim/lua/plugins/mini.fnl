@@ -1,10 +1,9 @@
-{1 :echasnovsk/mini.nvim
+{1 :echasnovski/mini.nvim
  :version "*"
  :config (fn []
            ((. (require :mini.ai) :setup) {:n_lines 500})
            ((. (require :mini.surround) :setup))
-           (let [statusline (require :mini.statusline)]
-             (tset statusline :section_location (fn [] "%2l:%-2v")))
+           ((. (require :mini.statusline) :setup))
            ((. (require :mini.files) :setup))
            (_G.vim.keymap.set :n :<leader>F
                               (fn []
