@@ -27,7 +27,10 @@ local function _3_()
 	_G.vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 	_G.vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 	_G.vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
-	_G.vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[S]earch Recent Files for repeat" })
+	local function _4_()
+		return telescope.extensions.projects.projects({})
+	end
+	_G.vim.keymap.set("n", "<leader>sp", _4_, { desc = "[S]earch Recent [p]rojects" })
 	_G.vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[S]earch Recent Files for repeat" })
 	return _G.vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "Search buffers" })
 end
