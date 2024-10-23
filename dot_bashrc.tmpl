@@ -36,3 +36,5 @@ eval "$(starship init bash)"
 
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
+# properly setup environment variables for lua
+eval $(luarocks path --bin)
