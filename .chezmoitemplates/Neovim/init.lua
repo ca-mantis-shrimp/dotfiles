@@ -9,7 +9,7 @@ end
 _G.vim.opt.rtp:prepend(lazypath)
 do
 	local lazy = require("lazy")
-	local setup_opts = { dev = { path = "~/Products" }, spec = { { import = "plugins" } } }
+	local setup_opts = { spec = { { import = "plugins" } } }
 	lazy.setup(setup_opts)
 end
 require("config.keymaps")

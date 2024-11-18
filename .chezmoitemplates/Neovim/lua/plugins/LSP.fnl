@@ -5,7 +5,7 @@
            (let [servers {:lua_ls {:settings {:Lua {:completion {:callSnippet :Replace}
                                                     :diagnostics {:globals [:vim]}}}}
                           :fennel_ls {}
-                          :ruff_lsp {:init_options {:settings {:args {}}}}
+                          :ruff {:init_options {:settings {}}}
                           :sqls {:settings {:connections [{:alias "test db"
                                                            :driver :sqlite3
                                                            :dataSourceName "file:test.db?cache=shared&mode=memory"}]}

@@ -17,7 +17,7 @@
 (_G.vim.opt.rtp:prepend lazypath)
 
 (let [lazy (require :lazy)
-      setup_opts {:dev {:path "~/Products"} :spec [{:import :plugins}]}]
+      setup_opts {:spec [{:import :plugins}]}]
   (lazy.setup setup_opts))
 
 ;; Process the other config files AFTER so that we can leverage plugin functionality

@@ -9,7 +9,7 @@ local function _1_()
 			settings = { Lua = { completion = { callSnippet = "Replace" }, diagnostics = { globals = { "vim" } } } },
 		},
 		fennel_ls = {},
-		ruff_lsp = { init_options = { settings = { args = {} } } },
+		ruff = { init_options = { settings = {} } },
 		sqls = {
 			settings = {
 				connections = {
