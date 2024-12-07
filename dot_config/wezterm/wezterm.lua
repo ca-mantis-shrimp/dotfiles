@@ -10,7 +10,11 @@ local act = wezterm.action
 
 config.color_scheme = "nord"
 config.font = wezterm.font("JetBrains Mono")
-config.default_prog = { "pwsh", "-ExecutionPolicy", "RemoteSigned" }
+if package.config:sub(1, 1) == "\\" then
+	config.default_prog = { "pwsh", "-ExecutionPolicy", "RemoteSigned" }
+else
+	config.default_prog = { "bash" }
+end
 
 local function basename(s)
 	return string.gsub(s, "(.*[/\\])(.*)", "%2")
@@ -100,4 +104,3 @@ table.insert(keymaps, { key = "F11", action = act.ToggleFullScreen })
 
 config.keys = keymaps
 return config
-
