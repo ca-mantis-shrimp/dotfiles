@@ -126,4 +126,4 @@ _G.vim.keymap.set("n", "<space>ts", _17_, { desc = "[t]est the [s]uite" })
 local function _18_()
 	return require("neotest").summary.toggle()
 end
-return _G.vim.keymap.set("n", "<leader>uts", _18_, { desc = "[u]i to [t]oggle neotest [s]ummary" })
+return _G.vim.keymap.set("n", "<leader>ut", _18_, { desc = "[u]i to [t]oggle neotest [s]ummary" })

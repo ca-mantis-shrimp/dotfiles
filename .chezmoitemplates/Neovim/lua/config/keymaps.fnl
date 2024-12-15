@@ -152,7 +152,7 @@
                    #((. (. (require :neotest) :run) :run) {:suite true})
                    {:desc "[t]est the [s]uite"})
 
-(_G.vim.keymap.set :n :<leader>uts
+(_G.vim.keymap.set :n :<leader>ut
                    #((. (. (require :neotest) :summary) :toggle))
                    {:desc "[u]i to [t]oggle neotest [s]ummary"})
 
