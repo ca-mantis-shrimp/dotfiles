@@ -1,4 +1,4 @@
-set $term kitty
+set $term wezterm
 
 set $menu ulauncher | xargs swaymsg exec --
 bar swaybar_command waybar
