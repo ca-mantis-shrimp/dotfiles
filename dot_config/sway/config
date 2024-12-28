@@ -6,6 +6,7 @@ include /etc/sway/config.d/*
 
 output * bg $HOME/Pictures/leaves-background.jpg fill
 
+# Extra comment
 output LVDS-1 resolution 1600x900
 output VGA-1 resolution 1920x1080
 output DP-1 resolution 1920x1080
