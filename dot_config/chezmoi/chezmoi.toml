@@ -1,8 +1,6 @@
-
-
 [diff]
 command = "nvim"
-args = "-d"
+args = ["-d", "{{ .Destination }}", "{{ .Target }}"]
 
 [edit]
 command = "nvim"

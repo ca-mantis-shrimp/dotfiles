@@ -4,7 +4,7 @@ set $menu ulauncher | xargs swaymsg exec --
 bar swaybar_command waybar
 include /etc/sway/config.d/*
 
-output * bg $HOME/Pictures/christian-weiss-zc0LLV5gHu8-unsplash.jpg fill
+output * bg $HOME/Pictures/leaves-background.jpg fill
 
 output LVDS-1 resolution 1600x900
 output VGA-1 resolution 1920x1080
