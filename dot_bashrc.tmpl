@@ -2,6 +2,7 @@
 
 {{template "bash/pyenv_shell_config.sh" .}}
 
+export BROWSER=qutebrowser
 export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 
 {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}

@@ -10,6 +10,10 @@ output LVDS-1 resolution 1600x900
 output VGA-1 resolution 1920x1080
 output DP-1 resolution 1920x1080
 
+# Oma House 2 monitor layout
+output HDMI-A-1 resolution 2560x1440 position 0,0
+output DP-2 resolution 1920x1080 position 2560,1440
+
 exec swayidle -w \
 timeout 300 'swaylock -f -c 000000' \
 timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
