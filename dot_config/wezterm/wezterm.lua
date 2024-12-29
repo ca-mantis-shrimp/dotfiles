@@ -10,6 +10,7 @@ local act = wezterm.action
 
 config.color_scheme = "nord"
 config.font = wezterm.font("JetBrains Mono")
+config.font_size = 16.0
 if package.config:sub(1, 1) == "\\" then
 	config.default_prog = { "pwsh", "-ExecutionPolicy", "RemoteSigned" }
 else
