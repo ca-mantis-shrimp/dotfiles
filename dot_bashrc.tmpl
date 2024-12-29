@@ -8,6 +8,7 @@ export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
 {{- if ne .chezmoi.hostname "USMINDARBURGES1" }}
 export OPENAI_API_KEY={{ onepasswordRead "op://Back-End/openai_api_key/credential" }}
 export ANTHROPIC_API_KEY={{ onepasswordRead "op://Back-End/anthropic_api_key/credential" }}
+export OP_SERVICE_ACCOUNT_TOKEN={{ onepasswordRead "op://Back-End/personal_service_account/password" }}
 {{- end }}
 
 export TODOIST_API_KEY={{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
@@ -31,6 +32,7 @@ export PATH=$PATH:$HOME/.local/bin/structurizr-cli
 export SNOWMIRROR_USERNAME={{ onepasswordRead "op://work/SNOWMIRROR/username" }}
 export SNOWMIRROR_PASSWORD={{ onepasswordRead "op://work/SNOWMIRROR_password" }}
 export DYNATRACE_EA_PROD_API_KEY={{ onepasswordRead "op://work/dynatrace_ea_prod_api_key/credential" }}
+export OP_SERVICE_ACCOUNT_TOKEN={{ onepasswordRead "op://work/work_and_personal_service_account/credential" }}
 {{- end }}
 
 eval "$(starship init bash)"
