@@ -11,7 +11,8 @@
                                                            :dataSourceName "file:test.db?cache=shared&mode=memory"}]}
                                  :on_attach (fn [client bufnr]
                                               ((. (require :sqls) :on_attach) client
-                                                                              bufnr))}}
+                                                                              bufnr))}
+                          :rust_analyzer {:diagnostics {:enable true}}}
                  ensure_installed (_G.vim.list_extend (_G.vim.tbl_keys (or servers
                                                                            {}))
                                                       [:stylua])

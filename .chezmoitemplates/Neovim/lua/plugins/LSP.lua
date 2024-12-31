@@ -18,6 +18,7 @@ local function _1_()
 			},
 			on_attach = _2_,
 		},
+		rust_analyzer = { diagnostics = { enable = true } },
 	}
 	local ensure_installed = _G.vim.list_extend(_G.vim.tbl_keys((servers or {})), { "stylua" })
 	local capabilities = _G.vim.tbl_deep_extend(
