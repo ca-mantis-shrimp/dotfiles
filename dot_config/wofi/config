@@ -1,0 +1,9 @@
+prompt="searching programs"
+show=drun
+gtk_dark=true
+allow_images=true
+allow_markup=true
+insensitive=true
+matching=fuzzy
+columns=2
+line_wrap=word
