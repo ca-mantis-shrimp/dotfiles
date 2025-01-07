@@ -30,4 +30,5 @@ return {
 	{ "Olical/nfnl", ft = "fennel" },
 	{ "Olical/conjure" },
 	{ "eraserhd/parinfer-rust", build = "cargo build --release", ft = { "fennel", "hy" } },
+	{ "3rd/image.nvim", opts = {} },
 }
