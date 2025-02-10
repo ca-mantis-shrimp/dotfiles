@@ -1,13 +1,11 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData/
-Documents/
 *.ps1
 komorebi.json
 dot_config/whkdrc
 scoop/
 {{ else }}
 dot_ssh/config
-dot_config/nvim/
 dot_config/sway/
 *.sh
 dot_local/
