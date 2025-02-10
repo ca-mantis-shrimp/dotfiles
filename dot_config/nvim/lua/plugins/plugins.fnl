@@ -15,5 +15,7 @@
         :RainboxDelimQuoted
         :RainboxMultiDelim]}
  {1 :rest-nvim/rest.nvim}
- {1 :3rd/image.nvim :opts {:processor :magick_cli}}]
+ {1 :3rd/image.nvim
+  :opts {:processor :magick_cli}
+  :cond #(not _G.vim.g.neovide)}]
 
