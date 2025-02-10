@@ -23,5 +23,4 @@
 ;; Process the other config files AFTER so that we can leverage plugin functionality
 (require :config.keymaps)
 (require :config.autocmds)
-(require :config.tree-sitter_config)
 
