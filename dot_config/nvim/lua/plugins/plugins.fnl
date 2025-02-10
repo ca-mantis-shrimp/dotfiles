@@ -15,22 +15,5 @@
         :RainboxDelimQuoted
         :RainboxMultiDelim]}
  {1 :rest-nvim/rest.nvim}
- {1 :Vigemus/iron.nvim
-  :config (fn []
-            (let [iron (require :iron.core)]
-              (iron.setup {:config {:scratch_repl true
-                                    :repl_definition {:sh {:command [:bash]}
-                                                      :python {:command [:python3]
-                                                               :format (. iron
-                                                                          :bracketed_paste_python)}
-                                                      :lua {:command [:lua]}
-                                                      :lua.chezmoitmpl {:command [:lua]}}
-                                    :repl_open_cmd ((. (require :iron.view)
-                                                       :bottom) 40)
-                                    :highlight {:italic true}
-                                    :ignore_blank_lines true}})))}
- {1 :Olical/nfnl :ft :fennel}
- {1 :Olical/conjure}
- {1 :eraserhd/parinfer-rust :build "cargo build --release" :ft [:fennel :hy]}
  {1 :3rd/image.nvim :opts {:processor :magick_cli}}]
 
