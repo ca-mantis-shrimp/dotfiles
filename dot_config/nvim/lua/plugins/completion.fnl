@@ -8,17 +8,18 @@
                                "make install_jsregexp"))
                   :dependencies [{1 :rafamadriz/friendly-snippets
                                   :config #((. (require :luasnip.loaders.from_vscode)
-                                               :lazy_load))}
-                                 {1 :zbirenbaum/copilot-cmp
-                                  :config true
-                                  :dependencies [{1 :zbirenbaum/copilot.lua
-                                                  :config true}]
-                                  :opts {:suggestion {:enabled false}
-                                         :panel {:enabled false}}}
-                                 :saadparwaiz1/cmp_luasnip
-                                 :hrsh7th/cmp-nvim-lsp
-                                 :hrsh7th/cmp-path
-                                 :Paterjason/cmp-conjure]}]
+                                               :lazy_load))}]}
+                 {1 :zbirenbaum/copilot-cmp
+                  :config true
+                  :dependencies [{1 :zbirenbaum/copilot.lua :config true}]
+                  :opts {:suggestion {:enabled false} :panel {:enabled false}}}
+                 :saadparwaiz1/cmp_luasnip
+                 :hrsh7th/cmp-nvim-lsp
+                 :hrsh7th/cmp-path
+                 :Paterjason/cmp-conjure
+                 {1 :olimorris/codecompanion.nvim
+                  :config #((. (require :codecompanion) :setup) {:strategies {:chat {:adapter :anthropic}
+                                                                              :inline {:adapter :anthropic}}})}]
   :config (fn []
             (let [cmp (require :cmp)
                   luasnip (require :luasnip)]
@@ -40,21 +41,6 @@
                                     {:name :nvim_lsp}
                                     {:name :luasnip}
                                     {:name :path}
-                                    {:name :conjure}]})))}
- {1 :yetone/avante.nvim
-  :event :VeryLazy
-  :config true
-  :build (or (and (= _G.vim.env.OS :Windows_NT)
-                  "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false")
-             :make)
-  :dependencies [:zbirenbaum/copilot.lua
-                 {1 :HakonHarnes/img-clip.nvim
-                  :event :VeryLazy
-                  :opts {:default {:embed_image_as_base64 false
-                                   :prompt_for_file_name false
-                                   :drag_and_drop {:insert_mode true}
-                                   :use_absolute_path true}}}
-                 {1 :MeanderingProgrammer/render-markdown.nvim
-                  :opts {:file_types [:markdown :Avante]
-                         :ft [:markdown :Avante]}}]}]
+                                    {:name :conjure}
+                                    {:name :codecompanion}]})))}]
 

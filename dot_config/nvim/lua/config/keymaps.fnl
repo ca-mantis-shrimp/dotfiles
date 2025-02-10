@@ -132,11 +132,6 @@
                                       :args [(.. "'" query "'")]}))))
                    {:desc "search browser with google"})
 
-;; REPL
-(_G.vim.keymap.set :n :<space>rs :<cmd>IronRepl<cr> {:desc "[r]epl [s]tart"})
-(_G.vim.keymap.set :n :<space>rr :<cmd>IronRestart<cr>
-                   {:desc "[r]epl [r]estart"})
-
 (_G.vim.keymap.set :n :<space>rf :<cmd>IronFocus<cr> {:desc "[r]epl [f]ocus"})
 (_G.vim.keymap.set :n :<space>rh :<cmd>IronHide<cr> {:desc "[r]epl [h]ide"})
 
@@ -155,4 +150,10 @@
 (_G.vim.keymap.set :n :<leader>ut
                    #((. (. (require :neotest) :summary) :toggle))
                    {:desc "[u]i to [t]oggle neotest [s]ummary"})
+
+(_G.vim.keymap.set :n :<leader>uc "<cmd>CodeCompanionChat Toggle<CR>"
+                   {:desc "[u]i to toggle code completion [c]hat"})
+
+(_G.vim.keymap.set :n :<leader>sA :<cmd>CodeCompanionActions<CR>
+                   {:desc "[s]earch CodeCompanion [a]ctions"})
 
