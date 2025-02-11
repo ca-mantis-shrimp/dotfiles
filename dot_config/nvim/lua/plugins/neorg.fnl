@@ -24,7 +24,7 @@
              2 "<cmd>Neorg generate-workspace-summary<cr>"
              :desc "Generate Workspace Summary"}]
       dirman_config {:config {:workspaces {:main "~/neorg"
-                                           :work_notes "~/work_neorg_notes"
+                                           :work_notes "~/dab_work_neorg_notes"
                                            :knowledge_base "~/knowledge_base"
                                            :config "~/.local/share/chezmoi/literate_config"
                                            :journal "~/journal"}
