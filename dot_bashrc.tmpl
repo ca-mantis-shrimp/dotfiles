@@ -1,10 +1,6 @@
 #!/bin/bash
-
-{{template "bash/pyenv_shell_config.sh" .}}
-
-eval "$(starship init bash)"
-
+eval "$(uwsm app -- starship init bash)"
 # Set up fzf key bindings and fuzzy completion
-eval "$(fzf --bash)"
+eval "$(uwsm app -- fzf --bash)"
 # properly setup environment variables for lua
-eval $(luarocks path --bin)
+eval $(uwsm app -- luarocks path --bin)
