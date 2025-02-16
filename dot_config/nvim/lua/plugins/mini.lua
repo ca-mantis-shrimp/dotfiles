@@ -4,6 +4,7 @@ local function _1_()
 	require("mini.surround").setup()
 	require("mini.statusline").setup()
 	require("mini.files").setup()
+	require("mini.pick").setup()
 	local function _2_()
 		return MiniFiles.open()
 	end
