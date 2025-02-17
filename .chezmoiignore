@@ -3,10 +3,10 @@ AppData/
 *.ps1
 komorebi.json
 dot_config/whkdrc
-scoop/
 {{ else }}
 dot_ssh/config
 dot_config/sway/
+dot_bashrc*
 *.sh
 dot_local/
 {{ end }}
