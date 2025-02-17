@@ -1,39 +1,8 @@
 #!/bin/bash
 
-export BROWSER=qutebrowser
-export PATH="/home/$USER/.local/share/bob/nvim-bin:$PATH"
-
-export TODOIST_API_KEY=$(op read op://Back-End/todoist_api_key/credential)
-export TODOIST_TEST_API_KEY="$(op read op://Back-End/todoist_test_api_key/credential)"
-
-
-. "$HOME/.cargo/env"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-
-export PATH=$PATH:$HOME/.local/bin
-
-HOSTNAME="$(cat /proc/sys/kernel/hostname)"
-
-
-case "${HOSTNAME}" in
-  "USSFODARBURGES3")
-	export OP_SERVICE_ACCOUNT_TOKEN=$(op read op://work/work_and_personal_service_account/credential")
-	export DYNATRACE_EA_PROD_API_KEY=$(op read op://work/dynatrace_ea_prod_api_key/credential")
-	export SNOW_MIRROR_DADBOD=$(op read op://work/SNOWMIRROR/dadbod")
-	;;
-  *)
-	export OP_SERVICE_ACCOUNT_TOKEN=$(op read op://Back-End/personal_service_account/password")
-	export OPENAI_API_KEY=$(op read op://Back-End/openai_api_key/credential)
-	export ANTHROPIC_API_KEY=$(op read op://Back-End/anthropic_api_key/credential)
-esac
-
-eval "$(starship init bash)"
+eval "$(uwsm app starship init bash)"
 
 # Set up fzf key bindings and fuzzy completion
-eval "$(fzf --bash)"
+eval "$(uwsm app -- fzf --bash)"
 # properly setup environment variables for lua
-eval $(luarocks path --bin)
+eval $(uwsm app -- luarocks path --bin)
