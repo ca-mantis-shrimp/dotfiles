@@ -8,4 +8,6 @@ $Env:ATAC_MAIN_DIR = "~/AppData/Local/atac"
 
 $Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}"
 
+$Env:NVIM_APPNAME = "../../.config/nvim"
+
 Invoke-Expression (&starship init powershell)

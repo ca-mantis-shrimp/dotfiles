@@ -11,5 +11,6 @@ dot_bashrc*
 dot_local/
 {{ end }}
 
+scoop/
 literate_config/
 wiki/
