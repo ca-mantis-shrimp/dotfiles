@@ -1,6 +1,9 @@
 #!/bin/bash
 alias idv7="python ~/scripts/generate_uuid_v7.py"
 eval "$(uwsm app -- starship init bash)"
+
+eval "$(uwsm app starship init bash)"
+
 # Set up fzf key bindings and fuzzy completion
 eval "$(uwsm app -- fzf --bash)"
 # properly setup environment variables for lua
