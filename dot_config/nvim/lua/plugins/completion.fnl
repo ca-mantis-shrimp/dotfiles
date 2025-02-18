@@ -42,5 +42,6 @@
                                     {:name :luasnip}
                                     {:name :path}
                                     {:name :conjure}
-                                    {:name :codecompanion}]})))}]
+                                    {:name :codecompanion}
+                                    {:name :render-markdown}]})))}]
 
