@@ -1,6 +1,5 @@
 #!/bin/bash
 alias idv7="python ~/scripts/generate_uuid_v7.py"
-eval "$(uwsm app -- starship init bash)"
 
 eval "$(uwsm app starship init bash)"
 
