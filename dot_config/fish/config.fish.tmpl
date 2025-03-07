@@ -1,0 +1,20 @@
+# Assumes that the local .env file holds OP service account token
+export (envsubst < ~/.env)
+
+# Assumes $OP_SERVICE_ACCOUNT_TOKEN is set prior
+set -gx ANTHROPIC_API_KEY {{ onepasswordRead "op://Back-End/anthropic_api_key/credential" }}
+set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
+
+{{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
+set -gx SNOW_MIRROR_DADBOD = {{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}
+{{- end}}
+	
+
+# Switch to VI bindings
+fish_vi_key_bindings
+
+# Get Starship running as prompt
+starship init fish | source
+
+# Finally, start your splash screen!
+nerdfetch
