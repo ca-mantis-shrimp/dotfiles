@@ -23,5 +23,10 @@
                (tset (require :nvim-treesitter.install) :compilers [:zig]))
            ((. (require :nvim-treesitter.configs) :setup) opts)
            (tset _G.vim.opt :foldmethod :expr)
-           (tset _G.vim.opt :foldexpr "nvim_treesitter#foldexpr()"))}
+           (tset _G.vim.opt :foldexpr "nvim_treesitter#foldexpr()")
+           (let [parser_config ((. (require :nvim-treesitter.parsers)
+                                   :get_parser_configs))]
+             (set parser_config.actions
+                  {:install_info {:url "https://github.com/ClearHeadToDo-Devs/tree-sitter-actions.git"
+                                  :files {1 :src/parser.c}}})))}
 

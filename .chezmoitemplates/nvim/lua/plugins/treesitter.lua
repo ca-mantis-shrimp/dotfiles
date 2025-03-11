@@ -8,6 +8,13 @@ local function _1_(_, opts)
 	require("nvim-treesitter.configs").setup(opts)
 	_G.vim.opt["foldmethod"] = "expr"
 	_G.vim.opt["foldexpr"] = "nvim_treesitter#foldexpr()"
+	local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+	parser_config.actions = {
+		install_info = {
+			url = "https://github.com/ClearHeadToDo-Devs/tree-sitter-actions.git",
+			files = { "src/parser.c" },
+		},
+	}
 	return nil
 end
 return {
