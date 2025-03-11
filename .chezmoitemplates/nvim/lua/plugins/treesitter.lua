@@ -10,16 +10,14 @@ local function _1_(_, opts)
 	_G.vim.opt["foldexpr"] = "nvim_treesitter#foldexpr()"
 	local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 	parser_config.actions = {
-		install_info = {
-			url = "https://github.com/ClearHeadToDo-Devs/tree-sitter-actions.git",
-			files = { "src/parser.c" },
-		},
+		install_info = { url = (_G.vim.fn.stdpath("data") .. "/lazy/tree-sitter-actions"), files = { "src/parser.c" } },
 	}
 	return nil
 end
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
+	dependencies = { { "ClearHeadToDo-Devs/tree-sitter-actions" } },
 	opts = {
 		ensure_installed = { "bash", "c", "html", "lua", "luadoc", "markdown", "vim", "vimdoc", "python" },
 		auto_install = true,

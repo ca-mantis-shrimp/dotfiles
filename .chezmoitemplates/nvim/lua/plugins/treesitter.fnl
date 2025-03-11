@@ -1,5 +1,6 @@
 {1 :nvim-treesitter/nvim-treesitter
  :build ":TSUpdate"
+ :dependencies [{1 :ClearHeadToDo-Devs/tree-sitter-actions}]
  :opts {:ensure_installed [:bash
                            :c
                            :html
@@ -27,6 +28,7 @@
            (let [parser_config ((. (require :nvim-treesitter.parsers)
                                    :get_parser_configs))]
              (set parser_config.actions
-                  {:install_info {:url "https://github.com/ClearHeadToDo-Devs/tree-sitter-actions.git"
+                  {:install_info {:url (.. (_G.vim.fn.stdpath :data)
+                                           :/lazy/tree-sitter-actions)
                                   :files {1 :src/parser.c}}})))}
 
