@@ -106,8 +106,6 @@ local function _13_()
 	end
 end
 _G.vim.keymap.set("n", "<leader>sb", _13_, { desc = "search browser with google" })
-_G.vim.keymap.set("n", "<space>rf", "<cmd>IronFocus<cr>", { desc = "[r]epl [f]ocus" })
-_G.vim.keymap.set("n", "<space>rh", "<cmd>IronHide<cr>", { desc = "[r]epl [h]ide" })
 local function _15_()
 	return require("neotest").run.run()
 end
