@@ -119,10 +119,6 @@
 (_G.vim.keymap.set :n :<leader>nT "<cmd>Neorg tangle current-file<CR>")
 (_G.vim.keymap.set :n :<leader>ni "<cmd>Neorg index<CR>")
 
-;; Terminal keymaps
-(_G.vim.keymap.set [:n :t] :<C-x> :<cmd>ToggleTerm<CR>
-                   {:desc "toggle terminal"})
-
 ;; Google Search
 (_G.vim.keymap.set :n :<leader>sb
                    (fn []

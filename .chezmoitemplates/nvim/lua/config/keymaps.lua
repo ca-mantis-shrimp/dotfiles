@@ -97,7 +97,6 @@ _G.vim.keymap.set("n", "<leader>se", "<cmd>Telescope neorg search_headings<CR>")
 _G.vim.keymap.set("n", "<leader>nr", "<cmd>Neorg return<CR>")
 _G.vim.keymap.set("n", "<leader>nT", "<cmd>Neorg tangle current-file<CR>")
 _G.vim.keymap.set("n", "<leader>ni", "<cmd>Neorg index<CR>")
-_G.vim.keymap.set({ "n", "t" }, "<C-x>", "<cmd>ToggleTerm<CR>", { desc = "toggle terminal" })
 local function _13_()
 	local query = _G.vim.fn.input("Search Google: ")
 	if query ~= "" then

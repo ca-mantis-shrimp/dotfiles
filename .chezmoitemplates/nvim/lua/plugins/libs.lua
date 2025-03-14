@@ -8,4 +8,5 @@ return {
 	{ "stevearc/dressing.nvim", lazy = true },
 	{ "nvim-treesitter/nvim-treesitter", lazy = true },
 	{ "MunifTanjim/nui.nvim", lazy = true },
+	{ "rcarriga/nvim-notify", lazy = true },
 }
