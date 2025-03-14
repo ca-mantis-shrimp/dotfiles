@@ -1,7 +1,7 @@
 [{1 :folke/which-key.nvim
   :event :VeryLazy
   :keys [{1 :<leader>?
-          2 #(. (require :which-key.show) {:global false})
+          2 #((require :which-key.show) {:global false})
           :desc "Buffer local keymaps (which-key)"}]}
  {1 :folke/snacks.nvim
   :priority 1000

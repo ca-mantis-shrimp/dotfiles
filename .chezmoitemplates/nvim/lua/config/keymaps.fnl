@@ -9,7 +9,13 @@
            {1 :<leader>w :group "[W]orkspace"}
            {1 :<leader>n :group "[N]eorg"}
            {1 :<leader>l :group "[L]ists in Neorg"}
-           {1 :<leader>h :desc "Git [H]unk" :mode :v}]))
+           {1 :<leader>i :group "[I]ntentions"}
+           {1 :<leader>h :desc "Git [H]unk" :mode :v}
+           {1 :<leader>ie
+            2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
+                                                                   :h)
+                                            :/clhd/main.actions)]})
+            :desc "Edit clearhead actions file"}]))
 
 ;; Quickly Remove Search Highlighting
 (_G.vim.keymap.set :n :<Esc> :<cmd>nohlsearch<CR>)

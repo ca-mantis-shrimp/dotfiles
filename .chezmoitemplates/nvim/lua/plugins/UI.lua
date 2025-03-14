@@ -1,6 +1,6 @@
 -- [nfnl] Compiled from lua/plugins/UI.fnl by https://github.com/Olical/nfnl, do not edit.
 local function _1_()
-	return require("which-key.show")[{ global = false }]
+	return require("which-key.show")({ global = false })
 end
 local function _2_()
 	return _G.Snacks.picker.smart()
