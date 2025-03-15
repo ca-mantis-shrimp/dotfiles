@@ -13,7 +13,7 @@
            {1 :<leader>h :desc "Git [H]unk" :mode :v}
            {1 :<leader>ie
             2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
-                                                                   :h)
+                                                                   ":h")
                                             :/clhd/main.actions)]})
             :desc "Edit clearhead actions file"}]))
 

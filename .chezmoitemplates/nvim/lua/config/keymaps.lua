@@ -3,7 +3,7 @@ do
 	local wk = require("which-key")
 	local function _1_()
 		return _G.vim.cmd.edit({
-			args = { (_G.vim.fn.fnamemodify(_G.vim.fn.stdpath("data"), "h") .. "/clhd/main.actions") },
+			args = { (_G.vim.fn.fnamemodify(_G.vim.fn.stdpath("data"), ":h") .. "/clhd/main.actions") },
 		})
 	end
 	wk.add({
