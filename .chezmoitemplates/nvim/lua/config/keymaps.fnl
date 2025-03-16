@@ -1,4 +1,3 @@
-;; Defining Whichkey Groups
 (let [wk (require :which-key)]
   (wk.add [{1 :<leader>c :group "[C]ode"}
            {1 :<leader>d :group "[D]ocument"}
@@ -10,32 +9,83 @@
            {1 :<leader>n :group "[N]eorg"}
            {1 :<leader>l :group "[L]ists in Neorg"}
            {1 :<leader>i :group "[I]ntentions"}
-           {1 :<leader>h :desc "Git [H]unk" :mode :v}
            {1 :<leader>ie
             2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
                                                                    ":h")
                                             :/clhd/main.actions)]})
-            :desc "Edit clearhead actions file"}]))
-
-;; Quickly Remove Search Highlighting
-(_G.vim.keymap.set :n :<Esc> :<cmd>nohlsearch<CR>)
-
-;; Diagnostics
-(_G.vim.keymap.set :n "[d" _G.vim.diagnostic.goto_prev
-                   {:desc "Go to previous [D]iagnostic message"})
-
-(_G.vim.keymap.set :n "]d" _G.vim.diagnostic.goto_next
-                   {:desc "Go to next [D]iagnostic message"})
-
-(_G.vim.keymap.set :n :<leader>e _G.vim.diagnostic.open_float
-                   {:desc "Show diagnostic [E]rror messages"})
-
-(_G.vim.keymap.set :n :<leader>q _G.vim.diagnostic.setloclist
-                   {:desc "Open diagnostic [Q]uickfix list"})
-
-;; Terminal Escape Remap
-(_G.vim.keymap.set :t :<Esc><Esc> "<C-\\><C-n>"
-                   {:desc "[Esc]ape terminal mode"})
+            :desc "Edit clearhead actions file"}
+           {1 :<leader>h :desc "Git [H]unk" :mode :v}
+           {1 :<Esc>
+            2 :<cmd>nohlsearch<CR>
+            :desc "Remove Search Highlighting on Escape"}
+           ;; Diagnositcs
+           {1 "[d"
+            2 #(_G.vim.diagnostic.goto_prev)
+            :desc "Go to previous [D]iagnostic message"}
+           {1 "]d"
+            2 #(_G.vim.diagnostic.goto_next)
+            :desc "Go to next [D]iagnostic message"}
+           {1 :<leader>e
+            2 #(_G.vim.diagnostic.open_float)
+            :desc "Show diagnostic [E]rror messages"}
+           {1 :<leader>q
+            2 #(_G.vim.diagnostic.setloclist)
+            :desc "Open diagnostic [Q]uickfix list"}
+           {1 :<Esc><Esc>
+            2 "<C-\\><C-n>"
+            :mode :t
+            :desc "[Esc]ape terminal mode"}
+           ;; Tabs
+           {1 :<leader><tab><tab> 2 :<cmd>tabnew<CR> :desc "Create New [tab]"}
+           {1 :<leader><tab><Del>
+            2 :<cmd>tabclose<CR>
+            :desc "[Del]ete Current Tab"}
+           {1 :<leader><tab>n 2 :<cmd>tabNext<CR> :desc "[n]ext Tab"}
+           {1 :<leader><tab>p 2 :<cmd>tabprevious<CR> :desc "[p]revious Tab"}
+           {1 :<leader><tab>r
+            2 "<cmd>tcd -<CR>"
+            :desc "CD to previous directory in current tab"}
+           {1 :<leader><tab>b
+            2 "<cmd>tcd %:p:h<CR>"
+            :desc "CD to [B]uffer Directory"}
+           ;; Lazy/Noice
+           {1 :<leader>l 2 :<cmd>Lazy<CR> :desc "Start Lazy"}
+           {1 :<leader>un
+            2 :<cmd>NoiceDismiss<cr>
+            :desc "Dismiss All Notifications"}
+           ;; Norg Keymaps
+           {1 :<leader>se
+            2 "<cmd>Telescope neorg search_headings<CR>"
+            :desc "Search Headings"}
+           {1 :<leader>nr
+            2 "<cmd>Neorg return<CR>"
+            :desc "Return from Neorg Workspace"}
+           {1 :<leader>nT
+            2 "<cmd>Neorg tangle current-file<CR>"
+            :desc "Tangle Current File"}
+           {1 :<leader>ni
+            2 "<cmd>Neorg index<CR>"
+            :desc "Go to Index of Neorg Workspace"}
+           ;; Tests
+           {1 :<space>tn
+            2 #((. (. (require :neotest) :run) :run))
+            :desc "[t]est the [n]earest case"}
+           {1 :<space>tf
+            2 #((. (. (require :neotest) :run) :run) (_G.vim.fn.expand "%"))
+            :desc "[t]est the current [f]ile"}
+           {1 :<space>ts
+            2 #((. (. (require :neotest) :run) :run) {:suite true})
+            :desc "[t]est the [s]uite"}
+           {1 :<leader>ut
+            2 #((. (. (require :neotest) :summary) :toggle))
+            :desc "[u]i to [t]oggle neotest [s]ummary"}
+           ;; Code Companion
+           {1 :<leader>uc
+            2 "<cmd>CodeCompanionChat Toggle<CR>"
+            :desc "[u]i to toggle code completion [c]hat"}
+           {1 :<leader>sA
+            2 :<cmd>CodeCompanionActions<CR>
+            :desc "[s]earch CodeCompanion [a]ctions"}]))
 
 ;; Window Focus
 (_G.vim.keymap.set :n :<C-h> :<C-w><C-h>
@@ -60,99 +110,6 @@
 ;; Reset GUI Size
 (_G.vim.keymap.set :n "<C-[>" #(set _G.vim.g.neovide_scale_factor 1.0))
 
-;; Tabs
-(_G.vim.keymap.set :n :<leader><tab><tab> :<cmd>tabnew<CR>
-                   {:desc "Create New [tab]"})
-
-(_G.vim.keymap.set :n :<leader><tab><Del> :<cmd>tabclose<CR>
-                   {:desc "[Del]ete Current Tab"})
-
-(_G.vim.keymap.set :n :<leader><tab>n :<cmd>tabNext<CR> {:desc "[n]ext Tab"})
-(_G.vim.keymap.set :n :<leader><tab>p :<cmd>tabprevious<CR>
-                   {:desc "[p]revious Tab"})
-
-;; Chezmoi
-(_G.vim.keymap.set :n :<leader><tab>c "<cmd>tcd ~/.local/share/chezmoi<CR>"
-                   {:desc "CD to chezmoi in current tab"})
-
-(_G.vim.keymap.set :n :<leader><tab>r "<cmd>tcd -<CR>"
-                   {:desc "CD to previous directory in current tab"})
-
-(_G.vim.keymap.set :n :<leader><tab>b "<cmd>tcd %:p:h<CR>"
-                   {:desc "CD to [B]uffer Directory"})
-
-(_G.vim.keymap.set :n :<leader><tab>a #(os.execute "chezmoi apply")
-                   {:desc "Apply to Chezmoi"})
-
 ;; Emulating Control+S on other applications
 (_G.vim.keymap.set :n :<C-s> :<cmd>w<CR> {:desc "Save current Buffer"})
-
-;; Lazy/Noice
-(_G.vim.keymap.set :n :<leader>l :<cmd>Lazy<CR> {:desc "Start Lazy"})
-(_G.vim.keymap.set :n :<leader>un :<cmd>NoiceDismiss<cr>
-                   {:desc "Dismiss All Notifications"})
-
-;; Harpoon
-(local harpoon (require :harpoon))
-
-(_G.vim.keymap.set :n :<leader>a #(: (harpoon:list) :add)
-                   {:desc "Add current file to harpoon list"})
-
-(_G.vim.keymap.set :n :<leader>H #(harpoon.ui:toggle_quick_menu (harpoon:list))
-                   {:desc "Toggle Harpoon Quick Menu"})
-
-(_G.vim.keymap.set :n :<C-1> #(: (harpoon:list) :select 1)
-                   {:desc "Select Harpoon item 1"})
-
-(_G.vim.keymap.set :n :<C-2> #(: (harpoon:list) :select 2)
-                   {:desc "Select Harpoon item 2"})
-
-(_G.vim.keymap.set :n :<C-3> #(: (harpoon:list) :select 3)
-                   {:desc "Select Harpoon item 3"})
-
-(_G.vim.keymap.set :n :<C-4> #(: (harpoon:list) :select 4)
-                   {:desc "Select Harpoon item 4"})
-
-(_G.vim.keymap.set :n :<C-5> #(: (harpoon:list) :select 5)
-                   {:desc "Select Harpoon item 5"})
-
-(_G.vim.keymap.set :n :<C-6> #(: (harpoon:list) :select 6)
-                   {:desc "Select Harpoon item 6"})
-
-;; Norg Keymaps
-(_G.vim.keymap.set :n :<leader>se "<cmd>Telescope neorg search_headings<CR>")
-(_G.vim.keymap.set :n :<leader>nr "<cmd>Neorg return<CR>")
-(_G.vim.keymap.set :n :<leader>nT "<cmd>Neorg tangle current-file<CR>")
-(_G.vim.keymap.set :n :<leader>ni "<cmd>Neorg index<CR>")
-
-;; Google Search
-(_G.vim.keymap.set :n :<leader>sb
-                   (fn []
-                     (let [query (_G.vim.fn.input "Search Google: ")]
-                       (when (not= query "")
-                         (_G.vim.cmd {:cmd :OpenBrowserSmartSearch
-                                      :args [(.. "'" query "'")]}))))
-                   {:desc "search browser with google"})
-
-;; Tests
-(_G.vim.keymap.set :n :<space>tn #((. (. (require :neotest) :run) :run))
-                   {:desc "[t]est the [n]earest case"})
-
-(_G.vim.keymap.set :n :<space>tf
-                   #((. (. (require :neotest) :run) :run) (_G.vim.fn.expand "%"))
-                   {:desc "[t]est the current [f]ile"})
-
-(_G.vim.keymap.set :n :<space>ts
-                   #((. (. (require :neotest) :run) :run) {:suite true})
-                   {:desc "[t]est the [s]uite"})
-
-(_G.vim.keymap.set :n :<leader>ut
-                   #((. (. (require :neotest) :summary) :toggle))
-                   {:desc "[u]i to [t]oggle neotest [s]ummary"})
-
-(_G.vim.keymap.set :n :<leader>uc "<cmd>CodeCompanionChat Toggle<CR>"
-                   {:desc "[u]i to toggle code completion [c]hat"})
-
-(_G.vim.keymap.set :n :<leader>sA :<cmd>CodeCompanionActions<CR>
-                   {:desc "[s]earch CodeCompanion [a]ctions"})
 

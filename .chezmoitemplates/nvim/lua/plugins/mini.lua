@@ -5,9 +5,14 @@ local function _1_()
 	require("mini.statusline").setup()
 	require("mini.files").setup()
 	require("mini.pick").setup()
-	local function _2_()
-		return MiniFiles.open()
-	end
-	return _G.vim.keymap.set("n", "<leader>F", _2_, { desc = "Open File Explorer" })
+	return require("mini.sessions").setup()
 end
-return { "echasnovski/mini.nvim", version = "*", config = _1_ }
+local function _2_()
+	return _G.MiniFiles.open()
+end
+return {
+	"echasnovski/mini.nvim",
+	version = "*",
+	config = _1_,
+	keys = { { "n", "<leader>F", _2_, { desc = "Open File Explorer" } } },
+}
