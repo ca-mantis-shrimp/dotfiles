@@ -22,7 +22,19 @@
              :desc "Edit Literate Config"}
             {1 :<leader>ns
              2 "<cmd>Neorg generate-workspace-summary<cr>"
-             :desc "Generate Workspace Summary"}]
+             :desc "Generate Workspace Summary"}
+            {1 :<leader>nr
+             2 "<cmd>Neorg return<CR>"
+             :desc "Return from Neorg Workspace"}
+            {1 :<leader>nT
+             2 "<cmd>Neorg tangle current-file<CR>"
+             :desc "Tangle Current File"}
+            {1 :<leader>ni
+             2 "<cmd>Neorg index<CR>"
+             :desc "Go to Index of Neorg Workspace"}
+            {1 :<leader>se
+             2 "<cmd>Telescope neorg search_headings<CR>"
+             :desc "Search Headings"}]
       dirman_config {:config {:workspaces {:main "~/neorg"
                                            :work_notes "~/dab_work_neorg_notes"
                                            :knowledge_base "~/knowledge_base"
@@ -45,10 +57,5 @@
             :core.export.markdown {:config {:extensions :all}}
             :core.integrations.telescope {}
             :core.summary {}}]
-  {1 :nvim-neorg/neorg
-   : dependencies
-   :lazy false
-   : keys
-   :config (fn []
-             ((. (require :neorg) :setup) {: load}))})
+  {1 :nvim-neorg/neorg : dependencies :lazy false : keys :opts {: load}})
 
