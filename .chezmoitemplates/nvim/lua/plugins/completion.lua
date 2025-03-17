@@ -10,28 +10,23 @@ local function _3_()
 	return require("luasnip.loaders.from_vscode").lazy_load()
 end
 local function _4_()
-	return require("codecompanion").setup({
-		strategies = { chat = { adapter = "anthropic" }, inline = { adapter = "anthropic" } },
-	})
-end
-local function _5_()
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
 	luasnip.config.setup({})
-	local function _6_(args)
+	local function _5_(args)
 		return luasnip.lsp_expand(args.body)
 	end
-	local function _7_()
-		local _8_
+	local function _6_()
+		local _7_
 		if luasnip.expand_or_locally_jumpable(-1) then
-			_8_ = luasnip.jump(-1)
+			_7_ = luasnip.jump(-1)
 		else
-			_8_ = nil
+			_7_ = nil
 		end
-		return _8_()
+		return _7_()
 	end
 	return cmp.setup({
-		snippet = { expand = _6_ },
+		snippet = { expand = _5_ },
 		completion = { completeopt = ":menu,menuone,noinsert" },
 		mapping = cmp.mapping.preset.insert({
 			["<C-n>"] = cmp.mapping.select_next_item(),
@@ -40,7 +35,7 @@ local function _5_()
 			["<C-f>"] = cmp.mapping.scroll_docs(4),
 			["<C-y>"] = cmp.mapping.confirm({ select = true }),
 			["<C-Space>"] = cmp.mapping.complete({}),
-			["<C-l>"] = cmp.mapping(_7_, { "i", "s" }),
+			["<C-l>"] = cmp.mapping(_6_, { "i", "s" }),
 		}),
 		sources = {
 			{ name = "copilot", group_index = 2 },
@@ -69,8 +64,7 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
 			"Paterjason/cmp-conjure",
-			{ "olimorris/codecompanion.nvim", config = _4_ },
 		},
-		config = _5_,
+		config = _4_,
 	},
 }

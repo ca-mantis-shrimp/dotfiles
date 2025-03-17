@@ -15,6 +15,10 @@ local keys = {
 	{ "<leader>nk", "<cmd>Neorg workspace knowledge_base<cr>", desc = "Edit Knowledge Base" },
 	{ "<leader>nc", "<cmd>Neorg workspace config<cr>", desc = "Edit Literate Config" },
 	{ "<leader>ns", "<cmd>Neorg generate-workspace-summary<cr>", desc = "Generate Workspace Summary" },
+	{ "<leader>nr", "<cmd>Neorg return<CR>", desc = "Return from Neorg Workspace" },
+	{ "<leader>nT", "<cmd>Neorg tangle current-file<CR>", desc = "Tangle Current File" },
+	{ "<leader>ni", "<cmd>Neorg index<CR>", desc = "Go to Index of Neorg Workspace" },
+	{ "<leader>se", "<cmd>Telescope neorg search_headings<CR>", desc = "Search Headings" },
 }
 local dirman_config = {
 	config = {
@@ -44,7 +48,4 @@ local load = {
 	["core.integrations.telescope"] = {},
 	["core.summary"] = {},
 }
-local function _1_()
-	return require("neorg").setup({ load = load })
-end
-return { "nvim-neorg/neorg", dependencies = dependencies, keys = keys, config = _1_, lazy = false }
+return { "nvim-neorg/neorg", dependencies = dependencies, keys = keys, opts = { load = load }, lazy = false }

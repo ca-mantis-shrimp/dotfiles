@@ -16,10 +16,7 @@
                  :saadparwaiz1/cmp_luasnip
                  :hrsh7th/cmp-nvim-lsp
                  :hrsh7th/cmp-path
-                 :Paterjason/cmp-conjure
-                 {1 :olimorris/codecompanion.nvim
-                  :config #((. (require :codecompanion) :setup) {:strategies {:chat {:adapter :anthropic}
-                                                                              :inline {:adapter :anthropic}}})}]
+                 :Paterjason/cmp-conjure]
   :config (fn []
             (let [cmp (require :cmp)
                   luasnip (require :luasnip)]

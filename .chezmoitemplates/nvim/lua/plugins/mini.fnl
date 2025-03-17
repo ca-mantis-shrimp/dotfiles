@@ -6,8 +6,10 @@
            ((. (require :mini.statusline) :setup))
            ((. (require :mini.files) :setup))
            ((. (require :mini.pick) :setup))
-           (_G.vim.keymap.set :n :<leader>F
-                              (fn []
-                                ((. MiniFiles :open)))
-                              {:desc "Open File Explorer"}))}
+           ((. (require :mini.sessions) :setup)))
+ :keys [[:n
+         :<leader>F
+         (fn []
+           ((. _G.MiniFiles :open)))
+         {:desc "Open File Explorer"}]]}
 
