@@ -38,7 +38,6 @@ local function _4_()
 			["<C-l>"] = cmp.mapping(_6_, { "i", "s" }),
 		}),
 		sources = {
-			{ name = "copilot", group_index = 2 },
 			{ name = "nvim_lsp" },
 			{ name = "luasnip" },
 			{ name = "path" },
@@ -54,12 +53,6 @@ return {
 		event = "InsertEnter",
 		dependencies = {
 			{ "L3MON4D3/LuaSnip", build = _1_, dependencies = { { "rafamadriz/friendly-snippets", config = _3_ } } },
-			{
-				"zbirenbaum/copilot-cmp",
-				config = true,
-				dependencies = { { "zbirenbaum/copilot.lua", config = true } },
-				opts = { suggestion = { enabled = false }, panel = { enabled = false } },
-			},
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",

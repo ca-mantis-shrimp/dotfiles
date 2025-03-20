@@ -9,10 +9,6 @@
                   :dependencies [{1 :rafamadriz/friendly-snippets
                                   :config #((. (require :luasnip.loaders.from_vscode)
                                                :lazy_load))}]}
-                 {1 :zbirenbaum/copilot-cmp
-                  :config true
-                  :dependencies [{1 :zbirenbaum/copilot.lua :config true}]
-                  :opts {:suggestion {:enabled false} :panel {:enabled false}}}
                  :saadparwaiz1/cmp_luasnip
                  :hrsh7th/cmp-nvim-lsp
                  :hrsh7th/cmp-path
@@ -34,8 +30,7 @@
                                                                                          (luasnip.jump -1)))
                                                                                    [:i
                                                                                     :s])})
-                          :sources [{:name :copilot :group_index 2}
-                                    {:name :nvim_lsp}
+                          :sources [{:name :nvim_lsp}
                                     {:name :luasnip}
                                     {:name :path}
                                     {:name :conjure}
