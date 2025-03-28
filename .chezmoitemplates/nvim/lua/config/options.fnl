@@ -46,3 +46,25 @@
 
 (set _G.vim.opt.formatexpr "require'conform'.formatexpr()")
 
+;; Default LSP to .git/ as root marker
+(_G.vim.lsp.config "*" {:root_marker [:.git/]})
+
+(_G.vim.api.nvim_create_autocmd :LspAttach
+                                {:callback (fn [ev]
+                                             (local client
+                                                    (_G.vim.lsp.get_client_by_id ev.data.client))
+                                             (if (client:supports_method :textDocument/completion)
+                                                 (_G.vim.lsp.completion.enable true
+                                                                               client.id
+                                                                               ev.buf
+                                                                               {:autoigger true})))})
+
+;; Defaulting to Rounded borders
+(set _G.vim.o.winborder :rounded)
+
+;; Defaulting to only showing the current line of diagnostics
+(_G.vim.diagnostic.config {:virtual_text {:current_line true}
+                           :virtual_lines true})
+
+(_G.vim.lsp.enable [:lua])
+
