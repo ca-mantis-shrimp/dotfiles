@@ -66,5 +66,3 @@
 (_G.vim.diagnostic.config {:virtual_text {:current_line true}
                            :virtual_lines true})
 
-(_G.vim.lsp.enable [:lua])
-

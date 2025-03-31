@@ -39,5 +39,4 @@ local function _2_(ev)
 end
 _G.vim.api.nvim_create_autocmd("LspAttach", {callback = _2_})
 _G.vim.o.winborder = "rounded"
-_G.vim.diagnostic.config({virtual_text = {current_line = true}, virtual_lines = true})
-return _G.vim.lsp.enable({"lua"})
+return _G.vim.diagnostic.config({virtual_text = {current_line = true}, virtual_lines = true})
