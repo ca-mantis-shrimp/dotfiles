@@ -31,7 +31,7 @@ _G.vim.opt.formatexpr = "require'conform'.formatexpr()"
 _G.vim.lsp.config("*", {root_marker = {".git/"}})
 local function _2_(ev)
   local client = _G.vim.lsp.get_client_by_id(ev.data.client)
-  if client:supports_method("textDocument/completion") then
+  if (client and client:supports_method("textDocument/completion")) then
     return _G.vim.lsp.completion.enable(true, client.id, ev.buf, {autoigger = true})
   else
     return nil

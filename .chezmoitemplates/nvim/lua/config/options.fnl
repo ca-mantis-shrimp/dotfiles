@@ -53,7 +53,8 @@
                                 {:callback (fn [ev]
                                              (local client
                                                     (_G.vim.lsp.get_client_by_id ev.data.client))
-                                             (if (client:supports_method :textDocument/completion)
+                                             (if (and client
+                                                      (client:supports_method :textDocument/completion))
                                                  (_G.vim.lsp.completion.enable true
                                                                                client.id
                                                                                ev.buf
