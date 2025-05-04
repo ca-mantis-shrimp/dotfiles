@@ -13,5 +13,6 @@
   :cmd [:RainboxDelim
         :RainboxDelimSimple
         :RainboxDelimQuoted
-        :RainboxMultiDelim]}]
+        :RainboxMultiDelim]}
+ {1 :Davidyz/VectorCode}]
 

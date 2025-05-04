@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/UI.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] lua/plugins/UI.fnl
 local function _1_()
 	return require("which-key.show")({ global = false })
 end
