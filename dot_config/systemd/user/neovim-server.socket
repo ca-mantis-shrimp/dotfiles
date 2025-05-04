@@ -1,7 +1,7 @@
 [Unit]
 Description=Socket file for the service file of the same name, allows the service to be started on demand rather than starting it at boot
 Documentation=man:nvim
-AssertPathExists=%h/.cache/nvim/server.pipe
+AssertPathExists=%h/.cache/nvim
 Requires=neovim-server.service
 
 [Socket]

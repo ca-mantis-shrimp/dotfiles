@@ -6,6 +6,6 @@ Requires=neovim-server.socket
 [Service]
 Type=notify
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/usr/bin/nvim --listen %h/.cache/nvim/server.pipe
+ExecStart=/usr/bin/nvim --embed --listen %h/.cache/nvim/server.pipe
 StandardOutput=journal
 StandardError=journal
