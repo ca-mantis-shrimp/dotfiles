@@ -1,11 +1,6 @@
 [Unit]
 Description=Neovim Embedded Server instance to be conntected to by clients for shared instance control
 Documentation=man:nvim
-Requires=neovim-server.socket
 
 [Service]
-Type=notify
-ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/usr/bin/nvim --embed --listen %h/.cache/nvim/server.pipe
-StandardOutput=journal
-StandardError=journal
