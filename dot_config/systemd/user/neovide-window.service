@@ -1,0 +1,11 @@
+[Unit]
+Description=Neovide Window that should spawn after attaching to the neovim server
+Documentation=neovide --help
+Requires=neovim-server.service
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/neovide --server %h/.cache/nvim/server.pipe
+
+[Install]
+WantedBy=default.target

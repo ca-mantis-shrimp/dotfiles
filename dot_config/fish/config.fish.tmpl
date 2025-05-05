@@ -10,6 +10,14 @@ set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/creden
 {{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
 set -gx SNOW_MIRROR_DADBOD = '{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}'
 {{- end}}
+
+function RestartNvimServer
+    systemctl --user restart neovim-server
+end
+
+function SpawnNeovideWindow
+    neovide --server ~/.cache/nvim/server.pipe
+end
 	
 
 # Switch to VI bindings
