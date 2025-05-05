@@ -1,6 +1,6 @@
 [Unit]
-Description=Neovide Window that should spawn after attaching to the neovim server
-Documentation=neovide --help
+Name=Neovide GUI
+Description=Neovide GUI Instance that should spawn after attaching to the neovim server
 Requires=neovim-server.service
 
 [Service]
