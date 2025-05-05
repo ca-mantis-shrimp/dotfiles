@@ -5,3 +5,6 @@ Documentation=man:nvim
 [Service]
 Type=exec
 ExecStart=/usr/bin/nvim --embed --listen %h/.cache/nvim/server.pipe
+
+[Install]
+WantedBy=default.target
