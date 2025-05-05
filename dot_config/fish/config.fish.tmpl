@@ -16,7 +16,7 @@ function RestartNvimServer
 end
 
 function SpawnNeovideWindow
-    neovide --server ~/.cache/nvim/server.pipe
+    systemctl --user start neovide-window.service
 end
 	
 
