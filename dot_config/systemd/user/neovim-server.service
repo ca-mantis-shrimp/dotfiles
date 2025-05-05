@@ -3,4 +3,5 @@ Description=Neovim Embedded Server instance to be conntected to by clients for s
 Documentation=man:nvim
 
 [Service]
+Type=exec
 ExecStart=/usr/bin/nvim --embed --listen %h/.cache/nvim/server.pipe
