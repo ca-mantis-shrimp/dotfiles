@@ -1,4 +1,7 @@
 [{1 :Olical/nfnl :ft :fennel}
  {1 :Olical/conjure}
- {1 :eraserhd/parinfer-rust :build "cargo build --release" :ft [:fennel :hy]}]
+ {1 :eraserhd/parinfer-rust
+  :build "cargo build --release"
+  :ft [:fennel :hy :clojure]}
+ {1 "https://gitlab.com/HiPhish/rainbow-delimiters.nvim.git"}]
 
