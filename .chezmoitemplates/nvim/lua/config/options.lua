@@ -16,19 +16,18 @@ _G.vim.opt.timeoutlen = 300
 _G.vim.opt.splitright = true
 _G.vim.opt.splitbelow = true
 _G.vim.opt.list = true
-_G.vim.opt.listchars = { tab = "\194\187 ", trail = "\194\183", nbsp = "\226\144\163" }
+_G.vim.opt.listchars = {tab = "\194\187 ", trail = "\194\183", nbsp = "\226\144\163"}
 _G.vim.opt.inccommand = "split"
 _G.vim.opt.cursorline = true
 _G.vim.opt.scrolloff = 10
 _G.vim.opt.hlsearch = true
 _G.vim.o.guifont = "FiraCode Nerd Font:h20"
 _G.vim.g.neovide_scale_factor = 1
-if _G.vim.fn.has("win32") == 1 then
-	_G.vim.g.python_host_prog =
-		"~/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/python.exe"
+if (_G.vim.fn.has("win32") == 1) then
+  _G.vim.g.python_host_prog = "~/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/python.exe"
 else
 end
 _G.vim.opt.formatexpr = "require'conform'.formatexpr()"
-_G.vim.lsp.enable({ "lua_ls", "fennel_language_server", "pyright", "fish-lsp", "systemd_ls", "powershell_es", "jsonls" })
+_G.vim.lsp.enable({"lua_ls", "fennel_language_server", "pyright", "fish-lsp", "systemd_ls", "powershell_es", "jsonls"})
 _G.vim.o.winborder = "rounded"
-return _G.vim.diagnostic.config({ virtual_text = { current_line = true }, virtual_lines = true })
+return _G.vim.diagnostic.config({virtual_text = {current_line = true}, virtual_lines = true})
