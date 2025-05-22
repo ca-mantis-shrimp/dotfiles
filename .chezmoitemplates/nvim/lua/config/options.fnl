@@ -46,19 +46,14 @@
 
 (set _G.vim.opt.formatexpr "require'conform'.formatexpr()")
 
-;; Default LSP to .git/ as root marker
-(_G.vim.lsp.config "*" {:root_marker [:.git/]})
-
-(_G.vim.api.nvim_create_autocmd :LspAttach
-                                {:callback (fn [ev]
-                                             (local client
-                                                    (_G.vim.lsp.get_client_by_id ev.data.client))
-                                             (if (and client
-                                                      (client:supports_method :textDocument/completion))
-                                                 (_G.vim.lsp.completion.enable true
-                                                                               client.id
-                                                                               ev.buf
-                                                                               {:autoigger true})))})
+;; Enable LSP Servers, Assumes server is either configured in `lsp/` or `lspconfig`
+(_G.vim.lsp.enable [:lua_ls
+                    :fennel_language_server
+                    :pyright
+                    :fish-lsp
+                    :systemd_ls
+                    :powershell_es
+                    :jsonls])
 
 ;; Defaulting to Rounded borders
 (set _G.vim.o.winborder :rounded)

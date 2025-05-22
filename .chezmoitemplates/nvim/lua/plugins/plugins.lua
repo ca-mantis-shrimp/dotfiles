@@ -9,4 +9,5 @@ return {
 		cmd = { "RainboxDelim", "RainboxDelimSimple", "RainboxDelimQuoted", "RainboxMultiDelim" },
 	},
 	{ "Davidyz/VectorCode" },
+	{ "neovim/nvim-lspconfig" },
 }

@@ -14,5 +14,6 @@
         :RainboxDelimSimple
         :RainboxDelimQuoted
         :RainboxMultiDelim]}
- {1 :Davidyz/VectorCode}]
+ {1 :Davidyz/VectorCode}
+ {1 :neovim/nvim-lspconfig}]
 
