@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/LLM.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] lua/plugins/LLM.fnl
 return {
 	{
 		"olimorris/codecompanion.nvim",
