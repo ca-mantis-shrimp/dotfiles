@@ -8,7 +8,6 @@
 	"modules-left": [
 		"hyprland/workspaces",
 		"hyprland/submap",
-		"custom/media"
 	],
 	"modules-center": [
 		"hyprland/window"
@@ -17,15 +16,15 @@
 		"mpd",
 		"keyboard-state",
 		"idle_inhibitor",
-		"power-profiles-daemon",
 		"cpu",
 		"memory",
 		"temperature",
 		"wireplumber",
+		"bluetooth",
 		"clock",
 		"tray",
 		"custom/power"
-		],
+	],
 	"keyboard-state": {
 		"numlock": true,
 		"capslock": true,
@@ -89,6 +88,9 @@
 	"memory": {
 		"format": "{}% "
 	},
+	"wireplumber": {
+		"on-click": "helvum"
+	},
 	"temperature": {
 		// "thermal-zone": 2,
 		// "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
@@ -109,7 +111,7 @@
 			"hibernate": "systemctl hibernate"
 		}
 	},
-	"wireplumber": {
-		"on-click": "pwvucontrol"
-	},
+	"bluetooth": {
+		"on-click": "/usr/bin/blueman-manager"
+	}
 }
