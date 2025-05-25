@@ -47,6 +47,9 @@ end
 local function _16_()
 	return _G.Snacks.picker.diagnostics()
 end
+local function _17_()
+	return _G.Snacks.terminal()
+end
 return {
 	{
 		"folke/which-key.nvim",
@@ -56,9 +59,19 @@ return {
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
+		dependencies = { { "folke/persistence.nvim", event = "BufReadPre", opts = {} } },
 		opts = {
 			bigfile = { enabled = true },
-			dashboard = { enabled = true },
+			dashboard = {
+				sections = {
+					{ section = "header" },
+					{ icon = "\239\132\156", title = "Keymaps", section = "keys" },
+					{ icon = "\238\153\129", title = "Recent Files", section = "recent_files" },
+					{ icon = "\238\152\129", title = "Projects", section = "projects" },
+					{ icon = "\239\130\160", section = "session", title = "Sessions" },
+					{ section = "startup" },
+				},
+			},
 			explorer = { enabled = true },
 			indent = { enabled = true },
 			input = { enabled = true },
@@ -86,6 +99,7 @@ return {
 			{ "<leader>si", _14_, desc = "Search Icons" },
 			{ "<leader>sj", _15_, desc = "Search Jumps" },
 			{ "<leader>sd", _16_, desc = "Search Diagnostics" },
+			{ "<c-/>", _17_, desc = "Open Terminal" },
 		},
 		lazy = false,
 	},

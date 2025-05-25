@@ -16,3 +16,5 @@ scoop/
 literate_config/
 wiki/
 intentions/*
+Session.vim
+Dockerfile

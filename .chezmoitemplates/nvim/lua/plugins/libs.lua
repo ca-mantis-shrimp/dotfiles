@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/libs.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] lua/plugins/libs.fnl
 return {
 	{ "numToStr/Comment.nvim", config = true, lazy = true },
 	{ "williamboman/mason.nvim", config = true, lazy = true },
@@ -9,4 +9,6 @@ return {
 	{ "nvim-treesitter/nvim-treesitter", lazy = true },
 	{ "MunifTanjim/nui.nvim", lazy = true },
 	{ "rcarriga/nvim-notify", lazy = true },
+	{ "nvim-tree/nvim-web-devicons", config = true },
+	{ "radenling/vim-dispatch-neovim", dependencies = { "tpope/vim-dispatch" } },
 }

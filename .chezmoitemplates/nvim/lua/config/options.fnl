@@ -53,7 +53,9 @@
                     :fish-lsp
                     :systemd_ls
                     :powershell_es
-                    :jsonls])
+                    :jsonls
+                    :clojure_lsp
+                    :rust_analyzer])
 
 ;; Defaulting to Rounded borders
 (set _G.vim.o.winborder :rounded)

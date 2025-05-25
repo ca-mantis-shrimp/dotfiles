@@ -28,6 +28,6 @@ if (_G.vim.fn.has("win32") == 1) then
 else
 end
 _G.vim.opt.formatexpr = "require'conform'.formatexpr()"
-_G.vim.lsp.enable({"lua_ls", "fennel_language_server", "pyright", "fish-lsp", "systemd_ls", "powershell_es", "jsonls"})
+_G.vim.lsp.enable({"lua_ls", "fennel_language_server", "pyright", "fish-lsp", "systemd_ls", "powershell_es", "jsonls", "clojure_lsp", "rust_analyzer"})
 _G.vim.o.winborder = "rounded"
 return _G.vim.diagnostic.config({virtual_text = {current_line = true}, virtual_lines = true})

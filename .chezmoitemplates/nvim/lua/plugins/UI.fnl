@@ -6,8 +6,20 @@
  {1 :folke/snacks.nvim
   :priority 1000
   :lazy false
+  :dependencies [{1 :folke/persistence.nvim :event :BufReadPre :opts {}}]
   :opts {:bigfile {:enabled true}
-         :dashboard {:enabled true}
+         :dashboard {:sections [{:section :header}
+                                {:icon "" :title :Keymaps :section :keys}
+                                {:icon ""
+                                 :title "Recent Files"
+                                 :section :recent_files}
+                                {:icon ""
+                                 :title :Projects
+                                 :section :projects}
+                                {:icon ""
+                                 :section :session
+                                 :title :Sessions}
+                                {:section :startup}]}
          :explorer {:enabled true}
          :indent {:enabled true}
          :input {:enabled true}
@@ -42,7 +54,8 @@
          {1 :<leader>sj 2 #(_G.Snacks.picker.jumps) :desc "Search Jumps"}
          {1 :<leader>sd
           2 #(_G.Snacks.picker.diagnostics)
-          :desc "Search Diagnostics"}]}
+          :desc "Search Diagnostics"}
+         {1 :<c-/> 2 #(_G.Snacks.terminal) :desc "Open Terminal"}]}
  {1 :folke/noice.nvim
   :event :VeryLazy
   :opts {:lsp {:override {:vim.lsp.util.convert_input_to_markdown_lines true
