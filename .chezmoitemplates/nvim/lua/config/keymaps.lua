@@ -44,10 +44,15 @@ do
 		},
 		{
 			"<leader>ecf",
-			"<cmd>cd $HOME/.local/share/chezmoi |edit ./dot_config/fish/fish.config.tmpl<CR>",
+			"<cmd>cd $HOME/.local/share/chezmoi |edit ./dot_config/fish/config.fish.tmpl<CR>",
 			desc = "[e]dit [c]hezmoi [f]ish config by cd'ing to chezmoi dir and editing the fish init to start",
 		},
 		{ "<leader>ecr", "<cmd>cd -<CR>", desc = "[e]dit [c]hezmoi, [r]eturn to previous directory" },
+		{
+			"<leader>eca",
+			"<cmd>!chezmoi apply --force<CR>",
+			desc = "[e]dit [c]hezmoi config by [a]pplying existing changes",
+		},
 	})
 end
 _G.vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })

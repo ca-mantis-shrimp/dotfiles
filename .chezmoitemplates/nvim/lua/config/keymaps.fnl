@@ -49,11 +49,14 @@
             2 "<cmd>cd $HOME/.local/share/chezmoi/.chezmoitemplates/nvim/ |edit ./init.fnl<CR>"
             :desc "[e]dit [c]hezmoi [n]eovim config by cding to chezmoi template dir and editing the fennel init to start"}
            {1 :<leader>ecf
-            2 "<cmd>cd $HOME/.local/share/chezmoi |edit ./dot_config/fish/fish.config.tmpl<CR>"
+            2 "<cmd>cd $HOME/.local/share/chezmoi |edit ./dot_config/fish/config.fish.tmpl<CR>"
             :desc "[e]dit [c]hezmoi [f]ish config by cd'ing to chezmoi dir and editing the fish init to start"}
            {1 :<leader>ecr
             2 "<cmd>cd -<CR>"
-            :desc "[e]dit [c]hezmoi, [r]eturn to previous directory"}]))
+            :desc "[e]dit [c]hezmoi, [r]eturn to previous directory"}
+           {1 :<leader>eca
+            2 "<cmd>!chezmoi apply --force<CR>"
+            :desc "[e]dit [c]hezmoi config by [a]pplying existing changes"}]))
 
 ;; Window Focus
 (_G.vim.keymap.set :n :<C-h> :<C-w><C-h>
