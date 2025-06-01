@@ -1,4 +1,5 @@
-[{1 :alker0/chezmoi.vim}
+[{1 :xvzc/chezmoi.nvim
+  :config #((. (require :chezmoi) :setup) {:edit {:watch true}})}
  {1 :weirongxu/plantuml-previewer.vim
   :dependencies [:aklt/plantuml-syntax :tyru/open-browser.vim]}
  {1 :cameron-wags/rainbow_csv.nvim

@@ -1,18 +1,52 @@
 -- [nfnl] lua/plugins/LLM.fnl
+local function _1_()
+	return os.getenv("HOME")
+end
+local function _2_()
+	return require("copilot").setup({})
+end
 return {
 	{
-		"olimorris/codecompanion.nvim",
-		lazy = true,
-		keys = {
-			{ "<leader>uc", "<cmd>CodeCompanionChat Toggle<CR>", desc = "[u]i to toggle code completion [c]hat" },
-			{ "<leader>sA", "<cmd>CodeCompanionActions<CR>", desc = "[s]earch CodeCompanion [a]ctions" },
+		"yetone/avante.nvim",
+		even = "VeryLazy",
+		opts = {
+			provider = "ollama",
+			cursor_applying_provider = "groq",
+			ollama = { model = "deepseek-r1:latest" },
+			behavior = { enable_cursor_planning_mode = true },
+			vendors = {
+				groq = {
+					__inherited_from = "openai",
+					api_key_name = "GROQ_API_KEY",
+					endpoint = "https://api.groq.com/openai/v1/",
+					model = "llama-3.3-70b-versatile",
+					max_completion_tokens = 32768,
+				},
+			},
+			rag_service = {
+				enabled = true,
+				host_mount = _1_,
+				provider = "ollama",
+				llm_model = "llama3",
+				embed_model = "moic-embed-text",
+				endpoint = "http://localhost:11434",
+			},
 		},
-		opts = { strategies = { chat = { adapter = "anthropic" }, inline = { adapter = "anthropic" } } },
+		build = "make",
+		dependencies = {
+			"HakonHarnes/img-clip.nvim",
+			even = "VeryLazy",
+			opts = {
+				default = {
+					embed_image_as_base64 = true,
+					drag_and_drop = { insert_mode = true },
+					prompt_for_file_name = false,
+				},
+				use_absolute_path = true,
+			},
+		},
+		version = false,
 	},
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = { { "github/copilot.vim" } },
-		build = "make tiktoken",
-		opts = {},
-	},
+	{ "zbirenbaum/copilot.lua", config = _2_, cmd = "Copilot", event = "InsertEnter" },
+	{ "olimorris/codecompanion.nvim", opts = {} },
 }

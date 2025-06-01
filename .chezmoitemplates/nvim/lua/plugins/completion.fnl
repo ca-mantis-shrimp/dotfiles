@@ -1,6 +1,8 @@
 [{1 :hrsh7th/nvim-cmp
   :event :InsertEnter
-  :dependencies [{1 :L3MON4D3/LuaSnip
+  :dependencies [{1 :zbirenbaum/copilot-cmp
+                  :config #((. (require :copilot_cmp) :setup))}
+                 {1 :L3MON4D3/LuaSnip
                   :build (fn []
                            (if (or (_G.vim.fn.has :win32)
                                    (= (_G.vim.fn.executable :make) 0))
@@ -35,5 +37,6 @@
                                     {:name :path}
                                     {:name :conjure}
                                     {:name :codecompanion}
-                                    {:name :render-markdown}]})))}]
+                                    {:name :render-markdown}
+                                    {:name :copilot :group_index 2}]})))}]
 

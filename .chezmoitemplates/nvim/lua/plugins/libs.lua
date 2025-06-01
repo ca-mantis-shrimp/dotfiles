@@ -11,4 +11,5 @@ return {
 	{ "rcarriga/nvim-notify", lazy = true },
 	{ "nvim-tree/nvim-web-devicons", config = true },
 	{ "radenling/vim-dispatch-neovim", dependencies = { "tpope/vim-dispatch" } },
+	{ "ravitemer/mcphub.nvim", lazy = true },
 }

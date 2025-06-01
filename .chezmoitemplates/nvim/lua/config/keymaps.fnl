@@ -44,7 +44,16 @@
             :mode :t
             :desc "[Esc]ape terminal mode"}
            ;; Lazy/Noice
-           {1 :<leader>l 2 :<cmd>Lazy<CR> :desc "Start Lazy"}]))
+           {1 :<leader>l 2 :<cmd>Lazy<CR> :desc "Start Lazy"}
+           {1 :<leader>ecn
+            2 "<cmd>cd $HOME/.local/share/chezmoi/.chezmoitemplates/nvim/ |edit ./init.fnl<CR>"
+            :desc "[e]dit [c]hezmoi [n]eovim config by cding to chezmoi template dir and editing the fennel init to start"}
+           {1 :<leader>ecf
+            2 "<cmd>cd $HOME/.local/share/chezmoi |edit ./dot_config/fish/fish.config.tmpl<CR>"
+            :desc "[e]dit [c]hezmoi [f]ish config by cd'ing to chezmoi dir and editing the fish init to start"}
+           {1 :<leader>ecr
+            2 "<cmd>cd -<CR>"
+            :desc "[e]dit [c]hezmoi, [r]eturn to previous directory"}]))
 
 ;; Window Focus
 (_G.vim.keymap.set :n :<C-h> :<C-w><C-h>

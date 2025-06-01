@@ -80,3 +80,20 @@
                                                                                     (not (_G.vim.lsp.inlay_hint.is_enabled))))
                                                     "[T]oggle Inlay [H]ints")))})
 
+(_G.vim.api.nvim_create_autocmd :BufWritePost
+                                {:group (_G.vim.api.nvim_create_augroup :FnlToLuaChezmoi
+                                                                        {:clear true})
+                                 :pattern (.. (os.getenv :HOME)
+                                              :/.local/share/chezmoi/.chezmoitemplates/nvim/*.fnl)
+                                 :callback (fn [args]
+                                             (let [fnl-path args.file
+                                                   lua-path (string.gsub fnl-path
+                                                                         "%.fnl$"
+                                                                         :.lua)]
+                                               (when (_G.vim.loop.fs_stat lua-path)
+                                                 (let [buf (_G.vim.fn.bufadd lua-path)]
+                                                   (_G.vim.fn.bufload buf)
+                                                   (_G.vim.api.nvim_buf_call buf
+                                                                             #(_G.vim.cmd :write))
+                                                   (_G.vim.cmd (.. "bd! " buf))))))})
+

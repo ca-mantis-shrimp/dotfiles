@@ -1,6 +1,9 @@
 -- [nfnl] lua/plugins/plugins.fnl
+local function _1_()
+	return require("chezmoi").setup({ edit = { watch = true } })
+end
 return {
-	{ "alker0/chezmoi.vim" },
+	{ "xvzc/chezmoi.nvim", config = _1_ },
 	{ "weirongxu/plantuml-previewer.vim", dependencies = { "aklt/plantuml-syntax", "tyru/open-browser.vim" } },
 	{
 		"cameron-wags/rainbow_csv.nvim",

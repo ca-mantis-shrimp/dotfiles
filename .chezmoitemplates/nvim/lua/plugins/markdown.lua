@@ -1,8 +1,9 @@
--- [nfnl] Compiled from lua/plugins/markdown.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] lua/plugins/markdown.fnl
 return {
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { { "nvim-treesitter/nvim-treesitter" }, { "echasovski/mini.nvim" } },
-		opts = {},
+		opts = { file_types = { "markdown", "Avante" } },
+		ft = { "markdown", "Avante" },
 	},
 }

@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/config/autocmds.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] lua/config/autocmds.fnl
 local function _1_()
 	_G.vim.opt_local.wrap = true
 	_G.vim.opt_local.spell = true
@@ -51,7 +51,27 @@ local function _3_(event)
 		return nil
 	end
 end
-return _G.vim.api.nvim_create_autocmd(
+_G.vim.api.nvim_create_autocmd(
 	"LspAttach",
 	{ group = _G.vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }), callback = _3_ }
 )
+local function _8_(args)
+	local fnl_path = args.file
+	local lua_path = string.gsub(fnl_path, "%.fnl$", ".lua")
+	if _G.vim.loop.fs_stat(lua_path) then
+		local buf = _G.vim.fn.bufadd(lua_path)
+		_G.vim.fn.bufload(buf)
+		local function _9_()
+			return _G.vim.cmd("write")
+		end
+		_G.vim.api.nvim_buf_call(buf, _9_)
+		return _G.vim.cmd(("bd! " .. buf))
+	else
+		return nil
+	end
+end
+return _G.vim.api.nvim_create_autocmd("BufWritePost", {
+	group = _G.vim.api.nvim_create_augroup("FnlToLuaChezmoi", { clear = true }),
+	pattern = (os.getenv("HOME") .. "/.local/share/chezmoi/.chezmoitemplates/nvim/*.fnl"),
+	callback = _8_,
+})

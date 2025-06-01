@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/config/keymaps.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] lua/config/keymaps.fnl
 do
 	local wk = require("which-key")
 	local function _1_()
@@ -37,6 +37,17 @@ do
 		{ "<leader>q", _4_, desc = "Open diagnostic [Q]uickfix list" },
 		{ "<Esc><Esc>", "<C-\\><C-n>", mode = "t", desc = "[Esc]ape terminal mode" },
 		{ "<leader>l", "<cmd>Lazy<CR>", desc = "Start Lazy" },
+		{
+			"<leader>ecn",
+			"<cmd>cd $HOME/.local/share/chezmoi/.chezmoitemplates/nvim/ |edit ./init.fnl<CR>",
+			desc = "[e]dit [c]hezmoi [n]eovim config by cding to chezmoi template dir and editing the fennel init to start",
+		},
+		{
+			"<leader>ecf",
+			"<cmd>cd $HOME/.local/share/chezmoi |edit ./dot_config/fish/fish.config.tmpl<CR>",
+			desc = "[e]dit [c]hezmoi [f]ish config by cd'ing to chezmoi dir and editing the fish init to start",
+		},
+		{ "<leader>ecr", "<cmd>cd -<CR>", desc = "[e]dit [c]hezmoi, [r]eturn to previous directory" },
 	})
 end
 _G.vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
