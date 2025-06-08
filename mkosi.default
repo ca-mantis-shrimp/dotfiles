@@ -4,7 +4,7 @@ Release=latest
 
 [Output]
 Format=directory
-Path=./image
+Path=./image-dir
 
 [Packages]
 Packages=base-devel, python
