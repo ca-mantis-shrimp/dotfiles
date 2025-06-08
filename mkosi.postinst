@@ -3,3 +3,5 @@
 
 # Ensure Python is installed and set up
 python3 --version || exit 1
+
+chmod +x /home/primary_desktop/.local/share/chezmoi/mkosi.postinst
