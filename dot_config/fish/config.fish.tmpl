@@ -3,11 +3,16 @@ export (envsubst < ~/.env)
 
 set -gx WWW_HOME "http://www.duckduckgo.com"
 
+# Set the copilot endpoint as our OpenAI compatible provider
+set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
+
 # Assumes $OP_SERVICE_ACCOUNT_TOKEN is set prior set -gx ANTHROPIC_API_KEY {{ onepasswordRead "op://Back-End/anthropic_api_key/credential" }}
 set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
 set -gx GROQ_API_KEY {{ onepasswordRead "op://Back-End/groq_api_key/password" }}
 {{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
-set -gx SNOW_MIRROR_DADBOD = '{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}'
+set -gx SNOW_MIRROR_DADBOD = {{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}
+{{ else }}
+set -gx OPENAI_API_KEY {{ onepasswordRead "op://Back-End/copilot_api_oath/credential" }}
 {{- end}}
 
 function RestartNvimServer
