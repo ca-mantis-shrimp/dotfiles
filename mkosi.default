@@ -8,3 +8,6 @@ Path=./image-dir
 
 [Packages]
 Packages=base-devel, python
+
+[Build]
+Force=true
