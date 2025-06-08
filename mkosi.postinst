@@ -1,0 +1,5 @@
+#!/bin/bash
+# Post-installation script to configure the image
+
+# Ensure Python is installed and set up
+python3 --version || exit 1

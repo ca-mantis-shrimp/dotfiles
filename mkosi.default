@@ -1,0 +1,10 @@
+[Distribution]
+Distribution=arch
+Release=latest
+
+[Output]
+Format=directory
+Path=./image
+
+[Packages]
+Packages=base-devel, python
