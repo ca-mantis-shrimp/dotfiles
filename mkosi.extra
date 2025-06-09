@@ -18,6 +18,4 @@ if [ ! -d "/mnt/root/home/developer/repo" ]; then
         echo "Failed to copy repository contents. Exiting."
         exit 1
     }
-else
-    echo "Repository already exists at /mnt/root/home/developer/repo. Skipping copy."
 fi

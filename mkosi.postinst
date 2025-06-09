@@ -14,7 +14,11 @@ fi
 # Ensure the repository exists
 if [ ! -d "/home/developer/repo" ]; then
     echo "Repository not found at /home/developer/repo. Exiting."
-    exit 1
+    mkdir -p /home/developer/repo
+    cp -r /mnt/repo/* /home/developer/repo/ || {
+        echo "Failed to copy repository contents. Exiting."
+        exit 1
+    }
 fi
 
 # Initialize chezmoi and apply the configuration
