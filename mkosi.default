@@ -8,4 +8,5 @@ Format=Directory
 Packages=base,linux,linux-firmware,git,curl,neovim,chezmoi,systemd,bash
 
 [PostInstall]
+mkdir -p /bin
 ln -sf /usr/bin/bash /bin/bash
