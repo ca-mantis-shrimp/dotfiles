@@ -2,27 +2,41 @@
 
 set -e
 
-# Ensure chezmoi is installed
+# Create developer user if it doesn't exist
+if ! id "developer" &>/dev/null; then
+    useradd -m -s /usr/bin/fish -G sudo developer
+    echo "developer:developer" | chpasswd
+fi
+
+# Install chezmoi
 if ! command -v chezmoi &>/dev/null; then
-    echo "chezmoi is not installed. Installing..."
-    apt-get update && apt-get install -y chezmoi || {
-        echo "Failed to install chezmoi. Exiting."
-        exit 1
-    }
+    echo "Installing chezmoi..."
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 fi
 
-# Ensure the repository exists
-if [ ! -d "/home/developer/repo" ]; then
-    echo "Repository not found at /home/developer/repo. Exiting."
-    mkdir -p /home/developer/repo
-    cp -r /mnt/repo/* /home/developer/repo/ || {
-        echo "Failed to copy repository contents. Exiting."
-        exit 1
-    }
+# Ensure the repository directory exists and copy contents
+mkdir -p /home/developer/dotfiles
+if [ -d "/mnt/repo" ]; then
+    cp -r /mnt/repo/* /home/developer/dotfiles/
+    chown -R developer:developer /home/developer/dotfiles
 fi
 
-# Initialize chezmoi and apply the configuration
-chezmoi init --source=/home/developer/repo && chezmoi apply || {
-    echo "Failed to initialize chezmoi. Exiting."
-    exit 1
-}
+# Switch to developer user and initialize chezmoi
+sudo -u developer bash << 'EOF'
+cd /home/developer
+export HOME=/home/developer
+
+# Initialize chezmoi with the dotfiles repo
+if [ -d "/home/developer/dotfiles" ]; then
+    chezmoi init --source=/home/developer/dotfiles
+    
+    # Apply the configuration (non-interactively)
+    chezmoi apply --force
+    
+    echo "Chezmoi configuration applied successfully!"
+else
+    echo "Warning: dotfiles directory not found"
+fi
+EOF
+
+echo "Dev workspace setup complete!"

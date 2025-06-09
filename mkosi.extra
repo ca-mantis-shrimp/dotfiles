@@ -2,20 +2,15 @@
 
 set -e
 
-# Ensure git is installed
-if ! command -v git &>/dev/null; then
-    echo "git is not installed. Installing..."
-    apt-get update && apt-get install -y git || {
-        echo "Failed to install git. Exiting."
-        exit 1
-    }
+# This script runs in the build environment to copy extra files
+# The repository will be mounted at /mnt/repo during build
+
+echo "Copying repository contents for chezmoi setup..."
+
+# Ensure the mount point exists
+if [ ! -d "/mnt/repo" ]; then
+    echo "Warning: /mnt/repo not found - repository may not be properly mounted"
+    exit 0
 fi
 
-# Copy repository contents into the container
-if [ ! -d "/mnt/root/home/developer/repo" ]; then
-    mkdir -p /mnt/root/home/developer/repo
-    cp -r /mnt/repo/* /mnt/root/home/developer/repo/ || {
-        echo "Failed to copy repository contents. Exiting."
-        exit 1
-    }
-fi
+echo "Repository contents will be available during postinst phase"

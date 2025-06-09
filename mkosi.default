@@ -1,12 +1,17 @@
 [Distribution]
 Base=ubuntu
-Release=focal
+Release=jammy
 
 [Output]
 Format=directory
+ImageId=chezmoi-dev-workspace
+
+[Config]
+User=developer
+Password=developer
 
 [Partitions]
-RootSize=2G
+RootSize=4G
 
 [Packages]
-Packages=git,chezmoi
+Packages=git,curl,wget,build-essential,python3,python3-pip,nodejs,npm,fish,neovim,tmux,htop,tree,unzip,sudo
