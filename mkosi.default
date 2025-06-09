@@ -5,4 +5,4 @@ Distribution=Arch
 Format=Directory
 
 [Content]
-Packages=base,linux,linux-firmware,git,curl,neovim,chezmoi,systemd
+Packages=base,linux,linux-firmware,git,curl,neovim,chezmoi,systemd,bash
