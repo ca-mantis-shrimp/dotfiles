@@ -15,3 +15,20 @@ RootSize=4G
 
 [Packages]
 Packages=git,curl,wget,build-essential,python3,python3-pip,nodejs,npm,fish,neovim,tmux,htop,tree,unzip,sudo
+[Distribution]
+Distribution=arch
+Release=latest
+
+[Output]
+Format=directory
+
+[Packages]
+# Base packages for Arch Linux
+base
+chezmoi
+git
+
+[PostBuildScript]
+# Initialize chezmoi with the repository contents
+echo "Initializing chezmoi..."
+chezmoi init --source /mnt/repo
