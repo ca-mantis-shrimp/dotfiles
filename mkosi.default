@@ -6,3 +6,6 @@ Format=Directory
 
 [Content]
 Packages=base,linux,linux-firmware,git,curl,neovim,chezmoi,systemd,bash
+
+[PostInstall]
+ln -sf /usr/bin/bash /bin/bash
