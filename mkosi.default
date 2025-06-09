@@ -1,0 +1,12 @@
+[Distribution]
+Base=ubuntu
+Release=focal
+
+[Output]
+Format=directory
+
+[Partitions]
+RootSize=2G
+
+[Packages]
+Packages=git,chezmoi

@@ -4,3 +4,6 @@ set -e
 
 # Clone the repository into the container
 git clone /mnt/repo /mnt/root/home/developer/repo
+
+# Set permissions for the developer user
+chown -R developer:developer /mnt/root/home/developer/repo
