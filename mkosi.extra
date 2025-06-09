@@ -11,12 +11,13 @@ if ! command -v git &>/dev/null; then
     }
 fi
 
-# Clone the repository into the container
+# Copy repository contents into the container
 if [ ! -d "/mnt/root/home/developer/repo" ]; then
-    git clone /mnt/repo /mnt/root/home/developer/repo || {
-        echo "Failed to clone repository. Exiting."
+    mkdir -p /mnt/root/home/developer/repo
+    cp -r /mnt/repo/* /mnt/root/home/developer/repo/ || {
+        echo "Failed to copy repository contents. Exiting."
         exit 1
     }
 else
-    echo "Repository already exists at /mnt/root/home/developer/repo. Skipping clone."
+    echo "Repository already exists at /mnt/root/home/developer/repo. Skipping copy."
 fi
