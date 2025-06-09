@@ -15,11 +15,16 @@ if ! id -u developer &>/dev/null; then
     }
 fi
 
-# Set permissions for the developer's home directory
-chown -R developer:developer /home/developer || {
-    echo "Failed to set permissions for /home/developer. Exiting."
+# Verify the developer user exists before setting permissions
+if id -u developer &>/dev/null; then
+    chown -R developer:developer /home/developer || {
+        echo "Failed to set permissions for /home/developer. Exiting."
+        exit 1
+    }
+else
+    echo "User 'developer' does not exist. Exiting."
     exit 1
-}
+fi
 
 # Initialize chezmoi and apply the configuration
 su - developer -c "chezmoi init --source=/home/developer/repo && chezmoi apply" || {
