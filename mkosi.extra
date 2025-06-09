@@ -1,1 +1,6 @@
-# Additional files or scripts to be included in the image
+#!/bin/bash
+
+set -e
+
+# Clone the repository into the container
+git clone /mnt/repo /mnt/root/home/developer/repo

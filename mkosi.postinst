@@ -1,5 +1,6 @@
 #!/bin/bash
-# Post-installation script to configure the image
 
-# Ensure Python is installed and set up
-python3 --version || exit 1
+set -e
+
+# Initialize chezmoi and apply the configuration
+su - developer -c "chezmoi init --source=/home/developer/repo && chezmoi apply"
