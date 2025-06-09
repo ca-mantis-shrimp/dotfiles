@@ -11,6 +11,12 @@ if ! command -v chezmoi &>/dev/null; then
     }
 fi
 
+# Ensure the repository exists
+if [ ! -d "/home/developer/repo" ]; then
+    echo "Repository not found at /home/developer/repo. Exiting."
+    exit 1
+fi
+
 # Initialize chezmoi and apply the configuration
 chezmoi init --source=/home/developer/repo && chezmoi apply || {
     echo "Failed to initialize chezmoi. Exiting."

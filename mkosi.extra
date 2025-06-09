@@ -12,7 +12,11 @@ if ! command -v git &>/dev/null; then
 fi
 
 # Clone the repository into the container
-git clone /mnt/repo /mnt/root/home/developer/repo || {
-    echo "Failed to clone repository. Exiting."
-    exit 1
-}
+if [ ! -d "/mnt/root/home/developer/repo" ]; then
+    git clone /mnt/repo /mnt/root/home/developer/repo || {
+        echo "Failed to clone repository. Exiting."
+        exit 1
+    }
+else
+    echo "Repository already exists at /mnt/root/home/developer/repo. Skipping clone."
+fi
