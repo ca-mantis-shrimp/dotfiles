@@ -2,5 +2,11 @@
 
 set -e
 
+# Ensure chezmoi is installed
+if ! command -v chezmoi &>/dev/null; then
+    echo "chezmoi is not installed. Installing..."
+    apt-get update && apt-get install -y chezmoi
+fi
+
 # Initialize chezmoi and apply the configuration
 chezmoi init --source=/home/developer/repo && chezmoi apply
