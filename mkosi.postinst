@@ -2,5 +2,10 @@
 
 set -e
 
+# Create the developer user if it doesn't exist
+if ! id -u developer &>/dev/null; then
+    useradd -m -s /bin/bash developer
+fi
+
 # Initialize chezmoi and apply the configuration
 su - developer -c "chezmoi init --source=/home/developer/repo && chezmoi apply"
