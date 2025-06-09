@@ -4,6 +4,7 @@ Release=jammy
 
 [Output]
 Format=directory
+ImageId=/home/primary_desktop/.local/share/chezmoi
 ImageId=chezmoi-dev-workspace
 
 [Config]
