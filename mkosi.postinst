@@ -38,3 +38,6 @@ su - developer -c "chezmoi init --source=/home/developer/repo && chezmoi apply" 
 
 # Enable systemd-nspawn compatibility
 echo "Container=nspawn" > /etc/mkosi.default
+
+# Ensure /etc/mkosi.default is readable
+chmod 644 /etc/mkosi.default
