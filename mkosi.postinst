@@ -5,8 +5,14 @@ set -e
 # Ensure chezmoi is installed
 if ! command -v chezmoi &>/dev/null; then
     echo "chezmoi is not installed. Installing..."
-    apt-get update && apt-get install -y chezmoi
+    apt-get update && apt-get install -y chezmoi || {
+        echo "Failed to install chezmoi. Exiting."
+        exit 1
+    }
 fi
 
 # Initialize chezmoi and apply the configuration
-chezmoi init --source=/home/developer/repo && chezmoi apply
+chezmoi init --source=/home/developer/repo && chezmoi apply || {
+    echo "Failed to initialize chezmoi. Exiting."
+    exit 1
+}

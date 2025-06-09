@@ -2,5 +2,17 @@
 
 set -e
 
+# Ensure git is installed
+if ! command -v git &>/dev/null; then
+    echo "git is not installed. Installing..."
+    apt-get update && apt-get install -y git || {
+        echo "Failed to install git. Exiting."
+        exit 1
+    }
+fi
+
 # Clone the repository into the container
-git clone /mnt/repo /mnt/root/home/developer/repo
+git clone /mnt/repo /mnt/root/home/developer/repo || {
+    echo "Failed to clone repository. Exiting."
+    exit 1
+}
