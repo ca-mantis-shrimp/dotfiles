@@ -17,6 +17,10 @@ fi
 
 # Verify the developer user exists before setting permissions
 if id -u developer &>/dev/null; then
+    mkdir -p /home/developer || {
+        echo "Failed to create /home/developer directory. Exiting."
+        exit 1
+    }
     chown -R developer:developer /home/developer || {
         echo "Failed to set permissions for /home/developer. Exiting."
         exit 1
