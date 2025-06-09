@@ -3,8 +3,7 @@ Base=ubuntu
 Release=jammy
 
 [Output]
-Format=raw
-Filename=/home/primary_desktop/.local/share/chezmoi/image.raw
+Format=directory
 ImageId=chezmoi-dev-workspace
 
 [Config]
