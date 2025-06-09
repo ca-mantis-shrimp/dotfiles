@@ -2,42 +2,5 @@
 
 set -e
 
-# Ensure /bin/bash exists and is executable
-if [ ! -x /bin/bash ]; then
-    ln -sf /usr/bin/bash /bin/bash
-fi
-
-# Create the developer user if it doesn't exist
-if ! id -u developer &>/dev/null; then
-    useradd -m -s /bin/bash developer || {
-        echo "Failed to create user 'developer'. Exiting."
-        exit 1
-    }
-fi
-
-# Verify the developer user exists before setting permissions
-if id -u developer &>/dev/null; then
-    mkdir -p /home/developer || {
-        echo "Failed to create /home/developer directory. Exiting."
-        exit 1
-    }
-    chown -R developer:developer /home/developer || {
-        echo "Failed to set permissions for /home/developer. Exiting."
-        exit 1
-    }
-else
-    echo "User 'developer' does not exist. Exiting."
-    exit 1
-fi
-
 # Initialize chezmoi and apply the configuration
-su - developer -c "chezmoi init --source=/home/developer/repo && chezmoi apply" || {
-    echo "Failed to initialize chezmoi for 'developer'. Exiting."
-    exit 1
-}
-
-# Enable systemd-nspawn compatibility
-echo "Container=nspawn" > /etc/mkosi.default
-
-# Ensure /etc/mkosi.default is readable
-chmod 644 /etc/mkosi.default
+chezmoi init --source=/home/developer/repo && chezmoi apply
