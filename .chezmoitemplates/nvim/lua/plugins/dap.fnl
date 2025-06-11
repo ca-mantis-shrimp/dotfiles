@@ -21,25 +21,25 @@
               (dap.listeners.before.event_exited.dapui_config
                 (fn [] (dapui.close)))
               
-              ;; Rust configuration with codelldb
-              (set dap.adapters.codelldb
-                   {:type :server
-                    :port "${port}"
-                    :executable {:command :codelldb
-                                 :args [:--port "${port}"]}})
+              ;; Rust configuration with lldb-vscode
+              (set dap.adapters.lldb
+                   {:type :executable
+                    :command :lldb-vscode
+                    :name :lldb})
               
               (set dap.configurations.rust
                    [{:name "Launch"
-                     :type :codelldb
+                     :type :lldb
                      :request :launch
                      :program (fn []
                                 (_G.vim.fn.input "Path to executable: "
                                                   (.. (_G.vim.fn.getcwd) "/target/debug/")
                                                   :file))
                      :cwd "${workspaceFolder}"
-                     :stopOnEntry false}
+                     :stopOnEntry false
+                     :args []}
                     {:name "Attach to process"
-                     :type :codelldb
+                     :type :lldb
                      :request :attach
                      :pid (fn []
                             (tonumber (_G.vim.fn.input "Process ID: ")))}])
