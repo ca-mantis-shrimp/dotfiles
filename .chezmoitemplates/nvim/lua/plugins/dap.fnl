@@ -55,4 +55,4 @@
                      {:desc "DAP Conditional Breakpoint"})
                 (map :n :<leader>dr dap.repl.open {:desc "DAP Open REPL"})
                 (map :n :<leader>dl dap.run_last {:desc "DAP Run Last"})
-                (map :n :<leader>du dapui.toggle {:desc "DAP Toggle UI"})))))}]
+                (map :n :<leader>du dapui.toggle {:desc "DAP Toggle UI"}))))}]
