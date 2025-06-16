@@ -13,5 +13,7 @@
   :config #((. (require :copilot) :setup) {})
   :cmd :Copilot
   :event :InsertEnter}
- {1 :olimorris/codecompanion.nvim :opts {}}]
+ {1 :olimorris/codecompanion.nvim :opts {}}
+ {1 :joshuavial/aider.nvim
+  :opts {:auto_manage_context true :default_bindings true :debug false}}]
 

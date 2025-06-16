@@ -37,7 +37,6 @@
 (set _G.vim.opt.hlsearch true)
 
 ;; GUI options
-(set _G.vim.o.guifont "FiraCode Nerd Font:h20")
 (set _G.vim.g.neovide_scale_factor 1.0)
 
 (when (= (_G.vim.fn.has :win32) 1)

@@ -21,7 +21,6 @@ _G.vim.opt.inccommand = "split"
 _G.vim.opt.cursorline = true
 _G.vim.opt.scrolloff = 10
 _G.vim.opt.hlsearch = true
-_G.vim.o.guifont = "FiraCode Nerd Font:h20"
 _G.vim.g.neovide_scale_factor = 1
 if _G.vim.fn.has("win32") == 1 then
 	_G.vim.g.python_host_prog =

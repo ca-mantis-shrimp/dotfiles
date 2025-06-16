@@ -24,4 +24,5 @@ return {
 	},
 	{ "zbirenbaum/copilot.lua", config = _1_, cmd = "Copilot", event = "InsertEnter" },
 	{ "olimorris/codecompanion.nvim", opts = {} },
+	{ "joshuavial/aider.nvim", opts = { auto_manage_context = true, default_bindings = true, debug = false } },
 }
