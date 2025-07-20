@@ -2,6 +2,7 @@
 AppData/
 *.ps1
 scoop/
+
 {{ else }}
 dot_ssh/
 dot_config/

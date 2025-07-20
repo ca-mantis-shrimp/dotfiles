@@ -5,35 +5,58 @@ authors: primary_desktop
 categories: chezmoi
 tangle: ~/.local/share/chezmoi/.chezmoiignore
 created: 2024-04-02T20:01:43-0800
-updated: 2025-07-20T14:19:21-0800
+updated: 2025-07-20T15:01:40-0800
 version: 1.1.1
 @end
-* Ignore File
+* {https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines}[Ignore File]
   Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
+
+  Do note that this is an interesting combination of mechanics
+  - the `.chezmoiignore` file itself to ignore files and folders
+  - the use of templates to actually make the layout of even this file dynamic based on what we see!
+  -- this is how we are able to ignore files properly within different operating systems 
+
+** Same file in different places on different operating systems
+   Where this goes from a cute little tool to keep each operating system clean, and transcends into a core mechanic for how we manage differences is in the interaction with the {https://www.chezmoi.io/reference/special-directories/chezmoitemplates/}[`.chezmoitemplates`] folder which serves as the most important place to put centralized configuration that needs to exist in multiple places.
+
+   Consider this example, we have a configuration file that needs to go into two separate places based on operating system, how do we do this? Its not simple, but once you see it the solution is elegant to say the least, if not confusing.
+   ~ First, we write the config file itself in the `.chezmoitemplate` folder. where doesnt really matter, only that we can reach it easily from both places
+   ~ You will put two template files in the places where they are needed for the two machines
+   ~~ importantly, these template files will only have 1 line, which is the template invocation that will actually grab the contents of the file we wrote in step 1 and place it where that template string was
+   ~ Finally, we will add a dynamic condition within the `.chezmoiignore` file that will ignore the proper folder/file on each operating system, ensuring that the file is only made in one place for each operating system
+
+   As you can see, this combination of three interlocking mechanics is powerful, but can be very hard to wrap your head around unless you ponder it for a minute
 ** Dynamic Ignore
    So, first we are going to ignore the folders/files NOT needed by linux machines, and vice-versa for windows
-   #tangle
-   @code gitignore
-   {{ if ne .chezmoi.os "windows" }}
-   AppData/
-   *.ps1
-   scoop/
-   {{ else }}
-   dot_ssh/
-   dot_config/
-   dot_bashrc*
-   *.sh
-   dot_local/
-   {{ end }}
-   @end
-   - if in a NON-windows operating system:
-   -- we dont want the files in AppData which is the windows equivalent of the `.config` folder
-   -- we dont want powershell scripts
-   -- and we dont want stuff related to komorebi
-   - Then on windows:
-   -- remove the dot_config folders we dont need such as sway and neovim for windows
-   -- our `bashrc`
-   -- and the `dot_local` folder as this is another linux  directory 
+*** Linux Ignore
+    as linux is our main operating system, that is our default so we say that if we see NOT windows, we ill ignore the following files/directories
+    #tangle
+    @code gitignore
+    {{ if ne .chezmoi.os "windows" }}
+    AppData/
+    *.ps1
+    scoop/
+    @end
+    - That `AppData` piece isnt small, for our work we can hit problems if the wrong config is sourced so this is where we prevent the windows version of our config files from getting in
+    - we dont want powershell scripts
+    - and we dont want any scoop config as that is the windows package manager
+
+*** Windows ignore
+    #tangle
+    @code gitignore
+    {{ else }}
+    dot_ssh/
+    dot_config/
+    dot_bashrc*
+    *.sh
+    dot_local/
+    {{ end }}
+    @end
+    - remove the dot_config folders we dont need such as sway and neovim for windows and it can cause issues on windows since there would be duplicate configs
+    - our `bashrc`
+    -- including templates which is the `*`
+    - any bash scripts as this isnt helpful on windows
+    - and the `dot_local` folder as this is another linux  directory 
 ** Non-Chezmoi files
    These are meta files, files that are important for the operations of this repo, but we dont actually want cloned
    #tangle
