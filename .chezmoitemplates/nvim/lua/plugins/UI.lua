@@ -48,12 +48,9 @@ local function _16_()
 	return _G.Snacks.picker.jumps()
 end
 local function _17_()
-	return _G.Snacks.picker.actions.bufdelete(_G.Snacks.picker.buffers())
-end
-local function _18_()
 	return _G.Snacks.picker.diagnostics()
 end
-local function _19_()
+local function _18_()
 	return _G.Snacks.terminal()
 end
 return {
@@ -65,7 +62,7 @@ return {
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
-		dependencies = { { "folke/persistence.nvim", event = "BufReadPre", opts = {} } },
+		dependencies = { { "folke/persistence.nvim", event = "BufReadPre" } },
 		opts = {
 			bigfile = { enabled = true },
 			dashboard = {
@@ -105,9 +102,8 @@ return {
 			{ "<leader>sc", _14_, desc = "Search Commands" },
 			{ "<leader>si", _15_, desc = "Search Icons" },
 			{ "<leader>sj", _16_, desc = "Search Jumps" },
-			{ "<leader>sD", _17_, desc = "Delete Buffer" },
-			{ "<leader>sd", _18_, desc = "Search Diagnostics" },
-			{ "<c-/>", _19_, desc = "Open Terminal" },
+			{ "<leader>sd", _17_, desc = "Search Diagnostics" },
+			{ "<c-/>", _18_, desc = "Open Terminal" },
 		},
 		lazy = false,
 	},

@@ -6,7 +6,7 @@
  {1 :folke/snacks.nvim
   :priority 1000
   :lazy false
-  :dependencies [{1 :folke/persistence.nvim :event :BufReadPre :opts {}}]
+  :dependencies [{1 :folke/persistence.nvim :event :BufReadPre}]
   :opts {:bigfile {:enabled true}
          :dashboard {:sections [{:section :header}
                                 {:icon "" :title :Keymaps :section :keys}
@@ -53,9 +53,6 @@
          {1 :<leader>sc 2 #(_G.Snacks.picker.commands) :desc "Search Commands"}
          {1 :<leader>si 2 #(_G.Snacks.picker.icons) :desc "Search Icons"}
          {1 :<leader>sj 2 #(_G.Snacks.picker.jumps) :desc "Search Jumps"}
-         {1 :<leader>sD
-          2 #(_G.Snacks.picker.actions.bufdelete (_G.Snacks.picker.buffers))
-          :desc "Delete Buffer"}
          {1 :<leader>sd
           2 #(_G.Snacks.picker.diagnostics)
           :desc "Search Diagnostics"}

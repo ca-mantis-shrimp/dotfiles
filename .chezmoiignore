@@ -18,3 +18,5 @@ wiki/
 intentions/*
 Session.vim
 Dockerfile
+
+.nvim.lua

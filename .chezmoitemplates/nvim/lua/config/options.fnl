@@ -1,8 +1,14 @@
-(set _G.vim.g.mapleader " ")
-(set _G.vim.g.maplocalleader " ")
+;; Loads arbitrary code so it comes first
+(set _G.vim.opt.exrc true)
 
+;; Setting Leader to Space and Local Leader to `,`
+(set _G.vim.g.mapleader " ")
+(set _G.vim.g.maplocalleader ",")
+
+;; Makes sure we enable nerd font stuff
 (set _G.vim.g.have_nerd_font true)
 
+;; I like it when we have the raw number surrounded by relative numbers
 (set _G.vim.opt.number true)
 (set _G.vim.opt.relativenumber true)
 
