@@ -36,18 +36,24 @@ local function _12_()
 	return _G.Snacks.picker.keymaps()
 end
 local function _13_()
-	return _G.Snacks.picker.commands()
+	return _G.Snacks.picker.projects()
 end
 local function _14_()
-	return _G.Snacks.picker.icons()
+	return _G.Snacks.picker.commands()
 end
 local function _15_()
-	return _G.Snacks.picker.jumps()
+	return _G.Snacks.picker.icons()
 end
 local function _16_()
-	return _G.Snacks.picker.diagnostics()
+	return _G.Snacks.picker.jumps()
 end
 local function _17_()
+	return _G.Snacks.picker.actions.bufdelete(_G.Snacks.picker.buffers())
+end
+local function _18_()
+	return _G.Snacks.picker.diagnostics()
+end
+local function _19_()
 	return _G.Snacks.terminal()
 end
 return {
@@ -95,11 +101,13 @@ return {
 			{ "<leader>sm", _10_, desc = "Search Marks" },
 			{ "<leader>sM", _11_, desc = "Search Man Pages" },
 			{ "<leader>sk", _12_, desc = "Search Keymaps" },
-			{ "<leader>sc", _13_, desc = "Search Commands" },
-			{ "<leader>si", _14_, desc = "Search Icons" },
-			{ "<leader>sj", _15_, desc = "Search Jumps" },
-			{ "<leader>sd", _16_, desc = "Search Diagnostics" },
-			{ "<c-/>", _17_, desc = "Open Terminal" },
+			{ "<leader>sp", _13_, desc = "Search Projects" },
+			{ "<leader>sc", _14_, desc = "Search Commands" },
+			{ "<leader>si", _15_, desc = "Search Icons" },
+			{ "<leader>sj", _16_, desc = "Search Jumps" },
+			{ "<leader>sD", _17_, desc = "Delete Buffer" },
+			{ "<leader>sd", _18_, desc = "Search Diagnostics" },
+			{ "<c-/>", _19_, desc = "Open Terminal" },
 		},
 		lazy = false,
 	},

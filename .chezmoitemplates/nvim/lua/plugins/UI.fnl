@@ -49,9 +49,13 @@
          {1 :<leader>sm 2 #(_G.Snacks.picker.marks) :desc "Search Marks"}
          {1 :<leader>sM 2 #(_G.Snacks.picker.man) :desc "Search Man Pages"}
          {1 :<leader>sk 2 #(_G.Snacks.picker.keymaps) :desc "Search Keymaps"}
+         {1 :<leader>sp 2 #(_G.Snacks.picker.projects) :desc "Search Projects"}
          {1 :<leader>sc 2 #(_G.Snacks.picker.commands) :desc "Search Commands"}
          {1 :<leader>si 2 #(_G.Snacks.picker.icons) :desc "Search Icons"}
          {1 :<leader>sj 2 #(_G.Snacks.picker.jumps) :desc "Search Jumps"}
+         {1 :<leader>sD
+          2 #(_G.Snacks.picker.actions.bufdelete (_G.Snacks.picker.buffers))
+          :desc "Delete Buffer"}
          {1 :<leader>sd
           2 #(_G.Snacks.picker.diagnostics)
           :desc "Search Diagnostics"}

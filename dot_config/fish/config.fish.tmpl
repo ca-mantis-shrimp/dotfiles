@@ -13,6 +13,7 @@ set -gx GROQ_API_KEY {{ onepasswordRead "op://Back-End/groq_api_key/password" }}
 set -gx SNOW_MIRROR_DADBOD = {{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}
 {{ else }}
 set -gx OPENAI_API_KEY {{ onepasswordRead "op://Back-End/copilot_api_oath/credential" }}
+set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
 {{- end}}
 
 function RestartNvimServer
