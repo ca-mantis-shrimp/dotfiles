@@ -10,14 +10,9 @@ name = Darrion Burgess
 symlinks = true
 
 [credential "https://github.com"]
-{{- if eq .chezmoi.os "windows" }}
-helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
-{{- else }}
+helper = 
 helper = !/usr/bin/gh auth git-credential
-{{end}}
+
 [credential "https://gist.github.com"]
-{{- if eq .chezmoi.os "windows" }}
-helper = C:/Program\\ Files/Git/mingw64/bin/git-credential-manager
-{{- else }}
+helper = 
 helper = !/usr/bin/gh auth git-credential
-{{end}}

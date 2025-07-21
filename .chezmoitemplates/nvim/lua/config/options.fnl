@@ -11,6 +11,7 @@
 ;; I like it when we have the raw number surrounded by relative numbers
 (set _G.vim.opt.number true)
 (set _G.vim.opt.relativenumber true)
+(set _G.vim.opt.autochdir true)
 
 (set _G.vim.opt.mouse :a)
 
