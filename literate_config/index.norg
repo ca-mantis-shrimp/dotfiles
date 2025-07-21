@@ -44,7 +44,7 @@ This creates a closed loop in which we can safely work on any and all of our com
 ** Containers Docker
   - {:$/containers:}[Chezmoi Repo Container Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
 ** Desktop Environment Hyprland
-  - {:$/hyprland_config:}[Hyprland Configuration] - Config file for the Hyprland tiling WM
+  - {:$/hyprland_config:}[Hyprland Base Config] - Config for the largely higher-level config that calls other configs
   - {:$/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
 ** Desktop Environment Komorebi
   - {:$/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
@@ -72,5 +72,7 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Terminal Emulator Wezterm
   - {:$/wezterm:}[Wezterm] - configuration for wezs' terminal emulator
+** Uncategorised
+  - {:$/hyprland_keymaps:}[Hyprland_keymaps]
 ** Version Control Git
   - {:$/git:}[Git Config] - All the git config in one place for this repo
