@@ -1,9 +1,11 @@
 -- [nfnl] lua/config/options.fnl
+_G.vim.opt.exrc = true
 _G.vim.g.mapleader = " "
-_G.vim.g.maplocalleader = " "
+_G.vim.g.maplocalleader = ","
 _G.vim.g.have_nerd_font = true
 _G.vim.opt.number = true
 _G.vim.opt.relativenumber = true
+_G.vim.opt.autochdir = true
 _G.vim.opt.mouse = "a"
 _G.vim.opt.showmode = false
 _G.vim.opt.breakindent = true

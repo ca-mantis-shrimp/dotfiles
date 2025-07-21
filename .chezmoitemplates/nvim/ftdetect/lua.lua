@@ -1,2 +1,2 @@
--- [nfnl] Compiled from ftdetect/lua.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] ftdetect/lua.fnl
 return _G.vim.lsp.enable({"lua"})

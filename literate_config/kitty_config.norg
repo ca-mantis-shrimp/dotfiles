@@ -1,0 +1,29 @@
+@document.meta
+title: Kitty Terminal Configuration
+description: Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
+authors: Darrion Burgess
+categories: Terminal Emulator Kitty
+tangle: ~/.local/share/chezmoi/dot_config/kitty/kitty.conf
+created: 2025-07-20T20:30:00-0800
+updated: 2025-07-20T21:34:06-0800
+version: 1.1.1
+@end
+
+Kitty is one of those that really believes in just stuffing all the content into the config so for this we are going to instead just separate them out and make sure that we are able to inject some good structure into the outline in such a way that we are able to build out the ideas by hand
+
+I dont really like that though, and I dont feel like converting the whole thing by hand because its basically a file-based version of {https://sw.kovidgoyal.net/kitty/conf/}[The documentation on the topic] so i will just advise you read that
+
+* Kitty Config
+  We set some fonts but honestly even that isnt necessary
+
+  #tangle
+  @code conf
+  font_family      family="D2CodingLigature Nerd Font"
+  bold_font        auto
+  italic_font      auto
+
+  font_size 24.0
+  @end
+  - we set the font family directly from the `kitens choose-font` command
+  - we set the default font size to 24
+

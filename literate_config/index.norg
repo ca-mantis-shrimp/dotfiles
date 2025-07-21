@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2024-07-12T16:29:14-0800
+updated: 2025-07-20T20:20:47-0800
 version: 1.0.0
 @end
 = TOC
@@ -19,45 +19,60 @@ We have gotten to the point where the code is rather concise, but it would take 
 This is where tangling comes in. These norg files will actually generate the data that we expect to use throughout this work.
 
 As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
+
+In particular we will be going over the various pieces of the config so that all the parts can be put together into a cohesive whole
+
+The work is broken into categories. Since this is all about configuring pieces of software, we will have the configuration broken in to types of software, followed by the particular program
+
+particularly large programs will be broken into their own index and managed so that we can control it all
+
+the goal is that we can use tangling to maintain and explain the config without littering the place with comments everywhere
+
+and also, this will serve as the decision log for anybody (or thing) that is reading the config and needs to work out what is actually going on
+
+However, this wont contain the notes for the products themselves, that will be maintained in the dedicated knowledge workspace to keep this thing relatively clean and free.
+
+so we are clear the order goes:
+Neorg -> Chezmoi -> Neovim and everything else -> Neorg
+
+This creates a closed loop in which we can safely work on any and all of our computers while we use the workspace as a sort of staging ground for the rest of our work
 * Index
-** Bash Scripts
+** Alternate Index
+  - {:$/bash_config:}[Bash Shell Configuration] - Starting point for configuring the bash shell files
+  - {:$/linux_scripts:}[Bash Scripts] - Index of one-time scripts that need to be run
+  - {:$/scripts:}[Shells] - index of both bash and powershell scripts
+** Containers Docker
+  - {:$/containers:}[Chezmoi Repo Container Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
+** Desktop Environment Hyprland
+  - {:$/hyprland_config:}[Hyprland Base Config] - Config for the largely higher-level config that calls other configs
+  - {:$/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
+** Desktop Environment Komorebi
+  - {:$/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
+** Desktop Environment Sway
+  - {:$/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
+** Dotfile Management Chezmoi
+  - {:$/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
+** Index
+  - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+** Shells Bash
   - {:$/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
   - {:$/bash_templates:}[Bash Templates] - templates for common bash operations
+  - {:$/bashrc:}[Bash Profile] - Definition of the .bash_profile
   - {:$/install_pyenv:}[Pyenv Installer] - Smaller script to install pyenv via apt along with dependencies
   - {:$/install_rust:}[Rust Installer] - script to install rust, either in linux or WSL
   - {:$/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
-** Bash Shell Config
-  - {:$/bashrc:}[Bash Profile] - Definition of the .bash_profile
   - {:$/profile_config:}[Profile] - the `.profile` for bash shell
   - {:$/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
-** Chezmoi
-  - {:$/chezmoi_config:}[Chezmoi Configuration] - Configuring Chezmoi itself
-  - {:$/chezmoi_ignore:}[Chezmoi Ignore] - outlines the files to be ignored by chezmoi
-** Containers
-  - {:$/containers:}[Chezmoi Repo Container Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
-** Git
-  - {:$/global_git_config:}[User Git Config] - User git config for setting up the main formatter
-** Index
-  - {:$/bash_config:}[Bash Shell Configuration] - Starting point for configuring the bash shell files
-  - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
-  - {:$/linux_scripts:}[Bash Scripts] - Index of one-time scripts that need to be run
-  - {:$/neovim:}[Neovim Configuration] - Starting point for Neovim Configuration
-  - {:$/scripts:}[Scripts] - index of both bash and powershell scripts
-** Neovim
-  - {:$/config:}[Config Folder] - Root of the config folder for Neovim
-  - {:$/lazy:}[Lazy Configuration] - Configuration for `lazy.nvim`
-  - {:$/neorg:}[Neorg Configuration] - Configuration of the neorg note taking plugin
-  - {:$/options:}[Options] - Setting options for Neovim itself
-  - {:$/plugins:}[Plugin Index] - List of Extra plugins above LazyVim itself
-  - {:$/python_tools:}[Python Plugins] - The plugins needed to make python development possible in neovim
-  - {:$/smart_splits:}[Smart Splits Config] - Configuration for the `smart_splits.nvim` plugin
-  - {:$/telescope:}[Telescope Updates] - Changes to the LazyVim Telescope Config
-** Powershell
+** Shells Fish
+  - {:$/fish_config:}[Fish Config] - Configuring the Fish Shell
+** Shells Powershell
   - {:$/powershell:}[Profile] - the bashrc equivalent for powershell
   - {:$/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
-** Tiling Wm
-  - {:$/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
-  - {:$/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
-  - {:$/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
-** Wezterm
+** Terminal Emulator Kitty
+  - {:$/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
+** Terminal Emulator Wezterm
   - {:$/wezterm:}[Wezterm] - configuration for wezs' terminal emulator
+** Uncategorised
+  - {:$/hyprland_keymaps:}[Hyprland_keymaps]
+** Version Control Git
+  - {:$/git:}[Git Config] - All the git config in one place for this repo

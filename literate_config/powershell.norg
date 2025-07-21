@@ -2,10 +2,10 @@
 title: Profile
 description: the bashrc equivalent for powershell
 authors: Darrion Burgess
-categories: powershell
+categories: Shells PowerShell
 tangle: .local/share/chezmoi/Documents/PowerShell/Profile.ps1
 created: 2023-10-02T12:46:57-0800
-updated: 2024-04-02T20:11:50-0800
+updated: 2025-07-20T19:59:50-0800
 version: 1.1.1
 @end
 * PowerShell

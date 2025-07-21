@@ -2,9 +2,9 @@
 title: Chezmoi Repo Container Configuration
 description: contains information for both the regular docker file as well as the devcontainer.json file
 authors: Darrion Burgess
-categories: containers
+categories: Containers Docker
 created: 2023-11-25T11:11:26-0800
-updated: 2023-11-25T11:12:14-0800
+updated: 2025-07-20T20:01:15-0800
 version: 1.1.1
 @end
 One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 

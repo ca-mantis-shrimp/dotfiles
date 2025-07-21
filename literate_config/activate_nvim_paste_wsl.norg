@@ -2,17 +2,17 @@
 title: Make wsl_paste executible
 description: 1-line script to make the `nvim_paste_wsl` script executible
 authors: Darrion Burgess
-categories: bash scripts
-tangle: run_once_after_activate_nvim_paste_wsl.sh
+categories: Shells Bash
+tangle: ~/.local/share/chezmoi/run_once_after_activate_nvim_paste_wsl.sh
 created: 2023-10-16T13:53:26-0800
-updated: 2023-10-16T13:58:37-0800
+updated: 2025-07-20T20:18:26-0800
 version: 1.1.1
 @end
 If all goes well we should have a script at `~/bin/nvim_paste_wsl.sh` that will be used by neovim to ensure our provider is able to use all the utilities possible.
 
 It just needs to be made executible upon first installation so we will put a small installation scipt here to find it later
 
-#tangle
+#tangle 
 @code bash
 #!/bin/sh
 

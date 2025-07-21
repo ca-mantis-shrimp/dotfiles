@@ -10,7 +10,7 @@
            {1 :<leader>ie
             2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
                                                                    ":h")
-                                            :/clhd/main.actions)]})
+                                            :/clhd/active.actions)]})
             :desc "Edit clearhead actions file"}
            {1 :<leader><tab> :group "[tab]s"}
            {1 :<leader><tab><tab> 2 :<cmd>tabnew<CR> :desc "Create New [tab]"}
