@@ -2,10 +2,10 @@
 title: Bash Profile
 description: Definition of the .bash_profile
 authors: Darrion Burgess
-categories: bash shell config
+categories: Shells Bash
 tangle: .local/share/chezmoi/passwordless_bashrc.tmpl
 created: 2023-10-13T13:31:10-0800
-updated: 2024-04-02T21:02:53-0800
+updated: 2025-07-20T19:59:13-0800
 version: 1.1.1
 @end
 This is probably the most annoying file in almost all of chezmoi.

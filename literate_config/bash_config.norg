@@ -2,10 +2,10 @@
 title: Bash Shell Configuration
 description: Starting point for configuring the bash shell files
 authors: Darrion Burgess
-categories: index
+categories: Alternate Index
 tangle: dot_bashrc.tmpl
 created: 2023-10-06T08:39:41-0800
-updated: 2024-02-19T01:05:28-0600
+updated: 2025-07-20T20:04:28-0800
 version: 1.1.1
 @end
 Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path

@@ -3,207 +3,27 @@ title: Kitty Terminal Configuration
 description: Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 authors: Darrion Burgess
 categories: Terminal Emulator Kitty
-tangle: .local/share/chezmoi/dot_config/kitty/kitty.conf
+tangle: ~/.local/share/chezmoi/dot_config/kitty/kitty.conf
 created: 2025-07-20T20:30:00-0800
-updated: 2025-07-20T20:30:00-0800
+updated: 2025-07-20T21:34:06-0800
 version: 1.1.1
 @end
 
-Kitty is a fast, feature-rich, GPU-based terminal emulator that supports modern terminal features like images, unicode, true-color, and more. This configuration sets up fonts, colors, keybindings, and various terminal behaviors.
+Kitty is one of those that really believes in just stuffing all the content into the config so for this we are going to instead just separate them out and make sure that we are able to inject some good structure into the outline in such a way that we are able to build out the ideas by hand
 
-* Font Configuration
-  Kitty has very powerful font management capabilities. You can configure individual font faces and even specify special fonts for particular characters. We use a Nerd Font to get good icon support.
+I dont really like that though, and I dont feel like converting the whole thing by hand because its basically a file-based version of {https://sw.kovidgoyal.net/kitty/conf/}[The documentation on the topic] so i will just advise you read that
+
+* Kitty Config
+  We set some fonts but honestly even that isnt necessary
 
   #tangle
   @code conf
-  # vim:fileencoding=utf-8:foldmethod=marker
-
-  #: Fonts {{{
-
-  font_family      SauceCodePro Nerd Font
+  font_family      family="D2CodingLigature Nerd Font"
   bold_font        auto
   italic_font      auto
-  bold_italic_font auto
 
   font_size 24.0
-
-  #: }}}
   @end
+  - we set the font family directly from the `kitens choose-font` command
+  - we set the default font size to 24
 
-  The font family is set to SauceCodePro Nerd Font for good programming ligature and icon support. Bold, italic, and bold-italic variants are automatically derived from the base font. The font size is set to 24 points for good readability.
-
-* Cursor Customization
-  The cursor appearance can be customized including shape, color, and blinking behavior.
-
-  #tangle
-  @code conf
-  #: Cursor customization {{{
-
-  #: }}}
-  @end
-
-  We're using the default cursor settings which provide a good balance of visibility and performance.
-
-* Scrollback Configuration
-  Scrollback controls how much terminal history is kept in memory and how it's displayed.
-
-  #tangle
-  @code conf
-  #: Scrollback {{{
-
-  #: }}}
-  @end
-
-  The default scrollback settings work well for most use cases, keeping a reasonable amount of history without consuming too much memory.
-
-* Mouse Behavior
-  Mouse interactions including clicking, scrolling, and selection behavior.
-
-  #tangle
-  @code conf
-  #: Mouse {{{
-
-  #: Mouse actions {{{
-
-  #: }}}
-
-  #: }}}
-  @end
-
-  Default mouse behavior is maintained, which includes standard text selection, URL clicking, and scroll wheel support.
-
-* Performance Settings
-  These settings control rendering performance and responsiveness.
-
-  #tangle
-  @code conf
-  #: Performance tuning {{{
-
-  #: }}}
-  @end
-
-  Default performance settings provide a good balance between responsiveness and resource usage.
-
-* Terminal Bell
-  Configuration for audio and visual bell notifications.
-
-  #tangle
-  @code conf
-  #: Terminal bell {{{
-
-  #: }}}
-  @end
-
-  Standard bell behavior is maintained for compatibility with terminal applications that use bell notifications.
-
-* Window Layout
-  Controls window appearance, borders, margins, and padding.
-
-  #tangle
-  @code conf
-  #: Window layout {{{
-
-  #: }}}
-  @end
-
-  Default window layout provides clean appearance without unnecessary decorations.
-
-* Tab Bar
-  Configuration for the tab bar appearance and behavior when multiple tabs are open.
-
-  #tangle
-  @code conf
-  #: Tab bar {{{
-
-  #: }}}
-  @end
-
-  Standard tab bar configuration works well for managing multiple terminal sessions.
-
-* Color Scheme
-  Color configuration including foreground, background, and the 256-color palette.
-
-  #tangle
-  @code conf
-  #: Color scheme {{{
-
-  #: The color table {{{
-
-  #: }}}
-
-  #: }}}
-  @end
-
-  Default color scheme provides good contrast and readability across different lighting conditions.
-
-* Advanced Settings
-  Advanced configuration including shell integration, remote control, and environment variables.
-
-  #tangle
-  @code conf
-  #: Advanced {{{
-
-  allow_remote_control yes
-
-  #: }}}
-  @end
-
-  Remote control is enabled to allow other programs to control kitty, which is useful for integration with editors and other tools.
-
-* OS-Specific Tweaks
-  Platform-specific optimizations and behaviors.
-
-  #tangle
-  @code conf
-  #: OS specific tweaks {{{
-
-  #: }}}
-  @end
-
-  Default OS-specific settings provide good integration with the underlying platform.
-
-* Keyboard Shortcuts
-  Comprehensive keybinding configuration for terminal control, window management, and various actions.
-
-  #tangle
-  @code conf
-  #: Keyboard shortcuts {{{
-
-  #: Clipboard {{{
-
-  #: }}}
-
-  #: Scrolling {{{
-
-  #: }}}
-
-  #: Window management {{{
-
-  #: }}}
-
-  #: Tab management {{{
-
-  #: }}}
-
-  #: Layout management {{{
-
-  #: }}}
-
-  #: Font sizes {{{
-
-  #: }}}
-
-  #: Select and act on visible text {{{
-
-  #: }}}
-
-  #: Miscellaneous {{{
-
-  #: }}}
-
-  #: }}}
-
-  #: }}}
-  @end
-
-  The keyboard shortcuts follow standard conventions while providing powerful features for text selection, window management, and terminal control. The default keybindings work well for most users and integrate nicely with common terminal workflows.

@@ -2,9 +2,9 @@
 title: wkhd config file
 description: Hotkey definitions for the Komorebi tiling wm
 authors: dargo
-categories: tiling wm
+categories: Desktop Environment Komorebi
 created: 2023-12-03T17:37:12-0800
-updated: 2023-12-03T17:55:53-0800
+updated: 2025-07-20T20:03:16-0800
 tangle: ./dot_config/whkdrc
 version: 1.1.1
 @end

@@ -2,13 +2,13 @@
 title: Git Config
 description: All the git config in one place for this repo
 authors: primary_desktop
-categories: Version Control
+categories: Version Control Git
 tangle: {
 	gitignore: ~/.local/share/chezmoi/.gitignore
 	gitconfig: ~/.local/share/chezmoi/dot_gitconfig.tmpl
 }
 created: 2025-07-20T15:08:36-0800
-updated: 2025-07-20T16:21:34-0800
+updated: 2025-07-20T20:03:37-0800
 version: 1.1.1
 @end
 Git is the main way that we are managing this repo so it will also be used to keep it in order.

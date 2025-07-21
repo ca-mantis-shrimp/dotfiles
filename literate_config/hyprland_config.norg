@@ -2,10 +2,10 @@
 title: Hyprland Configuration
 description: Config file for the Hyprland tiling WM
 authors: primary_desktop
-categories: Tiling Wm
+categories: Desktop Environment Hyprland
 tangle: .local/share/chezmoi/dot_config/hypr/hyprland.conf
 created: 2024-04-02T20:12:56-0800
-updated: 2024-04-15T20:08:12-0800
+updated: 2025-07-20T20:02:52-0800
 version: 1.1.1
 @end
 

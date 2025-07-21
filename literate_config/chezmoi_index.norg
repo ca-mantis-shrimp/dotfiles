@@ -2,13 +2,13 @@
 title: Chezmoi Configuration
 description: Collection of chezmoi files for configuration
 authors: primary_desktop
-categories: Dotfile Management
+categories: Dotfile Management Chezmoi
 tangle: {
 	toml: ~/.local/share/chezmoi/.chezmoi.toml.tmpl
 	gitignore: ~/.local/share/chezmoi/.chezmoiignore
 }
 created: 2025-07-20T13:21:18-0800
-updated: 2025-07-20T16:58:53-0800
+updated: 2025-07-20T20:01:04-0800
 version: 1.1.1
 @end
 This will be where we store all of the various pieces of chezmoi data all at once.

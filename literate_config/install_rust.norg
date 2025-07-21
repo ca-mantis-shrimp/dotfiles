@@ -2,10 +2,10 @@
 title: Rust Installer
 description: script to install rust, either in linux or WSL
 authors: Darrion Burgess
-categories: bash scripts
+categories: Shells Bash
 tangle: run_once_before_install_cargo.sh.tmpl
 created: 2023-10-06T06:32:38-0800
-updated: 2023-10-06T06:40:15-0800
+updated: 2025-07-20T19:58:57-0800
 version: 1.1.1
 @end
 The rust toolchains (including rustup, cargo, clippy, and more) can be installed with a one-line script:
