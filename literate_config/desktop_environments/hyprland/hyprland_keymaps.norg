@@ -3,9 +3,9 @@ title: Hyprland Keymaps
 description: The Keymaps for our Hyprland Setup
 authors: primary_desktop
 categories: Desktop Environment Hyprland
-tangle: ~/.local/share/chezmoi/dot_config/hypr/keymaps.conf
+tangle: keymaps.conf
 created: 2025-07-20T21:52:39-0800
-updated: 2025-07-20T22:47:05-0800
+updated: 2025-07-24T22:19:55-0800
 version: 1.1.1
 @end
 Hyprland is primarily driven through keyboard shortcuts so this file is tremendously important, not just for our structure, but for reference when we forget one.
