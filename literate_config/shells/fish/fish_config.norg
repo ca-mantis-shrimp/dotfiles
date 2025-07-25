@@ -4,10 +4,10 @@ description: Configuring the Fish Shell
 authors: primary_desktop
 categories: Shells Fish
 tangle: { 
-	fish: ~/.local/share/chezmoi/dot_config/fish/config.fish.tmpl
+	fish: config.fish.tmpl
 }
 created: 2025-07-20T20:22:17-0800
-updated: 2025-07-20T21:02:29-0800
+updated: 2025-07-23T22:12:57-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -20,7 +20,7 @@ the nice part about fish is we really dont need to do much, since we are working
 
   What is important here is that this is where we pass along the environment variables for our shell so we are leveraging the password manager capabilities here
 
-** Setup
+** Setup 
    First, we need to get some stuff set so that the rest of the commands go off without a hitch
    #tangle
    @code fish
