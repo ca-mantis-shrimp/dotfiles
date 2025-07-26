@@ -1,0 +1,62 @@
+@document.meta
+title: Lisp Plugins
+description: Lisp-related plugins for our Neovim configuration
+authors: Darrion Burgess
+categories: Neovim Config Plugins
+created: 2025-07-25T19:19:52-0800
+updated: 2025-07-25T23:35:51-0800
+version: 1.1.1
+@end
+Lisp has been a recent obsession of mine. I want to start working more with lisp programs and working through these structures more so I have this layout ready
+
+* Lisp Plugins
+  Many of the plugins are more about making lisp easier to work with or enabling the use of lisp in the first place
+  #tangle lisp.fnl
+  @code fennel
+  [{1 :Olical/nfnl :ft :fennel}
+   {1 :Olical/conjure :branch :main :dependencies [{1 :clojure-vim/vim-jack-in}]}
+   {1 :eraserhd/parinfer-rust
+	:build "cargo build --release"
+     	:ft [:fennel :hy :clojure]}
+   {1 "https://gitlab.com/HiPhish/rainbow-delimiters.nvim.git"}]
+  @end
+** generating Lua from Fennel with {https://github.com/Olical/nfnl}[nfnl]
+   `nfnl` is a wonderful plugin by Oliver Caldwell, a plugin savant that really is carry the Neovim lisp ecosystem on his back.
+
+   This plugin was a followup to his work that he did on {https://github.com/Olical/aniseed}[aniseed], another plugin that did something similar but he felt limited
+
+   I guess the big insight he had was to just stop trying to read the fennel directly. Instead, `nfnl` differs by generating lua files automatically from fennel files
+   As you can see, all we do is get the plugin and load it for fennel files only
+   - no point in loading the structure if we arent actually editing fennel!
+
+   Only other point I will note is that we need to make a `.nfnl.fnl` file at the base of wherever we are editing our fennel files to start generating the new ones.
+   For example, please review {:$/neovim/entry:}[the neovim entry file] to see the `nfnl` file for this literate config
+** Running Code Directly from neovim using {https://github.com/Olical/conjure}[conjure]
+   Another plugin from Oliver, this one is actually useful outside of the lisp programming languages!
+
+   This plugin allows us to interact with running programs in the spirit of {https://dev.to/jr0cket/repl-driven-development-ano}[repl-driven-development] by allowing you to run commands against your running programs
+   While it is primarily used for lisp languages where this is a both natural and expected workflow, this also supports other languages like:
+   - python
+   - javascript
+   - and even rust! (wild)
+
+   This interactive development really is a killer feature for any developer and really helps get that feedback loop time down to zero so its tremendously important
+   - we stick to the `main` branch as it avoids breaking changes on the platform
+   - we also use {https://github.com/clojure-vim/vim-jack-in}[vim-jack-in] to make the process of connecting to nrepl and others easier
+** Automatically manage file structure with {https://shaunlebron.github.io/parinfer/}[ParInfer]
+   ParInfer is more than just a completion plugin, which is why we arent just using the surround plugins or the plugin that automatically finishes our brackets.
+
+   This algorithm actually tries to couple the indentation of the program to the structure so if you want to "shift" a function or chunk up or down the structured stack all you need to do is indent it.
+
+   Interesting work and it makes the experience feel even smoother for an already smooth language which is insane
+
+   For our purposes we use {https://github.com/eraserhd/parinfer-rust}[parinfer-rust] which is a rust port with plugins for emacs, kakune, and most importantly, neovim
+   - this is a cargo cli so we need to build it which ofcourse assumes `cargo` is available on the system
+   - we also only load this in fennel and other list languages as this one really gets strange if you dont know its on
+
+** Colorizing Parenthesis using {https://github.com/hiphish/rainbow-delimiters.nvim}[rainbow-delimiters.nvim]
+   Since we have many sets of perens going it can often be nice to have the work colorized which is where this small plugin comes in
+
+   This should just work and its nice in other languages too so we dont even limit it even though it is primarily intended to be used within the context of a lisp
+
+   The other note here is that it relies on treesitter to do the parsing so the other important part is that the treesitter parser for the file we are trying to colorize not only exists, but is loaded for the active buffer we are trying to colorize

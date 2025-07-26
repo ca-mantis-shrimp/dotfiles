@@ -1,0 +1,18 @@
+@document.meta
+title: Plugin Index
+description: Index of Neovim Plugins
+authors: Darrion Burgess
+categories: Neovim Config Plugins
+created: 2025-07-25T19:15:51-0800
+updated: 2025-07-25T19:19:51-0800
+version: 1.1.1
+@end
+Neovim uses a dynamic plugin system that allows us to extend the system with arbitrary lua files at runtime.
+
+This index covers all the files that will be used to:
+- Define the plugins we want
+- configure plugins where possible
+- define dependencies for plugins
+
+* Index
+  - {:$/neovim/plugins/lisp.norg:}[Lisp-related plugins]

@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-07-23T20:02:51-0800
+updated: 2025-07-25T22:46:10-0800
 version: 1.0.0
 @end
 = TOC
@@ -38,34 +38,41 @@ Neorg -> Chezmoi -> Neovim and everything else -> Neorg
 This creates a closed loop in which we can safely work on any and all of our computers while we use the workspace as a sort of staging ground for the rest of our work
 * Index
 ** Alternate Index
-  - {:$/literate_config/shells/bash/bash_config:}[Bash Shell Configuration] - Starting point for configuring the bash shell files
+  - {:$/neovim/index:}[Neovim Index] - Index of Neovim-related files
+  - {:$/shells/bash/bash_config:}[Bash Shell Index] - Starting point for configuring the bash shell files
 ** Containers Docker
-  - {:$/literate_config/containers/docker:}[Chezmoi Repo Docker Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
+  - {:$/containers/docker:}[Chezmoi Repo Docker Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
 ** Desktop Environment Hyprland
-  - {:$/literate_config/desktop_environments/hyprland/hyprland_config:}[Hyprland Base Config] - Config for the largely higher-level config that calls other configs
-  - {:$/literate_config/desktop_environments/hyprland/hyprland_keymaps:}[Hyprland Keymaps] - The Keymaps for our Hyprland Setup
+  - {:$/desktop_environments/hyprland/hyprland_config:}[Hyprland Config] - Configuring the various files for the hyprland desktop environment
+  - {:$/desktop_environments/hyprland/hyprland_keymaps:}[Hyprland Keymaps] - The Keymaps for our Hyprland Setup
 ** Desktop Environment Komorebi
-  - {:$/literate_config/desktop_environments/komorebi/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
-  - {:$/literate_config/desktop_environments/komorebi/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
+  - {:$/desktop_environments/komorebi/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
+  - {:$/desktop_environments/komorebi/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
 ** Desktop Environment Sway
-  - {:$/literate_config/desktop_environments/sway/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
+  - {:$/desktop_environments/sway/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
 ** Dotfile Management Chezmoi
-  - {:$/literate_config/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
+  - {:$/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
 ** Index
-  - {:$/literate_config/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+  - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+** Neovim Config
+  - {:$/neovim/entry:}[Neovim Entry] - First and root files for the neovim configuration
+** Neovim Config Plugins
+  - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
+  - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
+** Scripts Index
+  - {:$/shells/bash/bash_templates:}[Bash Templates] - templates for common bash operations
 ** Shells Bash
-  - {:$/literate_config/scripts/bash/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
-  - {:$/literate_config/scripts/bash/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
-  - {:$/literate_config/shells/bash/bash_templates:}[Bash Templates] - templates for common bash operations
-  - {:$/literate_config/shells/bash/bashrc:}[Bash Profile] - Definition of the .bash_profile
-  - {:$/literate_config/shells/bash/profile_config:}[Profile] - the `.profile` for bash shell
-  - {:$/literate_config/shells/bash/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+  - {:$/scripts/bash/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
+  - {:$/scripts/bash/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
+  - {:$/shells/bash/bashrc:}[Bash Profile] - Definition of the .bash_profile
+  - {:$/shells/bash/profile_config:}[Profile] - the `.profile` for bash shell
+  - {:$/shells/bash/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
 ** Shells Fish
-  - {:$/literate_config/shells/fish/fish_config:}[Fish Config] - Configuring the Fish Shell
+  - {:$/shells/fish/fish_config:}[Fish Config] - Configuring the Fish Shell
 ** Shells Powershell
-  - {:$/literate_config/shells/powershell/powershell:}[Profile] - the bashrc equivalent for powershell
-  - {:$/literate_config/shells/powershell/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
+  - {:$/shells/powershell/powershell:}[Profile] - the bashrc equivalent for powershell
+  - {:$/shells/powershell/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
 ** Terminal Emulator Kitty
-  - {:$/literate_config/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
+  - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Version Control Git
-  - {:$/literate_config/git:}[Git Config] - All the git config in one place for this repo
+  - {:$/git:}[Git Config] - All the git config in one place for this repo

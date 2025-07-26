@@ -46,10 +46,6 @@
 ;; GUI options
 (set _G.vim.g.neovide_scale_factor 1.0)
 
-(when (= (_G.vim.fn.has :win32) 1)
-  (set _G.vim.g.python_host_prog
-       "~/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/python.exe"))
-
 (set _G.vim.opt.formatexpr "require'conform'.formatexpr()")
 
 ;; Enable LSP Servers, Assumes server is either configured in `lsp/` or `lspconfig`
