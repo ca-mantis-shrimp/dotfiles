@@ -1,0 +1,203 @@
+@document.meta
+title: Neovim Option Config
+description: Config File for configuring the Options of Neovim Itself
+authors: Darrion Burgess
+categories: Neovim Config
+created: 2025-07-26T23:48:23-0800
+updated: 2025-07-27T00:38:19-0800
+version: 1.1.1
+@end
+Configuration is an interesting topic in Neovim because there are just so many ways to approach it.
+
+but for now, what we have settled on is a single fennel file that will just get the config out of the way early this way we can work through the structures and update them all in one place before the structure is built
+
+* Options
+  Remember, you can look up the documentation for any of these options within the editor itself by doing `:h <option>`
+
+  Within lua, we have this convenient dictionary of options called `opt` that we can use as a frontend to configure these options quickly while still having the full power of the language at our disposal
+
+  This is nice because it allows:
+  - project-specific configuration
+  - the ability to define custom `make` and keymaps that are relevant for only a single project
+  #tangle options.fnl
+  @code fennel
+  ;; Loads arbitrary code so it comes first
+  (set _G.vim.opt.exrc true)
+  @end
+** Leader Key
+   One core concept in Neovim is the concept of the `:h leader` key, which can be thought of as a holding zone for custom hotkeys.
+
+   neovim already has quite a few hotkeys, and it can be hard to find space for your own hotkeys without overwriting existing funtionality.
+
+   To make things easy, we can just handle this through the use of the leader key
+
+   local leader is intended for buffer-specific hotkeys so this is a good place to put stuff that is set from the `.nvim.lua` file or other proct-specific or filetype-specific hotkeys
+
+   whereas leader is more meant for the entire codebase and stuff that is relevant at all times
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.g.mapleader " ")
+   (set _G.vim.g.maplocalleader ",")
+   @end
+   - leader is set to `<space>` as is the community default
+   - localleader is `,` which is pretty barren for now
+** Using {https://www.nerdfonts.com/}[Nerd Fonts]
+   We can leverage fonts that have nerdfont customizations with the following switch
+
+   Any plugins and options that have nerdfont option will use this to  get us those sweet icons
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.g.have_nerd_font true)
+   @end
+** Line Numbers
+   For our line numbers, I like a strange combination but it makes sense
+
+   this comes from mixing two different options:
+   `number` shows the _absolute_ line number we are on, so the actual line of the file
+
+   while `relativenumber` ensures that the lines are actually their _relative_ position to your cursor, so the line above and below will be "1" as they are 1 away from your cursor
+
+   when both are put together your cursor shows the _absolute_ line you are on, while still showing the _relative_ numbers around it 
+   This is awesome for something like neovim where we often need to move some relative number of lines over and now we dont even need to calculate anything we can just see what the number of lines we need to move is 
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.number true)
+   (set _G.vim.opt.relativenumber true)
+   @end
+** Automatically changing directory
+   Another surprisingly impactful option is the `autochdir` option which actually change the `pwd` of neovim to whatever directory contains the buffer we are editing
+
+   I keep going back-and-forth on whether or not to keep this on as it makes for a strange workflow
+
+   this can run into problems if we are in a deep directory, as many programs assumethe `pwd` is the root directory of the project.
+
+   however, this aleviates the need to manually manage the directory of the `pwd` as this is now coupled to the buffer we are currently editing, making a whole range of software easier to manage as most are able to be smart about it and look for the git file in the parent directory(s)
+
+   Still, it causes just as much friction as it eliminates at times so this is something i keep an eye on
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.autochdir true)
+   @end
+** Enabling the mouse
+   As much as it is considered sacreligous in our community, I do enable the `mouse` for all modes as it can sometimes be helpful in cases like moving window splits manually when i dont feel like doing it with the hotkey
+
+   no harm in making it do something even if it isnt central for us
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.mouse :a)
+   @end
+** Disabling the tutorial content
+   `showmode` is cute little tutorial that allows users to more clearly see when they are in insert vs visual mode.
+
+   but we dont need this so i think i prefer to keep the screen real estate clean
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.showmode false)
+   @end
+** Visually maintain indentation for wrapped lines
+   line wrapping is a funny topic with a few options available.
+
+   we use `breakindent` to actually work with wrapped lines by showing as slightly indented lines below the first line. Its just a single space, but it helps to visually tell when what looks like a paragraph is actually a very long line
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.breakindent true)
+   @end
+
+** Leveraging the undofile
+   by default, neovim loses the undo history for your buffers, but with `undofile` enabled, we can start to experience `undo-persistence` where the undo history is maintained over time and saved to the filesystem
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.undofile true)
+@end
+** Customizing Searching
+   When we do a search with `/` we can configure the searching patterns
+
+   `ingorecase` makes it so that we can type either lowercase or uppercase and it will find both variants when we search files
+   `smarcase` further refines this by then making it so this rule only applys when our search term contains lowercase letters, if we want something with an upper case letter, it will search that specifically, allowing us to again get closer to having our cake and allowing us to eat it too, at the cost of internal complexity
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.ignorecase true)
+   (set _G.vim.opt.smartcase true)
+@end
+** Enabling the signs on the side
+   one popular new mechanic is putting cute little icons on the left, this area for icons is called the `signcolumn` which can be ofcourse customized 
+This includes stuff like:
+   - git status
+   - LSP diagnostics
+   - LSP actions
+
+   we set this to 'yes' so that we always have the sign column at the default length of 1 character
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.signcolumn :yes)
+   @end
+** Periodically saving buffers
+   by default the swap file doesnt save while we arent doing anything, leading to the risk that we lose our work if a power outage goes out or we otherwise close the editor after some time
+
+   we set the time interval to 250 which is the amount of miliseconds it will wait while getting no input before it saves the current state to a swap file, just in case
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.updatetime 250)
+   @end
+   ** Customize hotkey times
+      many hotkeys have more than one key so we have the problem of how long do we wait between the initial hotkey and the next hotkey? we can set that duration with `timeoutlen` i find 300 miliseconds is a good amount of time where if i actually didnt want to click that hotkey i can just let it expire.
+
+      otherwise, you have to actually escape the whole thing which can get tedius
+
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.timeoutlen 300)
+@end
+** Customizing Window Placement
+   when creating a new window we need a default location, both horizonally and vertically.
+
+so we default to right for horizontal, and down for vertical as we are usually creating a secondary window so that should go on the less dominant side of the screen is my view
+   #tangle options.fnl
+      @code fennel
+   (set _G.vim.opt.splitright true)
+   (set _G.vim.opt.splitbelow true)
+@end
+** Customizing whitespace characters
+   in programming we have to be precise in our use of whitespace, we need to care about the difference between a tab and a space and a trailing whitespace
+
+   to this end, we have the `list` option to _list_ these whitespace characters and we further customize them using `listchars` to make WHAT we are seeing custom
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.list true)
+   (set _G.vim.opt.listchars {:tab "» " :trail "·" :nbsp "␣"})
+@end
+** Customizing substitutions for live preview
+
+   #tangle options.fnl
+   @code fennel
+   (set _G.vim.opt.inccommand :split)
+
+   (set _G.vim.opt.cursorline true)
+   (set _G.vim.opt.scrolloff 10)
+
+   (set _G.vim.opt.hlsearch true)
+
+   ;; GUI options
+   (set _G.vim.g.neovide_scale_factor 1.0)
+
+   (set _G.vim.opt.formatexpr "require'conform'.formatexpr()")
+
+   ;; Enable LSP Servers, Assumes server is either configured in `lsp/` or `lspconfig`
+   (_G.vim.lsp.enable [:lua_ls
+   :fennel_language_server
+   :pyright
+   :fish-lsp
+   :systemd_ls
+   :powershell_es
+   :jsonls
+   :clojure_lsp
+   :rust_analyzer])
+
+   ;; Defaulting to Rounded borders
+   (set _G.vim.o.winborder :rounded)
+
+   ;; Defaulting to only showing the current line of diagnostics
+   (_G.vim.diagnostic.config {:virtual_text {:current_line true}
+   :virtual_lines true})
+
+   @end
