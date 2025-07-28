@@ -1,0 +1,22 @@
+@document.meta
+title: FileType Plugins
+description: FileType-specific customizations for Neovim
+authors: primary_desktop
+categories: Neovim
+created: 2025-07-27T21:54:09-0800
+updated: 2025-07-27T22:07:17-0800
+version: 1.1.1
+@end
+the `ftplugin` directory allows us to customize buffers of a certain filetype AFTER it has been detected which is different from `ftdetect` which is used BEFORE the filetype is identified
+
+Here, we are going to place filetype-specific customizations that will only apply for certain filetypes. you know the relevant filetype by the name of the file being created, with each one corresponding to a specific filetype to be handled
+
+* Neorg
+  For our own note-taking system we are going to set a few things
+  #tangle norg.fnl
+  @code fennel
+  (set _G.vim.opt_local.warp true)
+  (set _G.opt_local.spell true)
+  (set _G.vim._opt_local.spelllang [:en_us])
+  (set _G.vim._opt_local.conceallevel 2)
+  @end

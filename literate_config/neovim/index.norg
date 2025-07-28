@@ -4,7 +4,7 @@ description: Index of Neovim-related files
 authors: Darrion Burgess
 categories: Alternate Index
 created: 2025-07-25T19:09:01-0800
-updated: 2025-07-26T23:48:22-0800
+updated: 2025-07-27T22:30:56-0800
 version: 1.1.1
 @end
 Neovim is not just our primary editor, it can be considered the central core of our workflow. 
@@ -18,4 +18,5 @@ This will likely cover more than just the configuration, it will explain how man
 * Index
   ** Config
      - {:$/neovim/entry:}[Neovim Entry] The first entrypoint into the configuration that will set the tone for the rest of the structures
-     - {:$/neovim/options:}[Neovim Options] Configuring the options for Neovim itself before we load and configure plugins
+     - {:$/neovim/config/config:}[Neovim Config] The entire config folder in a single 
+
