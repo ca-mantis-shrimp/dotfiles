@@ -4,7 +4,7 @@ description: Config File for configuring the Options of Neovim Itself
 authors: Darrion Burgess
 categories: Neovim Config
 created: 2025-07-26T23:48:23-0800
-updated: 2025-07-27T22:54:49-0800
+updated: 2025-07-28T23:11:12-0800
 version: 1.1.1
 @end
 Configuration is an interesting topic in Neovim because there are just so many ways to approach it.
@@ -410,61 +410,55 @@ but for now, what we have settled on is a single fennel file that will just get 
 ** Setup LSP-related plugins after initial startup
    since lsp hotkeys can only be setup AFTER the lsp is actually attached, this is best done as an autocommand to get this done for all languages with an LSP while no polluting the keymaps for languages where its unnecesary
 
-   here we are actually going to be working with a few hotkey types so to go over them:
-   most of them reside behind `<leader>`
-   - `rn` [r]e[n]ames the variable
-   - `ca` brings up the [c]ode [a]ction options
-   - `K` allows for hover documentation
-   -- so fundamental we keep it under homerow even if it doesnt make as much phonetic sense and `K` is the traditional documentation hotkey
-   - `gD` [g]oes to [D]eclaration
-   - `th` [t]oggles inlay [h]ints
+*** LSP Callback
+    the work itself is a function that is called after the proper trigger event
+    here we are actually going to be working with a few hotkey types so to go over them:
+    most of them reside behind `<leader>`
+    - `rn` [r]e[n]ames the variable
+    - `ca` brings up the [c]ode [a]ction options
+    - `K` allows for hover documentation
+    -- so fundamental we keep it under homerow even if it doesnt make as much phonetic sense and `K` is the traditional documentation hotkey
+    - `gD` [g]oes to [D]eclaration
+    - `th` [t]oggles inlay [h]ints
 
-   we also create a few autocommands to:
-   - highlight all instances of a variable that our cursor is hovering over
-   -- and stop when we move cursor 
+    we also create a few autocommands to:
+    - highlight all instances of a variable that our cursor is hovering over
+    -- and stop when we move cursor 
+    #tangle autocmds.fnl
+    @code fennel
+    (fn setup_lsp [event]
+    (local setup_lsp_map
+    (fn [keys func desc]
+    (_G.vim.keymap.set :n keys func
+    {:buffer event.buf :desc (.. "LSP: " desc)})))
+    (setup_lsp_map :<leader>rn _G.vim.lsp.buf.rename "[R]e[n]ame")
+    (setup_lsp_map :<leader>ca _G.vim.lsp.buf.code_action "[C]ode [A]ction")
+    (setup_lsp_map :K _G.vim.lsp.buf.hover "Hover Documentation")
+    (setup_lsp_map :gD _G.vim.lsp.buf.declaration "[G]oto [D]eclaration")
+    (local client (_G.vim.lsp.get_client_by_id event.data.client_id))
+    (when (and client client.server_capabilities.documentHighlightProvider)
+    (_G.vim.api.nvim_create_autocmd [:CursorHold :CursorHoldI]
+    {:buffer event.buf
+    :callback _G.vim.lsp.buf.document_highlight})
+    (_G.vim.api.nvim_create_autocmd [:CursorMoved :CursorMovedI]
+    {:buffer event.buf
+    :callback _G.vim.lsp.buf.clear_references}))
+    (when (and client client.server_capabilities.inlayHintProvider
+    _G.vim.lsp.inlay_hint)
+    (setup_lsp_map :<leader>th
+    (fn []
+    (_G.vim.lsp.inlay_hint.enable 0
+    (not (_G.vim.lsp.inlay_hint.is_enabled))))
+    "[T]oggle Inlay [H]ints")))
+    @end
+*** Creating the autocommand
+    all we do now is run the function above from the `LspAttach` event.
 
-   #tangle autocmds.fnl
-   @code fennel
-   (_G.vim.api.nvim_create_autocmd :LspAttach
-   {:group (_G.vim.api.nvim_create_augroup :kickstart-lsp-attach
-   {:clear true})
-   :callback (fn [event]
-   (local map
-   (fn [keys func desc]
-   (_G.vim.keymap.set :n
-   keys
-   func
-   {:buffer event.buf
-   :desc (.. "LSP: "
-   desc)})))
-   (map :<leader>rn
-   _G.vim.lsp.buf.rename
-   "[R]e[n]ame")
-   (map :<leader>ca
-   _G.vim.lsp.buf.code_action
-   "[C]ode [A]ction")
-   (map :K _G.vim.lsp.buf.hover
-   "Hover Documentation")
-   (map :gD
-   _G.vim.lsp.buf.declaration
-   "[G]oto [D]eclaration")
-   (map :<leader>th
-   (fn []
-   (_G.vim.lsp.inlay_hint.enable 0
-   (not (_G.vim.lsp.inlay_hint.is_enabled))))
-   "[T]oggle Inlay [H]ints")
-   (local client
-   (_G.vim.lsp.get_client_by_id event.data.client_id))
-   (when (and client
-   client.server_capabilities.documentHighlightProvider)
-   (_G.vim.api.nvim_create_autocmd [:CursorHold
-   :CursorHoldI]
-   {:buffer event.buf
-   :callback _G.vim.lsp.buf.document_highlight})
-   (_G.vim.api.nvim_create_autocmd [:CursorMoved
-   :CursorMovedI]
-   {:buffer event.buf
-   :callback _G.vim.lsp.buf.clear_references})))})
-
-
-   @end
+    I will also note this is part of the `lsp-attach` autocommand group to denote this is meant to be done after we have attached an lsp server
+    #tangle autocmds.fnl
+    @code fennel
+    (_G.vim.api.nvim_create_autocmd :LspAttach
+    {:group (_G.vim.api.nvim_create_augroup :lsp-attach
+    {:clear true})
+    :callback setup_lsp})
+    @end
