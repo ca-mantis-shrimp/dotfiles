@@ -54,10 +54,12 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
 ** Index
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+** Neovim
+  - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
 ** Neovim Config
   - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
   - {:$/neovim/entry:}[Neovim Entry] - First and root files for the neovim configuration
-  - {:$/neovim/options:}[Neovim Option Config] - Config File for configuring the Options of Neovim Itself
+  - {:$/neovim/config/config:}[Neovim Config] - Config File for configuring the Options of Neovim Itself
 ** Neovim Config Plugins
   - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
   - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration

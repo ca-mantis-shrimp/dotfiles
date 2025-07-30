@@ -4,7 +4,7 @@ description: A technical journal of the ongoing thoughts i have about the projec
 authors: primary_desktop
 categories: 
 created: 2025-07-26T10:27:30-0800
-updated: 2025-07-26T23:22:52-0800
+updated: 2025-07-29T23:56:38-0800
 version: 1.1.1
 @end
 * literate config reflection 07/25/2025
@@ -56,3 +56,19 @@ version: 1.1.1
    I would say that these things work when i can see the solution clear in my head, ive laid out all the contexts and the tests, all that is left is to finish the actual structure so that we are able to start thinking about the structure in a more coherent way
 
    but we also need to keep it under tight supervision as this is something where we can lose track of our work so easily and then when something breaks we are more lost than ever
+* stuff to consider 2025-07-29
+  so we just got done solving a problem with debugging an error in neorg itself so the whole thing broke for a minute..
+
+This reminds us of the importance of this project to make the whole thing runnable from a linux machine made with `mkosi` this way we have what we need to achieve the speed necessary and get the next version of our config shipping WITHOUT breaking the whole thing lol
+
+in addition, we should consider making neorg one of the first things that we go through and work on so that we are ready to have a conversation about what is necessary in the long run to get it all working and structured
+
+  finally, we want to use conform with the injected formatter to allow us to format even when we are within another document, this will make it so that the main files arent such a pain to read.
+
+  put these all together, and we should have a solid way to work through these separate pieces.
+
+  the other integrations we want to turn on are otter.nvim for integration within the document so we can get lsp diagnostics without leaving the environment, as well as looking glass so that we can pop the little snippets out into their own file and work with it from there.
+
+this will have a few beneficial qualities but not the least of which is the ability to just pop something out and make it so that we are able to format it without worrying about the injected formatter
+
+  just got done with handling the neorg file and it made me refletive, they have slowed down development so if we want to see more work then we will need to work out a way for us to handle the structures in such a way that we can keep building this work out but i feel like they did a good job of making the work handlable and even the core of it is a treesitter parser that will be impactful for understanding all of this work
