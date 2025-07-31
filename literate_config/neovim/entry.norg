@@ -1,10 +1,10 @@
 @document.meta
-title: Neovim Entry
+title: Entry
 description: First and root files for the neovim configuration
 authors: Darrion Burgess
-categories: Neovim Config
+categories: Neovim
 created: 2025-07-25T19:12:38-0800
-updated: 2025-07-25T23:37:00-0800
+updated: 2025-07-30T23:33:03-0800
 version: 1.1.1
 @end
 * Starting Init

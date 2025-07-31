@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-07-27T18:09:07-0800
+updated: 2025-07-30T23:31:13-0800
 version: 1.0.0
 @end
 = TOC
@@ -55,13 +55,12 @@ This creates a closed loop in which we can safely work on any and all of our com
 ** Index
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
 ** Neovim
-  - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
-** Neovim Config
   - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
   - {:$/neovim/entry:}[Neovim Entry] - First and root files for the neovim configuration
   - {:$/neovim/config/config:}[Neovim Config] - Config File for configuring the Options of Neovim Itself
-** Neovim Config Plugins
+  - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
   - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
+  - {:$/neovim/plugins/libs:}[Libraries] - Lua/vimscript needed for other plugins
   - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
 ** Scripts Index
   - {:$/shells/bash/bash_templates:}[Bash Templates] - templates for common bash operations
@@ -80,5 +79,8 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
   - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
+  - {:$/neovim/ftplugin:}[Ftplugin]
+  - {:$/neovim/plugins/neorg:}[Neorg]
+  - {:$/neovim/plugins/plugins:}[Plugins]
 ** Version Control Git
   - {:$/git:}[Git Config] - All the git config in one place for this repo

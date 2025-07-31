@@ -1,0 +1,34 @@
+@document.meta
+title: plugins
+description: 
+authors: primary_desktop
+categories: 
+created: 2025-07-30T10:36:35-0800
+updated: 2025-07-30T23:23:59-0800
+version: 1.1.1
+@end
+#tangle plugins.fnl
+@code fennel
+[{1 :cameron-wags/rainbow_csv.nvim
+  :config true
+  :ft [:csv
+       :tsv
+       :csv_semicolon
+       :csv_whitespace
+       :csv_pipe
+       :rfc_csv
+       :rfc_semicolon]
+  :cmd [:RainboxDelim
+        :RainboxDelimSimple
+        :RainboxDelimQuoted
+        :RainboxMultiDelim]}]
+
+@end
+
+so we have some work that is good but doesnt really work out to anywhere else
+* different colors for columns in using {https://github.com/cameron-wags/rainbow_csv.nvim}[rainbox_csv.vim]
+  working through this work we can see that coloring the different columns is nice.
+
+  now, we only load this with the various CSV variants but not on other files
+
+we also load it if we run the commands themselves
