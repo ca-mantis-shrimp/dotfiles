@@ -1,10 +1,10 @@
 @document.meta
 title: plugins
-description: 
+description: Neovim plugins 
 authors: primary_desktop
-categories: 
+categories: Neovim
 created: 2025-07-30T10:36:35-0800
-updated: 2025-07-30T23:23:59-0800
+updated: 2025-08-02T11:16:05-0800
 version: 1.1.1
 @end
 #tangle plugins.fnl
