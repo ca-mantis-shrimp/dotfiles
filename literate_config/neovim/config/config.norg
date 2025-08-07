@@ -4,7 +4,7 @@ description: Config Folder of files for configuring neovim-specific information
 authors: Darrion Burgess
 categories: Neovim
 created: 2025-07-26T23:48:23-0800
-updated: 2025-07-30T23:33:31-0800
+updated: 2025-08-02T22:58:11-0800
 version: 1.1.1
 @end
 Configuration is an interesting topic in Neovim because there are just so many ways to approach it.
@@ -119,23 +119,15 @@ but for now, what we have settled on is a single fennel file that will just get 
     @code fennel
     (set _G.vim.opt.hlsearch true)
     @end
-** Customize hotkey times
-   many hotkeys have more than one key so we have the problem of how long do we wait between the initial hotkey and the next hotkey? we can set that duration with `timeoutlen` i find 300 miliseconds is a good amount of time where if i actually didnt want to click that hotkey i can just let it expire.
+*** Customize hotkey times
+    many hotkeys have more than one key so we have the problem of how long do we wait between the initial hotkey and the next hotkey? we can set that duration with `timeoutlen` i find 300 miliseconds is a good amount of time where if i actually didnt want to click that hotkey i can just let it expire.
 
-   otherwise, you have to actually escape the whole thing which can get tedius
+    otherwise, you have to actually escape the whole thing which can get tedius
 
-   #tangle options.fnl
-   @code fennel
-   (set _G.vim.opt.timeoutlen 300)
-   @end
-** GUI Options
-   One awesome piece of functionality for vim is that the server is separate from the TUI, meaning we can move neovim to run in a GUI environment!
-
-   However, some of the setting dont transition over so we have to set gui-specific settings to make it easier to work
-   #tangle options.fnl
-   @code fennel
-   (set _G.vim.g.neovide_scale_factor 1.0)
-   @end
+    #tangle options.fnl
+    @code fennel
+    (set _G.vim.opt.timeoutlen 300)
+    @end
 ** Formatting
    Formatting is an interesting topic. we can set the program used for formatting using `formatexpr`
 
@@ -258,6 +250,14 @@ but for now, what we have settled on is a single fennel file that will just get 
     #tangle options.fnl
     @code fennel
     (set _G.vim.g.have_nerd_font true)
+    @end
+*** GUI Options
+    One awesome piece of functionality for vim is that the server is separate from the TUI, meaning we can move neovim to run in a GUI environment!
+
+    However, some of the setting dont transition over so we have to set gui-specific settings to make it easier to work
+    #tangle options.fnl
+    @code fennel
+    (set _G.vim.g.neovide_scale_factor 1.0)
     @end
 
 * Hotkeys

@@ -4,13 +4,14 @@ description: Lua/vimscript needed for other plugins
 authors: primary_desktop
 categories: Neovim
 created: 2025-07-30T22:39:39-0800
-updated: 2025-07-30T23:24:29-0800
+updated: 2025-08-04T16:20:50-0800
 version: 1.1.1
 @end
 Here we are taking advantage of the fact that Lazy is actually amazing and among the many features is smart lazy-loading meaning we can just put all of the libraries in one place and if any of the other plugins `require` it, then it will automatically be loaded!
 #tangle libs.fnl
 @code fennel
-[ {1 :radenling/vim-dispatch-neovim :dependencies {1 :tpope/vim-dispatch}}
+[{1 :folke/which-key.nvim :event :VeryLazy :keys [{1 :<leader>? 2 #((. (require :which-key) :show {:global false}))}]}
+{1 :radenling/vim-dispatch-neovim :dependencies {1 :tpope/vim-dispatch}}
 {1 :neovim/nvim-lspconfig :priority 200}
 {1 :nvim-treesitter/nvim-treesitter :lazy true}
 {1 :nvim-lua/plenary.nvim :lazy true}
@@ -21,6 +22,10 @@ Here we are taking advantage of the fact that Lazy is actually amazing and among
 {1 :ravitemer/mcphub.nvim :lazy true}]
 
 @end
+* UI for Hotkeys with which-key
+  which key comes from the got himself folke to show us what hotkeys we have defined using a wonderful UI that even respects your colorscheme so that you can control your user interface without needing to memorize all of that work
+
+we will see this used throughout the config whenever we set new hotkeys we try to actually set them in which key so that way we can add meta-data like the name of the function and where it belongs while still defining it in a declarative, data-like way
 * {https://github.com/tpope/vim-dispatch}[dispatch] for job control
   one of the few vimscript libraries we still leverage is from the god tpope himself. this is something where we are enabling vim to do more asynchronous job control and run things like make files entirely within neovim.
 
@@ -63,3 +68,6 @@ most modern terminals have something to show them, so now devicons allows us to 
 
 * Model Context Protocol (mcp)
   to continue the trend of AI stuff, we also have basically mason for MCP servers which is the newest thing that we have to install and hook up to our editor and this tries to make that process easier by letting us search them and automatically make them available to the various AI plugins that support MCP servers
+
+* which-key
+
