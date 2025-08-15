@@ -1,0 +1,22 @@
+@document.meta
+title: colorschemes
+description: 
+authors: primary_desktop
+categories: 
+created: 2025-08-10T00:09:26-0800
+updated: 2025-08-10T00:11:05-0800
+version: 1.1.1
+@end
+colorschemes are just going to be in one place so now i just want to put it all in one place
+
+we want them pretty high priority too because they need to be powerful
+
+we also set tokyonight as the PRIMARY colorscheme as well here
+
+#tangle colcorschemes.fnl
+@code fennel
+[{1 :projekt0n/github-nvim-theme}
+ {1 :folke/tokyonight.nvim
+  :priority 1000
+  :init #(_G.vim.cmd.colorscheme :tokyonight-night)}]
+@end

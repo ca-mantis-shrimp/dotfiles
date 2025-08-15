@@ -1,0 +1,26 @@
+@document.meta
+title: completion
+description: 
+authors: primary_desktop
+categories: 
+created: 2025-08-10T00:12:35-0800
+updated: 2025-08-10T00:14:27-0800
+version: 1.1.1
+@end
+completion is a funky topic.
+
+for now we are using blink which is "easy" rather than simple but as we need we are pulling in the structure of the cmp features so that we can make sure that we 
+
+in the future, i want to structure it with more customization but for now just starting some stuff in a nice declarative config is really nice
+#tangle completion.fnl
+@code fennel
+{1 :saghen/blink.cmp
+:dependencies [:rafamadriz/friendly-snippets]
+:version :1.*
+:opts {:keymap {:preset :default}
+:appearance {:nerd_font_variant :mono}
+:completion {:documentation {:auto_show false}}
+:sources {:default [:lsp :path :snippets :buffer]}
+:fuzzy {:implementation :prefer_rust_with_warning}}
+:opts_extend [:sources.default]}
+@end

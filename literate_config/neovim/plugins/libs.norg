@@ -4,7 +4,7 @@ description: Lua/vimscript needed for other plugins
 authors: primary_desktop
 categories: Neovim
 created: 2025-07-30T22:39:39-0800
-updated: 2025-08-04T16:20:50-0800
+updated: 2025-08-10T17:05:20-0800
 version: 1.1.1
 @end
 Here we are taking advantage of the fact that Lazy is actually amazing and among the many features is smart lazy-loading meaning we can just put all of the libraries in one place and if any of the other plugins `require` it, then it will automatically be loaded!
@@ -48,7 +48,6 @@ in addition, we have a lua wrapper that is needed to make things work properly f
 
   it "knows" what language you are using and will use the appropriate comment structure for whatever you are doing whether that is commenting a block of text or a single line
 
-
 * UI
   the other libraries that are largely used is ones needed to make some nice abstraction layers over the traditional UI elements
   ** nui
@@ -68,6 +67,4 @@ most modern terminals have something to show them, so now devicons allows us to 
 
 * Model Context Protocol (mcp)
   to continue the trend of AI stuff, we also have basically mason for MCP servers which is the newest thing that we have to install and hook up to our editor and this tries to make that process easier by letting us search them and automatically make them available to the various AI plugins that support MCP servers
-
-* which-key
 
