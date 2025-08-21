@@ -10,5 +10,5 @@
   :cmd [:RainboxDelim
         :RainboxDelimSimple
         :RainboxDelimQuoted
-        :RainboxMultiDelim]}]
-
+        :RainboxMultiDelim]}
+ {1 :tpope/vim-dadbod}]

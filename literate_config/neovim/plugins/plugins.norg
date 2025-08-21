@@ -4,7 +4,7 @@ description: Neovim plugins
 authors: primary_desktop
 categories: Neovim
 created: 2025-07-30T10:36:35-0800
-updated: 2025-08-10T16:55:27-0800
+updated: 2025-08-19T19:26:12-0800
 version: 1.1.1
 @end
 #tangle plugins.fnl
@@ -21,7 +21,8 @@ version: 1.1.1
 :cmd [:RainboxDelim
 :RainboxDelimSimple
 :RainboxDelimQuoted
-:RainboxMultiDelim]}]
+:RainboxMultiDelim]}
+{1 :tpope/vim-dadbod}]
 
 @end
 
@@ -32,3 +33,6 @@ so we have some work that is good but doesnt really work out to anywhere else
   now, we only load this with the various CSV variants but not on other files
 
   we also load it if we run the commands themselves
+
+* database viewing with dadbod
+  dadbod is made by the god himself, tpope, so we can just run this sucker and work on the documentation from there so that we are able to make it all easy to handle without even worrying

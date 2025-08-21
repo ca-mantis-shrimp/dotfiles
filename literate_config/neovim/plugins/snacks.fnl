@@ -50,5 +50,3 @@
          2 #(_G.Snacks.picker.diagnostics)
          :desc "Search Diagnostics"}
         {1 :<c-/> 2 #(_G.Snacks.terminal) :desc "Open Terminal"}]}
-
-
