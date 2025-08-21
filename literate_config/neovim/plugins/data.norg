@@ -1,0 +1,38 @@
+@document.meta
+title: Data Plugins
+description: Plugins for viewing, fetching, and interacting with data from within Neovim
+authors: primary_desktop
+categories: Neovim
+created: 2025-08-20T23:58:04-0800
+updated: 2025-08-20T23:59:02-0800
+version: 1.1.1
+@end
+
+#tangle data.fnl
+@code fennel
+[{1 :cameron-wags/rainbow_csv.nvim
+:config true
+:ft [:csv
+:tsv
+:csv_semicolon
+:csv_whitespace
+:csv_pipe
+:rfc_csv
+:rfc_semicolon]
+:cmd [:RainboxDelim
+:RainboxDelimSimple
+:RainboxDelimQuoted
+:RainboxMultiDelim]}
+{1 :tpope/vim-dadbod}]
+
+@end
+
+* different colors for columns in using {https://github.com/cameron-wags/rainbow_csv.nvim}[rainbox_csv.vim]
+  working through this work we can see that coloring the different columns is nice.
+
+  now, we only load this with the various CSV variants but not on other files
+
+  we also load it if we run the commands themselves
+
+* database viewing with dadbod
+  dadbod is made by the god himself, tpope, so we can just run this sucker and work on the documentation from there so that we are able to make it all easy to handle without even worrying
