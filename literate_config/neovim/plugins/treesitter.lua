@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/treesitter.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] neovim/plugins/treesitter.fnl
 local function _1_(_, opts)
 	require("nvim-treesitter.install")["prefer_git"] = true
 	if _G.vim.fn.has("win32") == 1 then

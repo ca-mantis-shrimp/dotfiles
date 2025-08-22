@@ -31,4 +31,3 @@
                   {:install_info {:url (.. (_G.vim.fn.stdpath :data)
                                            :/lazy/tree-sitter-actions)
                                   :files {1 :src/parser.c}}})))}
-

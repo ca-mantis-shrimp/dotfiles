@@ -7,4 +7,5 @@ return {
 		cmd = { "RainboxDelim", "RainboxDelimSimple", "RainboxDelimQuoted", "RainboxMultiDelim" },
 	},
 	{ "tpope/vim-dadbod" },
+	{ "mistweaverco/kulala.nvim", ft = { "http", "rest" }, opts = { global_keymaps = true } },
 }

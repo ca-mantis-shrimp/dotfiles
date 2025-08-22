@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/mini.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] neovim/plugins/mini.fnl
 local function _1_()
 	require("mini.ai").setup({ n_lines = 500 })
 	require("mini.surround").setup()

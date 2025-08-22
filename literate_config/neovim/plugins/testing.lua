@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/testing.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] neovim/plugins/testing.fnl
 local function _1_()
 	return require("neotest").run.run()
 end

@@ -1,0 +1,59 @@
+@document.meta
+title: treesitter
+description: 
+authors: primary_desktop
+categories: 
+created: 2025-08-21T21:22:13-0800
+updated: 2025-08-21T21:27:34-0800
+version: 1.1.1
+@end
+another topic that is both exciting and complex is treesitter one of the other core features of neovim
+
+although we have strong support, the bulk of functionality is still in `nvim-treesitter` which contains a bunch of convenience functions as well as capabilities to download and configure parsers without any hastle
+
+
+interestingly we are mainly focused on working through our own plugin here from where we are installing a custom parser and making sure its setup for our work
+#tangle treesitter.fnl
+@code fennel
+{1 :nvim-treesitter/nvim-treesitter
+ :build ":TSUpdate"
+ :dependencies [{1 :ClearHeadToDo-Devs/tree-sitter-actions}]
+ :opts {:ensure_installed [:bash
+                           :c
+                           :html
+                           :lua
+                           :luadoc
+                           :markdown
+                           :vim
+                           :vimdoc
+                           :python]
+        :auto_install true
+        :highlight {:enable true}
+        :indent {:enable true}
+        :incremental_selection {:enable true
+                                :keymaps {:init_selection :gsi
+                                          :node_incremental :gsn
+                                          :scope_incremental :gss
+                                          :node_decremental :gsd}}}
+ :config (fn [_ opts]
+           (tset (require :nvim-treesitter.install) :prefer_git true)
+           (if (= (_G.vim.fn.has :win32) 1)
+               (tset (require :nvim-treesitter.install) :compilers [:zig]))
+           ((. (require :nvim-treesitter.configs) :setup) opts)
+           (tset _G.vim.opt :foldmethod :expr)
+           (tset _G.vim.opt :foldexpr "nvim_treesitter#foldexpr()")
+           (let [parser_config ((. (require :nvim-treesitter.parsers)
+                                   :get_parser_configs))]
+             (set parser_config.actions
+                  {:install_info {:url (.. (_G.vim.fn.stdpath :data)
+                                           :/lazy/tree-sitter-actions)
+                                  :files {1 :src/parser.c}}})))}
+
+@end
+- otherwise, we are just moving through the standard stuff
+-- setting the folds to be treesitter folds rather than the standard one
+-- we also are sure to install some important parsers so that as long as we have this plugin it will install those parsers, ensuring that we dont have to install them manually each time when we install the stuff in a new plugin or editor session
+- the only other interesting tidbit is that we use zig to compile the structure of treesitter because i find it works better than the other methods funnily enough so that has been my primary approach to making this not suck on the main plugin system
+- we also are sure to install the tree-sitter parser as a dependency up front, then we go ahead and add its folder to the `runtime path` so that we will have it for the querying that we need to do
+
+this is a bit of complexity but it represents allot of work saved because we were able to leverage our relatively simple parser to do a crazy amount of stuff for the plugin so im happy with the progress to value coordination

@@ -1,4 +1,4 @@
--- [nfnl] Compiled from lua/plugins/navigation.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] neovim/plugins/navigation.fnl
 local function _1_()
 	return require("flash").jump()
 end

@@ -11,4 +11,5 @@
         :RainboxDelimSimple
         :RainboxDelimQuoted
         :RainboxMultiDelim]}
- {1 :tpope/vim-dadbod}]
+ {1 :tpope/vim-dadbod}
+ {1 :mistweaverco/kulala.nvim :ft [:http :rest] :opts {:global_keymaps true}}]
