@@ -3,5 +3,8 @@
 (set _G.vim.opt_local.spelllang [:en_us])
 (set _G.vim.opt_local.conceallevel 2)
 
-(_G.vim.keymap.set :n :<localLeader>nc
-                   #((. (require :neorg) :looking-glass.magnify-code-block)))
+;; Format code blocks within norg files using conform's injected formatter
+(_G.vim.keymap.set :n :<localLeader>gf
+                   #((. (require :conform) :format) {:formatters [:injected]})
+                   {:buffer true :desc "Format norg code blocks"})
+

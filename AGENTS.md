@@ -405,3 +405,25 @@ ls -la dot_config/remove_nvim/lua/remove_plugins/ | grep -v "^total"
 - Documented file type workflows: 1-step for configs, 3-step for fennel→lua
 - Found platform-specific template patterns using chezmoi conditionals
 - mkosi.conf exists but minimal - ready for expansion
+
+### 2025-08-23 - Norg Code Block Formatting Implementation
+
+**Problem Solved:** Norg files had poorly formatted code blocks that were hard to read compared to generated files.
+
+**Key Discovery:** Conform.nvim has built-in `injected` formatter support for embedded code blocks - no custom code needed!
+
+**Implementation:**
+- Added `:norg [:injected]` to conform's `formatters_by_ft` configuration
+- Added `<localleader>gf` hotkey in norg ftplugin for buffer-local formatting
+- Uses treesitter to detect `@code <lang>` blocks and format with appropriate tools
+
+**Lessons Learned:**
+- Always check if existing tools have built-in solutions before writing custom code
+- Conform's injected formatter is perfect for literate programming workflows
+- Buffer-local mappings in ftplugin are better than global mappings for file-specific features
+- The `injected` formatter preserves document structure while formatting embedded code
+- This approach scales automatically with any new formatters added to conform config
+
+**Files Modified:**
+- `literate_config/neovim/plugins/platforms/formatters.norg` - Added norg filetype
+- `literate_config/neovim/ftplugin/ftplugins.norg` - Added formatting hotkey and documentation

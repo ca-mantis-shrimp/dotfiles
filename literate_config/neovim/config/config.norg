@@ -4,7 +4,7 @@ description: Config Folder of files for configuring neovim-specific information
 authors: Darrion Burgess
 categories: Neovim
 created: 2025-07-26T23:48:23-0800
-updated: 2025-08-02T22:58:11-0800
+updated: 2025-08-23T12:55:53-0800
 version: 1.1.1
 @end
 Configuration is an interesting topic in Neovim because there are just so many ways to approach it.
@@ -147,14 +147,14 @@ but for now, what we have settled on is a single fennel file that will just get 
     #tangle options.fnl
     @code fennel
     (_G.vim.lsp.enable [:lua_ls
-    :fennel_language_server
-    :pyright
-    :fish-lsp
-    :systemd_ls
-    :powershell_es
-    :jsonls
-    :clojure_lsp
-    :rust_analyzer])
+                        :fennel_language_server
+                        :pyright
+                        :fish-lsp
+                        :systemd_ls
+                        :powershell_es
+                        :jsonls
+                        :clojure_lsp
+                        :rust_analyzer])
     @end
     Here is a breakdown of how they translate to structured languages
     @table
@@ -172,7 +172,7 @@ but for now, what we have settled on is a single fennel file that will just get 
     #tangle options.fnl
     @code fennel
     (_G.vim.diagnostic.config {:virtual_text {:current_line true}
-    :virtual_lines true})
+                               :virtual_lines true})
     @end
 ** UI
 *** Default Floating Window Border
@@ -285,24 +285,23 @@ but for now, what we have settled on is a single fennel file that will just get 
     #tangle keymaps.fnl
     @code fennel
     {1 :<leader>ie
-    2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
-    ":h")
-    :/clhd/active.actions)]})
-    :desc "Edit clearhead actions file"}
+     2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
+                                                            ":h")
+                                     :/clhd/active.actions)]})
+     :desc "Edit clearhead actions file"}
     @end
 *** Tab-Management
     we manage the `tab` mechanic through the `<tab>` key
     #tangle keymaps.fnl
     @code fennel
     {1 :<leader><tab><tab> 2 :<cmd>tabnew<CR> :desc "Create New [tab]"}
-    {1 :<leader><tab><Del>
-    2 :<cmd>tabclose<CR>
-    :desc "[Del]ete Current Tab"}
+    {1 :<leader><tab><Del> 2 :<cmd>tabclose<CR> :desc "[Del]ete Current Tab"}
+
     {1 :<leader><tab>n 2 :<cmd>tabNext<CR> :desc "[n]ext Tab"}
     {1 :<leader><tab>p 2 :<cmd>tabprevious<CR> :desc "[p]revious Tab"}
     {1 :<leader><tab>r
-    2 "<cmd>tcd -<CR>"
-    :desc "CD to previous directory in current tab"}
+     2 "<cmd>tcd -<CR>"
+     :desc "CD to previous directory in current tab"}
     @end
     - we create a new tab with two clicks of `<tab>`
     - add `<del>` and we will delete the tab
@@ -320,27 +319,25 @@ but for now, what we have settled on is a single fennel file that will just get 
     - or the terminal mode from one of our sub terminals
     #tangle keymaps.fnl
     @code fennel
-    {1 :<Esc>
-    2 :<cmd>nohlsearch<CR>
-    :desc "Remove Search Highlighting on Escape"}
-    {1 :<Esc><Esc>
-    2 "<C-\\><C-n>"
-    :mode :t
-    :desc "[Esc]ape terminal mode"}
+    {1 :<Esc> 2 :<cmd>nohlsearch<CR> :desc "Remove Search Highlighting on Escape"}
+
+    {1 :<Esc><Esc> 2 "<C-\\><C-n>" :mode :t :desc "[Esc]ape terminal mode"}
     @end
 *** Diagnostic Hotkeys
     Hotkeys for managing diagnostic messages to make working and iterating through diagnostic info nice
     #tangle keymaps.fnl
     @code fennel
     {1 "[d"
-    2 #(_G.vim.diagnostic.goto_prev)
-    :desc "Go to previous [D]iagnostic message"}
+     2 #(_G.vim.diagnostic.goto_prev)
+     :desc "Go to previous [D]iagnostic message"}
+
     {1 "]d"
-    2 #(_G.vim.diagnostic.goto_next)
-    :desc "Go to next [D]iagnostic message"}
+     2 #(_G.vim.diagnostic.goto_next)
+     :desc "Go to next [D]iagnostic message"}
+
     {1 :<leader>q
-    2 #(_G.vim.diagnostic.setloclist)
-    :desc "Open diagnostic [Q]uickfix list"}
+     2 #(_G.vim.diagnostic.setloclist)
+     :desc "Open diagnostic [Q]uickfix list"}
     @end
 *** Lazy and Noice
     Some of the more interesting plugins include the built-in ui of our package manager {https://github.com/folke/lazy.nvim}[lazy.nvim]
@@ -363,16 +360,17 @@ but for now, what we have settled on is a single fennel file that will just get 
    #tangle keymaps.fnl
    @code fennel
    (_G.vim.keymap.set :n :<C-h> :<C-w><C-h>
-   {:desc "Move focus to the left window"})
+                      {:desc "Move focus to the left window"})
 
    (_G.vim.keymap.set :n :<C-l> :<C-w><C-l>
-   {:desc "Move focus to the right window"})
+                      {:desc "Move focus to the right window"})
 
    (_G.vim.keymap.set :n :<C-j> :<C-w><C-j>
-   {:desc "Move focus to the lower window"})
+                      {:desc "Move focus to the lower window"})
 
    (_G.vim.keymap.set :n :<C-k> :<C-w><C-k>
-   {:desc "Move focus to the upper window"})
+                      {:desc "Move focus to the upper window"})
+
    (_G.vim.keymap.set :n :<C-s> :<cmd>w<CR> {:desc "Save current Buffer"})
    @end
 
@@ -381,7 +379,8 @@ but for now, what we have settled on is a single fennel file that will just get 
    #tangle keymaps.fnl
    @code fennel
    (fn change-scale-factor [delta]
-   (set _G.vim.g.neovide_scale_factor (* _G.vim.g.neovide_scale_factor delta)))
+     (set _G.vim.g.neovide_scale_factor (* _G.vim.g.neovide_scale_factor delta)))
+
    (_G.vim.keymap.set :n :<C-=> #(change-scale-factor 1.25))
    (_G.vim.keymap.set :n :<C--> #(change-scale-factor (/ 1 1.25)))
    (_G.vim.keymap.set :n "<C-[>" #(set _G.vim.g.neovide_scale_factor 1.0))
@@ -401,11 +400,11 @@ but for now, what we have settled on is a single fennel file that will just get 
    #tangle autocmds.fnl
    @code fennel
    (_G.vim.api.nvim_create_autocmd :TextYankPost
-   {:desc "highlight when yanking text"
-   :group (_G.vim.api.nvim_create_augroup :kickstart-highlight-yank
-   {:clear true})
-   :callback (fn []
-   (_G.vim.highlight.on_yank))})
+                                   {:desc "highlight when yanking text"
+                                    :group (_G.vim.api.nvim_create_augroup :kickstart-highlight-yank
+                                                                           {:clear true})
+                                    :callback (fn []
+                                                (_G.vim.highlight.on_yank))})
    @end
 ** Setup LSP-related plugins after initial startup
    since lsp hotkeys can only be setup AFTER the lsp is actually attached, this is best done as an autocommand to get this done for all languages with an LSP while no polluting the keymaps for languages where its unnecesary
@@ -427,29 +426,29 @@ but for now, what we have settled on is a single fennel file that will just get 
     #tangle autocmds.fnl
     @code fennel
     (fn setup_lsp [event]
-    (local setup_lsp_map
-    (fn [keys func desc]
-    (_G.vim.keymap.set :n keys func
-    {:buffer event.buf :desc (.. "LSP: " desc)})))
-    (setup_lsp_map :<leader>rn _G.vim.lsp.buf.rename "[R]e[n]ame")
-    (setup_lsp_map :<leader>ca _G.vim.lsp.buf.code_action "[C]ode [A]ction")
-    (setup_lsp_map :K _G.vim.lsp.buf.hover "Hover Documentation")
-    (setup_lsp_map :gD _G.vim.lsp.buf.declaration "[G]oto [D]eclaration")
-    (local client (_G.vim.lsp.get_client_by_id event.data.client_id))
-    (when (and client client.server_capabilities.documentHighlightProvider)
-    (_G.vim.api.nvim_create_autocmd [:CursorHold :CursorHoldI]
-    {:buffer event.buf
-    :callback _G.vim.lsp.buf.document_highlight})
-    (_G.vim.api.nvim_create_autocmd [:CursorMoved :CursorMovedI]
-    {:buffer event.buf
-    :callback _G.vim.lsp.buf.clear_references}))
-    (when (and client client.server_capabilities.inlayHintProvider
-    _G.vim.lsp.inlay_hint)
-    (setup_lsp_map :<leader>th
-    (fn []
-    (_G.vim.lsp.inlay_hint.enable 0
-    (not (_G.vim.lsp.inlay_hint.is_enabled))))
-    "[T]oggle Inlay [H]ints")))
+      (local setup_lsp_map
+             (fn [keys func desc]
+               (_G.vim.keymap.set :n keys func
+                                  {:buffer event.buf :desc (.. "LSP: " desc)})))
+      (setup_lsp_map :<leader>rn _G.vim.lsp.buf.rename "[R]e[n]ame")
+      (setup_lsp_map :<leader>ca _G.vim.lsp.buf.code_action "[C]ode [A]ction")
+      (setup_lsp_map :K _G.vim.lsp.buf.hover "Hover Documentation")
+      (setup_lsp_map :gD _G.vim.lsp.buf.declaration "[G]oto [D]eclaration")
+      (local client (_G.vim.lsp.get_client_by_id event.data.client_id))
+      (when (and client client.server_capabilities.documentHighlightProvider)
+        (_G.vim.api.nvim_create_autocmd [:CursorHold :CursorHoldI]
+                                        {:buffer event.buf
+                                         :callback _G.vim.lsp.buf.document_highlight})
+        (_G.vim.api.nvim_create_autocmd [:CursorMoved :CursorMovedI]
+                                        {:buffer event.buf
+                                         :callback _G.vim.lsp.buf.clear_references}))
+      (when (and client client.server_capabilities.inlayHintProvider
+                 _G.vim.lsp.inlay_hint)
+        (setup_lsp_map :<leader>th
+                       (fn []
+                         (_G.vim.lsp.inlay_hint.enable 0
+                                                       (not (_G.vim.lsp.inlay_hint.is_enabled))))
+                       "[T]oggle Inlay [H]ints")))
     @end
 *** Creating the autocommand
     all we do now is run the function above from the `LspAttach` event.
@@ -458,7 +457,7 @@ but for now, what we have settled on is a single fennel file that will just get 
     #tangle autocmds.fnl
     @code fennel
     (_G.vim.api.nvim_create_autocmd :LspAttach
-    {:group (_G.vim.api.nvim_create_augroup :lsp-attach
-    {:clear true})
-    :callback setup_lsp})
+                                    {:group (_G.vim.api.nvim_create_augroup :lsp-attach
+                                                                            {:clear true})
+                                     :callback setup_lsp})
     @end

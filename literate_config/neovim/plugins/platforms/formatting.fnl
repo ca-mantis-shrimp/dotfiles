@@ -4,6 +4,7 @@
                            :fennel [:fnlfmt]
                            :clojure [:cljfmt]
                            :json [:jq]
-                           :jsonc [:jq]}
+                           :jsonc [:jq]
+                           :norg [:injected]}
         :format_on_save {:timeout_ms 500 :lsp_format :fallback}}}
 
