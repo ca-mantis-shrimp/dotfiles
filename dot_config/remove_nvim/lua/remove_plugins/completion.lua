@@ -1,1 +1,1 @@
-../../../../literate_config/neovim/plugins/completion.lua
+../../../../literate_config/neovim/plugins/platforms/completion.lua

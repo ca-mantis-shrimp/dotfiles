@@ -1,1 +1,1 @@
-../../../../literate_config/neovim/plugins/mini.lua
+../../../../literate_config/neovim/plugins/platforms/mini.lua

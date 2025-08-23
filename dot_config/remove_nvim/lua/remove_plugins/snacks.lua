@@ -1,1 +1,1 @@
-../../../../literate_config/neovim/plugins/snacks.lua
+../../../../literate_config/neovim/plugins/platforms/snacks.lua

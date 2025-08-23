@@ -1,1 +1,1 @@
-../../../../literate_config/neovim/plugins/formatting.lua
+../../../../literate_config/neovim/plugins/platforms/formatting.lua

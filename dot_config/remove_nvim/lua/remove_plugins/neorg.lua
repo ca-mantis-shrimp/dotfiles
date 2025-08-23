@@ -1,1 +1,1 @@
-../../../../literate_config/neovim/plugins/neorg.lua
+../../../../literate_config/neovim/plugins/platforms/neorg.lua

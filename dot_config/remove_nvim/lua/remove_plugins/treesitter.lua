@@ -1,1 +1,1 @@
-../../../../literate_config/neovim/plugins/treesitter.lua
+../../../../literate_config/neovim/plugins/platforms/treesitter.lua

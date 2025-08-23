@@ -1,1 +1,1 @@
-../../../../../literate_config/neovim/plugins/testing.lua
+../../../../../literate_config/neovim/plugins/platforms/testing.lua
