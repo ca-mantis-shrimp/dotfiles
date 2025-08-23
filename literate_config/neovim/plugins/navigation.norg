@@ -1,10 +1,10 @@
 @document.meta
-title: navigation
-description: 
+title: navigation plugins
+description: plugins to make navigating in neovim easier
 authors: primary_desktop
-categories: 
+categories: Neovim Plugins
 created: 2025-08-21T20:58:49-0800
-updated: 2025-08-21T21:03:44-0800
+updated: 2025-08-23T10:15:15-0800
 version: 1.1.1
 @end
 one category of plugins is the act of MOVING around and so we have a few plugins to accomodate that

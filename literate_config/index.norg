@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-07-30T23:31:13-0800
+updated: 2025-08-23T10:14:23-0800
 version: 1.0.0
 @end
 = TOC
@@ -37,50 +37,3 @@ Neorg -> Chezmoi -> Neovim and everything else -> Neorg
 
 This creates a closed loop in which we can safely work on any and all of our computers while we use the workspace as a sort of staging ground for the rest of our work
 * Index
-** Alternate Index
-  - {:$/neovim/index:}[Neovim Index] - Index of Neovim-related files
-  - {:$/shells/bash/bash_config:}[Bash Shell Index] - Starting point for configuring the bash shell files
-** Containers Docker
-  - {:$/containers/docker:}[Chezmoi Repo Docker Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
-** Desktop Environment Hyprland
-  - {:$/desktop_environments/hyprland/hyprland_config:}[Hyprland Config] - Configuring the various files for the hyprland desktop environment
-  - {:$/desktop_environments/hyprland/hyprland_keymaps:}[Hyprland Keymaps] - The Keymaps for our Hyprland Setup
-** Desktop Environment Komorebi
-  - {:$/desktop_environments/komorebi/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
-  - {:$/desktop_environments/komorebi/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
-** Desktop Environment Sway
-  - {:$/desktop_environments/sway/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
-** Dotfile Management Chezmoi
-  - {:$/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
-** Index
-  - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
-** Neovim
-  - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
-  - {:$/neovim/entry:}[Neovim Entry] - First and root files for the neovim configuration
-  - {:$/neovim/config/config:}[Neovim Config] - Config File for configuring the Options of Neovim Itself
-  - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
-  - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
-  - {:$/neovim/plugins/libs:}[Libraries] - Lua/vimscript needed for other plugins
-  - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
-** Scripts Index
-  - {:$/shells/bash/bash_templates:}[Bash Templates] - templates for common bash operations
-** Shells Bash
-  - {:$/scripts/bash/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
-  - {:$/scripts/bash/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
-  - {:$/shells/bash/bashrc:}[Bash Profile] - Definition of the .bash_profile
-  - {:$/shells/bash/profile_config:}[Profile] - the `.profile` for bash shell
-  - {:$/shells/bash/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
-** Shells Fish
-  - {:$/shells/fish/fish_config:}[Fish Config] - Configuring the Fish Shell
-** Shells Powershell
-  - {:$/shells/powershell/powershell:}[Profile] - the bashrc equivalent for powershell
-  - {:$/shells/powershell/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
-** Terminal Emulator Kitty
-  - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
-** Uncategorised
-  - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
-  - {:$/neovim/ftplugin:}[Ftplugin]
-  - {:$/neovim/plugins/neorg:}[Neorg]
-  - {:$/neovim/plugins/plugins:}[Plugins]
-** Version Control Git
-  - {:$/git:}[Git Config] - All the git config in one place for this repo

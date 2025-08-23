@@ -2,9 +2,9 @@
 title: Lisp Plugins
 description: Lisp-related plugins for our Neovim configuration
 authors: Darrion Burgess
-categories: Neovim
+categories: Neovim Plugins
 created: 2025-07-25T19:19:52-0800
-updated: 2025-07-30T23:31:07-0800
+updated: 2025-08-23T10:10:49-0800
 version: 1.1.1
 @end
 Lisp has been a recent obsession of mine. I want to start working more with lisp programs and working through these structures more so I have this layout ready

@@ -1,10 +1,10 @@
 @document.meta
-title: completion
-description: 
+title: Completion 
+description: plugins for overhauling the default completion engine
 authors: primary_desktop
-categories: 
+categories: Neovim Plugins
 created: 2025-08-10T00:12:35-0800
-updated: 2025-08-10T00:14:27-0800
+updated: 2025-08-23T10:10:10-0800
 version: 1.1.1
 @end
 completion is a funky topic.

@@ -8,7 +8,7 @@ tangle: {
 	gitignore: ~/.local/share/chezmoi/.chezmoiignore
 }
 created: 2025-07-20T13:21:18-0800
-updated: 2025-08-02T11:10:28-0800
+updated: 2025-08-22T23:38:59-0800
 version: 1.1.1
 @end
 This will be where we store all of the various pieces of chezmoi data all at once.
@@ -48,6 +48,7 @@ This is necessary because chezmoi is a critical part of holding all of this toge
    [edit]
    command = "nvim"
    @end
+
 ** Internet config
    finally we have to remember this is a git repo that is public so we have to deal with how we handle git versions and secrets
    #tangle

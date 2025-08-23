@@ -1,10 +1,10 @@
 @document.meta
-title: Formatting
+title: Formatting plugins
 description: Plugins to manage code file formatting
 authors: primary_desktop
-categories: 
+categories: Neovim Plugins
 created: 2025-08-19T19:28:41-0800
-updated: 2025-08-19T19:30:24-0800
+updated: 2025-08-23T10:10:22-0800
 version: 1.1.1
 @end
 for this task we use the venerable conform.nvim which makes this whole process easier.

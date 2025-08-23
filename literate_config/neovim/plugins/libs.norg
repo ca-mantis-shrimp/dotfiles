@@ -2,9 +2,9 @@
 title: Libraries
 description: Lua/vimscript needed for other plugins
 authors: primary_desktop
-categories: Neovim
+categories: Neovim Plugins
 created: 2025-07-30T22:39:39-0800
-updated: 2025-08-10T17:05:20-0800
+updated: 2025-08-23T10:10:44-0800
 version: 1.1.1
 @end
 Here we are taking advantage of the fact that Lazy is actually amazing and among the many features is smart lazy-loading meaning we can just put all of the libraries in one place and if any of the other plugins `require` it, then it will automatically be loaded!

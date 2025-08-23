@@ -1,10 +1,10 @@
 @document.meta
-title: neorg
-description: 
+title: Neorg Configuration
+description: Configuration for our favorite org-alternative within neovim 
 authors: primary_desktop
-categories: Neovim 
+categories: Neovim Plugins
 created: 2025-07-29T21:21:17-0800
-updated: 2025-08-02T11:15:45-0800
+updated: 2025-08-23T10:32:05-0800
 version: 1.1.1
 @end
 This one is very meta and very important as this is the plugin information for Neorg, the writing tool that i am using to do this whole config so handling this work is important for making the whole thing run smoothly.
@@ -14,54 +14,55 @@ we tried to break this up into various pieces so now we are going to go over the
 #tangle neorg.fnl
 @code fennel
 {1 :nvim-neorg/neorg 
-:opts {:load {:core.defaults {}
-:core.concealer {}
-:core.dirman {:config {:workspaces {:main "~/neorg"
-:work_notes "~/dab_work_neorg_notes"
-:knowledge_base "~/knowledge_base"
-:config "~/.local/share/chezmoi/literate_config"
-:journal "~/journal"}
-:autochdir true
-:index :index.norg
-:last_workspace (.. (_G.vim.fn.stdpath :cache)
-:/neorg_last_workspace.txt)}}
-:core.completion {:config {:engine :nvim-cmp}}
-:core.qol.toc {}
-:core.journal {:config {:journal_folder :/years/
-:workspace :journal}}
-:core.esupports.metagen {:config {:type :auto}}
-:core.export {}
-:core.export.markdown {:config {:extensions :all}}
-:core.summary {}}} 
-:keys [{1 :<leader>nt
-2 "<cmd>Neorg journal today<cr>"
-:desc "Today's Journal Page"}
-{1 :<leader>nw
-2 "<cmd>Neorg workspace work_notes<cr>"
-:desc "Edit Work Notes"}
-{1 :<leader>nm
-2 "<cmd>Neorg workspace main<cr>"
-:desc "Edit Primary Notes"}
-{1 :<leader>nk
-2 "<cmd>Neorg workspace knowledge_base<cr>"
-:desc "Edit Knowledge Base"}
-{1 :<leader>nc
-2 "<cmd>Neorg workspace config<cr>"
-:desc "Edit Literate Config"}
-{1 :<leader>ns
-2 "<cmd>Neorg generate-workspace-summary<cr>"
-:desc "Generate Workspace Summary"}
-{1 :<leader>nr
-2 "<cmd>Neorg return<CR>"
-:desc "Return from Neorg Workspace"}
-{1 :<leader>nT
-2 "<cmd>Neorg tangle current-file<CR>"
-:desc "Tangle Current File"}
-{1 :<leader>ni
-2 "<cmd>Neorg index<CR>"
-:desc "Go to Index of Neorg Workspace"}] 
-:lazy false }
-
+ :opts {:load {:core.defaults {}
+               :core.concealer {}
+               :core.dirman {:config {:workspaces {:main "~/neorg"
+                                                   :work_notes "~/dab_work_neorg_notes"
+                                                   :knowledge_base "~/knowledge_base"
+                                                   :config "~/.local/share/chezmoi/literate_config"
+                                                   :journal "~/journal"}
+                                      :autochdir true
+                                      :index :index.norg
+                                      :last_workspace (.. (_G.vim.fn.stdpath :cache)
+                                                       :/neorg_last_workspace.txt)}}
+               :core.qol.toc {}
+               :core.journal {:config {:journal_folder :/years/
+                                       :workspace :journal}}
+               :core.esupports.metagen {:config {:type :auto}}
+               :core.export {}
+               :core.export.markdown {:config {:extensions :all}}
+               :core.looking-glass {}
+               :core.integrations.otter {}
+               :core.summary {}}} 
+ :keys [{1 :<leader>nt
+         2 "<cmd>Neorg journal today<cr>"
+         :desc "Today's Journal Page"}
+        {1 :<leader>nw
+         2 "<cmd>Neorg workspace work_notes<cr>"
+         :desc "Edit Work Notes"}
+        {1 :<leader>nm
+         2 "<cmd>Neorg workspace main<cr>"
+         :desc "Edit Primary Notes"}
+        {1 :<leader>nk
+         2 "<cmd>Neorg workspace knowledge_base<cr>"
+         :desc "Edit Knowledge Base"}
+        {1 :<leader>nc
+         2 "<cmd>Neorg workspace config<cr>"
+         :desc "Edit Literate Config"}
+        {1 :<localLeader>ns
+         2 "<cmd>Neorg generate-workspace-summary<cr>"
+         :desc "Generate Workspace Summary"}
+        {1 :<leader>nr
+         2 "<cmd>Neorg return<CR>"
+         :desc "Return from Neorg Workspace"}
+        {1 :<localLeader>nt
+         2 "<cmd>Neorg tangle current-file<CR>"
+         :desc "Tangle Current File"}
+        {1 :<leader>ni
+         2 "<cmd>Neorg index<CR>"
+         :desc "Go to Index of Neorg Workspace"}] 
+ :dependencies [{1 :jmbuhr/otter.nvim}]
+ :lazy false}
 @end
 * Loading Modules
   Next, we actually outline the modules that we want to load, we can review what is available from {https://github.com/nvim-neorg/neorg/wiki}[the Neorg wiki] but here we outline which ones we actually want to load when getting this all setup
@@ -69,7 +70,6 @@ we tried to break this up into various pieces so now we are going to go over the
   - we load the defaults for the default {https://github.com/nvim-neorg/neorg/wiki/Default-Keybinds}[keybinds]
   - {https://github.com/nvim-neorg/neorg/wiki/Dirman}[dirman] to control the list of workspaces and make it easy to switch in and out of them
   - {https://github.com/nvim-neorg/neorg/wiki/Concealer}[the concealer] helps use treesitter to make the document nice by concealing many of the markup characters unless we are on the line
-  - completion is the integration point with nvim-cmp for our purposes
   - `toc` allows us to generate a table of contents, either inline, or as a split
   - `journal` gives us a git-trackable journal to use in our day-to-day work
   - `export/` allows u to actually work through and export the work that we want to other formats
@@ -89,6 +89,10 @@ we tried to break this up into various pieces so now we are going to go over the
    - `config` is here! the literate config that controls it all
    - we also `autochdir` whenever we move to one of these workspaces
    - we assume the index of the workspace is called `index.norg`
+   - we also leverage `looking-glass` to enable editing in a separate buffer!
+   - `otter` is an interesting one, it integrates with `otter.nvim` which you can see in the dependencies to pull together the snippets of a file such that they can be used for LSP suggestions!
+   -- however, do note that we have to do some subtle setup. Specifically, while we download otter as a dependency, the integration is actually responsible for setting it up, so that means that we need to NOT call setup in the dependency itself and trust that it is happening at the module level. 
+   --- otherwise, you get "otter is already setup" errors when you start neovim if you try setting it up early
 * Keymaps
   In addition to the {https://github.com/nvim-neorg/neorg/wiki/Default-Keybinds}[Default Keymaps], we have setup some keymaps for our own configuration
 

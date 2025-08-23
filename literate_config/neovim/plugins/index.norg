@@ -2,9 +2,9 @@
 title: Plugin Index
 description: Index of Neovim Plugins
 authors: Darrion Burgess
-categories: Neovim
+categories: Neovim 
 created: 2025-07-25T19:15:51-0800
-updated: 2025-08-10T16:49:58-0800
+updated: 2025-08-23T10:10:37-0800
 version: 1.1.1
 @end
 Neovim uses a dynamic plugin system that allows us to extend the system with arbitrary lua files at runtime.

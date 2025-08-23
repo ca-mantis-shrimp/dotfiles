@@ -2,9 +2,9 @@
 title: Git Plugins
 description: Neovim Git plugins for a nice experience
 authors: primary_desktop
-categories: Neovim
+categories: Neovim Plugins
 created: 2025-08-19T19:35:59-0800
-updated: 2025-08-19T19:39:39-0800
+updated: 2025-08-23T10:10:27-0800
 version: 1.1.1
 @end
 we use a few plugins to keep everything setup in git

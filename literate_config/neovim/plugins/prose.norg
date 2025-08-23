@@ -1,10 +1,10 @@
 @document.meta
-title: prose
-description: 
+title: prose writing plugin
+description: plugins to help me write prose documents
 authors: primary_desktop
-categories: 
+categories: Neovim Plugins
 created: 2025-08-20T11:11:23-0800
-updated: 2025-08-20T11:57:08-0800
+updated: 2025-08-23T10:12:58-0800
 version: 1.1.1
 @end
 Neovim isnt just great for code, its also great for the structured writnig that we do all the time!
