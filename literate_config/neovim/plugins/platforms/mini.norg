@@ -2,9 +2,9 @@
 title: Mini platform
 description: the config for the set of plugins from the creator of the mini platform
 authors: primary_desktop
-categories: Neovim Plugins
+categories: Neovim Platform Plugins
 created: 2025-08-21T20:43:37-0800
-updated: 2025-08-23T10:15:08-0800
+updated: 2025-08-23T10:39:11-0800
 version: 1.1.1
 @end
 some plugins are more like platforms in the form of plugins.

@@ -2,9 +2,9 @@
 title: testing plugins
 description: neotest config so we can test and review directly in neovim
 authors: primary_desktop
-categories: Neovim Plugins
+categories: Neovim Platform Plugins
 created: 2025-08-21T21:10:49-0800
-updated: 2025-08-23T10:15:23-0800
+updated: 2025-08-23T10:39:30-0800
 version: 1.1.1
 @end
 testing gets its own file because both the topic and the plugin of choice, `neotest` are BIG, and require special attention

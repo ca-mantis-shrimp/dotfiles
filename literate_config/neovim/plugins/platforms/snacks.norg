@@ -2,9 +2,9 @@
 title: snacks.nvim 
 description: configuration for the various plugins for `snacks`
 authors: primary_desktop
-categories: Neovim Plugins
+categories: Neovim Platform Plugins
 created: 2025-08-04T16:21:11-0800
-updated: 2025-08-23T10:13:04-0800
+updated: 2025-08-23T10:39:23-0800
 version: 1.1.1
 @end
 Folkes' sprawling plugin empire became so hard to manage i think even he needed to cut a bunch out and make them more modular. 

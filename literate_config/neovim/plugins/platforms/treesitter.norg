@@ -2,9 +2,9 @@
 title: treesitter configuration
 description: plugin to configure the treesitter feature in neovim
 authors: primary_desktop
-categories: Neovim Plugins
+categories: Neovim Platform Plugins
 created: 2025-08-21T21:22:13-0800
-updated: 2025-08-23T10:13:09-0800
+updated: 2025-08-23T10:39:38-0800
 version: 1.1.1
 @end
 another topic that is both exciting and complex is treesitter one of the other core features of neovim

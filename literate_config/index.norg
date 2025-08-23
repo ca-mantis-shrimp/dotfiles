@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-08-23T10:32:23-0800
+updated: 2025-08-23T10:42:28-0800
 version: 1.0.0
 @end
 = TOC
@@ -59,21 +59,22 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/neovim/config/config:}[Config] - Config Folder of files for configuring neovim-specific information
   - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
   - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
+** Neovim Platform Plugins
+  - {:$/neovim/plugins/platforms/completion:}[Completion] - plugins for overhauling the default completion engine
+  - {:$/neovim/plugins/platforms/formatters:}[Formatting Plugins] - Plugins to manage code file formatting
+  - {:$/neovim/plugins/platforms/mini:}[Mini Platform] - the config for the set of plugins from the creator of the mini platform
+  - {:$/neovim/plugins/platforms/neorg:}[Neorg Configuration] - Configuration for our favorite org-alternative within neovim
+  - {:$/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
+  - {:$/neovim/plugins/platforms/testing:}[Testing Plugins] - neotest config so we can test and review directly in neovim
+  - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
 ** Neovim Plugins
   - {:$/neovim/plugins/colorschemes:}[Colorschemes] - list of colorschemes to download and set
-  - {:$/neovim/plugins/completion:}[Completion] - plugins for overhauling the default completion engine
   - {:$/neovim/plugins/data:}[Data Plugins] - Plugins for viewing, fetching, and interacting with data from within Neovim
-  - {:$/neovim/plugins/formatters:}[Formatting Plugins] - Plugins to manage code file formatting
   - {:$/neovim/plugins/git:}[Git Plugins] - Neovim Git plugins for a nice experience
   - {:$/neovim/plugins/libs:}[Libraries] - Lua/vimscript needed for other plugins
   - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
-  - {:$/neovim/plugins/mini:}[Mini Platform] - the config for the set of plugins from the creator of the mini platform
   - {:$/neovim/plugins/navigation:}[Navigation Plugins] - plugins to make navigating in neovim easier
-  - {:$/neovim/plugins/neorg:}[Neorg Configuration] - Configuration for our favorite org-alternative within neovim
   - {:$/neovim/plugins/prose:}[Prose Writing Plugin] - plugins to help me write prose documents
-  - {:$/neovim/plugins/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
-  - {:$/neovim/plugins/testing:}[Testing Plugins] - neotest config so we can test and review directly in neovim
-  - {:$/neovim/plugins/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
 ** Reflection
   - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
 ** Scripts Index

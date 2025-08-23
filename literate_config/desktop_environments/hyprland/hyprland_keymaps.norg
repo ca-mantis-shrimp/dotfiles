@@ -94,10 +94,30 @@ We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds 
     bind = $mainMod + SHIFT, k, swapwindow, u
     bind = $mainMod + SHIFT, j, swapwindow, d
 
-    bindm = $mainMod, mouse:272, movewindow
-    bindm = $mainMod, mouse:273, resizewindow
-    @end
+     bindm = $mainMod, mouse:272, movewindow
+     bindm = $mainMod, mouse:273, resizewindow
+     @end
+*** Window Resizing
+    For precise window size control, we use ALT + main modifier + direction keys to resize the active window. This allows fine-tuning of window dimensions without needing to use the mouse.
+    
+    - `ALT + left/h` shrinks window width
+    - `ALT + right/l` expands window width  
+    - `ALT + up/k` shrinks window height
+    - `ALT + down/j` expands window height
+    
+    The `binde` binding type allows for repeating when held down, making it easy to get the exact size you want.
+    #tangle
+    @code conf
+    binde = $mainMod ALT, left, resizeactive, -10 0
+    binde = $mainMod ALT, right, resizeactive, 10 0
+    binde = $mainMod ALT, up, resizeactive, 0 -10
+    binde = $mainMod ALT, down, resizeactive, 0 10
 
+    binde = $mainMod ALT, h, resizeactive, -10 0
+    binde = $mainMod ALT, l, resizeactive, 10 0
+    binde = $mainMod ALT, k, resizeactive, 0 -10
+    binde = $mainMod ALT, j, resizeactive, 0 10
+    @end
 * Workspaces
   The other dimmension we have to manage windows is the workspace which captures a different collection of windows.
 

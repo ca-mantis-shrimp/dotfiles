@@ -2,9 +2,9 @@
 title: Neorg Configuration
 description: Configuration for our favorite org-alternative within neovim 
 authors: primary_desktop
-categories: Neovim Plugins
+categories: Neovim Platform Plugins
 created: 2025-07-29T21:21:17-0800
-updated: 2025-08-23T10:32:05-0800
+updated: 2025-08-23T10:39:17-0800
 version: 1.1.1
 @end
 This one is very meta and very important as this is the plugin information for Neorg, the writing tool that i am using to do this whole config so handling this work is important for making the whole thing run smoothly.
