@@ -1,0 +1,20 @@
+[Unit]
+Description=Neovim Embedded Server (Socket Activated)
+Documentation=man:nvim
+Requires=neovim-server.socket
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/nvim --headless --listen %h/.cache/nvim/server.pipe
+StandardInput=socket
+StandardOutput=journal
+StandardError=journal
+
+# Resource management
+TimeoutStopSec=10
+KillMode=mixed
+
+# Optional: Auto-stop after period of inactivity
+# RuntimeMaxSec=3600
+
+# No [Install] section - activated by socket unit only

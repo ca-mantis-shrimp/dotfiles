@@ -4,8 +4,8 @@ description: Hand-written guidance for LLM agents working on the literate config
 author: primary_desktop
 categories: LLM
 created: 2025-08-23T10:42:54-0800
-updated: 2025-08-23T11:13:12-0800
-version: 1.1.1
+updated: 2025-08-24T21:15:00-0800
+version: 2.0.0
 ---
 Hello my robotic colleague, please consider this both your first source of direction, as well as your personal space to write notes and guidance for future robotic colleagues to know what they should know going forward.
 
@@ -243,6 +243,18 @@ chezmoi apply --dry-run --verbose
 ```
 
 
+## Source of Truth Checklist (Before Editing ANY File)
+
+- [ ] Is this file generated? (If it looks like a compiled/transpiled/exported artifact, it probably is.)
+- [ ] Search for a .norg source:
+- `find literate_config/ -iname "*<filename-without-ext>*"`
+- `grep -R "#tangle.*<filename>" literate_config/`
+- [ ] If found in .norg, edit the .norg, NOT the generated file
+- [ ] If uncertain, ASK THE HUMAN first before touching it
+- [ ] For neovim: Never edit .lua (compiled from .fnl) or .fnl (tangled from .norg)
+- [ ] For docs: Prefer "Neorg export to-file …" over hand-editing .md
+
+
 ## Common Gotchas Discovered
 
 - The `:` is crucial in `:Neorg tangle current-file` - it's a neovim command, not a shell command
@@ -253,12 +265,50 @@ chezmoi apply --dry-run --verbose
 - Some norg files generate multiple output files - check the #tangle directives carefully
 
 
+## Tangle Troubleshooting
+
+Symptoms and fixes:
+- **Empty generated file**: Ensure @code … @end blocks are closed correctly
+- **Wrong/trimmed filename**: Check `#tangle` name (no leading hyphens, correct spelling)
+- **File not created**: Run `:Neorg tangle current-file` in the .norg buffer
+
+Verification steps:
+```bash
+# In the target directory after tangling
+ls -la
+# In the .norg file
+grep -A 5 "#tangle" path/to/file.norg
+```
+
+
 ## Workflow Improvements Identified
 
 - Could create a neovim command to automate the tangle→compile→format pipeline
 - Could add git hooks to ensure norg files are always committed as source of truth
 - Could create a validation script to check for missing symlinks or broken tangle directives
 - The mkosi.conf could be expanded to include chezmoi setup for better testing
+
+
+## Systemd Socket Activation Pattern (On-Demand Services)
+
+When you need on-demand startup:
+1. Create a .socket unit (the "doorbell") to listen on a Unix socket or TCP port
+2. Modify the .service unit:
+- Use `StandardInput=socket`
+- Ensure ExecStart uses the same address/path as the socket unit
+1. Prefer activation via socket (omit the [Install] section in the service)
+2. Have client services depend on the .socket, not the .service
+3. Test:
+- `systemctl --user status <unit>.socket`
+- Connect a client; service should auto-start
+
+Performance Decision (Local-first):
+- Use Unix domain sockets for local connections (lower latency, secure by fs permissions)
+- Use SSH socket forwarding for remote access (no direct TCP exposure)
+- Document your choice and trade-offs
+
+Reference:
+- [Neovim server socket activation design](#literateconfigneovimservicesservicesnorgmd)
 
 
 ## Questions for Future Investigation
@@ -371,6 +421,19 @@ Current platforms detected:
 Template files found: 5 (.tmpl files for PowerShell, Fish, Aerc, etc.)
 
 
+## Remote Access Patterns (Local-first tools)
+
+- Optimize for local performance first (Unix socket)
+- Expose remote access via SSH socket forwarding (no direct TCP exposure)
+- Document both local and remote connection flows
+
+SSH socket forwarding:
+```bash
+ssh -L /tmp/nvim-remote.sock:/home/<user>/.cache/nvim/server.pipe <user>@<host>
+nvim --server /tmp/nvim-remote.sock --remote-ui
+```
+
+
 ## Repository Health Check Commands
 
 
@@ -392,8 +455,167 @@ ls -la dot_config/remove_nvim/lua/remove_plugins/ | grep -v "^total"
 ```
 
 
+## Directory Structure and Organization Patterns
+
+
+When creating new norg files, follow the logical conceptual hierarchy, not just tool categories:
+
+
+### Good Directory Examples
+
+- `shells/prompts/starship/` - prompts are a subcategory of shell tooling
+- `neovim/neovide/` - neovide is a neovim GUI, not a terminal emulator
+- `desktop_environments/hyprland/` - specific to that DE
+
+
+### Bad Directory Examples
+
+- `shells/starship/` - too generic, prompts deserve their own subcategory
+- `terminal_emulators/neovide/` - wrong conceptual grouping
+
+
+### Tangle Path Best Practices
+
+Prefer local tangling:
+```norg
+#tangle config.toml  ✅
+```
+
+Over complex relative paths:
+```norg
+#tangle ../../dot_config/tool/config.toml  ❌
+```
+
+Then create symlinks from the local tangled file to the chezmoi destination.
+
+
+### Norg Syntax Conventions
+
+Internal cross-references:
+```norg
+{:$/path/to/file.norg:}[Link text]  ✅
+```
+
+External links:
+```norg
+{https://example.com}[Link text]  ✅
+```
+
+Emphasis:
+```norg
+*bold text*  ✅ (not **bold text**)
+```
+
+
+### Research Before Creating
+
+Always check existing patterns:
+```bash
+# Find similar tools to understand directory structure
+find literate_config/ -name "*similar_tool*"
+
+# Check existing tangle patterns
+grep -r "#tangle" literate_config/ | grep -v "\.norg:" | head -5
+
+# Look for established naming conventions
+ls literate_config/*/
+```
+
+
+### Content Structure Template
+
+Every new norg file should include:
+1. **Overview** - What the tool does and why we use it
+2. **Configuration Philosophy** - Our approach and principles
+3. **System Integration** - How it connects to other tools
+4. **Current Configuration** - The actual config with tangle directive
+5. **Testing** - How to verify it works
+6. **References** - Links to docs and related configs
+
+
+### Migration Workflow Checklist
+
+When migrating unmanaged files to literate config:
+- [ ] Research existing directory structure for similar tools
+- [ ] Check if tool is already referenced in other norg files
+- [ ] Use simple local tangle paths
+- [ ] Document integration points with other tools
+- [ ] Include testing and troubleshooting sections
+- [ ] Use proper norg syntax for links and emphasis
+- [ ] Verify symlinks are created correctly
+- [ ] Test with `chezmoi apply --dry-run` before applying
+
+
+## Command Reference Philosophy
+
+- Prefer patterns and templates over exact commands
+- Focus on workflow and intent; link official docs for details
+- Keep examples brief and update them only when the workflow changes
+
+
+## Architecture Decision Record (ADR) Template (REQUIRED for non-trivial changes)
+
+- **Problem**: What are we solving? Why now?
+- **Options considered**: (A, B, C) with short pros/cons
+- **Decision**: What we chose and why it fits our principles
+- **Trade-offs**: What we gave up (performance, complexity, portability, etc.)
+- **Context**: Local-first? Security-first? Remote? Resource constraints?
+- **Testing**: How we validated the decision (commands, success criteria)
+- **Migration**: Steps to move from old state to new
+
+Example (neovim server):
+- Problem: Persistent neovim service wasted resources; wanted shared buffers on demand
+- Options: TCP-only (simple), Unix-only (optimal local), dual services (complex)
+- Decision: Unix socket + SSH socket forwarding (local-first)
+- Trade-offs: Slightly more complex remote use; gained best local latency
+- Testing: systemd socket status; client attach; journal logs
+
+
+## Human-Bot Collaboration Guidelines
+
+**Ask first when**:
+- Changes affect multiple subsystems or core workflows
+- There are security or performance trade-offs
+- Source of truth is unclear
+
+**Proceed (with doc updates) when**:
+- Following established patterns
+- Implementing a previously agreed design
+- Adding documentation/tests/symlinks within existing conventions
+
+
+## Session Handoff Checklist
+
+- [ ] Record new learnings in this file
+- [ ] Document incomplete work with a clear todo list
+- [ ] Note open questions for future agents/humans
+- [ ] Verify generated files and symlinks exist and point correctly
+- [ ] `chezmoi status` shows intent; avoid unintentional changes
+
+
 ## Agent Learning Log
 
+
+
+### 2025-08-24 - Neovim Socket Activation Implementation
+
+- **Task**: Implemented on-demand neovim server with systemd socket activation
+- **Architecture Decision**: Chose Unix domain sockets over TCP for local-first development model
+- **Key Learning**: Socket activation requires careful coordination between .socket and .service units
+- **Performance Rationale**: Unix sockets (~1-2μs) vs TCP localhost (~10-20μs) latency matters for text editor responsiveness
+- **Remote Access Strategy**: SSH socket forwarding for weak nodes (phones, tablets) connecting to strong edges
+- **Files Modified**: 
+- `literate_config/neovim/services/services.norg` - Complete rewrite with socket activation architecture
+- `neovim-server.socket` - New socket unit for on-demand activation
+- `neovimServer.service` - Modified for socket activation with StandardInput=socket
+- `neovideWindow.service` - Updated dependencies for socket-based startup
+- **Symlink Management**: Created `neovim-server.socket` symlink in `dot_config/systemd/remove_user/`
+- **Testing Commands**: 
+- `systemctl --user status neovim-server.socket` - Check socket status
+- `nvim --server ~/.cache/nvim/server.pipe --remote-ui` - Test local connection
+- SSH socket forwarding: `ssh -L /tmp/nvim.sock:/home/user/.cache/nvim/server.pipe user@server`
+- **Migration Path**: Stop old always-on service, enable socket unit, restart clients
+- **Workflow Lesson**: Always check if files are generated from .norg before editing directly (violated this with AGENTS.md)
 
 
 ### 2025-08-23 - Initial Documentation Agent
@@ -406,24 +628,13 @@ ls -la dot_config/remove_nvim/lua/remove_plugins/ | grep -v "^total"
 - Found platform-specific template patterns using chezmoi conditionals
 - mkosi.conf exists but minimal - ready for expansion
 
-### 2025-08-23 - Norg Code Block Formatting Implementation
 
-**Problem Solved:** Norg files had poorly formatted code blocks that were hard to read compared to generated files.
+### 2025-08-23 - Starship/Neovide Migration Agent
 
-**Key Discovery:** Conform.nvim has built-in `injected` formatter support for embedded code blocks - no custom code needed!
-
-**Implementation:**
-- Added `:norg [:injected]` to conform's `formatters_by_ft` configuration
-- Added `<localleader>gf` hotkey in norg ftplugin for buffer-local formatting
-- Uses treesitter to detect `@code <lang>` blocks and format with appropriate tools
-
-**Lessons Learned:**
-- Always check if existing tools have built-in solutions before writing custom code
-- Conform's injected formatter is perfect for literate programming workflows
-- Buffer-local mappings in ftplugin are better than global mappings for file-specific features
-- The `injected` formatter preserves document structure while formatting embedded code
-- This approach scales automatically with any new formatters added to conform config
-
-**Files Modified:**
-- `literate_config/neovim/plugins/platforms/formatters.norg` - Added norg filetype
-- `literate_config/neovim/ftplugin/ftplugins.norg` - Added formatting hotkey and documentation
+- Successfully migrated starship.toml and neovide config.toml to literate config
+- **Key Learning**: Directory structure should follow logical conceptual hierarchy
+- **Mistake Made**: Initially placed starship in `shells/starship/` instead of `shells/prompts/starship/`
+- **Mistake Made**: Initially placed neovide in `terminal_emulators/neovide/` instead of `neovim/neovide/`
+- **Best Practice Discovered**: Use simple local tangle paths (`#tangle config.toml`) over complex relative paths
+- **Syntax Learning**: Proper norg cross-references use `{:$/path/to/file.norg:}[Link text]` format
+- **Content Structure**: Every norg file should include Overview, Philosophy, Integration, Config, Testing, References

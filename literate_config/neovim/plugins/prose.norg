@@ -4,7 +4,7 @@ description: plugins to help me write prose documents
 authors: primary_desktop
 categories: Neovim Plugins
 created: 2025-08-20T11:11:23-0800
-updated: 2025-08-23T10:12:58-0800
+updated: 2025-08-24T09:03:13-0800
 version: 1.1.1
 @end
 Neovim isnt just great for code, its also great for the structured writnig that we do all the time!
@@ -14,8 +14,7 @@ with just a few plugins, we are able to make our editing experience orders of ma
 #tangle prose.fnl
 @code fennel
 [{1 :MeanderingProgrammer/render-markdown.nvim
-  :dependencies [{1 :nvim-treesitter/nvim-treesitter}
-                 {1 :echasovski/mini.nvim}]
+  :dependencies [{1 :nvim-treesitter/nvim-treesitter}]
   :opts {:file_types [:markdown :Avante]}
   :ft [:markdown :Avante]}]
 @end

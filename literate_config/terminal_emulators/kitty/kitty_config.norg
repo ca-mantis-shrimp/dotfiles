@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Terminal Emulator Kitty
 tangle: kitty.conf
 created: 2025-07-20T20:30:00-0800
-updated: 2025-08-02T12:10:49-0800
+updated: 2025-08-24T11:39:33-0800
 version: 1.1.1
 @end
 
@@ -18,7 +18,7 @@ I dont really like that though, and I dont feel like converting the whole thing 
 ** fonts
    our font was chosen using the standard kitten for the task
    #tangle
-   @code conf
+   @code ini
    font_family      family="D2CodingLigature Nerd Font"
    bold_font        auto
    italic_font      auto
@@ -31,7 +31,7 @@ I dont really like that though, and I dont feel like converting the whole thing 
 ** clipboard
    the next piece we will do is allow different programs to gain access to the clipboard when run from kitty
    #tangle
-   @code conf
+   @code ini
    clipboard_control write-clipboard write-primary read-clipboard read-primary
    @end
 

@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-08-23T10:42:28-0800
+updated: 2025-08-24T09:07:07-0800
 version: 1.0.0
 @end
 = TOC
@@ -53,12 +53,16 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
 ** Index
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+** Llm
+  - {:$/Agents:}[Agents Direction] - Hand-written guidance for LLM agents working on the literate config
 ** Neovim
   - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
   - {:$/neovim/entry:}[Entry] - First and root files for the neovim configuration
   - {:$/neovim/config/config:}[Config] - Config Folder of files for configuring neovim-specific information
   - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
   - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
+** Neovim Gui
+  - {:$/neovim/neovide/neovide_config:}[Neovide Gui Configuration] - Literate configuration for Neovide, the GUI frontend for Neovim
 ** Neovim Platform Plugins
   - {:$/neovim/plugins/platforms/completion:}[Completion] - plugins for overhauling the default completion engine
   - {:$/neovim/plugins/platforms/formatters:}[Formatting Plugins] - Plugins to manage code file formatting
@@ -90,7 +94,11 @@ This creates a closed loop in which we can safely work on any and all of our com
 ** Shells Powershell
   - {:$/shells/powershell/powershell:}[Profile] - the bashrc equivalent for powershell
   - {:$/shells/powershell/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
+** Shells, Prompt
+  - {:$/shells/prompts/starship/starship_config:}[Starship Prompt Configuration] - Literate configuration for the Starship cross-shell prompt
 ** Terminal Emulator Kitty
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
+** Uncategorised
+  - {:$/neovim/services/services:}[Services] - Systemd services for on-demand neovim server with socket activation
 ** Version Control Git
   - {:$/git:}[Git Config] - All the git config in one place for this repo

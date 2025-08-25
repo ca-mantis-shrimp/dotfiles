@@ -1,0 +1,235 @@
+@document.meta
+title: Starship Prompt Configuration
+description: Literate configuration for the Starship cross-shell prompt
+author: primary_desktop
+categories: shells, prompt
+created: 2025-08-23T11:13:12-0800
+updated: 2025-08-23T20:37:13-0800
+version: 1.0.0
+@end
+
+* Overview
+  {https://starship.rs/}[Starship] is a minimal, blazing-fast, and infinitely customizable prompt for any shell.
+  We use it across all our shells (Fish, Bash, PowerShell) to provide a consistent prompt experience.
+
+* Configuration Philosophy
+  Our starship configuration focuses on:
+  - *Nerd Font Icons*: Rich visual symbols for different programming languages and tools
+  - *Comprehensive Language Support*: Icons for all major programming languages we use
+  - *OS Detection*: Proper symbols for different operating systems
+  - *Git Integration*: Clear branch and commit information
+  - *Minimal Performance Impact*: Fast prompt rendering across all platforms
+
+* Shell Integration
+  Starship is initialized in all our shell configurations:
+  - *Fish*: `starship init fish | source` in fish_config.norg:literate_config/shells/fish/fish_config.norg
+  - *Bash*: `eval "$(starship init bash)"` in bashrc.norg:literate_config/shells/bash/bashrc.norg  
+  - *PowerShell*: `Invoke-Expression (&starship init powershell)` in powershell_config.norg:literate_config/shells/powershell/powershell_config.norg
+
+* Current Configuration
+  The configuration is primarily focused on setting Nerd Font icons for various tools and languages.
+  This ensures a consistent visual experience across all development environments.
+
+  #tangle config.toml
+  @code toml
+  [aws]
+  symbol = "  "
+
+  [buf]
+  symbol = " "
+
+  [c]
+  symbol = " "
+
+  [cmake]
+  symbol = " "
+
+  [conda]
+  symbol = " "
+
+  [crystal]
+  symbol = " "
+
+  [dart]
+  symbol = " "
+
+  [directory]
+  read_only = " 󰌾"
+
+  [docker_context]
+  symbol = " "
+
+  [elixir]
+  symbol = " "
+
+  [elm]
+  symbol = " "
+
+  [fennel]
+  symbol = " "
+
+  [fossil_branch]
+  symbol = " "
+
+  [git_branch]
+  symbol = " "
+
+  [git_commit]
+  tag_symbol = '  '
+
+  [golang]
+  symbol = " "
+
+  [guix_shell]
+  symbol = " "
+
+  [haskell]
+  symbol = " "
+
+  [haxe]
+  symbol = " "
+
+  [hg_branch]
+  symbol = " "
+
+  [hostname]
+  ssh_symbol = " "
+
+  [java]
+  symbol = " "
+
+  [julia]
+  symbol = " "
+
+  [kotlin]
+  symbol = " "
+
+  [lua]
+  symbol = " "
+
+  [memory_usage]
+  symbol = "󰍛 "
+
+  [meson]
+  symbol = "󰔷 "
+
+  [nim]
+  symbol = "󰆥 "
+
+  [nix_shell]
+  symbol = " "
+
+  [nodejs]
+  symbol = " "
+
+  [ocaml]
+  symbol = " "
+
+  [os.symbols]
+  Alpaquita = " "
+  Alpine = " "
+  AlmaLinux = " "
+  Amazon = " "
+  Android = " "
+  Arch = " "
+  Artix = " "
+  CachyOS = " "
+  CentOS = " "
+  Debian = " "
+  DragonFly = " "
+  Emscripten = " "
+  EndeavourOS = " "
+  Fedora = " "
+  FreeBSD = " "
+  Garuda = "󰛓 "
+  Gentoo = " "
+  HardenedBSD = "󰞌 "
+  Illumos = "󰈸 "
+  Kali = " "
+  Linux = " "
+  Mabox = " "
+  Macos = " "
+  Manjaro = " "
+  Mariner = " "
+  MidnightBSD = " "
+  Mint = " "
+  NetBSD = " "
+  NixOS = " "
+  Nobara = " "
+  OpenBSD = "󰈺 "
+  openSUSE = " "
+  OracleLinux = "󰌷 "
+  Pop = " "
+  Raspbian = " "
+  Redhat = " "
+  RedHatEnterprise = " "
+  RockyLinux = " "
+  Redox = "󰀘 "
+  Solus = "󰠳 "
+  SUSE = " "
+  Ubuntu = " "
+  Unknown = " "
+  Void = " "
+  Windows = "󰍲 "
+
+  [package]
+  symbol = "󰏗 "
+
+  [perl]
+  symbol = " "
+
+  [php]
+  symbol = " "
+
+  [pijul_channel]
+  symbol = " "
+
+  [python]
+  symbol = " "
+
+  [rlang]
+  symbol = "󰟔 "
+
+  [ruby]
+  symbol = " "
+
+  [rust]
+  symbol = "󱘗 "
+
+  [scala]
+  symbol = " "
+
+  [swift]
+  symbol = " "
+
+  [zig]
+  symbol = " "
+
+  [gradle]
+  symbol = " "
+  @end
+
+* Key Features Explained
+  - *Language Icons*: Each programming language gets a distinctive Nerd Font icon
+  - *OS Symbols*: Comprehensive OS detection with appropriate icons for each distribution
+  - *Git Integration*: Branch and commit symbols for version control awareness
+  - *Directory Status*: Read-only directory indicator
+  - **SSH Context**: Special symbol when connected via SSH
+
+* Testing
+  To verify the starship configuration:
+  - Command to test: `starship config` (validates configuration syntax)
+  - Expected behavior: Prompt should display appropriate icons for current directory context
+  - Visual check: Icons should render properly with a Nerd Font installed
+
+* Performance Notes
+  Starship is designed to be fast, but our configuration is minimal to ensure:
+  - Quick prompt rendering across all shells
+  - Consistent behavior on different machines
+  - No heavy computations or network calls
+
+* References
+  - {https://starship.rs/config/}[Official docs]
+  - {https://www.nerdfonts.com/}[Nerd Fonts]
+  - Related configs: 
+  -- All shell configurations in literate_config/shells/

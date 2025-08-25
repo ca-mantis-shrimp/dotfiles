@@ -4,7 +4,7 @@ description: Config Folder of files for configuring neovim-specific information
 authors: Darrion Burgess
 categories: Neovim
 created: 2025-07-26T23:48:23-0800
-updated: 2025-08-23T12:55:53-0800
+updated: 2025-08-23T18:27:37-0800
 version: 1.1.1
 @end
 Configuration is an interesting topic in Neovim because there are just so many ways to approach it.
