@@ -4,13 +4,14 @@ description: Hand-written guidance for LLM agents working on the literate config
 authors: primary_desktop
 categories: LLM
 created: 2025-08-23T10:42:54-0800
-updated: 2025-08-25T19:26:56-0800
-version: 2.1.0
+updated: 2025-08-25T21:55:00-0800
+version: 2.2.0
 @end
 * Action Zone (Read This First)
 
 ** Golden Rules
    - Edit only .norg. Never edit generated files (.fnl/.lua/.conf/.tmpl) directly.
+   - Never edit exported docs directly (e.g., AGENTS.md). Always edit `literate_config/Agents.norg`, then export.
    - Prefer simple local #tangle targets; use symlinks for chezmoi destinations.
    - Always run `chezmoi apply --dry-run` before applying changes.
    - If the source of truth is unclear, stop and ask the human.
@@ -27,6 +28,7 @@ version: 2.1.0
    :e <target>.lua | :w   # only if fennel
    chezmoi apply --dry-run --verbose
    chezmoi apply
+   # If Neovim/tangling is unavailable (headless), update generated files to match .norg, commit, and add a TODO to retangle later. Do NOT hand-edit exported docs.
    # log a brief note in "Agent Learning Log" below
    @end
 
@@ -41,6 +43,7 @@ version: 2.1.0
    - Edit the .norg (update prose + code together).
    - :Neorg tangle current-file.
    - If fennel: open .fnl → :w → open .lua → :w.
+   - If headless (no Neovim): reflect changes in generated files as a temporary bridge, but keep .norg authoritative and add a TODO to retangle/export later.
    - Ensure/verify symlink (don’t duplicate existing links).
    - chezmoi apply --dry-run → apply when correct.
 
@@ -276,6 +279,7 @@ version: 2.1.0
    - Always check if symlinks exist before creating new ones
    - The `.nvim.lua` file in literate_config sets `makeprg = "chezmoi apply"` so you can use `:make` in neovim
    - Some norg files generate multiple output files - check the #tangle directives carefully
+   - Headless environments: don’t edit AGENTS.md or other exports directly as a workaround; leave a TODO to export later and keep .norg authoritative.
 
 ** Tangle Troubleshooting
    Symptoms and fixes:
@@ -529,7 +533,12 @@ ls literate_config/*/
    - *Trade-offs*: What we gave up (performance, complexity, portability, etc.)
    - *Testing*: Commands and success criteria
    - *Migration*: Steps from old state to new
-
+ 
+   Micro-ADR (for small-but-nontrivial changes):
+   - Problem: …
+   - Decision: …
+   - Why: …
+ 
    Example (neovim server):
    - Problem: Persistent neovim service wasted resources; wanted shared buffers on demand
    - Options: TCP-only (simple), Unix-only (optimal local), dual services (complex)
