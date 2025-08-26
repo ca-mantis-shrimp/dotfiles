@@ -4,17 +4,67 @@ description: Hand-written guidance for LLM agents working on the literate config
 authors: primary_desktop
 categories: LLM
 created: 2025-08-23T10:42:54-0800
-updated: 2025-08-24T21:15:00-0800
-version: 2.0.0
+updated: 2025-08-25T19:26:56-0800
+version: 2.1.0
 @end
-Hello my robotic colleague, please consider this both your first source of direction, as well as your personal space to write notes and guidance for future robotic colleagues to know what they should know going forward.
+* Action Zone (Read This First)
 
-If all goes well, even if you cant solve a problem, you can help the next LLM that is given the action you were given
+** Golden Rules
+   - Edit only .norg. Never edit generated files (.fnl/.lua/.conf/.tmpl) directly.
+   - Prefer simple local #tangle targets; use symlinks for chezmoi destinations.
+   - Always run `chezmoi apply --dry-run` before applying changes.
+   - If the source of truth is unclear, stop and ask the human.
+   - For non-trivial changes, add a short ADR (why over what).
 
-The sections will go over topics that include:
-- what tools to use
-- how to properly build the workflow
-- how I expect you to interact with the code base
+** 60-second Quick Start (one command per line)
+   @code bash
+   git status
+   chezmoi status
+   rg -n "#tangle" literate_config | head -20
+   nvim literate_config/<target>.norg
+   :Neorg tangle current-file
+   :e <target>.fnl | :w   # only if fennel
+   :e <target>.lua | :w   # only if fennel
+   chezmoi apply --dry-run --verbose
+   chezmoi apply
+   # log a brief note in "Agent Learning Log" below
+   @end
+
+** Decision Tree (where to work)
+   - Is the target file generated? Yes → locate its .norg: `rg -n "#tangle.*<filename>" literate_config/`. No → should it be managed? If yes → create a .norg; else → ask human.
+   - Is this Neovim fennel? Yes → tangle → open .fnl :w → open .lua :w (stylua formats).
+   - Platform specific? Yes → use .tmpl with chezmoi conditionals; document them.
+   - Multiple outputs? Use the complex tangle map pattern.
+   - Unsure at any step? Ask human; do not proceed.
+
+** Workflow Pipeline (minimal)
+   - Edit the .norg (update prose + code together).
+   - :Neorg tangle current-file.
+   - If fennel: open .fnl → :w → open .lua → :w.
+   - Ensure/verify symlink (don’t duplicate existing links).
+   - chezmoi apply --dry-run → apply when correct.
+
+** Testing and Success Criteria
+   - Configs: tool validates syntax (if available); dry-run shows only intended changes.
+   - Neovim fennel: nvim starts clean; feature smoke test passes; stylua ran.
+   - systemd socket: socket active; client triggers service; logs clean.
+
+** Performance Playbook (keep it tight)
+   - Scope searches to literate_config/ by default; prefer ripgrep.
+   - Avoid full-repo scans and mass tangling; operate on current file only.
+   - Parallelize read-only checks (status + rg) when possible.
+   - Prefer Unix sockets locally; SSH socket forwarding for remote access.
+   - Capture minimal logs needed for verification.
+
+* Reference Zone (Details and Rationale)
+  Hello my robotic colleague, please consider this both your first source of direction, as well as your personal space to write notes and guidance for future robotic colleagues to know what they should know going forward.
+
+  If all goes well, even if you cant solve a problem, you can help the next LLM that is given the action you were given
+
+  The sections will go over topics that include:
+  - what tools to use
+  - how to properly build the workflow
+  - how I expect you to interact with the code base
 
 * Quick Start - Your First 5 Minutes
   Before diving into the philosophy, here's how to get oriented and make your first safe change:
@@ -23,10 +73,10 @@ The sections will go over topics that include:
    @code bash
    # Check what chezmoi knows about
    chezmoi status
-   
+
    # See the literate config structure
    find literate_config -name "*.norg" | head -10
-   
+
    # Check for any pending changes
    git status
    @end
@@ -37,7 +87,7 @@ The sections will go over topics that include:
    @code bash
    # 1. Open the git norg file
    nvim literate_config/git.norg
-   
+
    # 2. In neovim, find a safe place to add a comment
    # 3. Add something like: # Added by agent on [date]
    # 4. Save the file (:w)
@@ -56,18 +106,17 @@ The sections will go over topics that include:
 ** Step 4: Common Commands Reference
    @code bash
    # In neovim with a .norg file open:
-   :Neorg tangle current-file    # Generate the target file
-   :Neorg export to-file <path>  # Export to markdown (for docs)
-   
+   :Neorg tangle current-file
+   :Neorg export to-file <path>
+
    # For fennel files (neovim config):
-   # 1. Tangle the .norg to create .fnl
-   # 2. Open the .fnl file and save it (:w) to trigger lua generation
-   # 3. Open the .lua file and save it (:w) to trigger stylua formatting
-   
+   :e <file>.fnl | :w
+   :e <file>.lua | :w
+
    # Testing and applying:
-   chezmoi apply --dry-run       # See what would change
-   chezmoi apply                 # Actually apply changes
-   chezmoi apply --force         # Force apply (use carefully)
+   chezmoi apply --dry-run
+   chezmoi apply
+   chezmoi apply --force
    @end
 
 ** Step 5: Before You Break Things Checklist
@@ -80,8 +129,8 @@ The sections will go over topics that include:
 ** Architecture Mental Model
    @code
    .norg files → tangle → .fnl/.conf files → compile/symlink → chezmoi → applied config
-        ↑                                                                      ↓
-        └─────────────── feedback loop (test, iterate) ←──────────────────────┘
+	↑                                                                      ↓
+	└─────────────── feedback loop (test, iterate) ←──────────────────────┘
    @end
 
 ** When Things Go Wrong
@@ -146,38 +195,38 @@ The sections will go over topics that include:
    @code bash
    # 1. Edit the norg file
    nvim literate_config/neovim/plugins/navigation.norg
-   
+
    # 2. In neovim, make your changes, then:
    :w                           # Save the norg file
    :Neorg tangle current-file   # Generate the .fnl file
-   
+
    # 3. Open the generated fennel file
    :e navigation.fnl            # Open in same neovim session
    :w                           # Save to trigger nfnl compilation to .lua
-   
+
    # 4. Open the lua file to format it
    :e navigation.lua            # Open the generated lua file
    :w                           # Save to trigger stylua formatting
-   
+
    # 5. Ensure symlink exists (if this is a new file)
    # Check: ls -la ../../dot_config/remove_nvim/lua/remove_plugins/
    # Create if needed: ln -s ../../../literate_config/neovim/plugins/navigation.lua ../../dot_config/remove_nvim/lua/remove_plugins/navigation.lua
-   
+
    # 6. Apply the changes
    chezmoi apply --dry-run      # Check what will change
    chezmoi apply                # Actually apply
    @end
 
-  Again, chezmoi is the underlying system of this so be sure to familiarize yourself with how chezmoi handles the source state. In particular, you will notice that you get allot of information about the layout of the files just from looking at the layout of the repository since all chezmoi really does is clone the state of the repository to the target machine. Therefore, you can get allot of context about where i file should go/be just by looking at the hierarchy.
+   Again, chezmoi is the underlying system of this so be sure to familiarize yourself with how chezmoi handles the source state. In particular, you will notice that you get allot of information about the layout of the files just from looking at the layout of the repository since all chezmoi really does is clone the state of the repository to the target machine. Therefore, you can get allot of context about where i file should go/be just by looking at the hierarchy.
 
-  This will also be important when you are deploying so you know WHERE to symlink the file from and even where to put it because features like prefixes can be tricky at first
+   This will also be important when you are deploying so you know WHERE to symlink the file from and even where to put it because features like prefixes can be tricky at first
 
-  Once the symlink is created, you use the `chezmoi` cli to actually APPLY the changes. 
-  your bread-and-butter will be `chezmoi apply` with the `--force` flag if you are very confident the changes wont overwrite anything important 
+   Once the symlink is created, you use the `chezmoi` cli to actually APPLY the changes. 
+   your bread-and-butter will be `chezmoi apply` with the `--force` flag if you are very confident the changes wont overwrite anything important 
 
-  This is also a git repo remember, so periodically `git push origin` and `git fetch` to make sure you have the latest versions. This is a personal config so you shouldnt be fighting with other people it would likely be config coming from other machines
+   This is also a git repo remember, so periodically `git push origin` and `git fetch` to make sure you have the latest versions. This is a personal config so you shouldnt be fighting with other people it would likely be config coming from other machines
 
-for documentation like this, you will use the neovim command `Neorg export to-file ...` command to generate a markdown file which is subtly different than tangling
+   for documentation like this, you will use the neovim command `Neorg export to-file ...` command to generate a markdown file which is subtly different than tangling
 
 * Testing
   While this is still experimental, I would like for you to simply be able to use the `mkosi` command to:
@@ -189,7 +238,7 @@ for documentation like this, you will use the neovim command `Neorg export to-fi
 
   but either way you can also hand it off to me to test since much of this will be something I need to test with my eyes and fingers, so it is again disciplined to ask me to do something rather than trying to make a programmatic test first.
 
-if you do make steps to test something in the literate config again that helps me remember and trust your work even if its not something i can run but something to run would be nice where possible or even again what i should be seeing if the configuration change is visual
+  if you do make steps to test something in the literate config again that helps me remember and trust your work even if its not something i can run but something to run would be nice where possible or even again what i should be seeing if the configuration change is visual
 
 * Agent Notes and Learnings
   This section is for future agents to leave notes about what they learned, common pitfalls, and improvements to the workflow.
@@ -199,25 +248,25 @@ if you do make steps to test something in the literate config again that helps m
    @code bash
    # Find which norg file controls a specific tool
    grep -r "tool_name" literate_config/
-   
+
    # Find all tangle directives to see what files are generated
    grep -r "#tangle" literate_config/
-   
+
    # Check for broken symlinks
    find . -type l -exec test ! -e {} \; -print
-   
+
    # See what chezmoi would do without doing it
    chezmoi apply --dry-run --verbose
    @end
 
 ** Source of Truth Checklist (Before Editing ANY File)
-   - [ ] Is this file generated? (If it looks like a compiled/transpiled/exported artifact, it probably is.)
+   - [ ] Is this file generated? If yes, locate its .norg and edit only that.
    - [ ] Search for a .norg source:
-     - `find literate_config/ -iname "*<filename-without-ext>*"`
-     - `grep -R "#tangle.*<filename>" literate_config/`
+   - `rg -n "#tangle.*<filename>" literate_config/`
+   - `find literate_config/ -iname "*<filename-without-ext>*"`
    - [ ] If found in .norg, edit the .norg, NOT the generated file
    - [ ] If uncertain, ASK THE HUMAN first before touching it
-   - [ ] For neovim: Never edit .lua (compiled from .fnl) or .fnl (tangled from .norg)
+   - [ ] For neovim: Never edit .lua or .fnl directly; regenerate from .norg
    - [ ] For docs: Prefer "Neorg export to-file …" over hand-editing .md
 
 ** Common Gotchas Discovered
@@ -252,13 +301,13 @@ if you do make steps to test something in the literate config again that helps m
    When you need on-demand startup:
    ~ Create a .socket unit (the "doorbell") to listen on a Unix socket or TCP port
    ~ Modify the .service unit:
-     - Use `StandardInput=socket`
-     - Ensure ExecStart uses the same address/path as the socket unit
+   - Use `StandardInput=socket`
+   - Ensure ExecStart uses the same address/path as the socket unit
    ~ Prefer activation via socket (omit the [Install] section in the service)
    ~ Have client services depend on the .socket, not the .service
    ~ Test:
-     - `systemctl --user status <unit>.socket`
-     - Connect a client; service should auto-start
+   - `systemctl --user status <unit>.socket`
+   - Connect a client; service should auto-start
 
    Performance Decision (Local-first):
    - Use Unix domain sockets for local connections (lower latency, secure by fs permissions)
@@ -276,20 +325,20 @@ if you do make steps to test something in the literate config again that helps m
 
 ** Tangle Directive Patterns Reference
 
-Two main patterns for tangle directives discovered in the codebase:
+   Two main patterns for tangle directives discovered in the codebase:
 
 *** Simple Tangle (Most Common - 90% of files)
-@code norg
+    @code norg
 #tangle filename.ext
 @code language
 content here
-@end
-@end
+    @end
+    @end
 
-Examples: navigation.norg → navigation.fnl, kitty_config.norg → kitty.conf
+    Examples: navigation.norg → navigation.fnl, kitty_config.norg → kitty.conf
 
 *** Complex Tangle (Multiple Outputs)
-@code norg
+    @code norg
 tangle: {
     key1: path/to/file1
     key2: path/to/file2
@@ -297,31 +346,31 @@ tangle: {
 #tangle key1
 @code language
 content for file1
-@end
-#tangle key2  
-@code language
+    @end
+    #tangle key2  
+    @code language
 content for file2
-@end
-@end
+    @end
+    @end
 
-Example: git.norg generates both .gitignore and dot_gitconfig.tmpl
+    Example: git.norg generates both .gitignore and dot_gitconfig.tmpl
 
 ** File Type Workflow Matrix
 
-Based on analysis of 33+ norg files with tangle directives:
+   Based on analysis of 33+ norg files with tangle directives:
 
-| Source Type | Steps | Commands | Example |
-|-------------|-------|----------|---------|
-| Config files (.conf, .toml, etc.) | 1 | `:Neorg tangle current-file` | kitty.conf, hyprland.conf |
-| Neovim plugins (.fnl → .lua) | 3 | `:Neorg tangle current-file` → open .fnl → `:w` → open .lua → `:w` | navigation.norg → navigation.fnl → navigation.lua |
-| Shell scripts | 1 | `:Neorg tangle current-file` | nvim_paste_wsl.norg → .sh |
-| Templates (.tmpl) | 1 | `:Neorg tangle current-file` | Profile.ps1.tmpl, config.fish.tmpl |
+   | Source Type | Steps | Commands | Example |
+   |-------------|-------|----------|---------|
+   | Config files (.conf, .toml, etc.) | 1 | `:Neorg tangle current-file` | kitty.conf, hyprland.conf |
+   | Neovim plugins (.fnl → .lua) | 3 | `:Neorg tangle current-file` → open .fnl → `:w` → open .lua → `:w` | navigation.norg → navigation.fnl → navigation.lua |
+   | Shell scripts | 1 | `:Neorg tangle current-file` | nvim_paste_wsl.norg → .sh |
+   | Templates (.tmpl) | 1 | `:Neorg tangle current-file` | Profile.ps1.tmpl, config.fish.tmpl |
 
 ** Symlink Verification Commands
 
-Current state: 17 neovim plugin files properly symlinked
+   Current state: 17 neovim plugin files properly symlinked
 
-@code bash
+   @code bash
 # Check if symlinks exist for neovim plugins
 ls -la dot_config/remove_nvim/lua/remove_plugins/
 
@@ -333,35 +382,35 @@ find . -type l -exec test ! -e {} \; -print
 
 # Count symlinked files
 ls -la dot_config/remove_nvim/lua/remove_plugins/ | wc -l
-@end
+   @end
 
 ** mkosi Testing Status
 
-Current mkosi.conf is minimal but functional:
-- Base Arch Linux with essential packages (base, linux, linux-firmware)
-- Includes git, neovim, chezmoi for basic testing
-- Creates /bin/bash symlink for compatibility
-- Ready for expansion with more comprehensive testing setup
+   Current mkosi.conf is minimal but functional:
+   - Base Arch Linux with essential packages (base, linux, linux-firmware)
+   - Includes git, neovim, chezmoi for basic testing
+   - Creates /bin/bash symlink for compatibility
+   - Ready for expansion with more comprehensive testing setup
 
-To use: `mkosi build` creates a test environment in ./mkosi.output/
+   To use: `mkosi build` creates a test environment in ./mkosi.output/
 
 ** Platform-Specific Patterns
 
-Template files use chezmoi conditionals for cross-platform support:
+   Template files use chezmoi conditionals for cross-platform support:
 
-@code
+   @code
 {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
 work-specific config
 {{ else }}
 personal config
 {{- end }}
-@end
+   @end
 
-Current platforms detected:
-- USMINDARBURGES1 (work machine)
-- Default (personal machines)
+   Current platforms detected:
+   - USMINDARBURGES1 (work machine)
+   - Default (personal machines)
 
-Template files found: 5 (.tmpl files for PowerShell, Fish, Aerc, etc.)
+   Template files found: 5 (.tmpl files for PowerShell, Fish, Aerc, etc.)
 
 ** Remote Access Patterns (Local-first tools)
    - Optimize for local performance first (Unix socket)
@@ -376,7 +425,7 @@ Template files found: 5 (.tmpl files for PowerShell, Fish, Aerc, etc.)
 
 ** Repository Health Check Commands
 
-@code bash
+   @code bash
 # Check chezmoi health
 chezmoi doctor
 
@@ -387,57 +436,57 @@ chezmoi apply --dry-run
 git status
 
 # Verify all tangle directives
-grep -r "#tangle" literate_config/ | wc -l  # Should be 33+
+rg -n "#tangle" literate_config/ | wc -l  # Should be 33+
 
 # Check for missing symlinks in neovim plugins
 ls -la dot_config/remove_nvim/lua/remove_plugins/ | grep -v "^total"
-@end
+   @end
 
 ** Directory Structure and Organization Patterns
 
-When creating new norg files, follow the logical conceptual hierarchy, not just tool categories:
+   When creating new norg files, follow the logical conceptual hierarchy, not just tool categories:
 
 *** Good Directory Examples
-- `shells/prompts/starship/` - prompts are a subcategory of shell tooling
-- `neovim/neovide/` - neovide is a neovim GUI, not a terminal emulator
-- `desktop_environments/hyprland/` - specific to that DE
+    - `shells/prompts/starship/` - prompts are a subcategory of shell tooling
+    - `neovim/neovide/` - neovide is a neovim GUI, not a terminal emulator
+    - `desktop_environments/hyprland/` - specific to that DE
 
 *** Bad Directory Examples
-- `shells/starship/` - too generic, prompts deserve their own subcategory
-- `terminal_emulators/neovide/` - wrong conceptual grouping
+    - `shells/starship/` - too generic, prompts deserve their own subcategory
+    - `terminal_emulators/neovide/` - wrong conceptual grouping
 
 *** Tangle Path Best Practices
-Prefer local tangling:
-@code norg
+    Prefer local tangling:
+    @code norg
 #tangle config.toml  ✅
-@end
+    @end
 
-Over complex relative paths:
-@code norg
+    Over complex relative paths:
+    @code norg
 #tangle ../../dot_config/tool/config.toml  ❌
-@end
+    @end
 
-Then create symlinks from the local tangled file to the chezmoi destination.
+    Then create symlinks from the local tangled file to the chezmoi destination.
 
 *** Norg Syntax Conventions
-Internal cross-references:
-@code norg
+    Internal cross-references:
+    @code norg
 {:$/path/to/file.norg:}[Link text]  ✅
-@end
+    @end
 
-External links:
-@code norg
+    External links:
+    @code norg
 {https://example.com}[Link text]  ✅
-@end
+    @end
 
-Emphasis:
-@code norg
+    Emphasis:
+    @code norg
 *bold text*  ✅ (not **bold text**)
-@end
+    @end
 
 *** Research Before Creating
-Always check existing patterns:
-@code bash
+    Always check existing patterns:
+    @code bash
 # Find similar tools to understand directory structure
 find literate_config/ -name "*similar_tool*"
 
@@ -446,27 +495,27 @@ grep -r "#tangle" literate_config/ | grep -v "\.norg:" | head -5
 
 # Look for established naming conventions
 ls literate_config/*/
-@end
+    @end
 
 *** Content Structure Template
-Every new norg file should include:
-~ *Overview* - What the tool does and why we use it
-~ *Configuration Philosophy* - Our approach and principles
-~ *System Integration* - How it connects to other tools
-~ *Current Configuration* - The actual config with tangle directive
-~ *Testing* - How to verify it works
-~ *References* - Links to docs and related configs
+    Every new norg file should include:
+    ~ *Overview* - What the tool does and why we use it
+    ~ *Configuration Philosophy* - Our approach and principles
+    ~ *System Integration* - How it connects to other tools
+    ~ *Current Configuration* - The actual config with tangle directive
+    ~ *Testing* - How to verify it works
+    ~ *References* - Links to docs and related configs
 
 *** Migration Workflow Checklist
-When migrating unmanaged files to literate config:
-- [ ] Research existing directory structure for similar tools
-- [ ] Check if tool is already referenced in other norg files
-- [ ] Use simple local tangle paths
-- [ ] Document integration points with other tools
-- [ ] Include testing and troubleshooting sections
-- [ ] Use proper norg syntax for links and emphasis
-- [ ] Verify symlinks are created correctly
-- [ ] Test with `chezmoi apply --dry-run` before applying
+    When migrating unmanaged files to literate config:
+    - [ ] Research existing directory structure for similar tools
+    - [ ] Check if tool is already referenced in other norg files
+    - [ ] Use simple local tangle paths
+    - [ ] Document integration points with other tools
+    - [ ] Include testing and troubleshooting sections
+    - [ ] Use proper norg syntax for links and emphasis
+    - [ ] Verify symlinks are created correctly
+    - [ ] Test with `chezmoi apply --dry-run` before applying
 
 ** Command Reference Philosophy
    - Prefer patterns and templates over exact commands
@@ -475,12 +524,11 @@ When migrating unmanaged files to literate config:
 
 ** Architecture Decision Record (ADR) Template (REQUIRED for non-trivial changes)
    - *Problem*: What are we solving? Why now?
-   - *Options considered*: (A, B, C) with short pros/cons
-   - *Decision*: What we chose and why it fits our principles
+   - *Options*: (A/B/C) with short pros/cons
+   - *Decision (why)*: One sentence on why this fits principles
    - *Trade-offs*: What we gave up (performance, complexity, portability, etc.)
-   - *Context*: Local-first? Security-first? Remote? Resource constraints?
-   - *Testing*: How we validated the decision (commands, success criteria)
-   - *Migration*: Steps to move from old state to new
+   - *Testing*: Commands and success criteria
+   - *Migration*: Steps from old state to new
 
    Example (neovim server):
    - Problem: Persistent neovim service wasted resources; wanted shared buffers on demand
@@ -510,38 +558,38 @@ When migrating unmanaged files to literate config:
 ** Agent Learning Log
 
 *** 2025-08-24 - Neovim Socket Activation Implementation
-- **Task**: Implemented on-demand neovim server with systemd socket activation
-- **Architecture Decision**: Chose Unix domain sockets over TCP for local-first development model
-- **Key Learning**: Socket activation requires careful coordination between .socket and .service units
-- **Performance Rationale**: Unix sockets (~1-2μs) vs TCP localhost (~10-20μs) latency matters for text editor responsiveness
-- **Remote Access Strategy**: SSH socket forwarding for weak nodes (phones, tablets) connecting to strong edges
-- **Files Modified**: 
-  - `literate_config/neovim/services/services.norg` - Complete rewrite with socket activation architecture
-  - `neovim-server.socket` - New socket unit for on-demand activation
-  - `neovimServer.service` - Modified for socket activation with StandardInput=socket
-  - `neovideWindow.service` - Updated dependencies for socket-based startup
-- **Symlink Management**: Created `neovim-server.socket` symlink in `dot_config/systemd/remove_user/`
-- **Testing Commands**: 
-  - `systemctl --user status neovim-server.socket` - Check socket status
-  - `nvim --server ~/.cache/nvim/server.pipe --remote-ui` - Test local connection
-  - SSH socket forwarding: `ssh -L /tmp/nvim.sock:/home/user/.cache/nvim/server.pipe user@server`
-- **Migration Path**: Stop old always-on service, enable socket unit, restart clients
-- **Workflow Lesson**: Always check if files are generated from .norg before editing directly (violated this with AGENTS.md)
+    - **Task**: Implemented on-demand neovim server with systemd socket activation
+    - **Architecture Decision**: Chose Unix domain sockets over TCP for local-first development model
+    - **Key Learning**: Socket activation requires careful coordination between .socket and .service units
+    - **Performance Rationale**: Unix sockets (~1-2μs) vs TCP localhost (~10-20μs) latency matters for text editor responsiveness
+    - **Remote Access Strategy**: SSH socket forwarding for weak nodes (phones, tablets) connecting to strong edges
+    - **Files Modified**: 
+    - `literate_config/neovim/services/services.norg` - Complete rewrite with socket activation architecture
+    - `neovim-server.socket` - New socket unit for on-demand activation
+    - `neovimServer.service` - Modified for socket activation with StandardInput=socket
+    - `neovideWindow.service` - Updated dependencies for socket-based startup
+    - **Symlink Management**: Created `neovim-server.socket` symlink in `dot_config/systemd/remove_user/`
+    - **Testing Commands**: 
+    - `systemctl --user status neovim-server.socket` - Check socket status
+    - `nvim --server ~/.cache/nvim/server.pipe --remote-ui` - Test local connection
+    - SSH socket forwarding: `ssh -L /tmp/nvim.sock:/home/user/.cache/nvim/server.pipe user@server`
+    - **Migration Path**: Stop old always-on service, enable socket unit, restart clients
+    - **Workflow Lesson**: Always check if files are generated from .norg before editing directly (violated this with AGENTS.md)
 
 *** 2025-08-23 - Initial Documentation Agent
-- Explored 33+ norg files with tangle directives
-- Confirmed symlink structure (17 neovim plugins properly linked)
-- Verified chezmoi health (working tree dirty but functional)
-- Identified two tangle patterns: simple (#tangle file) and complex (tangle: {key: path})
-- Documented file type workflows: 1-step for configs, 3-step for fennel→lua
-- Found platform-specific template patterns using chezmoi conditionals
-- mkosi.conf exists but minimal - ready for expansion
+    - Explored 33+ norg files with tangle directives
+    - Confirmed symlink structure (17 neovim plugins properly linked)
+    - Verified chezmoi health (working tree dirty but functional)
+    - Identified two tangle patterns: simple (#tangle file) and complex (tangle: {key: path})
+    - Documented file type workflows: 1-step for configs, 3-step for fennel→lua
+    - Found platform-specific template patterns using chezmoi conditionals
+    - mkosi.conf exists but minimal - ready for expansion
 
 *** 2025-08-23 - Starship/Neovide Migration Agent
-- Successfully migrated starship.toml and neovide config.toml to literate config
-- **Key Learning**: Directory structure should follow logical conceptual hierarchy
-- **Mistake Made**: Initially placed starship in `shells/starship/` instead of `shells/prompts/starship/`
-- **Mistake Made**: Initially placed neovide in `terminal_emulators/neovide/` instead of `neovim/neovide/`
-- **Best Practice Discovered**: Use simple local tangle paths (`#tangle config.toml`) over complex relative paths
-- **Syntax Learning**: Proper norg cross-references use `{:$/path/to/file.norg:}[Link text]` format
-- **Content Structure**: Every norg file should include Overview, Philosophy, Integration, Config, Testing, References
+    - Successfully migrated starship.toml and neovide config.toml to literate config
+    - **Key Learning**: Directory structure should follow logical conceptual hierarchy
+    - **Mistake Made**: Initially placed starship in `shells/starship/` instead of `shells/prompts/starship/`
+    - **Mistake Made**: Initially placed neovide in `terminal_emulators/neovide/` instead of `neovim/neovide/`
+    - **Best Practice Discovered**: Use simple local tangle paths (`#tangle config.toml`) over complex relative paths
+    - **Syntax Learning**: Proper norg cross-references use `{:$/path/to/file.norg:}[Link text]` format
+    - **Content Structure**: Every norg file should include Overview, Philosophy, Integration, Config, Testing, References

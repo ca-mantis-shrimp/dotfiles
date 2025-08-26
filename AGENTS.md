@@ -4,9 +4,74 @@ description: Hand-written guidance for LLM agents working on the literate config
 author: primary_desktop
 categories: LLM
 created: 2025-08-23T10:42:54-0800
-updated: 2025-08-24T21:15:00-0800
-version: 2.0.0
+updated: 2025-08-25T19:26:56-0800
+version: 2.1.0
 ---
+# Action Zone (Read This First)
+
+
+
+## Golden Rules
+
+- Edit only .norg. Never edit generated files (.fnl/.lua/.conf/.tmpl) directly.
+- Prefer simple local #tangle targets; use symlinks for chezmoi destinations.
+- Always run `chezmoi apply --dry-run` before applying changes.
+- If the source of truth is unclear, stop and ask the human.
+- For non-trivial changes, add a short ADR (why over what).
+
+
+## 60-second Quick Start (one command per line)
+
+```bash
+git status
+chezmoi status
+rg -n "#tangle" literate_config | head -20
+nvim literate_config/<target>.norg
+:Neorg tangle current-file
+:e <target>.fnl | :w   # only if fennel
+:e <target>.lua | :w   # only if fennel
+chezmoi apply --dry-run --verbose
+chezmoi apply
+# log a brief note in "Agent Learning Log" below
+```
+
+
+## Decision Tree (where to work)
+
+- Is the target file generated? Yes → locate its .norg: `rg -n "#tangle.*<filename>" literate_config/`. No → should it be managed? If yes → create a .norg; else → ask human.
+- Is this Neovim fennel? Yes → tangle → open .fnl :w → open .lua :w (stylua formats).
+- Platform specific? Yes → use .tmpl with chezmoi conditionals; document them.
+- Multiple outputs? Use the complex tangle map pattern.
+- Unsure at any step? Ask human; do not proceed.
+
+
+## Workflow Pipeline (minimal)
+
+- Edit the .norg (update prose + code together).
+- :Neorg tangle current-file.
+- If fennel: open .fnl → :w → open .lua → :w.
+- Ensure/verify symlink (don’t duplicate existing links).
+- chezmoi apply --dry-run → apply when correct.
+
+
+## Testing and Success Criteria
+
+- Configs: tool validates syntax (if available); dry-run shows only intended changes.
+- Neovim fennel: nvim starts clean; feature smoke test passes; stylua ran.
+- systemd socket: socket active; client triggers service; logs clean.
+
+
+## Performance Playbook (keep it tight)
+
+- Scope searches to literate_config/ by default; prefer ripgrep.
+- Avoid full-repo scans and mass tangling; operate on current file only.
+- Parallelize read-only checks (status + rg) when possible.
+- Prefer Unix sockets locally; SSH socket forwarding for remote access.
+- Capture minimal logs needed for verification.
+
+
+# Reference Zone (Details and Rationale)
+
 Hello my robotic colleague, please consider this both your first source of direction, as well as your personal space to write notes and guidance for future robotic colleagues to know what they should know going forward.
 
 If all goes well, even if you cant solve a problem, you can help the next LLM that is given the action you were given
@@ -66,18 +131,17 @@ Key patterns to recognize:
 
 ```bash
 # In neovim with a .norg file open:
-:Neorg tangle current-file    # Generate the target file
-:Neorg export to-file <path>  # Export to markdown (for docs)
+:Neorg tangle current-file
+:Neorg export to-file <path>
 
 # For fennel files (neovim config):
-# 1. Tangle the .norg to create .fnl
-# 2. Open the .fnl file and save it (:w) to trigger lua generation
-# 3. Open the .lua file and save it (:w) to trigger stylua formatting
+:e <file>.fnl | :w
+:e <file>.lua | :w
 
 # Testing and applying:
-chezmoi apply --dry-run       # See what would change
-chezmoi apply                 # Actually apply changes
-chezmoi apply --force         # Force apply (use carefully)
+chezmoi apply --dry-run
+chezmoi apply
+chezmoi apply --force
 ```
 
 
@@ -94,8 +158,8 @@ chezmoi apply --force         # Force apply (use carefully)
 
 ```
 .norg files → tangle → .fnl/.conf files → compile/symlink → chezmoi → applied config
-     ↑                                                                      ↓
-     └─────────────── feedback loop (test, iterate) ←──────────────────────┘
+�                                                                      ↓
+�─────────────── feedback loop (test, iterate) ←──────────────────────┘
 ```
 
 
@@ -245,13 +309,13 @@ chezmoi apply --dry-run --verbose
 
 ## Source of Truth Checklist (Before Editing ANY File)
 
-- [ ] Is this file generated? (If it looks like a compiled/transpiled/exported artifact, it probably is.)
+- [ ] Is this file generated? If yes, locate its .norg and edit only that.
 - [ ] Search for a .norg source:
+- `rg -n "#tangle.*<filename>" literate_config/`
 - `find literate_config/ -iname "*<filename-without-ext>*"`
-- `grep -R "#tangle.*<filename>" literate_config/`
 - [ ] If found in .norg, edit the .norg, NOT the generated file
 - [ ] If uncertain, ASK THE HUMAN first before touching it
-- [ ] For neovim: Never edit .lua (compiled from .fnl) or .fnl (tangled from .norg)
+- [ ] For neovim: Never edit .lua or .fnl directly; regenerate from .norg
 - [ ] For docs: Prefer "Neorg export to-file …" over hand-editing .md
 
 
@@ -329,8 +393,8 @@ Two main patterns for tangle directives discovered in the codebase:
 
 ```norg
 #tangle filename.ext
-@code language
-content here
+e language
+ent here
 ```
 @end
 
@@ -341,12 +405,12 @@ Examples: navigation.norg → navigation.fnl, kitty_config.norg → kitty.conf
 
 ```norg
 tangle: {
-    key1: path/to/file1
-    key2: path/to/file2
-}
-#tangle key1
-@code language
-content for file1
+key1: path/to/file1
+key2: path/to/file2
+
+gle key1
+e language
+ent for file1
 ```
 ``` language
 content for file2
@@ -376,16 +440,16 @@ Current state: 17 neovim plugin files properly symlinked
 
 ```bash
 # Check if symlinks exist for neovim plugins
-ls -la dot_config/remove_nvim/lua/remove_plugins/
+-la dot_config/remove_nvim/lua/remove_plugins/
 
-# Find all symlinks in repo
-find . -type l -ls
+ind all symlinks in repo
+d . -type l -ls
 
-# Verify symlink targets exist (should return nothing if all good)
-find . -type l -exec test ! -e {} \; -print
+erify symlink targets exist (should return nothing if all good)
+d . -type l -exec test ! -e {} \; -print
 
-# Count symlinked files
-ls -la dot_config/remove_nvim/lua/remove_plugins/ | wc -l
+ount symlinked files
+-la dot_config/remove_nvim/lua/remove_plugins/ | wc -l
 ```
 
 
@@ -408,10 +472,10 @@ Template files use chezmoi conditionals for cross-platform support:
 
 ```
 {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-work-specific config
-{{ else }}
-personal config
-{{- end }}
+k-specific config
+else }}
+sonal config
+ end }}
 ```
 
 Current platforms detected:
@@ -439,19 +503,19 @@ nvim --server /tmp/nvim-remote.sock --remote-ui
 
 ```bash
 # Check chezmoi health
-chezmoi doctor
+zmoi doctor
 
-# See what would change without applying
-chezmoi apply --dry-run
+ee what would change without applying
+zmoi apply --dry-run
 
-# Check git status
-git status
+heck git status
+ status
 
-# Verify all tangle directives
-grep -r "#tangle" literate_config/ | wc -l  # Should be 33+
+erify all tangle directives
+-n "#tangle" literate_config/ | wc -l  # Should be 33+
 
-# Check for missing symlinks in neovim plugins
-ls -la dot_config/remove_nvim/lua/remove_plugins/ | grep -v "^total"
+heck for missing symlinks in neovim plugins
+-la dot_config/remove_nvim/lua/remove_plugins/ | grep -v "^total"
 ```
 
 
@@ -512,13 +576,13 @@ Emphasis:
 Always check existing patterns:
 ```bash
 # Find similar tools to understand directory structure
-find literate_config/ -name "*similar_tool*"
+ literate_config/ -name "*similar_tool*"
 
-# Check existing tangle patterns
-grep -r "#tangle" literate_config/ | grep -v "\.norg:" | head -5
+eck existing tangle patterns
+ -r "#tangle" literate_config/ | grep -v "\.norg:" | head -5
 
-# Look for established naming conventions
-ls literate_config/*/
+ok for established naming conventions
+iterate_config/*/
 ```
 
 
@@ -556,12 +620,11 @@ When migrating unmanaged files to literate config:
 ## Architecture Decision Record (ADR) Template (REQUIRED for non-trivial changes)
 
 - **Problem**: What are we solving? Why now?
-- **Options considered**: (A, B, C) with short pros/cons
-- **Decision**: What we chose and why it fits our principles
+- **Options**: (A/B/C) with short pros/cons
+- **Decision (why)**: One sentence on why this fits principles
 - **Trade-offs**: What we gave up (performance, complexity, portability, etc.)
-- **Context**: Local-first? Security-first? Remote? Resource constraints?
-- **Testing**: How we validated the decision (commands, success criteria)
-- **Migration**: Steps to move from old state to new
+- **Testing**: Commands and success criteria
+- **Migration**: Steps from old state to new
 
 Example (neovim server):
 - Problem: Persistent neovim service wasted resources; wanted shared buffers on demand
