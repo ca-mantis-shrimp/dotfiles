@@ -4,8 +4,8 @@ description: Systemd services for on-demand neovim server with socket activation
 authors: primary_desktop
 categories: Neovim Service
 created: 2025-08-24T09:08:26-0800
-updated: 2025-08-24T21:16:08-0800
-version: 2.0.0
+updated: 2025-08-25T21:45:00-0800
+version: 2.1.0
 @end
 
 * Architecture Overview
@@ -115,7 +115,7 @@ The server service is now designed for socket activation - it only starts when c
 
   [Service]
   Type=exec
-  ExecStart=/usr/bin/nvim --headless --listen %h/.cache/nvim/server.pipe
+  ExecStart=/usr/bin/nvim --headless --embed
   StandardInput=socket
   StandardOutput=journal
   StandardError=journal
@@ -133,6 +133,7 @@ The server service is now designed for socket activation - it only starts when c
 Key changes for socket activation:
 - `Requires=neovim-server.socket`: Ensures socket unit is available
 - `StandardInput=socket`: Tells systemd to pass the established connection to neovim
+- `ExecStart` uses `--embed` (msgpack-RPC over stdio) and NOT `--listen` (which would double-bind the same path as the .socket unit)
 - `StandardOutput/Error=journal`: Proper logging for debugging
 - `TimeoutStopSec=10`: Clean shutdown timeout
 - `KillMode=mixed`: Graceful shutdown with fallback to force-kill
@@ -169,15 +170,16 @@ neovide --server /tmp/nvim-remote.sock
 - Follows principle of secure-by-default configuration
 
 ** Testing the Setup
-
+ 
 Local connection test:
 @code bash
 # Check if socket is listening
-systemctl --user status neovimServer.socket
-
-# Connect with TUI client
+systemctl --user status neovim-server.socket
+ 
+# Connect with TUI client (triggers socket activation)
+# Important: the service does NOT bind the socket; systemd passes the connection via stdio
 nvim --server ~/.cache/nvim/server.pipe --remote-ui
-
+ 
 # Check if service started
 systemctl --user status neovimServer.service
 @end
@@ -190,12 +192,18 @@ nvim --server /tmp/test.sock --remote-send ':echo "Remote connection works!"<CR>
 @end
 
 ** Troubleshooting
-
+ 
 Common issues:
 - *Socket file not found*: Check `systemctl --user status neovim-server.socket`
 - *Permission denied*: Verify socket file permissions and ownership
 - *Service won't start*: Check `journalctl --user -u neovimServer.service`
 - *Remote connection fails*: Verify SSH tunnel and socket path
+- *Socket is taken / address in use*: Ensure `ExecStart` uses `--embed` (not `--listen`); stop both units and remove stale path
+  @code bash
+  systemctl --user stop neovimServer.service neovim-server.socket
+  rm -f ~/.cache/nvim/server.pipe
+  systemctl --user start neovim-server.socket
+  @end
 
 ** Migration from Always-On Service
 
