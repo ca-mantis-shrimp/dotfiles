@@ -1,0 +1,27 @@
+@document.meta
+title: prose writing plugin
+description: plugins to help me write prose documents
+authors: primary_desktop
+categories: Neovim Plugins
+created: 2025-08-20T11:11:23-0800
+updated: 2025-08-24T09:03:13-0800
+version: 1.1.1
+@end
+Neovim isnt just great for code, its also great for the structured writnig that we do all the time!
+
+with just a few plugins, we are able to make our editing experience orders of magnitude better while still supporting our work in the structured pursuit of editing
+
+#tangle prose.fnl
+@code fennel
+[{1 :MeanderingProgrammer/render-markdown.nvim
+  :dependencies [{1 :nvim-treesitter/nvim-treesitter}]
+  :opts {:file_types [:markdown :Avante]}
+  :ft [:markdown :Avante]}]
+@end
+
+* rendering markdown
+  markdown is our primary writing medium and we are excited to go ahead and work that into our structure so this plugin just makes it easier to work with markdown files and makes them more pleasant to review from directly within the editor, or previewing necessary!
+** dependencies
+   we want this to run AFTER treesitter and mini.
+
+we also want to only run this when we are working with either markdown files or Avante files which are just markdown files for AI agents

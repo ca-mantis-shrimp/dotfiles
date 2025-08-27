@@ -1,0 +1,36 @@
+export (envsubst < ~/.env)
+
+set -gx WWW_HOME "http://www.duckduckgo.com"
+
+fish_add_path --append --path ~/.cargo/bin
+
+fish_vi_key_bindings
+
+{{ if eq .chezmoi.os "linux" }}
+{{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
+alias op="op.exe"
+{{ end }}
+{{ end }}
+
+{{- if not (env "TERMUX_VERSION") }}
+set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
+{{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
+alias op op.exe
+set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
+set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
+{{ else }}
+set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
+{{- end}}
+{{- end }}
+
+function RestartNvimServer
+ systemctl --user restart neovim-server
+end
+
+function SpawnNeovideWindow
+ systemctl --user start neovide-window
+end
+
+starship init fish | source
+
+nerdfetch

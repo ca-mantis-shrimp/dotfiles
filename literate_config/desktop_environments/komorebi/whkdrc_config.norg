@@ -1,0 +1,122 @@
+@document.meta
+title: wkhd config file
+description: Hotkey definitions for the Komorebi tiling wm
+authors: dargo
+categories: Desktop Environment Komorebi
+created: 2023-12-03T17:37:12-0800
+updated: 2025-07-20T20:03:16-0800
+tangle: ./dot_config/whkdrc
+version: 1.1.1
+@end
+{https://github.com/LGUG2Z/whkd}[whkd] is a tool primarily used to run the various commands of the `komorebic` CLI program and enable the ability to handle the work programatically
+
+while we can use autohotkey for this, and i really do want to transition to that sooner rather than later for the more robust control over window flow, we can use this as an initial setup and get working from here by converting this setup into an equivalent autohotkey script once i feel more at-home with the application itself
+* Config Commands
+  First we are going to set some setting and hotkeys that are primarily meant to get komorebi ready for the overall workflow
+  #tangle
+  @code bash
+  .shell powershell
+  @end
+  - we want to use powershell instead of the standard cmd shell
+  @code bash
+  alt + o                 : taskkill /f /im whkd.exe && Start-Process whkd -WindowStyle hidden
+  alt + shift + o         : komorebic reload-configuration
+  alt + p                 : komorebic toggle-pause
+  alt + shift + r         : komorebic retile
+  @end
+  - one hotkey turns restarts the two parts of komorebi (in our case, whkd and komorebi)
+  - while the other is simply meant to load changes to our standard komorebi config file and NOT changes to this file
+  - Another key to remember is the toggle-pause command which can temporarily disable komorebi for those times when you just need to go back to the standard windows setup temporarily, but plan to return ba
+  -- Great for games to ensure you arent tripping over the komorebi hotkeys while you play
+  - Another thing that will happen from time-to-time is that the pieces get out of what and you need to get everything back to a nice tiled format. this is where retiling can save you by putting the workspace back to what you would expect it to look like
+  -- a great example of this is when you increase or decrease zoom in windows. There is a slight increase in size of the window that quickly makes the whole thing look janky, this is a great way to resize and then change it back to the standard slicing afterwards.
+* Window Managment
+  Here, the influence of (Neo)Vim is apparent, as we adopt a similar style of movement as the standard movement keys within the neovim editor in order to move windows around.
+  We do this to get as close as possible to a seamless workflow acrossed the various layers of the operating system
+** Focus Windows
+   @code bash
+   alt + h                 : komorebic focus left
+   alt + j                 : komorebic focus down
+   alt + k                 : komorebic focus up
+   alt + l                 : komorebic focus right
+   alt + shift + oem_4     : komorebic cycle-focus previous # oem_4 is [
+   alt + shift + oem_6     : komorebic cycle-focus next # oem_6 is ]
+   @end
+   Primary way we are shifting from one window to another
+** Move Windows
+   @code bash
+   alt + shift + h         : komorebic move left
+   alt + shift + j         : komorebic move down
+   alt + shift + k         : komorebic move up
+   alt + shift + l         : komorebic move right
+   alt + shift + return    : komorebic promote
+   @end
+   These hotkeys effectively serve the purpose of both the `win + arrow keys` and the `ctrl + win + arrow keys` in windows, but with the added benefit of being able to move windows acrossed monitors as well as adjusting splits within the current monitor
+** Window Stacking
+   @code bash
+   alt + left              : komorebic stack left
+   alt + down              : komorebic stack down
+   alt + up                : komorebic stack up
+   alt + right             : komorebic stack right
+   alt + oem_1             : komorebic unstack # oem_1 is ;
+   alt + oem_4             : komorebic cycle-stack previous # oem_4 is [
+   alt + oem_6             : komorebic cycle-stack next # oem_6 is ]
+   @end
+   This is where things get funky. within the context of the tiling wm, the standard structure is being split, as opposed to stacked, however, windows is actually a stacking layout by design, meaning that ensuring we get through the various stacks is actually very important. spectifically, the `alt + oem_1` hotkey is an important tool for hoovering up application windows that have become orphaned because they were created in an unctrolled manner and are now hidden from the rest of the workspace
+   This effectively "resets" the stack and tries to make splits for all the various windows you are managing. From there, you can hide them away or otherwise update the workspace to your hearts desire
+   - I will also note that the `alt + shift + oem_4` and `alt + shift + oem_6` hotkeys are meant to be used in conjunction with the `alt + oem_4` and `alt + oem_6` hotkeys in order to cycle between applications that may be overlapping, effectively accomplishing what `alt + tab` does, but in a more controlled manner since we are only cycling the current workspace applications rather than all the applications acrossed the monitors
+** Window Resizing
+   @code bash
+   alt + oem_plus          : komorebic resize-axis horizontal increase
+   alt + oem_minus         : komorebic resize-axis horizontal decrease
+   alt + shift + oem_plus  : komorebic resize-axis vertical increase
+   alt + shift + oem_minus : komorebic resize-axis vertical decrease
+   @end
+   This is another feature that the standard windows manager simply doesnt have. We are able to programatically update the current window using these hotkeys to tweak and update the windows for exactly the size that we want
+   In addition, the various windows around this chunk will resize in turn! This is really where the tiling window manager starts to shine, because it gives you finite control over the structure of the workspace with just a few hotkeys and without the need to touch your mouse a single time!
+** Window focus modes
+   @code bash
+   alt + t                 : komorebic toggle-float
+   alt + shift + f         : komorebic toggle-monocle
+   @end
+   - we can toggle a window to go into "float" mode for a brief time, allowing what would otherwise be a rather cramped window to take over the whole of the display for a time
+   -- This evokes the vim feature of the same name that can make it easy to quickly focus on and complete a quick action, after which we want the window to either go back to the original layout, or be erased entirely
+   -- It also leaves the remaining windows behind the float, which can be used tactically to ensure you can have several layers of information put into a way that is compact and easy for the eye to review
+   - The monocle mode is similar to full-screen mode for other contexts. Instead of just taking up the middle portion of the screen, we can have an app take up the entire monitor temporarily instead
+   -- This can be useful for the act of reading, or otherwise focusing on a single task for a time
+   --- when you are done, you can go back to your split workspace without breaking your flow!
+** Layout Manipulation
+   @code bash
+   alt + x                 : komorebic flip-layout horizontal
+   alt + y                 : komorebic flip-layout vertical
+   @end
+   - We can flip the workspace horizonally if we need to change the top and bottom halves
+   - or do the same with the left and right halves of the screen
+* Workspaces
+  The other killer feature of komorebi is the fact that each monitor has its own workspace which makes the following hotkeys more precise than the equivalent in vanilla windows.
+
+  But we do now need to remember that each monitor has its own workspace, so we need to be able to move windows acrossed the various workspaces in order to get the desired effect
+  @code bash
+  alt + 1                 : komorebic focus-workspace 0
+  alt + 2                 : komorebic focus-workspace 1
+  alt + 3                 : komorebic focus-workspace 2
+  alt + 4                 : komorebic focus-workspace 3
+  alt + 5                 : komorebic focus-workspace 4
+  @end
+  i  So to carry on the earlier point this will only change to the workspace for the current monitor. as opposed to vanilla windows in which you would have to move to the new global workspace
+  @code bash
+  alt + shift + 1         : komorebic move-to-workspace 0
+  alt + shift + 2         : komorebic move-to-workspace 1
+  alt + shift + 3         : komorebic move-to-workspace 2
+  alt + shift + 4         : komorebic move-to-workspace 3
+  alt + shift + 5         : komorebic move-to-workspace 4
+  @end
+  Again, when we are moving an application to a different workspace, we are moving it within that monitor, so we just need to be careful to remember where we store certain applications within our workspaces so that we dont lose track while we are working
+* Custom Commands
+  The commands laid out here are where i start to diverge from the original version and make sure that i am able to add things to the configuration as i go rather than relying on what i can find over the internet to configure this application
+** Application Management
+   One topic that seems to be a bug or a gap in my knowledge is when the application is being "managed" by komorebi, since the windows that are created through less controlled means often end up not even being control by komorebi, im just not sure if i am using the default hotkeys wrong or if i need to explicitly add these orphaned applications
+   @code bash
+   alt + shift + m         : komorebic manage
+   @end
+   Here is my first attepmt to update the komorebi list so that the current application is addded to the management list. in theory, we are going to be able to add new windows as they are created

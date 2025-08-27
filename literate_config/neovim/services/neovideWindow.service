@@ -1,0 +1,13 @@
+[Unit]
+Description=Neovide GUI Instance (On-Demand Neovim Connection)
+Documentation=https://neovide.dev
+After=neovim-server.socket
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/neovide --server %h/.cache/nvim/server.pipe
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

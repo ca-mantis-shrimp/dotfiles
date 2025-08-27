@@ -17,3 +17,4 @@ intentions/*
 Session.vim
 Dockerfile
 .nvim.lua
+*.md

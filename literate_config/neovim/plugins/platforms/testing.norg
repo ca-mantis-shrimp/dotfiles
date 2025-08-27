@@ -1,0 +1,45 @@
+@document.meta
+title: testing plugins
+description: neotest config so we can test and review directly in neovim
+authors: primary_desktop
+categories: Neovim Platform Plugins
+created: 2025-08-21T21:10:49-0800
+updated: 2025-08-23T10:39:30-0800
+version: 1.1.1
+@end
+testing gets its own file because both the topic and the plugin of choice, `neotest` are BIG, and require special attention
+
+`neotest` tries to be mature and utilizes a plugin model in which we are actually running the various tests based on configuration for different filetypes.
+
+This makes it so that it doesnt all fall on the author to build bindings but it means we need to setup each language, both installing the deps and making sure its configured properly for updates in the future 
+
+#tangle testing.fnl
+@code fennel
+{1 :nvim-neotest/neotest
+ :dependencies [:nvim-neotest/nvim-nio
+                :antoinemadec/FixCursorHold.nvim
+                :nvim-neotest/neotest-python
+                :nvim-neotest/neotest-plenary]
+ :keys [{1 :<space>tn
+         2 #((. (. (require :neotest) :run) :run))
+         :desc "[t]est the [n]earest case"}
+        {1 :<space>tf
+         2 #((. (. (require :neotest) :run) :run) (_G.vim.fn.expand "%"))
+         :desc "[t]est the current [f]ile"}
+        {1 :<space>ts
+         2 #((. (. (require :neotest) :run) :run) {:suite true})
+         :desc "[t]est the [s]uite"}
+        {1 :<leader>ut
+         2 #((. (. (require :neotest) :summary) :toggle))
+         :desc "[u]i to [t]oggle neotest [s]ummary"}]
+ :config (fn []
+           ((. (require :neotest) :setup) {:adapters [((require :neotest-python) {:dap {:justMyCode false}})
+                                                      (require :neotest-plenary)]}))}
+
+@end
+- for now we are only setting up python and `plenary` which is for neovim lua specifically
+- otherwise, we are just setting up the hotkeys needed to make a basic testing workflow that assumes that the plugins are installed for the given structure including:
+-- `tn` for nearest test
+-- `tf` to test the file
+-- `ts` to test the suite
+-- `ut` to toggle the UI that is built for it

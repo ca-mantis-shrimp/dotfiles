@@ -1,0 +1,39 @@
+@document.meta
+title: Mini platform
+description: the config for the set of plugins from the creator of the mini platform
+authors: primary_desktop
+categories: Neovim Platform Plugins
+created: 2025-08-21T20:43:37-0800
+updated: 2025-08-23T10:39:11-0800
+version: 1.1.1
+@end
+some plugins are more like platforms in the form of plugins.
+
+in the infinite fight between keeping things small and composable, vs making things that "just work" and come together with a coherent design, these plugins try to cut the line down the middle.
+
+One such plugin is mini.nvim which can be thought of as a collection of plugins that can be enabled and disabled at will. In this way, it is very much like a toolbox of plugins that you can choose where you want to put your work to make it all work as one whole
+
+This is also why we are making a dedicated file for a seemingly small amount of config. This is all something where we want to enable the ability to disable and enable mini plugins from a single place so we can easily check what we do and dont have enabled
+#tangle mini.fnl
+@code fennel
+{1 :echasnovski/mini.nvim
+ :version "*"
+ :config (fn []
+           ((. (require :mini.ai) :setup) {:n_lines 500})
+           ((. (require :mini.surround) :setup))
+           ((. (require :mini.statusline) :setup))
+           ((. (require :mini.files) :setup))
+           ((. (require :mini.pick) :setup))
+           ((. (require :mini.sessions) :setup)))
+ :keys [[:n
+         :<leader>F
+         (fn []
+           ((. _G.MiniFiles :open)))
+         {:desc "Open File Explorer"}]]}
+@end
+- we use `ai` to enhance "around" objects like `a(` which enables us to extend the vim motions that are naturally under our fingers to the parts that probably should have been included all along
+- we use `surround` for surround hotkeys to make it easier to make updates with motions
+- we use `statusline` to get nice, icon-aware status bars (the thing at the bottom of our buffer) to give us context information
+- `files` is an innovative plugin that gives an oil-like experience from within the current buffer. wonderful example of the neovim TUI flexing its muscles and making something both functional and beautiful
+- `pick` is a telescope-like picker that allows us to pick from a selection of pretty much anything we want
+- finally, `session` is a session manager that makes it easier to actually work through the pieces that are necessary to get sessions seamlessley handled

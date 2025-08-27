@@ -1,0 +1,70 @@
+@document.meta
+title: Libraries
+description: Lua/vimscript needed for other plugins
+authors: primary_desktop
+categories: Neovim Plugins
+created: 2025-07-30T22:39:39-0800
+updated: 2025-08-23T10:10:44-0800
+version: 1.1.1
+@end
+Here we are taking advantage of the fact that Lazy is actually amazing and among the many features is smart lazy-loading meaning we can just put all of the libraries in one place and if any of the other plugins `require` it, then it will automatically be loaded!
+#tangle libs.fnl
+@code fennel
+[{1 :folke/which-key.nvim :event :VeryLazy :keys [{1 :<leader>? 2 #((. (require :which-key) :show {:global false}))}]}
+{1 :radenling/vim-dispatch-neovim :dependencies {1 :tpope/vim-dispatch}}
+{1 :neovim/nvim-lspconfig :priority 200}
+{1 :nvim-treesitter/nvim-treesitter :lazy true}
+{1 :nvim-lua/plenary.nvim :lazy true}
+{1 :MunifTanjim/nui.nvim :lazy true}
+{1 :rcarriga/nvim-notify :lazy true}
+{1 :nvim-tree/nvim-web-devicons :config true}
+{1 :numToStr/Comment.nvim :config true :lazy true}
+{1 :ravitemer/mcphub.nvim :lazy true}]
+
+@end
+* UI for Hotkeys with which-key
+  which key comes from the got himself folke to show us what hotkeys we have defined using a wonderful UI that even respects your colorscheme so that you can control your user interface without needing to memorize all of that work
+
+we will see this used throughout the config whenever we set new hotkeys we try to actually set them in which key so that way we can add meta-data like the name of the function and where it belongs while still defining it in a declarative, data-like way
+* {https://github.com/tpope/vim-dispatch}[dispatch] for job control
+  one of the few vimscript libraries we still leverage is from the god tpope himself. this is something where we are enabling vim to do more asynchronous job control and run things like make files entirely within neovim.
+
+  this guy is nice because it is battle-tested and able to work everywhere that vim works
+
+in addition, we have a lua wrapper that is needed to make things work properly for the lua api side and just making it more ergonomic
+
+* lspconfig
+  `lspconfig` is funny because its so small and undiscerning and has been the subject of much debate.
+
+  At the end of the day its very simple. its a set of default configurations for the various LSP servers that can be installed as a plugin.
+
+  even though neovim ships with the ability to work with lsps, we still need to configure them. even the new `vim.lsp` api only _augments_ this plugin by making the transition between the two easier
+
+  but at the end of the day this can be seen as a dictionary of dictionaries that goes over the various languages and allows us to handle the lsp in such a way that we can generally just `enable` whatever lsp we need and expect it to have sane defaults, only adding more configuration when necessary to add our own customizations.
+
+  there is nothing loading so we can safely load it at startup and we make sure it has a higher priority since we really want to make sure any plugins downstream have access to these configs whenever we do enable lsps
+* Comments
+  `comment.nvim` both enables and sets up keymaps for the ability to comment code in a more semantic way.
+
+  it "knows" what language you are using and will use the appropriate comment structure for whatever you are doing whether that is commenting a block of text or a single line
+
+* UI
+  the other libraries that are largely used is ones needed to make some nice abstraction layers over the traditional UI elements
+  ** nui
+     nui is a component library that allows plugins to build composable UIs with an object-like syntax which neovim generally avoids.
+
+i dont love it, but plugins we use like it so we pull it in as a dependency
+** nice notifications with `nvim-notify`
+   nvim-notify creates beautiful notifications directly within the plugin and is used as a dep for larger plugins like Noice
+** devicons with `nvim-web-devicons
+   nerd fonts are another nice part to add to documents.
+
+most modern terminals have something to show them, so now devicons allows us to easily inject icons for different filetypes within things like `oil` as well as  `noice` 
+* Comments
+  `comment.nvim` both enables and sets up keymaps for the ability to comment code in a more semantic way.
+
+  it "knows" what language you are using and will use the appropriate comment structure for whatever you are doing whether that is commenting a block of text or a single line
+
+* Model Context Protocol (mcp)
+  to continue the trend of AI stuff, we also have basically mason for MCP servers which is the newest thing that we have to install and hook up to our editor and this tries to make that process easier by letting us search them and automatically make them available to the various AI plugins that support MCP servers
+

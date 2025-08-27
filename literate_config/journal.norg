@@ -1,0 +1,74 @@
+@document.meta
+title: Literate Config Journal
+description: A technical journal of the ongoing thoughts i have about the project
+authors: primary_desktop
+categories: Reflection 
+created: 2025-07-26T10:27:30-0800
+updated: 2025-08-22T23:39:46-0800
+version: 1.1.1
+@end
+* literate config reflection 07/25/2025
+  im liking the progress its making me be more conscious of how im building things and enabling the work that needs to be done with an eventual eye towards how we want to build the work
+** reflecting on the translation work
+   as always, it slow but nice work to just go over the config with a fine-toothed comb and consider each line, this whole thing still makes me think that we can avoid most of this by just doing LazyVim while still having much of the config working because there is always so much but idk there is also just so much that goes into how i set this up i was still having trouble working through the individual pieces in such a way that we can extend it properly
+
+   still, we did get the total setup so atleast we are able to generate the lua files that will be used to structure our work and the process of looking up the stuff and referencing is probably still important
+
+** the vision is real
+   as i got to bed im thinking about what we are working towards and i can feel it getting closer
+
+   so we have a few pieces to put together but they promise to be very interesting:
+   - {https://github.com/sst/opencode}[opencode] for the cli that we want to use
+   - {https://github.com/ravitemer/mcphub.nvim}[mcphub] for neovim is going to be interesting because it lets us setup mcp servers
+   - what servers will we be setting up? why {https://github.com/bigcodegen/mcp-neovim-server}[the neovim one] ofcourse!
+   -- wouldnt be right if we didnt start working through the api so that we can control neovim while its still going on!
+
+   What is even better than all of this, is the fact that it dovetails pefectly with the work we did in the systemd and fish config to allow us to start a server on a named pipe and connect a mcp server to it!
+
+   so now we have atleast two things that we want to connect to:
+   - neovide for gui
+   - mcp for ai control!
+
+   This gives a reason to the way that we are using this and allowing us to have neovim be the ultimate structured updating piece that allows us to set the ais off with a system that REALLY allows leverage
+
+   and how will it know how to use all of the custom functionality? because we are able to have the whole literate config setup ofcourse! 
+
+* working on translation 07/26/2025
+  we did great yesterday getting the first and most important aspects of the neovim config worked out, i think that now all that is left is to replace the template files with links and to start thinking about the workflow now
+
+  the reason we were thinking about the mcphub thing yesterday is because we really want to integrate the neovim workflow into the llm so that it is able to start using neovim as a core tool for how we handle the work and will allow us to structure the configuration properly.
+
+  Plus, if we can setup the mcphub for our own personal stuff, this is how we get closer to the assistant knowing how to work with us rather than this kinda janky approach right now where it just alters files and we work from there 
+
+** goes to show...
+   I have been fucking around all morning, just about to make a literal bug report for chezmoi when all of a sudden we actually figured it out.
+
+   one of the reasons this template directory has been fucking with me is that the files need to be able to run EVEN IF WE ARENT USING THEM. this was what was messing with me was the fact that i passively opened the fennel file without actually make it so that we are able to edit the lua file
+
+   This makes my solution MORE viable now because as i had hoped it actually steps around this problem and allows us to leverage the machine-to-machine differences WITHOUT dealing with this template bullshit so im going to say that I am doubling down on this approach when it comes to neovim since that makes sense for several reasons including the fact that we shouldnt need templates since we are actually going to be using this in a real programming language, we can just do all of these checks ourselves in fennel
+
+   but more importantly, opencode and anthropic were absolutely no help, they were completely unable to diagnose the problem and it just goes to show that when we try to outsource our jobs to the machines we are going to hit some major barriers around getting the work done.
+
+   the people that think it will be our saviors are the people that are not responsible for doing the hard work of ENSURING that things get done properly, not just saying things got done and then nobody double checks you because your work doesnt actually do anything or get relied upon, but ACTUAL stuff that things are going to use.
+
+   we programmers are getting around it because we have been building guardrails for each other for decades at this point, so many processes that hem our employees in and make sure they can only make the proper code, this is now the same systems that will hem in the ais so that we are able to get consistency out of an inconsitent system but still we are not to think of this as intelligence, more the natural evolution of intelligence.
+
+   I would say that these things work when i can see the solution clear in my head, ive laid out all the contexts and the tests, all that is left is to finish the actual structure so that we are able to start thinking about the structure in a more coherent way
+
+   but we also need to keep it under tight supervision as this is something where we can lose track of our work so easily and then when something breaks we are more lost than ever
+* stuff to consider 2025-07-29
+  so we just got done solving a problem with debugging an error in neorg itself so the whole thing broke for a minute..
+
+This reminds us of the importance of this project to make the whole thing runnable from a linux machine made with `mkosi` this way we have what we need to achieve the speed necessary and get the next version of our config shipping WITHOUT breaking the whole thing lol
+
+in addition, we should consider making neorg one of the first things that we go through and work on so that we are ready to have a conversation about what is necessary in the long run to get it all working and structured
+
+  finally, we want to use conform with the injected formatter to allow us to format even when we are within another document, this will make it so that the main files arent such a pain to read.
+
+  put these all together, and we should have a solid way to work through these separate pieces.
+
+  the other integrations we want to turn on are otter.nvim for integration within the document so we can get lsp diagnostics without leaving the environment, as well as looking glass so that we can pop the little snippets out into their own file and work with it from there.
+
+this will have a few beneficial qualities but not the least of which is the ability to just pop something out and make it so that we are able to format it without worrying about the injected formatter
+
+  just got done with handling the neorg file and it made me refletive, they have slowed down development so if we want to see more work then we will need to work out a way for us to handle the structures in such a way that we can keep building this work out but i feel like they did a good job of making the work handlable and even the core of it is a treesitter parser that will be impactful for understanding all of this work

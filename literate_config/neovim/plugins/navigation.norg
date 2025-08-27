@@ -1,0 +1,28 @@
+@document.meta
+title: navigation plugins
+description: plugins to make navigating in neovim easier
+authors: primary_desktop
+categories: Neovim Plugins
+created: 2025-08-21T20:58:49-0800
+updated: 2025-08-23T10:15:15-0800
+version: 1.1.1
+@end
+one category of plugins is the act of MOVING around and so we have a few plugins to accomodate that
+#tangle navigation.fnl
+@code fennel
+[{1 :ThePrimeagen/harpoon :branch :harpoon2 :lazy true :config true}
+ {1 :folke/flash.nvim
+  :even :VeryLazy
+  :opts {}
+  :keys [{1 :<leader>j :mode [:n :x :o] 2 #((. (require :flash) :jump))}
+         {1 :<leader>J :mode [:n :x :o] 2 #((. (require :flash) :treesitter))}
+         {1 :r :mode :o 2 #((. (require :flash) :remote))}
+         {1 :R :mode [:o :x] 2 #((. (require :flash) :treesitter_search))}
+         {1 :<c-s> :mode :c 2 #((. (require :flash) :toggle))}]}
+ {1 :stevearc/oil.nvim
+  :opts {}
+  :keys [{1 :<leader>O 2 :<cmd>Oil<cr> :desc "Open Oil"}]}]
+@end
+- harpoon is interesting, it is the only plugin i use from the Primegen, and actually comes from our shared experience as starcraft players, it attempts to bring the idea of location hotkeys to the editor which is both funny that it wasnt there before but also feels fairly dumb when compared to the sophisticated methods we have available to use. still, i find it helpful for putting things so close to my fingers they are just a click away and often i just want to go to a file instead of a specific place in  the file
+- flash comes from our god folke and is his take on this hop like experience which can be thought of as the take on the universal navigation plugin for neovim. Folke adds some spice by enabling treesitter coloring and some other goodies such as alternate searching using `f` and `F` so that we can even use this within other movement plugins
+- finally last but not least is Oil which is the definitive neovim file manager because it works like netrw but way better than i could have hoped because we get to use all of the navigation hotkeys already under our fingers while still being able to handle all of the work necessary to manage the filesystem (for the most part)

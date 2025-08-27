@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-07-20T13:12:49-0800
+updated: 2025-08-27T10:24:30-0800
 version: 1.0.0
 @end
 = TOC
@@ -37,3 +37,70 @@ Neorg -> Chezmoi -> Neovim and everything else -> Neorg
 
 This creates a closed loop in which we can safely work on any and all of our computers while we use the workspace as a sort of staging ground for the rest of our work
 * Index
+** Alternate Index
+  - {:$/shells/bash/bash_config:}[Bash Shell Index] - Starting point for configuring the bash shell files
+** Containers Docker
+  - {:$/containers/docker:}[Chezmoi Repo Docker Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
+** Desktop Environment Hyprland
+  - {:$/desktop_environments/hyprland/hyprland_config:}[Hyprland Config] - Configuring the various files for the hyprland desktop environment
+  - {:$/desktop_environments/hyprland/hyprland_keymaps:}[Hyprland Keymaps] - The Keymaps for our Hyprland Setup
+** Desktop Environment Komorebi
+  - {:$/desktop_environments/komorebi/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
+  - {:$/desktop_environments/komorebi/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
+** Desktop Environment Sway
+  - {:$/desktop_environments/sway/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
+** Dotfile Management Chezmoi
+  - {:$/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
+** Index
+  - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+** Llm
+  - {:$/Agents:}[Agents Direction] - Hand-written guidance for LLM agents working on the literate config
+** Neovim
+  - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
+  - {:$/neovim/entry:}[Entry] - First and root files for the neovim configuration
+  - {:$/neovim/config/config:}[Config] - Config Folder of files for configuring neovim-specific information
+  - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
+  - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
+** Neovim Gui
+  - {:$/neovim/neovide/neovide_config:}[Neovide Gui Configuration] - Literate configuration for Neovide, the GUI frontend for Neovim
+** Neovim Platform Plugins
+  - {:$/neovim/plugins/platforms/completion:}[Completion] - plugins for overhauling the default completion engine
+  - {:$/neovim/plugins/platforms/formatters:}[Formatting Plugins] - Plugins to manage code file formatting
+  - {:$/neovim/plugins/platforms/mini:}[Mini Platform] - the config for the set of plugins from the creator of the mini platform
+  - {:$/neovim/plugins/platforms/neorg:}[Neorg Configuration] - Configuration for our favorite org-alternative within neovim
+  - {:$/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
+  - {:$/neovim/plugins/platforms/testing:}[Testing Plugins] - neotest config so we can test and review directly in neovim
+  - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
+** Neovim Plugins
+  - {:$/neovim/plugins/UI:}[Ui Improvements] - UI plugins to help Neovim POP
+  - {:$/neovim/plugins/colorschemes:}[Colorschemes] - list of colorschemes to download and set
+  - {:$/neovim/plugins/data:}[Data Plugins] - Plugins for viewing, fetching, and interacting with data from within Neovim
+  - {:$/neovim/plugins/git:}[Git Plugins] - Neovim Git plugins for a nice experience
+  - {:$/neovim/plugins/libs:}[Libraries] - Lua/vimscript needed for other plugins
+  - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
+  - {:$/neovim/plugins/navigation:}[Navigation Plugins] - plugins to make navigating in neovim easier
+  - {:$/neovim/plugins/prose:}[Prose Writing Plugin] - plugins to help me write prose documents
+** Neovim Service
+  - {:$/neovim/services/services:}[Services] - Systemd services for on-demand neovim server with socket activation
+** Reflection
+  - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
+** Scripts Index
+  - {:$/shells/bash/bash_templates:}[Bash Templates] - templates for common bash operations
+** Shells Bash
+  - {:$/scripts/bash/activate_nvim_paste_wsl:}[Make Wsl_paste Executible] - 1-line script to make the `nvim_paste_wsl` script executible
+  - {:$/scripts/bash/nvim_paste_wsl:}[Clipboard Integration For Wsl] - script to pull clipboard into WSL terminal
+  - {:$/shells/bash/bashrc:}[Bash Profile] - Definition of the .bash_profile
+  - {:$/shells/bash/profile_config:}[Profile] - the `.profile` for bash shell
+  - {:$/shells/bash/pyenv_shell_config:}[Pyenv Shell Configuration Prep] - Some extra steps to get us ready for pyenv
+** Shells Fish
+  - {:$/shells/fish/fish_config:}[Fish Config] - Configuring the Fish Shell
+** Shells Powershell
+  - {:$/shells/powershell/powershell:}[Profile] - the bashrc equivalent for powershell
+** Shells, Prompt
+  - {:$/shells/prompts/starship/starship_config:}[Starship Prompt Configuration] - Literate configuration for the Starship cross-shell prompt
+** Terminal Emulator Kitty
+  - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
+** Uncategorised
+  - {:$/neovim/plugins/LLM:}[Llm]
+** Version Control Git
+  - {:$/version_control/git:}[Git Config] - All the git config in one place for this repo
