@@ -7,7 +7,7 @@ fish_add_path --append --path ~/.cargo/bin
 fish_vi_key_bindings
 
 {{ if eq .chezmoi.os "linux" }}
-{{ if (contains "Microsoft" (readFile "/proc/version")) }}
+{{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
 alias op="op.exe"
 {{ end }}
 {{ end }}

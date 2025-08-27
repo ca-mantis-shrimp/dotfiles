@@ -7,7 +7,7 @@ tangle: {
 	fish: config.fish.tmpl
 }
 created: 2025-07-20T20:22:17-0800
-updated: 2025-08-27T10:45:26-0800
+updated: 2025-08-27T11:00:49-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -44,7 +44,7 @@ the nice part about fish is we really dont need to do much, since we are working
        #tangle
        @code fish
        {{ if eq .chezmoi.os "linux" }}
-       {{ if (contains "Microsoft" (readFile "/proc/version")) }}
+       {{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
        alias op="op.exe"
        {{ end }}
        {{ end }}
