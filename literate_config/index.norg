@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-08-24T09:07:07-0800
+updated: 2025-08-27T10:24:30-0800
 version: 1.0.0
 @end
 = TOC
@@ -72,6 +72,7 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/neovim/plugins/platforms/testing:}[Testing Plugins] - neotest config so we can test and review directly in neovim
   - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
 ** Neovim Plugins
+  - {:$/neovim/plugins/UI:}[Ui Improvements] - UI plugins to help Neovim POP
   - {:$/neovim/plugins/colorschemes:}[Colorschemes] - list of colorschemes to download and set
   - {:$/neovim/plugins/data:}[Data Plugins] - Plugins for viewing, fetching, and interacting with data from within Neovim
   - {:$/neovim/plugins/git:}[Git Plugins] - Neovim Git plugins for a nice experience
@@ -79,6 +80,8 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
   - {:$/neovim/plugins/navigation:}[Navigation Plugins] - plugins to make navigating in neovim easier
   - {:$/neovim/plugins/prose:}[Prose Writing Plugin] - plugins to help me write prose documents
+** Neovim Service
+  - {:$/neovim/services/services:}[Services] - Systemd services for on-demand neovim server with socket activation
 ** Reflection
   - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
 ** Scripts Index
@@ -93,12 +96,11 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/shells/fish/fish_config:}[Fish Config] - Configuring the Fish Shell
 ** Shells Powershell
   - {:$/shells/powershell/powershell:}[Profile] - the bashrc equivalent for powershell
-  - {:$/shells/powershell/powershell_config:}[Alt Profile] - Alternative Powershell profile with template support
 ** Shells, Prompt
   - {:$/shells/prompts/starship/starship_config:}[Starship Prompt Configuration] - Literate configuration for the Starship cross-shell prompt
 ** Terminal Emulator Kitty
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
-  - {:$/neovim/services/services:}[Services] - Systemd services for on-demand neovim server with socket activation
+  - {:$/neovim/plugins/LLM:}[Llm]
 ** Version Control Git
-  - {:$/git:}[Git Config] - All the git config in one place for this repo
+  - {:$/version_control/git:}[Git Config] - All the git config in one place for this repo
