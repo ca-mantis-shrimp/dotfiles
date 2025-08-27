@@ -9,7 +9,7 @@ fish_vi_key_bindings
 set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
 {{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
 set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
-set -gx SNOW_MIRROR_DADBOD = {{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}
+set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
 {{ else }}
 set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
 {{- end}}

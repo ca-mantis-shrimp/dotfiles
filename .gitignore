@@ -1,4 +1,1 @@
-Session.vim
-.aider*
-image/*
-image.*
+literate_config/version_control/.gitignore

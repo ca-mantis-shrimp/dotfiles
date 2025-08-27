@@ -1,18 +1,1 @@
-[user]
-{{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
-email = darburgess@deloitte.com
-{{ else }}
-email = dargondab9@gmail.com
-{{- end }}
-name = Darrion Burgess
-
-[core]
-symlinks = true
-
-[credential "https://github.com"]
-helper = 
-helper = !/usr/bin/gh auth git-credential
-
-[credential "https://gist.github.com"]
-helper = 
-helper = !/usr/bin/gh auth git-credential
+literate_config/version_control/dot_gitconfig.tmpl

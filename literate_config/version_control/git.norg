@@ -4,11 +4,11 @@ description: All the git config in one place for this repo
 authors: primary_desktop
 categories: Version Control Git
 tangle: {
-	gitignore: ~/.local/share/chezmoi/.gitignore
-	gitconfig: ~/.local/share/chezmoi/dot_gitconfig.tmpl
+	gitignore: .gitignore
+	gitconfig: dot_gitconfig.tmpl
 }
 created: 2025-07-20T15:08:36-0800
-updated: 2025-07-20T20:03:37-0800
+updated: 2025-07-30T11:58:06-0800
 version: 1.1.1
 @end
 Git is the main way that we are managing this repo so it will also be used to keep it in order.
@@ -33,7 +33,7 @@ This one can be tough because part of it is generated using the `gh auth alter-c
    - otherwise, we use our normal email
    - and our name is always the same
 ** core properties
-   for the main pieces we shouldnt need to do much
+   for the main pieces we shouldnt need to do much, this line just enables the use of symlinks from git to make it more portable and make it so that symlinks in bash can be used in windows
    #tangle
    @code gitconfig
    [core]
@@ -48,12 +48,10 @@ This one can be tough because part of it is generated using the `gh auth alter-c
    #tangle
    @code gitconfig
    [credential "https://github.com"]
-   helper = 
-   helper = !/usr/bin/gh auth git-credential
+   helper = !gh auth git-credential
 
    [credential "https://gist.github.com"]
-   helper = 
-   helper = !/usr/bin/gh auth git-credential
+   helper = !gh auth git-credential
 
    @end
    im not entirely sure why we do the blank header piece but it does that every time so im assuming that is intentioal?

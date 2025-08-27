@@ -7,7 +7,7 @@ tangle: {
 	fish: config.fish.tmpl
 }
 created: 2025-07-20T20:22:17-0800
-updated: 2025-07-23T22:12:57-0800
+updated: 2025-08-22T08:52:24-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -48,14 +48,16 @@ the nice part about fish is we really dont need to do much, since we are working
    @code fish
    set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
    {{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
+   alias op op.exe
    set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
-   set -gx SNOW_MIRROR_DADBOD = {{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}
+   set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
    {{ else }}
    set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
    {{- end}}
    @end
    - Todoist is always nice so we always set it for automation purposes
    - then we do a check of if we are on our work laptop
+   -- if we are, then we assume we are running in WSL if the linux config is running so we go ahead and use the alias of running the _windows_ version of op, which will be deeply integrated with the desktop version, rather than normal op which has been having trouble lately
    -- if we are, we set some work-specific api keys
    --- do note this also assumes the OP key that was given is the one that has access to our automation AND work keys
    -- else, we put keys we actually DONT want to risk giving to our work machine like openrouter so that we dont have to worry about leaking company data to external secrets
@@ -91,3 +93,6 @@ the nice part about fish is we really dont need to do much, since we are working
 
    nerdfetch
    @end
+
+* next-steps
+  what i need to do is actually check if we are in WSL, then we can go ahead and make the alias, this gets around the problem of making it work within WSL because it means we can just use the one that is connected to the proper app in the normal thing

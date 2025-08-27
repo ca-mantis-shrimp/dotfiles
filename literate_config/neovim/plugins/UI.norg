@@ -1,0 +1,39 @@
+@document.meta
+title: UI Improvements
+description: UI plugins to help Neovim POP
+authors: Darrion Burgess
+categories: Neovim Plugins
+created: 2025-08-27T08:32:22-0800
+updated: 2025-08-27T09:27:14-0800
+version: 1.1.1
+@end
+sometimes we just want to make things look nice, so that is where the UI plugins come in.
+
+Generally, we are just trying to get this whole thing to make for a nicer experience when we are actively using the editor
+
+#tangle UI.fnl
+@code fennel
+[{1 :folke/noice.nvim
+  :event :VeryLazy
+  :opts {:lsp {:override {:vim.lsp.util.convert_input_to_markdown_lines true
+                          :vim.lsp.util..stylize_markdown true}}}
+  :presets {:bottom_search true
+            :command_palette true
+            :long_message_to_split true
+            :inc_rename false
+            :lsp_doc_border false}}]
+@end
+
+* Noice.nvim
+  folke makes an amazing UI overhaul called noice.nvim that we utilize. this touches nearly everything in the UI to make it more pleasant to look at and is fairly opinionated so it makes for a very good layer
+
+  aside from the presets, we do a few things based on the README:
+  - for lsp we make it look nicer by:
+  -- render docs as markdown using treesitter rather than the traditional format
+  -- we also stylize the markdown
+  - for presets we:
+  -- use a classic bottom cmdline for search
+  -- position the cmdline and popupmenu together
+  -- send long messages as a split
+  -- disables the input dialog for inc-rename.nvim
+  -- disable a border to hober docs and signature help

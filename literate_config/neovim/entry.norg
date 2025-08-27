@@ -4,7 +4,7 @@ description: First and root files for the neovim configuration
 authors: Darrion Burgess
 categories: Neovim
 created: 2025-07-25T19:12:38-0800
-updated: 2025-07-30T23:33:03-0800
+updated: 2025-08-27T08:31:11-0800
 version: 1.1.1
 @end
 * Starting Init
@@ -53,11 +53,11 @@ version: 1.1.1
     (when (not (_G.vim.loop.fs_stat lazypath))
       (let [lazyrepo "https://github.com/folke/lazy.nvim.git"]
         (_G.vim.fn.system [:git
-        		   :clone
-			   "--filter=blob:none"
-    			   :--branch=stable
-    			   lazyrepo
-			   lazypath])))
+                           :clone
+                           "--filter=blob:none"
+                           :--branch=stable
+                           lazyrepo
+                           lazypath])))
     @end
 
     This is also a good showcase that neovim does have native ways to include 3rd party code, the benefits from lazy are more about making that situation easier and more declarative.
@@ -79,7 +79,7 @@ However still this is how we get the initial bootstrap done so that we can actua
     #tangle init.fnl
     @code fennel
     (let [lazy (require :lazy)
-            setup_opts {:spec [{:import :plugins}]}]
+          setup_opts {:spec [{:import :plugins}]}]
       (lazy.setup setup_opts))
     @end
     - now that lazy is downloaded and appended to the `rtp` we can require it like any other plugin
