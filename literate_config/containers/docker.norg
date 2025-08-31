@@ -3,8 +3,9 @@ title: Chezmoi Repo Docker Configuration
 description: contains information for both the regular docker file as well as the devcontainer.json file
 authors: Darrion Burgess
 categories: Containers Docker
+tangle: ../../Dockerfile
 created: 2023-11-25T11:11:26-0800
-updated: 2025-07-23T20:07:15-0800
+updated: 2025-08-30T22:53:11-0800
 version: 1.1.1
 @end
 One of the primary changes that have been made over this time is the need to control one level above and handle the docker work that is required to ensure an actally working environment. 
@@ -14,7 +15,7 @@ Specifically, we are going to have two separate containers:
 - The development container
 
 From here we can make them orthogonal concerns and we can talk about them separately
-#tangle Dockerfile
+#tangle
 @code Dockerfile
 FROM alpine:latest
 
@@ -41,7 +42,7 @@ RUN apk add neovim chezmoi git curl build-base rust starship nodejs
 ~~ another good candidate for the devcontainer
 
 * OnePassword Install for Alpine
-  #tangle Dockerfile
+  #tangle
   @code Dockerfile
   RUN echo https://downloads.1password.com/linux/alpinelinux/stable/ >> /etc/apk/repositories && \
   wget https://downloads.1password.com/linux/keys/alpinelinux/support@1password.com-61ddfc31.rsa.pub -P /etc/apk/keys && \
@@ -52,20 +53,10 @@ RUN apk add neovim chezmoi git curl build-base rust starship nodejs
   ~ Finally, we can actually download and install 1password with both the repo and keys in place
 * Prepping Chezmoi and Neovim
   Once everything is setup, we should be able to setup our standard dotfiles
-  #tangle Dockerfile
+  #tangle
   @code Dockerfile
   RUN chezmoi init --apply && \
   nvim --headless -c "+Lazy! sync" -c "TSUpdateSync" -c "qall" 
   @end
 
   Next, we are going to define a devcontainer.json which will largely just use this stupid thing so that i can actually ensure this is going to work as a development container
-* Devcontainer spec
-  #tangle .devcontainer.json
-  @code json
-  {
-    "name": "dotfiles_config",
-    "dockerFile": "Dockerfile",
-  }
-  @end
-  - we give it a little name that will help us identify the container itself
-  - as well as making it clear we want to use the dockerfile we just defined

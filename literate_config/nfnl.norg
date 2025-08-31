@@ -3,15 +3,16 @@ title: `nfnl` setup for literate config
 description: nfnl setup for the literate config itsef
 authors: primary_desktop
 categories: Neovim
+tangle: ../dot_config/remove_nvim/.nfnl.fnl
 created: 2025-07-25T23:29:49-0800
-updated: 2025-07-30T23:30:32-0800
+updated: 2025-08-30T22:46:41-0800
 version: 1.1.1
 @end
 * Generating Lua Files automatically 
   this is one case where the literate config is really helpful because we are literally just making an empty file, but this is actually intended so that is important.
 
   for more information go ahead and read the information on {:$/neovim/plugins/lisp:}[the lisp norg config] where we actually setup `nfnl` but for now we are just going to generate the default config to ensure that our files are being generated properly
-  #tangle .nfnl.fnl
+  #tangle 
   @code fennel
   @end
 

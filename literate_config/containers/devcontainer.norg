@@ -1,0 +1,20 @@
+@document.meta
+title: devcontainer
+description: 
+authors: primary_desktop
+categories: 
+tangle: ../../.devcontainer.json
+created: 2025-08-30T21:46:34-0800
+updated: 2025-08-30T21:47:14-0800
+version: 1.1.1
+@end
+* Devcontainer spec
+  #tangle 
+  @code json
+  {
+    "name": "dotfiles_config",
+    "dockerFile": "Dockerfile",
+  }
+  @end
+  - we give it a little name that will help us identify the container itself
+  - as well as making it clear we want to use the dockerfile we just defined

@@ -3,12 +3,9 @@ title: Git Config
 description: All the git config in one place for this repo
 authors: primary_desktop
 categories: Version Control Git
-tangle: {
-	gitignore: .gitignore
-	gitconfig: dot_gitconfig.tmpl
-}
+tangle: ../../dot_gitconfig.tmpl
 created: 2025-07-20T15:08:36-0800
-updated: 2025-07-30T11:58:06-0800
+updated: 2025-08-30T23:20:26-0800
 version: 1.1.1
 @end
 Git is the main way that we are managing this repo so it will also be used to keep it in order.
@@ -57,19 +54,3 @@ This one can be tough because part of it is generated using the `gh auth alter-c
    im not entirely sure why we do the blank header piece but it does that every time so im assuming that is intentioal?
 
    otherwise, we just run the `git-credential` subcommand to get the git post
-* Repo-specific
-  whereas the other piece was meant to configure git GLOBALLY, this will be meant to configure git here as the user in the chezmoi repo
-** Git Ignore
-   For this we have to ignore stuff that is only relevant for that machine and not something we want shared between machines
-
-   #tangle
-   @code gitignore
-   Session.vim
-   .aider*
-   image/*
-   image.*
-   @end
-
-   - `Session.vim` is just the session file for that machine so we dont want it
-   - both `image/` and `image.*` refer to the output of `mkosi` in which we are generating a new image to disk
-   -- as is standard, we want to use these files as output files and not force people to keep these changes

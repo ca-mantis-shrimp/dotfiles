@@ -1,70 +1,13 @@
 @document.meta
-title: Chezmoi Configuration
-description: Collection of chezmoi files for configuration
-authors: primary_desktop
+title: Chezmoi Ignore
+description: File used to control what gets into source state
+authors: Darrion Burgess
 categories: Dotfile Management Chezmoi
-tangle: {
-	toml: ~/.local/share/chezmoi/.chezmoi.toml.tmpl
-	gitignore: ~/.local/share/chezmoi/.chezmoiignore
-}
-created: 2025-07-20T13:21:18-0800
-updated: 2025-08-22T23:38:59-0800
+tangle: ../../.chezmoiignore
+created: 2025-08-30T22:49:46-0800
+updated: 2025-08-30T22:52:25-0800
 version: 1.1.1
 @end
-This will be where we store all of the various pieces of chezmoi data all at once.
-
-This is necessary because chezmoi is a critical part of holding all of this together so we need to be sure and treat it with care
-
-* understanding {https://www.chezmoi.io/}[chezmoi]
-  so with chezmoi, i like to think of it as a very big, but very unix-y format that is allowing us to capture a single configuration that works by having interlocking mechanics. All of which come together to make it possible to have a single configuration file for multiple machines and even containers
-
-  the following are the key mechanics that allow us to put everything together:
-  - templating for per-machine differences
-  -- This goes farther than altering the file itself and even controlling the placement of files and controlling chezmoi itself through templates
-  - a strong CLI tool for testing and implementing changes to the environment, all git controlled
-  - lots of configuration files to manage what gets copied and hot
-  -- This in combination with the templates makes it feel like systemd but more focused on our own work 
-  - script support for getting the last mile work done
-
-* User Configuration
-  We are opting to do the standard chezmoi TOML file
-
-  Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
-** Windows config
-   windows has this annoying habit of default to cmd so we change to pwsh when we can
-
-   #tangle 
-   @code toml
-   {{ if eq .chezmoi.os "windows" }}
-   [cd]
-   command = "pwsh"
-   {{ end }}
-   @end
-
-** Neovim Config
-   We use neovim for our editor so ofcourse we set the work we need to our structured editor
-   #tangle 
-   @code toml
-   [edit]
-   command = "nvim"
-   @end
-
-** Internet config
-   finally we have to remember this is a git repo that is public so we have to deal with how we handle git versions and secrets
-   #tangle
-   @code toml
-   [git]
-   autoCommit = true
-
-   [onepassword]
-   mode = "service"
-   @end
-   - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
-   - we use 1password for our password service, and in order to make the {https://www.chezmoi.io/user-guide/password-managers/1password/#sign-in-prompt}[templates work] so we need to set the environment variable and have chezmoi look at it with this option
-
-** implementing changes
-   unlike other files, after you make changes to this one and tangle it, you will still need to regenerate it specifically using `chezmoi init` and THEN you can do your traditional `chezmoi apply` workflow
-
 * {https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines}[Ignore File]
   Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
 
@@ -125,10 +68,11 @@ This is necessary because chezmoi is a critical part of holding all of this toge
    Dockerfile
    .nvim.lua
    *.md
+   **.*.fnl
    @end
    - literate config (this folder!)
    - `wiki` which is my attempt to make the first folder into a website
    - `intentions` which comes from my own personal work
    - `Dockerfile` from out attempts to make this into a container
    - `.nvim.lua` which helps us configure neovim for this repo specifically
-
+   - finally, we want to ignore any fennel files since for now their primary purpose is within the neovim config when used to GENERATE any files

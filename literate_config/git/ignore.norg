@@ -1,0 +1,26 @@
+@document.meta
+title: Git ignore
+description: the gitignore for this repo
+authors: Darrion Burgess
+categories: Version Control Git
+tangle: ../../.gitignore
+created: 2025-08-30T23:10:59-0800
+updated: 2025-08-30T23:11:39-0800
+version: 1.1.1
+@end
+* Repo-specific
+  whereas the other piece was meant to configure git GLOBALLY, this will be meant to configure git here as the user in the chezmoi repo
+** Git Ignore
+   For this we have to ignore stuff that is only relevant for that machine and not something we want shared between machines
+
+   #tangle
+   @code gitignore
+   Session.vim
+   .aider*
+   image/*
+   image.*
+   @end
+
+   - `Session.vim` is just the session file for that machine so we dont want it
+   - both `image/` and `image.*` refer to the output of `mkosi` in which we are generating a new image to disk
+   -- as is standard, we want to use these files as output files and not force people to keep these changes

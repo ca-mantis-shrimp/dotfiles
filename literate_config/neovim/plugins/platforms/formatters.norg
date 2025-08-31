@@ -3,8 +3,9 @@ title: Formatting plugins
 description: Plugins to manage code file formatting
 authors: primary_desktop
 categories: Neovim Platform Plugins
+tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/formatting.fnl
 created: 2025-08-19T19:28:41-0800
-updated: 2025-08-23T10:39:03-0800
+updated: 2025-08-30T22:44:38-0800
 version: 1.1.1
 @end
 for this task we use the venerable conform.nvim which makes this whole process easier.
@@ -18,15 +19,16 @@ we prefer doing this with just our own package manager so we just need to be sur
   
   For norg files, this means we can have properly formatted fennel, lua, python, etc. code blocks within our literate config files without manually formatting each block or dealing with indentation issues.
 
-#tangle formatting.fnl
+#tangle
 @code fennel
 {1 :stevearc/conform.nvim
-:opts {:formatters_by_ft {:lua [:stylua]
-:python [:ruff :black]
-:fennel [:fnlfmt]
-:clojure [:cljfmt]
-:json [:jq]
-:jsonc [:jq]
-:norg [:injected]}
-:format_on_save {:timeout_ms 500 :lsp_format :fallback}}}
+ :opts {:formatters_by_ft {:lua [:stylua]
+                           :python [:ruff :black]
+                           :fennel [:fnlfmt]
+                           :clojure [:cljfmt]
+                           :json [:jq]
+                           :jsonc [:jq]
+                           :toml [:tombi]
+                           :norg [:injected]}
+        :format_on_save {:timeout_ms 500 :lsp_format :fallback}}}
 @end

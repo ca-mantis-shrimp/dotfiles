@@ -1,0 +1,64 @@
+@document.meta
+title: Chezmoi Configuration
+description: Collection of chezmoi files for configuration
+authors: primary_desktop
+categories: Dotfile Management Chezmoi
+tangle: ~/.local/share/chezmoi/.chezmoi.toml.tmpl
+created: 2025-07-20T13:21:18-0800
+updated: 2025-08-30T22:52:08-0800
+version: 1.1.1
+@end
+This will be where we store all of the various pieces of chezmoi data all at once.
+
+This is necessary because chezmoi is a critical part of holding all of this together so we need to be sure and treat it with care
+
+* understanding {https://www.chezmoi.io/}[chezmoi]
+  so with chezmoi, i like to think of it as a very big, but very unix-y format that is allowing us to capture a single configuration that works by having interlocking mechanics. All of which come together to make it possible to have a single configuration file for multiple machines and even containers
+
+  the following are the key mechanics that allow us to put everything together:
+  - templating for per-machine differences
+  -- This goes farther than altering the file itself and even controlling the placement of files and controlling chezmoi itself through templates
+  - a strong CLI tool for testing and implementing changes to the environment, all git controlled
+  - lots of configuration files to manage what gets copied and hot
+  -- This in combination with the templates makes it feel like systemd but more focused on our own work 
+  - script support for getting the last mile work done
+
+* User Configuration
+  We are opting to do the standard chezmoi TOML file
+
+  Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
+** Windows config
+   windows has this annoying habit of default to cmd so we change to pwsh when we can
+
+   #tangle 
+   @code toml
+   {{ if eq .chezmoi.os "windows" }}
+   [cd]
+   command = "pwsh"
+   {{ end }}
+   @end
+
+** Neovim Config
+   We use neovim for our editor so ofcourse we set the work we need to our structured editor
+   #tangle 
+   @code toml
+   [edit]
+   command = "nvim"
+   @end
+
+** Internet config
+   finally we have to remember this is a git repo that is public so we have to deal with how we handle git versions and secrets
+   #tangle
+   @code toml
+   [git]
+   autoCommit = true
+
+   [onepassword]
+   mode = "service"
+   @end
+   - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
+   - we use 1password for our password service, and in order to make the {https://www.chezmoi.io/user-guide/password-managers/1password/#sign-in-prompt}[templates work] so we need to set the environment variable and have chezmoi look at it with this option
+
+** implementing changes
+   unlike other files, after you make changes to this one and tangle it, you will still need to regenerate it specifically using `chezmoi init` and THEN you can do your traditional `chezmoi apply` workflow
+

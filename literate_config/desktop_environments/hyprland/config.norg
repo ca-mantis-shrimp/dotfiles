@@ -1,0 +1,41 @@
+@document.meta
+title: Hyprland Config
+description: Configuring the various files for the hyprland desktop environment
+tangle: ../../.../../../dot_config/hypr/hyprland.conf
+authors: primary_desktop
+categories: Desktop Environment Hyprland
+created: 2024-04-02T20:12:56-0800
+updated: 2025-08-30T22:59:40-0800
+version: 1.1.1
+@end
+{https://hypr.land/}[Hypland] is our desktop environment of choice and one thing we like about it is that it is actually configured with a conf file like the rest of our stuff so that it can all be wrangled
+
+  This all starts with our `hyprland.conf` file which will call the others
+  do note, we are mediating all of this through {https://github.com/Vladimir-csp/uwsm?tab=readme-ov-file#installation}[uwsm] so all of these invocations mean these apps are technically run as services.
+
+  This is cool but not too relevant day-to-day other than to say we are leveraging systemd all the way to the desktop environment which is really cool and gives us some interesting opportunities in the future when it comes to resource management since they can all be managed through `systemctl` although that is really an escape hatch as most of it is handled through `uwsm` as we see here
+* Variables
+  we can shorten invocations of command commands with variables that we use to handle our work for us and make a special name
+  Refer to {https://wiki.hyprland.org/Configuring/Variables/}[Variables] for more information
+  #tangle
+  @code hyprlang
+  $terminal = uwsm app kitty
+  $menu = uwsm app wofi
+  $browser = uwsm app qutebrowser
+  $editor = uwsm app neovide
+  @end
+  - our terminal is a service for `kitty`
+  - our menu is {https://github.com/SimplyCEO/wofi}[wofi] which we can use to quickly open our work at the flick of a button
+  - our browser of choice is {qute://help/index.html}[qute browser]
+  - and our editor is {https://neovide.dev/index.html}[Neovide]
+
+  But we havent done anything yet, these will largely be used in hotkeys later but other things like setting need these too which is why we set them up here
+
+* Sourcing subfiles
+  When I said this is a higher-order configuration file i meant that it is responsible for running other config files that have been broken into their unique sections
+  #tangle
+  @code hyprlang
+  source = ~/.config/hypr/keymaps.conf
+  source = ~/.config/hypr/settings.conf
+  @end
+
