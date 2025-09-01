@@ -2,25 +2,27 @@
 title: Libraries
 description: Lua/vimscript needed for other plugins
 authors: primary_desktop
+tangle: ../../../.chezmoitemplates/Neovim/plugins/libs.fnl
 categories: Neovim Plugins
 created: 2025-07-30T22:39:39-0800
-updated: 2025-08-23T10:10:44-0800
+updated: 2025-08-31T10:14:32-0800
 version: 1.1.1
 @end
 Here we are taking advantage of the fact that Lazy is actually amazing and among the many features is smart lazy-loading meaning we can just put all of the libraries in one place and if any of the other plugins `require` it, then it will automatically be loaded!
-#tangle libs.fnl
+#tangle 
 @code fennel
-[{1 :folke/which-key.nvim :event :VeryLazy :keys [{1 :<leader>? 2 #((. (require :which-key) :show {:global false}))}]}
-{1 :radenling/vim-dispatch-neovim :dependencies {1 :tpope/vim-dispatch}}
-{1 :neovim/nvim-lspconfig :priority 200}
-{1 :nvim-treesitter/nvim-treesitter :lazy true}
-{1 :nvim-lua/plenary.nvim :lazy true}
-{1 :MunifTanjim/nui.nvim :lazy true}
-{1 :rcarriga/nvim-notify :lazy true}
-{1 :nvim-tree/nvim-web-devicons :config true}
-{1 :numToStr/Comment.nvim :config true :lazy true}
-{1 :ravitemer/mcphub.nvim :lazy true}]
-
+[{1 :folke/which-key.nvim
+  :event :VeryLazy
+  :keys [{1 :<leader>? 2 #((. (require :which-key) :show {:global false}))}]}
+ {1 :radenling/vim-dispatch-neovim :dependencies {1 :tpope/vim-dispatch}}
+ {1 :neovim/nvim-lspconfig :priority 200}
+ {1 :nvim-treesitter/nvim-treesitter :lazy true}
+ {1 :nvim-lua/plenary.nvim :lazy true}
+ {1 :MunifTanjim/nui.nvim :lazy true}
+ {1 :rcarriga/nvim-notify :lazy true}
+ {1 :nvim-tree/nvim-web-devicons :config true}
+ {1 :numToStr/Comment.nvim :config true :lazy true}
+ {1 :ravitemer/mcphub.nvim :lazy true}]
 @end
 * UI for Hotkeys with which-key
   which key comes from the got himself folke to show us what hotkeys we have defined using a wonderful UI that even respects your colorscheme so that you can control your user interface without needing to memorize all of that work

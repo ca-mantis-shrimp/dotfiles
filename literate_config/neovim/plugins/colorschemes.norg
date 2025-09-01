@@ -2,9 +2,10 @@
 title: Colorschemes
 description: list of colorschemes to download and set
 authors: primary_desktop
+tangle: ../../../.chezmoitemplates/Neovim/plugins/colorschemes.fnl
 categories: Neovim Plugins
 created: 2025-08-10T00:09:26-0800
-updated: 2025-08-23T10:10:02-0800
+updated: 2025-08-31T10:01:41-0800
 version: 1.1.1
 @end
 colorschemes are just going to be in one place so now i just want to put it all in one place
@@ -13,7 +14,7 @@ we want them pretty high priority too because they need to be powerful
 
 we also set tokyonight as the PRIMARY colorscheme as well here
 
-#tangle colorschemes.fnl
+#tangle 
 @code fennel
 [{1 :projekt0n/github-nvim-theme}
  {1 :folke/tokyonight.nvim

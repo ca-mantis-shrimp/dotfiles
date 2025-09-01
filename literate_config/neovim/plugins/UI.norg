@@ -3,15 +3,16 @@ title: UI Improvements
 description: UI plugins to help Neovim POP
 authors: Darrion Burgess
 categories: Neovim Plugins
+tangle: ../../../.chezmoitemplates/Neovim/plugins/UI.fnl
 created: 2025-08-27T08:32:22-0800
-updated: 2025-08-27T09:27:14-0800
+updated: 2025-08-31T09:59:00-0800
 version: 1.1.1
 @end
 sometimes we just want to make things look nice, so that is where the UI plugins come in.
 
 Generally, we are just trying to get this whole thing to make for a nicer experience when we are actively using the editor
 
-#tangle UI.fnl
+#tangle 
 @code fennel
 [{1 :folke/noice.nvim
   :event :VeryLazy

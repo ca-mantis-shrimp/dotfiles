@@ -1,0 +1,140 @@
+@document.meta
+title: Neovim Keymaps
+description: All the keymaps we need in one place
+authors: primary_desktop
+categories: Neovim Config
+tangle: ../../../.chezmoitemplates/Neovim/config/keymaps.fnl
+created: 2025-08-31T09:08:29-0800
+updated: 2025-08-31T09:52:28-0800
+version: 1.1.1
+@end
+as a keyboard-driven editor we want to structure the work so that we are able to break it out and make it easy to understand
+
+for this work, we want to actually work out the keymaps that will be critical to the construction of our work
+* {https://github.com/folke/which-key.nvim}[whichkey]
+  for our work, we need to go ahead and use which-key to get not only the keymaps done in a declarative way, but to make it accessible within the UI of whichkey 
+** Groups 
+   We can put the hotkeys under groups so we do that up-front
+
+   the hope is the [s] is for searching things, [t] is for the testing stuff, and [N] is for neorg-related hotkeys
+   #tangle
+   @code fennel
+   (let [wk (require :which-key)]
+   (wk.add [{1 :<leader>u :group "[u]i"}
+   {1 :<leader>s :group "[s]earch"}
+   {1 :<leader>t :group "[t]est"}
+   {1 :<leader>n :group "[N]eorg"}
+   {1 :<leader><tab> :group "[tab]s"}
+   {1 :<leader>i :group "[I]ntentions"}
+   @end
+** {https://github.com/ClearHeadToDo-Devs/clearhead-cli}[cliche] hotkeys!
+   our very own CLI designed to handle the intricacies of editing the proper editor
+   #tangle
+   @code fennel
+   {1 :<leader>ie
+    2 #(_G.vim.cmd.edit {:args [(.. (_G.vim.fn.fnamemodify (_G.vim.fn.stdpath :data)
+                                                           ":h")
+                                    :/clhd/active.actions)]})
+    :desc "Edit clearhead actions file"}
+   @end
+** Tab-Management
+   we manage the `tab` mechanic through the `<tab>` key
+   #tangle
+   @code fennel
+   {1 :<leader><tab><tab> 2 :<cmd>tabnew<CR> :desc "Create New [tab]"}
+   {1 :<leader><tab><Del> 2 :<cmd>tabclose<CR> :desc "[Del]ete Current Tab"}
+
+   {1 :<leader><tab>n 2 :<cmd>tabNext<CR> :desc "[n]ext Tab"}
+   {1 :<leader><tab>p 2 :<cmd>tabprevious<CR> :desc "[p]revious Tab"}
+   {1 :<leader><tab>r
+    2 "<cmd>tcd -<CR>"
+    :desc "CD to previous directory in current tab"}
+   @end
+   - we create a new tab with two clicks of `<tab>`
+   - add `<del>` and we will delete the tab
+   - in the spirit of vim navigation we use `n` and `p` to iterate through tabs
+   - `r` returns to the previous `pwd` for the current `tabpage`
+** Git
+   now this is just a little hotkey to do some git hunks work in visual mode
+   #tangle
+   @code fennel
+   {1 :<leader>h :desc "Git [H]unk" :mode :v}
+   @end
+** escape from sub modes
+   just some stuff to use `<esc>` to escape (pun-intended) one of the submodes
+   - either the highlights from our previous search
+   - or the terminal mode from one of our sub terminals
+   #tangle
+   @code fennel
+   {1 :<Esc> 2 :<cmd>nohlsearch<CR> :desc "Remove Search Highlighting on Escape"}
+
+   {1 :<Esc><Esc> 2 "<C-\\><C-n>" :mode :t :desc "[Esc]ape terminal mode"}
+   @end
+** Diagnostic Hotkeys
+   Hotkeys for managing diagnostic messages to make working and iterating through diagnostic info nice
+   #tangle
+   @code fennel
+   {1 "[d"
+    2 #(_G.vim.diagnostic.goto_prev)
+    :desc "Go to previous [D]iagnostic message"}
+
+   {1 "]d"
+    2 #(_G.vim.diagnostic.goto_next)
+    :desc "Go to next [D]iagnostic message"}
+
+   {1 :<leader>q
+    2 #(_G.vim.diagnostic.setloclist)
+    :desc "Open diagnostic [Q]uickfix list"}
+   @end
+** Lazy and Noice
+   Some of the more interesting plugins include the built-in ui of our package manager {https://github.com/folke/lazy.nvim}[lazy.nvim]
+
+   as well as managing the extra functionality from {https://github.com/folke/noice.nvim}[noice.nvim]
+   #tangle
+   @code fennel
+   {1 :<leader>un
+   2 :<cmd>NoiceDismiss<cr>
+   :desc "Dismiss All Notifications"}
+   {1 :<leader>l 2 :<cmd>Lazy<CR> :desc "Start Lazy"}]))
+   @end
+
+* Window hotkeys
+  we just have a few hotkeys to make navigation of windows so easy that we just move over by a nice `<hjkl>` format without the W
+
+  We also add our hotkey to save the buffer
+
+  This is nice because we cant really do stuff like this with which key, or atleast there isnt much point to it so we just define them with the OOTB `keymap.set` function from the `keymap` api
+  #tangle
+  @code fennel
+  (_G.vim.keymap.set :n :<C-h> :<C-w><C-h>
+                     {:desc "Move focus to the left window"})
+
+  (_G.vim.keymap.set :n :<C-l> :<C-w><C-l>
+                     {:desc "Move focus to the right window"})
+
+  (_G.vim.keymap.set :n :<C-j> :<C-w><C-j>
+                     {:desc "Move focus to the lower window"})
+
+  (_G.vim.keymap.set :n :<C-k> :<C-w><C-k>
+                     {:desc "Move focus to the upper window"})
+
+  (_G.vim.keymap.set :n :<C-s> :<cmd>w<CR> {:desc "Save current Buffer"})
+  @end
+
+* GUI Hotkeys
+  GUI commands need their own hotkeys, we have some points but there is not really allot of change
+  #tangle
+  @code fennel
+  (fn change-scale-factor [delta]
+    (set _G.vim.g.neovide_scale_factor (* _G.vim.g.neovide_scale_factor delta)))
+
+  (_G.vim.keymap.set :n :<C-=> #(change-scale-factor 1.25))
+  (_G.vim.keymap.set :n :<C--> #(change-scale-factor (/ 1 1.25)))
+  (_G.vim.keymap.set :n "<C-[>" #(set _G.vim.g.neovide_scale_factor 1.0))
+  @end
+  ~ First , we set a function that allows us to change the scale factor from the original one we set in `options.fnl`
+  ~ Then, we use that function in our work to do the zooming functionality we want these just take away the need for shift where most of these need like the usual `+` for zooming in
+  ~~ `=` for zooming out
+  ~~ `-` for zooming in
+  ~~ `[` to put it back to default
+  ~ finally we just have to make a separate 

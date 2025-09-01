@@ -3,8 +3,9 @@ title: treesitter configuration
 description: plugin to configure the treesitter feature in neovim
 authors: primary_desktop
 categories: Neovim Platform Plugins
+tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/treesitter.fnl
 created: 2025-08-21T21:22:13-0800
-updated: 2025-08-23T10:39:38-0800
+updated: 2025-08-31T10:38:07-0800
 version: 1.1.1
 @end
 another topic that is both exciting and complex is treesitter one of the other core features of neovim
@@ -13,7 +14,7 @@ although we have strong support, the bulk of functionality is still in `nvim-tre
 
 
 interestingly we are mainly focused on working through our own plugin here from where we are installing a custom parser and making sure its setup for our work
-#tangle treesitter.fnl
+#tangle 
 @code fennel
 {1 :nvim-treesitter/nvim-treesitter
  :build ":TSUpdate"
@@ -48,7 +49,6 @@ interestingly we are mainly focused on working through our own plugin here from 
                   {:install_info {:url (.. (_G.vim.fn.stdpath :data)
                                            :/lazy/tree-sitter-actions)
                                   :files {1 :src/parser.c}}})))}
-
 @end
 - otherwise, we are just moving through the standard stuff
 -- setting the folds to be treesitter folds rather than the standard one

@@ -3,8 +3,9 @@ title: Mini platform
 description: the config for the set of plugins from the creator of the mini platform
 authors: primary_desktop
 categories: Neovim Platform Plugins
+tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/mini.fnl
 created: 2025-08-21T20:43:37-0800
-updated: 2025-08-23T10:39:11-0800
+updated: 2025-08-31T10:31:18-0800
 version: 1.1.1
 @end
 some plugins are more like platforms in the form of plugins.
@@ -14,7 +15,7 @@ in the infinite fight between keeping things small and composable, vs making thi
 One such plugin is mini.nvim which can be thought of as a collection of plugins that can be enabled and disabled at will. In this way, it is very much like a toolbox of plugins that you can choose where you want to put your work to make it all work as one whole
 
 This is also why we are making a dedicated file for a seemingly small amount of config. This is all something where we want to enable the ability to disable and enable mini plugins from a single place so we can easily check what we do and dont have enabled
-#tangle mini.fnl
+#tangle 
 @code fennel
 {1 :echasnovski/mini.nvim
  :version "*"

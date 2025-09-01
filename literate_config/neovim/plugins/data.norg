@@ -3,29 +3,29 @@ title: Data Plugins
 description: Plugins for viewing, fetching, and interacting with data from within Neovim
 authors: primary_desktop
 categories: Neovim Plugins
+tangle: ../../../.chezmoitemplates/Neovim/plugins/data.fnl
 created: 2025-08-20T23:58:04-0800
-updated: 2025-08-23T10:10:15-0800
+updated: 2025-08-31T10:07:50-0800
 version: 1.1.1
 @end
 
-#tangle data.fnl
+#tangle 
 @code fennel
 [{1 :cameron-wags/rainbow_csv.nvim
-:config true
-:ft [:csv
-:tsv
-:csv_semicolon
-:csv_whitespace
-:csv_pipe
-:rfc_csv
-:rfc_semicolon]
-:cmd [:RainboxDelim
-:RainboxDelimSimple
-:RainboxDelimQuoted
-:RainboxMultiDelim]}
-{1 :tpope/vim-dadbod}
-{1 :mistweaverco/kulala.nvim :ft [:http :rest] :opts {:global_keymaps true}}]
-
+  :config true
+  :ft [:csv
+       :tsv
+       :csv_semicolon
+       :csv_whitespace
+       :csv_pipe
+       :rfc_csv
+       :rfc_semicolon]
+  :cmd [:RainboxDelim
+        :RainboxDelimSimple
+        :RainboxDelimQuoted
+        :RainboxMultiDelim]}
+ {1 :tpope/vim-dadbod}
+ {1 :mistweaverco/kulala.nvim :ft [:http :rest] :opts {:global_keymaps true}}]
 @end
 
 * different colors for columns in using {https://github.com/cameron-wags/rainbow_csv.nvim}[rainbox_csv.vim]

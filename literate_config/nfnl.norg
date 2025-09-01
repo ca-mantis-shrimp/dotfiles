@@ -3,9 +3,9 @@ title: `nfnl` setup for literate config
 description: nfnl setup for the literate config itsef
 authors: primary_desktop
 categories: Neovim
-tangle: ../dot_config/remove_nvim/.nfnl.fnl
+tangle: ../.chezmoitemplates/Neovim/.nfnl.fnl
 created: 2025-07-25T23:29:49-0800
-updated: 2025-08-30T22:46:41-0800
+updated: 2025-08-31T08:55:34-0800
 version: 1.1.1
 @end
 * Generating Lua Files automatically 

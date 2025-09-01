@@ -2,13 +2,14 @@
 title: navigation plugins
 description: plugins to make navigating in neovim easier
 authors: primary_desktop
+tangle: ../../../.chezmoitemplates/Neovim/plugins/navigation.fnl
 categories: Neovim Plugins
 created: 2025-08-21T20:58:49-0800
-updated: 2025-08-23T10:15:15-0800
+updated: 2025-08-31T10:24:03-0800
 version: 1.1.1
 @end
 one category of plugins is the act of MOVING around and so we have a few plugins to accomodate that
-#tangle navigation.fnl
+#tangle 
 @code fennel
 [{1 :ThePrimeagen/harpoon :branch :harpoon2 :lazy true :config true}
  {1 :folke/flash.nvim

@@ -1,0 +1,34 @@
+@document.meta
+title: Conform.nvim config
+description: Plugins to manage code file formatting with conform.nvim
+authors: primary_desktop
+categories: Neovim Platform Plugins
+tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/conform.fnl
+created: 2025-08-19T19:28:41-0800
+updated: 2025-08-31T10:30:12-0800
+version: 1.1.1
+@end
+for this task we use the venerable conform.nvim which makes this whole process easier.
+
+we prefer doing this with just our own package manager so we just need to be sure that we installed the actual binaries themselves or built them before we set them up
+
+* Injected Language Formatting
+  One of conform's most powerful features is the `injected` formatter, which can format code blocks embedded within other file types. This is particularly useful for literate programming formats like norg and markdown.
+
+  The injected formatter uses treesitter to detect code blocks (like `@code fennel` in norg files), extracts each block, runs the appropriate formatter based on the language, and applies the formatted code back while preserving the document structure and indentation.
+
+  For norg files, this means we can have properly formatted fennel, lua, python, etc. code blocks within our literate config files without manually formatting each block or dealing with indentation issues.
+
+  #tangle
+  @code fennel
+  {1 :stevearc/conform.nvim
+   :opts {:formatters_by_ft {:lua [:stylua]
+                             :python [:ruff :black]
+                             :fennel [:fnlfmt]
+                             :clojure [:cljfmt]
+                             :json [:jq]
+                             :jsonc [:jq]
+                             :toml [:tombi]
+                             :norg [:injected]}
+          :format_on_save {:timeout_ms 500 :lsp_format :fallback}}}
+  @end

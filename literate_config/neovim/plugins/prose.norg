@@ -2,16 +2,17 @@
 title: prose writing plugin
 description: plugins to help me write prose documents
 authors: primary_desktop
+tangle: ../../../.chezmoitemplates/Neovim/plugins/prose.fnl
 categories: Neovim Plugins
 created: 2025-08-20T11:11:23-0800
-updated: 2025-08-24T09:03:13-0800
+updated: 2025-08-31T10:25:55-0800
 version: 1.1.1
 @end
 Neovim isnt just great for code, its also great for the structured writnig that we do all the time!
 
 with just a few plugins, we are able to make our editing experience orders of magnitude better while still supporting our work in the structured pursuit of editing
 
-#tangle prose.fnl
+#tangle 
 @code fennel
 [{1 :MeanderingProgrammer/render-markdown.nvim
   :dependencies [{1 :nvim-treesitter/nvim-treesitter}]

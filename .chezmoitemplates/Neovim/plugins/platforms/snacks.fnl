@@ -1,20 +1,3 @@
-@document.meta
-title: snacks.nvim 
-description: configuration for the various plugins for `snacks`
-authors: primary_desktop
-categories: Neovim Platform Plugins
-tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/snacks.fnl
-created: 2025-08-04T16:21:11-0800
-updated: 2025-08-31T10:34:09-0800
-version: 1.1.1
-@end
-Folkes' sprawling plugin empire became so hard to manage i think even he needed to cut a bunch out and make them more modular. 
-
-more importantly, as a plugin community, we usually enjoy having the ability to configure the various pieces of our software so the nice part about snacks is that it allows us to take and exclude the various plugins as we go.
-
-we first set the plugins up, then we define the hotkeys that are needed to make it all work together
-#tangle 
-@code fennel
 {1 :folke/snacks.nvim
  :priority 1000
  :lazy false
@@ -67,4 +50,4 @@ we first set the plugins up, then we define the hotkeys that are needed to make 
          2 #(_G.Snacks.picker.diagnostics)
          :desc "Search Diagnostics"}
         {1 :<c-/> 2 #(_G.Snacks.terminal) :desc "Open Terminal"}]}
-@end
+

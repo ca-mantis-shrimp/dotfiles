@@ -2,22 +2,23 @@
 title: Lisp Plugins
 description: Lisp-related plugins for our Neovim configuration
 authors: Darrion Burgess
+tangle: ../../../.chezmoitemplates/Neovim/plugins/lisp.fnl
 categories: Neovim Plugins
 created: 2025-07-25T19:19:52-0800
-updated: 2025-08-23T10:10:49-0800
+updated: 2025-08-31T10:15:43-0800
 version: 1.1.1
 @end
 Lisp has been a recent obsession of mine. I want to start working more with lisp programs and working through these structures more so I have this layout ready
 
 * Lisp Plugins
   Many of the plugins are more about making lisp easier to work with or enabling the use of lisp in the first place
-  #tangle lisp.fnl
+  #tangle 
   @code fennel
   [{1 :Olical/nfnl :ft :fennel}
    {1 :Olical/conjure :branch :main :dependencies [{1 :clojure-vim/vim-jack-in}]}
    {1 :eraserhd/parinfer-rust
-	:build "cargo build --release"
-     	:ft [:fennel :hy :clojure]}
+    :build "cargo build --release"
+    :ft [:fennel :hy :clojure]}
    {1 "https://gitlab.com/HiPhish/rainbow-delimiters.nvim.git"}]
   @end
 ** generating Lua from Fennel with {https://github.com/Olical/nfnl}[nfnl]

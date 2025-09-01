@@ -3,8 +3,9 @@ title: Entry
 description: First and root files for the neovim configuration
 authors: Darrion Burgess
 categories: Neovim
+tangle: ../../.chezmoitemplates/Neovim/init.fnl
 created: 2025-07-25T19:12:38-0800
-updated: 2025-08-27T08:31:11-0800
+updated: 2025-08-31T09:07:26-0800
 version: 1.1.1
 @end
 * Starting Init
@@ -12,7 +13,7 @@ version: 1.1.1
 
 ** Source Config Files
    Before we do anything, we want to set the options for neovim itself by source the file at `config/options.lua` which we do with the following structure
-   #tangle init.fnl
+   #tangle
    @code fennel
    (require :config.options)
    @end
@@ -39,7 +40,7 @@ version: 1.1.1
     The answer is that we just need to grab lazy dry and throw it in the right place 
 
     so first, we set a variable for the place where lazy should be located:
-    #tangle init.fnl
+    #tangle
     @code fennel
     (local lazypath (.. (_G.vim.fn.stdpath :data) :/lazy/lazy.nvim))
     @end
@@ -48,7 +49,7 @@ version: 1.1.1
     ~ we set this path to the `lazypath` variable for the various checks we will do in the following sections
 *** Checking and Cloning Lazy
     Next we actually check of the folder at the path exists, and if not, we actually clone the repo down fresh with `git` and from there at the `lazypath` we set earlier 
-    #tangle init.fnl
+    #tangle
     @code fennel
     (when (not (_G.vim.loop.fs_stat lazypath))
       (let [lazyrepo "https://github.com/folke/lazy.nvim.git"]
@@ -68,7 +69,7 @@ However still this is how we get the initial bootstrap done so that we can actua
     One design decision lazy makes is that it actually does NOT utilize the standard plugin directories, instead opting to use its own dedicated `lazy` folder as we saw above.
 
     However, in order to make lazy and the plugins using is capable, we need to add the lazy directory to the `:h rtp` which will enable neovim to use this like any other plugin:
-    #tangle init.fnl
+    #tangle
     @code fennel
     (_G.vim.opt.rtp:prepend lazypath)
     @end
@@ -76,7 +77,7 @@ However still this is how we get the initial bootstrap done so that we can actua
 *** Setting up Lazy
     With all the preludes out of the way, we are ready to setup Lazy as our first plugin properly
 
-    #tangle init.fnl
+    #tangle
     @code fennel
     (let [lazy (require :lazy)
           setup_opts {:spec [{:import :plugins}]}]
@@ -93,7 +94,7 @@ However still this is how we get the initial bootstrap done so that we can actua
    Now that the plugins have been sourced and setup, we can run the last few lines to source files that may _leverage_ these plugins
 
    Again, order matters here
-   #tangle init.fnl
+   #tangle
    @code fennel
    (require :config.keymaps)
    (require :config.autocmds)

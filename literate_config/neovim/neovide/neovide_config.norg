@@ -3,8 +3,9 @@ title: Neovide GUI Configuration
 description: Literate configuration for Neovide, the GUI frontend for Neovim
 author: primary_desktop
 categories: Neovim GUI
+tangle: ../../../dot_config/neovide/config.toml
 created: 2025-08-23T11:13:12-0800
-updated: 2025-08-24T09:06:58-0800
+updated: 2025-08-31T10:40:54-0800
 version: 1.0.0
 @end
 * Overview
@@ -37,7 +38,7 @@ version: 1.0.0
   The configuration file is minimal, focusing only on font settings.
   Most visual and behavioral settings are handled through Neovim's built-in neovide variables.
 
-  #tangle config.toml
+  #tangle 
   @code toml
   [font]
   normal = ["FiraCode Nerd Font"]

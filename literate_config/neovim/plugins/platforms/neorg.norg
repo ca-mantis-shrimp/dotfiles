@@ -3,17 +3,18 @@ title: Neorg Configuration
 description: Configuration for our favorite org-alternative within neovim 
 authors: primary_desktop
 categories: Neovim Platform Plugins
+tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/neorg.fnl
 created: 2025-07-29T21:21:17-0800
-updated: 2025-08-23T10:39:17-0800
+updated: 2025-08-31T10:32:20-0800
 version: 1.1.1
 @end
 This one is very meta and very important as this is the plugin information for Neorg, the writing tool that i am using to do this whole config so handling this work is important for making the whole thing run smoothly.
 
 we tried to break this up into various pieces so now we are going to go over them all at once since we primarily get this done within the lazy config so that everything goes well they did a good job of getting everything worked out
 
-#tangle neorg.fnl
+#tangle 
 @code fennel
-{1 :nvim-neorg/neorg 
+{1 :nvim-neorg/neorg
  :opts {:load {:core.defaults {}
                :core.concealer {}
                :core.dirman {:config {:workspaces {:main "~/neorg"
@@ -24,7 +25,7 @@ we tried to break this up into various pieces so now we are going to go over the
                                       :autochdir true
                                       :index :index.norg
                                       :last_workspace (.. (_G.vim.fn.stdpath :cache)
-                                                       :/neorg_last_workspace.txt)}}
+                                                          :/neorg_last_workspace.txt)}}
                :core.qol.toc {}
                :core.journal {:config {:journal_folder :/years/
                                        :workspace :journal}}
@@ -33,7 +34,7 @@ we tried to break this up into various pieces so now we are going to go over the
                :core.export.markdown {:config {:extensions :all}}
                :core.looking-glass {}
                :core.integrations.otter {}
-               :core.summary {}}} 
+               :core.summary {}}}
  :keys [{1 :<leader>nt
          2 "<cmd>Neorg journal today<cr>"
          :desc "Today's Journal Page"}
@@ -60,7 +61,7 @@ we tried to break this up into various pieces so now we are going to go over the
          :desc "Tangle Current File"}
         {1 :<leader>ni
          2 "<cmd>Neorg index<CR>"
-         :desc "Go to Index of Neorg Workspace"}] 
+         :desc "Go to Index of Neorg Workspace"}]
  :dependencies [{1 :jmbuhr/otter.nvim}]
  :lazy false}
 @end
