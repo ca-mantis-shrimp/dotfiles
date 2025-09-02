@@ -20,6 +20,7 @@ set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
 set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
 {{ else }}
 set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
+set -gx GEMINI_API_KEY {{ onepasswordRead "op://Back-End/personal_google/api_key" }}
 {{- end}}
 {{- end }}
 

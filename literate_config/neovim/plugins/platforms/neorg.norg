@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/neorg.fnl
 created: 2025-07-29T21:21:17-0800
-updated: 2025-08-31T10:32:20-0800
+updated: 2025-09-01T21:57:34-0800
 version: 1.1.1
 @end
 This one is very meta and very important as this is the plugin information for Neorg, the writing tool that i am using to do this whole config so handling this work is important for making the whole thing run smoothly.

@@ -4,53 +4,26 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-08-27T10:24:30-0800
+updated: 2025-09-01T20:30:17-0800
 version: 1.0.0
 @end
-= TOC
-This is the configuration Neorg Workspace. This Workspace is extra special because it will be the site of an experiment.
-
-We are going to attempt something I have wanted to try but have never felt like I had the tooling required.
-
-Specifically, we are going to leverage the tangling feature of neorg to actually write the various configuration files needed to keep the system running.
-
-We have gotten to the point where the code is rather concise, but it would take allot of context to understand what is going on in each file and how each one connects with the other.
-
-This is where tangling comes in. These norg files will actually generate the data that we expect to use throughout this work.
-
-As far as the structure goes I'm still tinkering with it but for right now I think there will be a norg file for every normal file unless they are rather small so I can ensure that everything is kept tidy
-
-In particular we will be going over the various pieces of the config so that all the parts can be put together into a cohesive whole
-
-The work is broken into categories. Since this is all about configuring pieces of software, we will have the configuration broken in to types of software, followed by the particular program
-
-particularly large programs will be broken into their own index and managed so that we can control it all
-
-the goal is that we can use tangling to maintain and explain the config without littering the place with comments everywhere
-
-and also, this will serve as the decision log for anybody (or thing) that is reading the config and needs to work out what is actually going on
-
-However, this wont contain the notes for the products themselves, that will be maintained in the dedicated knowledge workspace to keep this thing relatively clean and free.
-
-so we are clear the order goes:
-Neorg -> Chezmoi -> Neovim and everything else -> Neorg
-
-This creates a closed loop in which we can safely work on any and all of our computers while we use the workspace as a sort of staging ground for the rest of our work
 * Index
 ** Alternate Index
   - {:$/shells/bash/bash_config:}[Bash Shell Index] - Starting point for configuring the bash shell files
 ** Containers Docker
   - {:$/containers/docker:}[Chezmoi Repo Docker Configuration] - contains information for both the regular docker file as well as the devcontainer.json file
 ** Desktop Environment Hyprland
-  - {:$/desktop_environments/hyprland/hyprland_config:}[Hyprland Config] - Configuring the various files for the hyprland desktop environment
-  - {:$/desktop_environments/hyprland/hyprland_keymaps:}[Hyprland Keymaps] - The Keymaps for our Hyprland Setup
+  - {:$/desktop_environments/hyprland/config:}[Hyprland Config] - Configuring the various files for the hyprland desktop environment
+  - {:$/desktop_environments/hyprland/keymaps:}[Hyprland Keymaps] - The Keymaps for our Hyprland Setup
+  - {:$/desktop_environments/hyprland/settings:}[Hyprland Settings] - Settings and configuration for Hyprland itself as a DE
 ** Desktop Environment Komorebi
   - {:$/desktop_environments/komorebi/komorebi_config:}[Komorebi Configuration] - Configuring our Tiling Window Manager for Windows
   - {:$/desktop_environments/komorebi/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
 ** Desktop Environment Sway
   - {:$/desktop_environments/sway/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
 ** Dotfile Management Chezmoi
-  - {:$/chezmoi/chezmoi_index:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
+  - {:$/chezmoi/config:}[Chezmoi Configuration] - Collection of chezmoi files for configuration
+  - {:$/chezmoi/ignore:}[Chezmoi Ignore] - File used to control what gets into source state
 ** Index
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
 ** Llm
@@ -58,20 +31,26 @@ This creates a closed loop in which we can safely work on any and all of our com
 ** Neovim
   - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
   - {:$/neovim/entry:}[Entry] - First and root files for the neovim configuration
-  - {:$/neovim/config/config:}[Config] - Config Folder of files for configuring neovim-specific information
-  - {:$/neovim/ftplugin/ftplugins:}[Filetype Plugins] - FileType-specific customizations for Neovim
+  - {:$/neovim/config/options:}[Default Options Config] - Configuring the default Neovim options to get what we want out of the box
   - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
+** Neovim Config
+  - {:$/neovim/config/autocmds:}[Default Autocommands] - Neovim autocommands defined at the start
+  - {:$/neovim/config/keymaps:}[Neovim Keymaps] - All the keymaps we need in one place
+** Neovim Ftplugin
+  - {:$/neovim/ftplugin/norg:}[Norg Filetype Plugin] - FileType-specific customizations for Neovim Neorg
 ** Neovim Gui
   - {:$/neovim/neovide/neovide_config:}[Neovide Gui Configuration] - Literate configuration for Neovide, the GUI frontend for Neovim
+  - {:$/neovim/services/Client/neovide:}[Neovide Client Systemd Service] - Systemd service to connect to the domain server and get it working using a shared domain UNIX socket
 ** Neovim Platform Plugins
-  - {:$/neovim/plugins/platforms/completion:}[Completion] - plugins for overhauling the default completion engine
-  - {:$/neovim/plugins/platforms/formatters:}[Formatting Plugins] - Plugins to manage code file formatting
+  - {:$/neovim/plugins/platforms/blink:}[Completion] - plugins for overhauling the default completion engine
+  - {:$/neovim/plugins/platforms/conform:}[Conform.nvim Config] - Plugins to manage code file formatting with conform.nvim
   - {:$/neovim/plugins/platforms/mini:}[Mini Platform] - the config for the set of plugins from the creator of the mini platform
   - {:$/neovim/plugins/platforms/neorg:}[Neorg Configuration] - Configuration for our favorite org-alternative within neovim
+  - {:$/neovim/plugins/platforms/neotest:}[Testing Plugins] - neotest config so we can test and review directly in neovim
   - {:$/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
-  - {:$/neovim/plugins/platforms/testing:}[Testing Plugins] - neotest config so we can test and review directly in neovim
   - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
 ** Neovim Plugins
+  - {:$/neovim/plugins/LLM:}[Llm Plugins] - LLM-related plugins and configurations
   - {:$/neovim/plugins/UI:}[Ui Improvements] - UI plugins to help Neovim POP
   - {:$/neovim/plugins/colorschemes:}[Colorschemes] - list of colorschemes to download and set
   - {:$/neovim/plugins/data:}[Data Plugins] - Plugins for viewing, fetching, and interacting with data from within Neovim
@@ -81,7 +60,8 @@ This creates a closed loop in which we can safely work on any and all of our com
   - {:$/neovim/plugins/navigation:}[Navigation Plugins] - plugins to make navigating in neovim easier
   - {:$/neovim/plugins/prose:}[Prose Writing Plugin] - plugins to help me write prose documents
 ** Neovim Service
-  - {:$/neovim/services/services:}[Services] - Systemd services for on-demand neovim server with socket activation
+  - {:$/neovim/services/Server/service:}[Neovim Server Systemd Service] - Systemd services for on-demand neovim server with socket activation
+  - {:$/neovim/services/Server/socket:}[Neovim Socket] - Socket Service unit for dynamic activation of Neovim
 ** Reflection
   - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
 ** Scripts Index
@@ -101,6 +81,9 @@ This creates a closed loop in which we can safely work on any and all of our com
 ** Terminal Emulator Kitty
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
-  - {:$/neovim/plugins/LLM:}[Llm]
+  - {:$/containers/devcontainer:}[Devcontainer]
+  - {:$/neovim/config/utils:}[Utils]
+  - {:$/neovim/services/Server/testing:}[Testing]
 ** Version Control Git
-  - {:$/version_control/git:}[Git Config] - All the git config in one place for this repo
+  - {:$/git/config:}[Git Config] - All the git config in one place for this repo
+  - {:$/git/ignore:}[Git Ignore] - the gitignore for this repo

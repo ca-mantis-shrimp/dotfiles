@@ -2,9 +2,33 @@
 title: Neovide Client Systemd Service
 description: Systemd service to connect to the domain server and get it working using a shared domain UNIX socket
 authors: primary_desktop
-categories: 
+categories: Neovim GUI
+tangle: ../../../../dot_config/systemd/remove_user/neovide-client.service
 created: 2025-08-31T10:45:54-0800
-updated: 2025-08-31T10:46:34-0800
+updated: 2025-08-31T22:40:29-0800
 version: 1.1.1
 @end
 
+The GUI client service now depends on the socket unit rather than the service directly, allowing for proper on-demand activation.
+
+#tangle 
+@code ini
+[Unit]
+Description=Neovide GUI Instance (On-Demand Neovim Connection)
+Documentation=https://neovide.dev
+After=neovim-server.socket
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/neovide --server %h/.cache/nvim/server.pipe
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
+@end
+
+Changes from previous version:
+- `After=neovim-server.socket` instead of `Requires=neovim-server.service`
+- Added restart logic for robustness
+- The socket activation will start the server automatically when neovide connects

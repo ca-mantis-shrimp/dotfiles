@@ -1,0 +1,33 @@
+@document.meta
+title: Neovim Socket
+description: Socket Service unit for dynamic activation of Neovim  
+authors: primary_desktop
+categories: Neovim Service
+tangle: ../../../../dot_config/systemd/remove_user/neovim-server.socket
+created: 2025-08-31T22:34:07-0800
+updated: 2025-08-31T22:38:38-0800
+version: 1.1.1
+@end
+
+The socket unit acts as systemd's "doorbell" - it listens for connections and wakes up the service when needed.
+
+  #tangle 
+  @code ini
+  [Unit]
+  Description=Neovim Server Socket (On-Demand Activation)
+  Documentation=man:nvim
+
+  [Socket]
+  ListenStream=%h/.cache/nvim/server.pipe
+  SocketMode=0600
+  RemoveOnStop=yes
+
+  [Install]
+  WantedBy=sockets.target
+  @end
+
+Key configuration:
+- `ListenStream`: Unix domain socket path using systemd's `%h` (home directory)
+- `SocketMode=0600`: Owner read/write only (security)
+- `RemoveOnStop=yes`: Clean up socket file when stopping
+- `WantedBy=sockets.target`: Start socket listening at boot

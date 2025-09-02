@@ -1,1 +1,4 @@
-../../literate_config/neovim/neovide/config.toml
+[font]
+normal = ["FiraCode Nerd Font"]
+size = 20
+

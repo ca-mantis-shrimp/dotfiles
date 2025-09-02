@@ -1,0 +1,183 @@
+@document.meta
+title: Neovim Literate Configuration Automation (Fish)
+description: A Fish script to automate the creation of Neovim configuration files from literate norg files.
+author: Gemini
+tangle: ../../scripts/neovim_literate.fish
+created: 2025-09-01
+version: 1.2.0
+@end
+
+* Introduction
+
+  This document contains a script, written in **Fish shell**, to automate the brittle, multi-step process of adding new Neovim configurations. Using Fish aligns with the primary shell of this environment and offers a more readable syntax. The script can be run from the command line, catering to both interactive use within the editor and "dry runs" from the shell.
+
+* Refactored Architecture
+
+  The script has been broken down into focused, single-responsibility functions to improve readability and maintainability. Each function handles a specific aspect of the automation process:
+
+  - **Input validation** - Ensures we have valid inputs before proceeding
+  - **Path derivation** - Calculates all necessary file paths from the source file
+  - **File processing** - Handles the tangling and compilation steps
+  - **Template creation** - Generates the chezmoi template files
+  - **Orchestration** - Coordinates the entire workflow
+
+  This modular approach makes the script easier to understand, test, and modify.
+
+* Script Header and Argument Validation
+
+  The script begins with proper Fish shell initialization and a validation function. Input validation is crucial for preventing cascading errors throughout the process.
+
+  #tangle
+  @code fish 
+  #!/usr/bin/env fish
+  function validate_arguments
+	  if test (count $argv) -ne 1
+		  echo "Usage: (basename (status --current-filename)) <path-to-norg-file>"
+		  echo "Example: (basename (status --current-filename)) literate_config/neovim/plugins/new_plugin.norg"
+		  return 1
+	  end
+
+	  set norg_file $argv[1]
+
+	  if not test -f "$norg_file"
+		  echo "Error: File not found: $norg_file"
+		  return 1
+	  end
+
+	  if not string match -q "literate_config/neovim/*" -- "$norg_file"
+		  echo "Error: The .norg file must be located inside 'literate_config/neovim/'"
+		  return 1
+	  end
+
+	  echo "$norg_file"
+  end
+  @end
+
+  **Design Decision:** This function validates all inputs upfront and returns the validated file path. By failing early, we avoid partial processing states. The function uses Fish's `return` codes to signal success/failure, making it composable with the `or` operator in the main function.
+
+* Path Derivation Logic
+
+  Path derivation is complex because it must handle both root-level files and nested directory structures. This function centralizes all path calculations to ensure consistency.
+
+  #tangle
+  @code fish 
+  function derive_paths
+	  set norg_file $argv[1]
+
+	  echo "==> Deriving paths..." >&2
+
+	  set rel_norg_path (realpath --relative-to="literate_config/neovim" "$norg_file")
+	  set rel_dir (dirname "$rel_norg_path")
+	  set filename (basename "$norg_file" .norg)
+
+	  set fnl_dir ".chezmoitemplates/Neovim/$rel_dir"
+	  set fnl_file "$fnl_dir/$filename.fnl"
+	  set lua_file "$fnl_dir/$filename.lua"
+	  set template_path "Neovim/$rel_dir/$filename.lua"
+
+	  if test "$rel_dir" = "."
+		  set fnl_dir ".chezmoitemplates/Neovim"
+		  set fnl_file "$fnl_dir/$filename.fnl"
+		  set lua_file "$fnl_dir/$filename.lua"
+		  set template_path "Neovim/$filename.lua"
+	  end
+
+	  echo "    -> Derived paths for '$filename'" >&2
+
+	  # Return all paths as a space-separated string
+	  echo "$rel_dir" "$filename" "$fnl_file" "$lua_file" "$template_path"
+  end
+  @end
+
+  **Design Decision:** This function uses Fish's ability to return multiple values as a space-separated string. The special case for root directory (`"."`) ensures template paths are clean without redundant directory separators. Status messages are sent to stderr (`>&2`) so they don't interfere with the returned data.
+
+* File Processing Operations
+
+  The tangling and compilation steps are tightly coupled - we need to tangle first, then compile. This function encapsulates both operations with clear progress reporting.
+
+  #tangle
+  @code fish 
+  function tangle_and_compile
+	  set norg_file $argv[1]
+	  set fnl_file $argv[2]
+	  set lua_file $argv[3]
+
+	  echo "==> Tangling $norg_file..."
+	  nvim "$norg_file" -c "Neorg tangle current-file" -c "q"
+	  echo "    -> Tangled to $fnl_file"
+
+	  echo "==> Compiling $fnl_file to Lua..."
+	  nvim "$fnl_file" -c "w" -c "q"
+	  nvim "$lua_file" -c "w" -c "q"
+	  echo "    -> Compiled to $lua_file"
+  end
+  @end
+
+  **Design Decision:** This function relies on existing Neovim automation and plugin behavior. The compilation step uses the convention that saving a Fennel file triggers automatic compilation to Lua. The extra save operation on the Lua file ensures any final transformations are applied.
+
+* Template File Creation
+
+  Template creation involves multiple file system operations and path handling. This function manages the complexity of creating files in multiple destination directories.
+
+  #tangle
+  @code fish 
+  function create_templates
+	  set rel_dir $argv[1]
+	  set filename $argv[2]
+	  set template_path $argv[3]
+
+	  echo "==> Creating chezmoi template files..."
+	  set template_content "{{- template \"$template_path\" -}}"
+
+	  set dest_base1 "dot_config/remove_nvim/lua"
+	  set dest_base2 "AppData/Local/remove_nvim/lua"
+	  set dest_dir1 "$dest_base1/$rel_dir"
+	  set dest_dir2 "$dest_base2/$rel_dir"
+
+	  if test "$rel_dir" = "."
+		  set dest_dir1 "$dest_base1"
+		  set dest_dir2 "$dest_base2"
+	  end
+
+	  mkdir -p "$dest_dir1" "$dest_dir2"
+
+	  set dest_file1 "$dest_dir1/$filename.lua.tmpl"
+	  set dest_file2 "$dest_dir2/$filename.lua.tmpl"
+
+	  echo "$template_content" > "$dest_file1"
+	  echo "    -> Created $dest_file1"
+	  echo "$template_content" > "$dest_file2"
+	  echo "    -> Created $dest_file2"
+  end
+  @end
+
+  **Design Decision:** The function creates templates for both Unix and Windows environments. The `mkdir -p` ensures parent directories exist without failing if they're already present. Template content uses chezmoi's template syntax to reference the compiled Lua files.
+
+* Main Orchestration Function
+
+  The main function coordinates the entire workflow, handling data flow between functions and providing the user-facing interface.
+
+  #tangle
+  @code fish 
+  function main
+	  set norg_file (validate_arguments $argv)
+	  or return 1
+
+	  set path_info (derive_paths "$norg_file")
+	  set rel_dir (echo $path_info | cut -d' ' -f1)
+	  set filename (echo $path_info | cut -d' ' -f2)
+	  set fnl_file (echo $path_info | cut -d' ' -f3)
+	  set lua_file (echo $path_info | cut -d' ' -f4)
+	  set template_path (echo $path_info | cut -d' ' -f5)
+
+	  tangle_and_compile "$norg_file" "$fnl_file" "$lua_file"
+
+	  create_templates "$rel_dir" "$filename" "$template_path"
+
+	  echo "==> Done!"
+	  echo "Review the generated files, then run 'chezmoi apply'."
+  end
+
+  main $argv
+  @end
+

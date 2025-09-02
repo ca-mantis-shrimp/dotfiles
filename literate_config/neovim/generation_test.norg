@@ -1,0 +1,16 @@
+@document.meta
+title: generation_test
+description: we are using this to see if we can do this properly
+authors: primary_desktop
+categories: Neovim test
+tangle: ../../.chezmoitemplates/Neovim/generation_test.fnl
+created: 2025-09-01T21:26:08-0800
+updated: 2025-09-01T21:27:22-0800
+version: 1.1.1
+@end
+
+something to test if we are actually doing the necessary pieces to export
+#tangle
+@code fennel
+(print :hello)
+@end
