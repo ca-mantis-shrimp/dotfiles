@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-09-01T20:30:17-0800
+updated: 2025-09-03T11:14:43-0800
 version: 1.0.0
 @end
 * Index
@@ -27,7 +27,8 @@ version: 1.0.0
 ** Index
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
 ** Llm
-  - {:$/Agents:}[Agents Direction] - Hand-written guidance for LLM agents working on the literate config
+  - {:$/Agents:}[Standard Agents.md File] - The standard Agents.md file to instruct LLMs how to interact with the repo
+  - {:$/Agents_explanation:}[Agents Direction] - Hand-written guidance for LLM agents working on the literate config
 ** Neovim
   - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
   - {:$/neovim/entry:}[Entry] - First and root files for the neovim configuration
@@ -62,6 +63,8 @@ version: 1.0.0
 ** Neovim Service
   - {:$/neovim/services/Server/service:}[Neovim Server Systemd Service] - Systemd services for on-demand neovim server with socket activation
   - {:$/neovim/services/Server/socket:}[Neovim Socket] - Socket Service unit for dynamic activation of Neovim
+** Neovim Test
+  - {:$/neovim/generation_test:}[Generation_test] - we are using this to see if we can do this properly
 ** Reflection
   - {:$/journal:}[Literate Config Journal] - A technical journal of the ongoing thoughts i have about the project
 ** Scripts Index
@@ -82,6 +85,7 @@ version: 1.0.0
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
   - {:$/containers/devcontainer:}[Devcontainer]
+  - {:$/scripts/neovim_automation:}[Neovim Literate Configuration Automation (fish)] - A Fish script to automate the creation of Neovim configuration files from literate norg files.
   - {:$/neovim/config/utils:}[Utils]
   - {:$/neovim/services/Server/testing:}[Testing]
 ** Version Control Git

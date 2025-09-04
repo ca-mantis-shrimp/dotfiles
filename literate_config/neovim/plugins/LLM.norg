@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../.chezmoitemplates/Neovim/plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-09-01T00:30:45-0800
+updated: 2025-09-03T10:43:14-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -19,7 +19,17 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
 [{1 :github/copilot.vim}
  {1 :CopilotC-Nvim/CopilotChat.nvim :build "make tiktoken" :opts {}}
  {1 :olimorris/codecompanion.nvim
-  :opts {}
+  :dependencies [{1 :ravitemer/mcphub.nvim
+                  :build "npm install -g mcp-hub@latest"
+                  :opts {}}]
+  :opts {:extensions {:mcphub {:callback :mcphub.extensions.codecompanion
+                               :opts {:make_tools true
+                                      :show_server_tools_in_chat true
+                                      :add_mcp_prefix_to_tool_names false
+                                      :show_result_in_chat true
+                                      :format_tool nil
+                                      :make_vars true
+                                      :make_slash_commands true}}}}
   :keys [{1 :<leader>cc
           2 :<cmd>CodeCompanionChat<CR>
           :desc "CodeCompanion Chat"}
@@ -28,3 +38,7 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
           :mode :v
           :desc "CodeCompanion Inline"}]}]
 @end
+* Code Companion
+  Code companion is emerging as the winner from my perspective, i really appreciate the design philsophy, it feels much more native to how a neovim plugin should work
+
+plus i feel like there is more modularity here than say the normal avante setup which is more of an all-in-one setup
