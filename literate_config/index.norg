@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-09-08T00:21:25-0800
+updated: 2025-09-08T01:44:47-0800
 version: 1.0.0
 @end
 * Index
@@ -37,7 +37,10 @@ version: 1.0.0
 ** Neovim Config
   - {:$/neovim/config/autocmds:}[Default Autocommands] - Neovim autocommands defined at the start
   - {:$/neovim/config/keymaps:}[Neovim Keymaps] - All the keymaps we need in one place
+** Neovim Config Project
+  - {:$/neovim/dot_nvim:}[Dotfile Specific Neovim Config] - the project-specific Neovim configuration for this literate config repo
 ** Neovim Ftplugin
+  - {:$/neovim/ftplugin/fennel:}[Fennel Filetype Plugin] - FileType-specific customizations for fennel files
   - {:$/neovim/ftplugin/norg:}[Norg Filetype Plugin] - FileType-specific customizations for Neovim Neorg
 ** Neovim Gui
   - {:$/neovim/neovide/neovide_config:}[Neovide Gui Configuration] - Literate configuration for Neovide, the GUI frontend for Neovim
@@ -50,7 +53,6 @@ version: 1.0.0
   - {:$/neovim/plugins/platforms/neotest:}[Testing Plugins] - neotest config so we can test and review directly in neovim
   - {:$/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
   - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
-  - {:$/neovim/plugins/platforms/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
 ** Neovim Plugins
   - {:$/neovim/plugins/LLM:}[Llm Plugins] - LLM-related plugins and configurations
   - {:$/neovim/plugins/UI:}[Ui Improvements] - UI plugins to help Neovim POP

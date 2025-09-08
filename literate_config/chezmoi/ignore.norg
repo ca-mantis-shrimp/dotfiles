@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Dotfile Management Chezmoi
 tangle: ../../.chezmoiignore
 created: 2025-08-30T22:49:46-0800
-updated: 2025-08-30T22:52:25-0800
+updated: 2025-09-08T01:34:49-0800
 version: 1.1.1
 @end
 * {https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines}[Ignore File]
@@ -68,6 +68,7 @@ version: 1.1.1
    Dockerfile
    .nvim.lua
    *.md
+   *.lua
    **.*.fnl
    @end
    - literate config (this folder!)
@@ -75,4 +76,5 @@ version: 1.1.1
    - `intentions` which comes from my own personal work
    - `Dockerfile` from out attempts to make this into a container
    - `.nvim.lua` which helps us configure neovim for this repo specifically
+   - we only remove the lua files in the base of the repo since we want to ignore the `.nvim.lua` file that is intended as project-specific config
    - finally, we want to ignore any fennel files since for now their primary purpose is within the neovim config when used to GENERATE any files

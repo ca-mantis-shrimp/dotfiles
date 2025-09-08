@@ -1,0 +1,23 @@
+@document.meta
+title: dotfile specific Neovim config
+description: the project-specific Neovim configuration for this literate config repo
+authors: dab
+categories: Neovim Config Project
+tangle: ../../.nvim.fnl
+created: 2025-09-08T01:27:02-0800
+updated: 2025-09-08T01:33:37-0800
+version: 1.1.1
+@end
+neovim has the concept of project-specific configuration built in, see `:h exrc` for more information
+
+we also have the option enabled as we need to explicitly enable it from {:config/options.norg:}[the options file]
+
+but here we are actually generating the project-specific setup for THIS repo, the 
+
+#tangle
+@code fennel
+(set _G.vim.opt.makeprg "chezmoi apply")
+
+(_G.vim.keymap.set :n :<leader>cm :<cmd>make<cr>
+                   {:desc "Run chezmoi apply to sync changes"})
+@end
