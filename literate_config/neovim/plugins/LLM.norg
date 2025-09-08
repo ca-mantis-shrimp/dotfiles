@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../.chezmoitemplates/Neovim/plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-09-03T10:43:14-0800
+updated: 2025-09-07T20:43:43-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -29,7 +29,26 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
                                       :show_result_in_chat true
                                       :format_tool nil
                                       :make_vars true
-                                      :make_slash_commands true}}}}
+                                      :make_slash_commands true}}
+                      :vectorcode {:opts {:tool_group {:enabled true
+                                                       :extras {}
+                                                       :collapse false}}
+                                   :tool_opts {:* {}
+                                               :ls {}
+                                               :vectorise {}
+                                               :query {:max_num {:chunk -1
+                                                                 :document -1}}
+                                               :default_num {:chunk 50
+                                                             :document 10}
+                                               :include_stderr false
+                                               :use_lsp false
+                                               :no_duplicate true
+                                               :chunk_mode false
+                                               :summarize {:enabled false
+                                                           :adapter nil
+                                                           :query_argument true}
+                                               :file_ls {}
+                                               :files_rm {}}}}}
   :keys [{1 :<leader>cc
           2 :<cmd>CodeCompanionChat<CR>
           :desc "CodeCompanion Chat"}
@@ -41,4 +60,70 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
 * Code Companion
   Code companion is emerging as the winner from my perspective, i really appreciate the design philsophy, it feels much more native to how a neovim plugin should work
 
-plus i feel like there is more modularity here than say the normal avante setup which is more of an all-in-one setup
+  plus i feel like there is more modularity here than say the normal avante setup which is more of an all-in-one setup
+
+** MCP hub
+   another cool extension we get setup here is mcp hub which helps us to bring in MCP servers for all our LLMs and to enable our LLM tools to call other pieces
+
+*** Features
+    Provides the following benefits:
+    - Flexible Tool Access: Multiple ways to use MCP tools - from broad `@mcp` access to granular individual tools
+    - Server Groups: Access all tools from a specific server (e.g., `@neovim`, `@github`, `@tree_sitter`)
+    - Individual Tools: Use specific tools with clear namespacing (e.g., `@neovim__read_file`, `@github__create_issue`)
+    - Custom Tool Groups: Create your own tool combinations for specific workflows
+    - Resource Variables: Utilize MCP resources as context variables using the # prefix (e.g., #mcp:resource_name)
+    - Slash Commands: Execute MCP prompts directly using /mcp:prompt_name slash commands
+    - Rich Media Support: Supports 🖼 images and other media types as shown in the demo
+    - Real-time Updates: Automatic updates in CodeCompanion when MCP servers change
+
+** VectorCode
+   we use an embeddings tools with chromadb as the core of the work as a vector database.
+
+   the extension above requires vectorcode 7.0+ to be installed on the syste
+
+   The CodeCompanion extension will register the following tools:
+
+   - `@vectorcode_ls`: an equivalent of vectorcode ls command that shows the indexed projects on your system;
+   - `vectorcode_query`: an equivalent of vectorcode query command that searches from a project;
+   - `vectorcode_vectorise`: an equivalent of vectorcode vectorise command that adds files to the database;
+   - `vectorcode_files_ls`: an equivalent of vectorcode files ls command that gives a list of indexed files in a project;
+   - `vectorcode_files_rm`: an equivalent of vectorcode files rm command that removes files from a collection.
+   - By default, it'll also create a tool group called `vectorcode_toolbox`, which contains 
+   -- `vectorcode_ls`
+   -- `vectorcode_query` 
+   -- `vectorcode_vectorise` tools. 
+   --- You can customise the members of this toolbox by the include_in_toolbox option explained below.
+
+*** Global Tool Configuration
+    The following are the common options that all tools supports:
+
+    - `use_lsp`: whether to use the LSP backend to run the queries.
+    -- Using LSP provides some insignificant performance boost and a nice notification pop-up if you're using fidget.nvim.
+    -- Default: true if async_backend is set to "lsp" in setup(). Otherwise, it'll be false;
+    - `requires_approval`: whether CodeCompanion.nvim asks for your approval before executing the tool call.
+    -- Default: false for ls and query; true for vectorise;
+    - `include_in_toolbox`: whether this tool should be included in vectorcode_toolbox.
+    -- Default: true for query, vectorise and ls, false for files_*.
+    - In the tool_opts table, you may either configure these common options individually, or use the ["*"] key to specify the default settings for all tools. If you've set both the default settings (via ["*"]) and the individual settings for a tool, the individual settings take precedence.
+
+**** VectorCode Specific Configuration
+     The query tool contains the following extra config options:
+
+     - `chunk_mode`: boolean, whether the VectorCode backend should return chunks or full documents. Default: false;
+     - max_num and default_num: If they're set to integers, they represent the default and maximum allowed number of results returned by VectorCode (regardless of document or chunk mode).
+     -- They can also be set to tables with 2 keys: document and chunk. In this case, their values would be used for the corresponding mode.
+     --- You may ask the LLM to request a different number of chunks or documents, but they'll be capped by the values in max_num.
+     --- Default: See the sample snippet above. Negative values for max_num means unlimited.
+     - `no_duplicate`: boolean, whether the query calls should attempt to exclude files that has been retrieved and provided in the previous turns of the current chat.
+     -- This helps saving tokens and increase the chance of retrieving the correct files when the previous retrievals fail to do so. Default: true.
+     - `summarise`: optional summarisation for the retrieval results. This is a table with the following keys:
+     -- `enabled`: This can either be a boolean that toggles summarisation on/off completely, or a function that accepts the CodeCompanion.
+     --- Chat object and the raw query results as the 2 paramters and returns a boolean.
+     ---- When it's the later, it'll be evaluated for every tool call. This allows you to write some custom logic to dynamically turn summarisation on and off.
+     --- When the summarisation is enabled, but you find the summaries not informative enough, you can tell the LLM to disable the summarisation during the chat so that it sees the raw information;
+     - `adapter`: See CodeCompanion documentation. When not provided, it'll use the chat adapter;
+     - `system_prompt`: When set to a string, this will be used as the system prompt for the summarisation model.
+     -- When set to a function, it'll be called with the default system prompt as the only parameter, and it should return a string that will be used as a system prompt.
+     --- This allows you to append/prepend things to the default system prompt;
+     - `query_augmented`: boolean, whether the system prompt should contain the query so that when the LLM decide what information to include, it may be able to avoid omitting stuff related to query.
+

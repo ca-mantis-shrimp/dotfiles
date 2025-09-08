@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/snacks.fnl
 created: 2025-08-04T16:21:11-0800
-updated: 2025-08-31T10:34:09-0800
+updated: 2025-09-08T00:25:53-0800
 version: 1.1.1
 @end
 Folkes' sprawling plugin empire became so hard to manage i think even he needed to cut a bunch out and make them more modular. 
@@ -13,6 +13,10 @@ Folkes' sprawling plugin empire became so hard to manage i think even he needed 
 more importantly, as a plugin community, we usually enjoy having the ability to configure the various pieces of our software so the nice part about snacks is that it allows us to take and exclude the various plugins as we go.
 
 we first set the plugins up, then we define the hotkeys that are needed to make it all work together
+
+core docs found {https://github.com/folke/snacks.nvim?tab=readme-ov-file}[here]
+
+but overall we are trying to run much of this using the snacks plugins to handle what is needed for our work on editing and just getting this work done right
 #tangle 
 @code fennel
 {1 :folke/snacks.nvim
@@ -39,7 +43,8 @@ we first set the plugins up, then we define the hotkeys that are needed to make 
         :scope {:enabled true}
         :scroll {:enabled true}
         :statuscolumn {:enabled true}
-        :words {:enabled true}}
+        :words {:enabled true}
+        :zen {}}
  :keys [{1 :<leader><space>
          2 #(_G.Snacks.picker.smart)
          :desc "Smart Find Files"}
@@ -66,5 +71,13 @@ we first set the plugins up, then we define the hotkeys that are needed to make 
         {1 :<leader>sd
          2 #(_G.Snacks.picker.diagnostics)
          :desc "Search Diagnostics"}
-        {1 :<c-/> 2 #(_G.Snacks.terminal) :desc "Open Terminal"}]}
+        {1 :<c-/>
+         2 #(_G.Snacks.terminal)
+         :desc "Open Horizontal Terminal Window"}
+        {1 :<leader>uz 2 #(_G.Snacks.zen) :desc "Zen Mode"}]}
 @end
+
+
+* Reference
+- {file:///home/dab/.local/share/nvim/lazy/snacks.nvim/doc/snacks.nvim.txt}[`help snacks.nvim`]
+- {file:///home/dab/.local/share/nvim/lazy/snacks.nvim/doc/snacks-zen.txt}[`help snacks-zen`]

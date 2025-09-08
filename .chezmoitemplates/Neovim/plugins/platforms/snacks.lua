@@ -50,6 +50,9 @@ end
 local function _17_()
 	return _G.Snacks.terminal()
 end
+local function _18_()
+	return _G.Snacks.zen()
+end
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -76,6 +79,7 @@ return {
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
+		zen = {},
 	},
 	keys = {
 		{ "<leader><space>", _1_, desc = "Smart Find Files" },
@@ -94,7 +98,8 @@ return {
 		{ "<leader>si", _14_, desc = "Search Icons" },
 		{ "<leader>sj", _15_, desc = "Search Jumps" },
 		{ "<leader>sd", _16_, desc = "Search Diagnostics" },
-		{ "<c-/>", _17_, desc = "Open Terminal" },
+		{ "<c-/>", _17_, desc = "Open Horizontal Terminal Window" },
+		{ "<leader>uz", _18_, desc = "Zen Mode" },
 	},
 	lazy = false,
 }

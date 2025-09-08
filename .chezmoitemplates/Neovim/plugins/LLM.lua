@@ -19,6 +19,23 @@ return {
 						add_mcp_prefix_to_tool_names = false,
 					},
 				},
+				vectorcode = {
+					opts = { tool_group = { enabled = true, extras = {}, collapse = false } },
+					tool_opts = {
+						["*"] = {},
+						ls = {},
+						vectorise = {},
+						query = { max_num = { chunk = -1, document = -1 } },
+						default_num = { chunk = 50, document = 10 },
+						no_duplicate = true,
+						summarize = { adapter = nil, query_argument = true, enabled = false },
+						file_ls = {},
+						files_rm = {},
+						chunk_mode = false,
+						include_stderr = false,
+						use_lsp = false,
+					},
+				},
 			},
 		},
 		keys = {

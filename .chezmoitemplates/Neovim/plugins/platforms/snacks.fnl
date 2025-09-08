@@ -22,7 +22,8 @@
         :scope {:enabled true}
         :scroll {:enabled true}
         :statuscolumn {:enabled true}
-        :words {:enabled true}}
+        :words {:enabled true}
+        :zen {}}
  :keys [{1 :<leader><space>
          2 #(_G.Snacks.picker.smart)
          :desc "Smart Find Files"}
@@ -49,5 +50,8 @@
         {1 :<leader>sd
          2 #(_G.Snacks.picker.diagnostics)
          :desc "Search Diagnostics"}
-        {1 :<c-/> 2 #(_G.Snacks.terminal) :desc "Open Terminal"}]}
+        {1 :<c-/>
+         2 #(_G.Snacks.terminal)
+         :desc "Open Horizontal Terminal Window"}
+        {1 :<leader>uz 2 #(_G.Snacks.zen) :desc "Zen Mode"}]}
 
