@@ -39,8 +39,9 @@ return {
 			},
 		},
 		keys = {
-			{ "<leader>cc", "<cmd>CodeCompanionChat<CR>", desc = "CodeCompanion Chat" },
-			{ "<leader>ci", "<cmd>CodeCompanionInline<CR>", mode = "v", desc = "CodeCompanion Inline" },
+			{ "<leader>uc", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle [u]i for [c]ode companion" },
+			{ "<leader>sC", "<cmd>CodeCompanionActions<CR>", desc = "[s]earch [C]odeCompanion Actions" },
+			{ "ga", "<cmd>CodeCompanionChat Add<CR>", mode = "v", desc = "Add Current Selection to Chat" },
 		},
 	},
 }

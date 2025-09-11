@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/settings.conf
 created: 2025-08-30T22:26:12-0800
-updated: 2025-08-30T23:07:46-0800
+updated: 2025-09-10T21:04:00-0800
 version: 1.1.1
 @end
 Finally, we get to the settings that compose the hyprland desktop
@@ -184,9 +184,6 @@ Finally, we get to the settings that compose the hyprland desktop
 	  }
   }
 
-  gestures {
-	  workspace_swipe = false
-  }
   @end
   finally, we have an example of how to set per-device input settings, which is useful if you have a mouse that needs special handling or a touchpad that needs different settings than the rest of your devices
   See {https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs}[per device input configs] for more

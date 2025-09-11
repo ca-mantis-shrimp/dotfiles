@@ -31,11 +31,14 @@
                                                            :query_argument true}
                                                :file_ls {}
                                                :files_rm {}}}}}
-  :keys [{1 :<leader>cc
-          2 :<cmd>CodeCompanionChat<CR>
-          :desc "CodeCompanion Chat"}
-         {1 :<leader>ci
-          2 :<cmd>CodeCompanionInline<CR>
+  :keys [{1 :<leader>uc
+          2 "<cmd>CodeCompanionChat Toggle<CR>"
+          :desc "Toggle [u]i for [c]ode companion"}
+         {1 :<leader>sC
+          2 :<cmd>CodeCompanionActions<CR>
+          :desc "[s]earch [C]odeCompanion Actions"}
+         {1 :ga
+          2 "<cmd>CodeCompanionChat Add<CR>"
           :mode :v
-          :desc "CodeCompanion Inline"}]}]
+          :desc "Add Current Selection to Chat"}]}]
 

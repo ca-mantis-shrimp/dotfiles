@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../.chezmoitemplates/Neovim/plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-09-07T20:43:43-0800
+updated: 2025-09-08T23:01:58-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -49,13 +49,16 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
                                                            :query_argument true}
                                                :file_ls {}
                                                :files_rm {}}}}}
-  :keys [{1 :<leader>cc
-          2 :<cmd>CodeCompanionChat<CR>
-          :desc "CodeCompanion Chat"}
-         {1 :<leader>ci
-          2 :<cmd>CodeCompanionInline<CR>
+  :keys [{1 :<leader>uc
+          2 "<cmd>CodeCompanionChat Toggle<CR>"
+          :desc "Toggle [u]i for [c]ode companion"}
+         {1 :<leader>sC
+          2 :<cmd>CodeCompanionActions<CR>
+          :desc "[s]earch [C]odeCompanion Actions"}
+         {1 :ga
+          2 "<cmd>CodeCompanionChat Add<CR>"
           :mode :v
-          :desc "CodeCompanion Inline"}]}]
+          :desc "Add Current Selection to Chat"}]}]
 @end
 * Code Companion
   Code companion is emerging as the winner from my perspective, i really appreciate the design philsophy, it feels much more native to how a neovim plugin should work

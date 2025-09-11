@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-09-08T01:44:47-0800
+updated: 2025-09-08T23:28:22-0800
 version: 1.0.0
 @end
 * Index
@@ -54,7 +54,7 @@ version: 1.0.0
   - {:$/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
   - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
 ** Neovim Plugins
-  - {:$/neovim/plugins/LLM:}[Llm Plugins] - LLM-related plugins and configurations
+   - {:$/neovim/plugins/LLM:}[Llm Plugins] - LLM-related plugins and configurations
   - {:$/neovim/plugins/UI:}[Ui Improvements] - UI plugins to help Neovim POP
   - {:$/neovim/plugins/colorschemes:}[Colorschemes] - list of colorschemes to download and set
   - {:$/neovim/plugins/data:}[Data Plugins] - Plugins for viewing, fetching, and interacting with data from within Neovim
