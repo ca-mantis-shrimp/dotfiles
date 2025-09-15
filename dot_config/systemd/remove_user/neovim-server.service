@@ -1,16 +1,10 @@
 [Unit]
-Description=Neovim Embedded Server (Socket Activated)
+Description=Neovim Embedded Server (Backend)
 Documentation=man:nvim
-Requires=neovim-server.socket
 
 [Service]
-Type=exec
-ExecStart=/usr/bin/nvim --headless --embed
-StandardInput=socket
-StandardOutput=journal
-StandardError=journal
+Type=simple
+ExecStart=/home/primary_desktop/.local/share/bob/nvim-bin/nvim --headless --listen /run/user/%U/nvim/neovim-backend.sock
 
-TimeoutStopSec=10
-KillMode=mixed
-
-# RuntimeMaxSec=3600
+[Install]
+WantedBy=default.target

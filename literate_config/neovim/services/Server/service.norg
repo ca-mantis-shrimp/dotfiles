@@ -1,98 +1,56 @@
 @document.meta
-title: Neovim Server Systemd Service
-description: Systemd services for on-demand neovim server with socket activation
+title: Neovim Backend Service
+description: The actual neovim server that runs headless and listens on the backend socket
 authors: primary_desktop
-categories: Neovim Service
+categories: 
 tangle: ../../../../dot_config/systemd/remove_user/neovim-server.service
-created: 2025-08-24T09:08:26-0800
-updated: 2025-08-31T22:41:41-0800
-version: 2.1.0
+created: 2025-09-14T00:37:11-0800
+updated: 2025-09-14T20:23:08-0800
+version: 1.2.0
 @end
 
-* Architecture Overview
+This is the backend neovim service that actually runs the neovim instance. It listens on a different socket than what clients connect to - the proxy service bridges these two sockets.
 
-We are a systemd linux user, so we make very heavy use of the `systemd` architecture for building and running services.
+** Backend Socket Architecture Decision
 
-One prime example of this is the usecase of running neovim as a server with *socket activation* for on-demand startup!
+Neovim listens on `/run/user/%U/nvim/neovim-backend.sock` because:
+- It's separate from the frontend socket (no conflicts)
+- Uses a descriptive name (`neovim-backend.sock`) to clarify its role
+- Located in `/run/user/%U/nvim/` for consistency
+- Only the proxy service connects here, never clients directly
 
-We can then attach any number of clients (either TUI or GUI) to this server so that they can not only share buffers/tags, but can allow us to access a development environment from wherever we may be that has internet.
+** Why Not Socket Activation for Neovim?
 
-** Design Philosophy: Local-First with Remote Capability
+Neovim doesn't natively support systemd socket activation, so we can't use `StandardInput=socket`. Instead:
+1. This service starts neovim with `--listen` on its own socket
+2. The proxy service forwards connections from frontend → backend
+3. This allows socket-like behavior without neovim needing to understand systemd sockets
 
-Our architecture follows a *local-first development* model:
-- *Strong edges* (development machines) prioritize local performance
-- *Weak nodes* (phones, tablets) connect remotely when needed
-- On-demand activation prevents resource waste
-- Unix domain sockets provide maximum local performance
+#tangle 
+@code ini
+[Unit]
+Description=Neovim Embedded Server (Backend)
+Documentation=man:nvim
 
-** Socket Activation vs Always-On Services
+[Service]
+Type=simple
+ExecStart=/home/primary_desktop/.local/share/bob/nvim-bin/nvim --headless --listen /run/user/%U/nvim/neovim-backend.sock
 
-*Traditional approach*:
+[Install]
+WantedBy=default.target
 @end
-System Boot → Service Starts → Listens Forever → Wastes Resources
-@end
 
-*Socket activation approach*:
-@end
-System Boot → Socket Unit Listens → Client Connects → Service Starts → Handles Request → Can Stop
-@end
-
-Benefits:
-- Server only runs when clients are connected
-- No idle resource consumption
-- Automatic startup on first connection
-- systemd manages the socket lifecycle
-
-** Performance Considerations
-
-We chose Unix domain sockets over TCP for local connections because:
-- Unix sockets: ~1-2 microseconds latency
-- TCP localhost: ~10-20 microseconds latency
-- No network stack overhead for local communication
-- Better security (filesystem permissions)
-
-For remote access, we use SSH socket forwarding rather than direct TCP to maintain security while allowing weak nodes to connect when needed.
-
-
-
-* Neovim Server: Socket-Activated Service
-
-The server service is now designed for socket activation - it only starts when clients connect and can stop when idle.
-
-  #tangle 
-  @code ini
-  [Unit]
-  Description=Neovim Embedded Server (Socket Activated)
-  Documentation=man:nvim
-  Requires=neovim-server.socket
-
-  [Service]
-  Type=exec
-  ExecStart=/usr/bin/nvim --headless --embed
-  StandardInput=socket
-  StandardOutput=journal
-  StandardError=journal
-
-  TimeoutStopSec=10
-  KillMode=mixed
-  
-  # RuntimeMaxSec=3600
-  @end
-
-Key changes for socket activation:
-- `Requires=neovim-server.socket`: Ensures socket unit is available
-- `StandardInput=socket`: Tells systemd to pass the established connection to neovim
-- `ExecStart` uses `--embed` (msgpack-RPC over stdio) and NOT `--listen` (which would double-bind the same path as the .socket unit)
+Key configuration:
+- `--listen /run/user/%U/nvim/neovim-backend.sock`: Backend socket (different from frontend)
+- `RuntimeDirectory=nvim`: Creates `/run/user/%U/nvim/` directory automatically
+- `RuntimeDirectoryMode=0750`: Directory permissions (owner full, group read/execute)
 - `StandardOutput/Error=journal`: Proper logging for debugging
-- `TimeoutStopSec=10`: Clean shutdown timeout
-- `KillMode=mixed`: Graceful shutdown with fallback to force-kill
-- No `[Install]` section: Service is only started by socket activation, never directly
+- `Type=exec`: Service is ready when neovim starts listening
 
-The ultimate usecase is something close to tmux where we can connect to this shared neovim instance from any client (TUI or GUI) and maintain shared buffers, session state, and development context.
+** Runtime Directory Management
 
-** Resource Management Notes
-
-- `RuntimeMaxSec=3600` (commented): Would auto-stop server after 1 hour of runtime
-- Server will naturally stop when no clients are connected (if configured)
-- systemd will restart the server automatically on next client connection
-
+`RuntimeDirectory=nvim` is crucial because:
+- systemd creates `/run/user/%U/nvim/` with correct permissions
+- Directory is cleaned up automatically when service stops
+- Ensures the directory exists before neovim tries to create its socket
+- Prevents permission issues
