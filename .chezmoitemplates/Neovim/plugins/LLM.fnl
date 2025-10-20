@@ -3,8 +3,12 @@
  {1 :olimorris/codecompanion.nvim
   :dependencies [{1 :ravitemer/mcphub.nvim
                   :build "npm install -g mcp-hub@latest"
-                  :opts {}}]
-  :opts {:extensions {:mcphub {:callback :mcphub.extensions.codecompanion
+                  :opts {}}
+                 {1 :Davidyz/VectorCode :version "*"}]
+  :opts {:strategies {:chat {:adapter :anthropic}
+                      :inline {:adapter :anthropic}
+                      :cmd {:adapter :anthropic}}
+         :extensions {:mcphub {:callback :mcphub.extensions.codecompanion
                                :opts {:make_tools true
                                       :show_server_tools_in_chat true
                                       :add_mcp_prefix_to_tool_names false
@@ -30,7 +34,12 @@
                                                            :adapter nil
                                                            :query_argument true}
                                                :file_ls {}
-                                               :files_rm {}}}}}
+                                               :files_rm {}}}}
+         :adapters {:acp {:claude_code #(. (require :codecompanion.adapters)
+                                           :extend
+                                           [:claude_code
+                                            {:env {:CLAUDE_CODE_AUTH_TOKEN :ANTHROPIC_API_KEY}}])}}
+         :memory {:opts {:chat {:enabled true}}}}
   :keys [{1 :<leader>uc
           2 "<cmd>CodeCompanionChat Toggle<CR>"
           :desc "Toggle [u]i for [c]ode companion"}

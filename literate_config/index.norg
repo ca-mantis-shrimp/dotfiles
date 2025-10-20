@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-09-08T23:28:22-0800
+updated: 2025-09-16T22:02:18-0800
 version: 1.0.0
 @end
 * Index
@@ -54,7 +54,7 @@ version: 1.0.0
   - {:$/neovim/plugins/platforms/snacks:}[Snacks.nvim] - configuration for the various plugins for `snacks`
   - {:$/neovim/plugins/platforms/treesitter:}[Treesitter Configuration] - plugin to configure the treesitter feature in neovim
 ** Neovim Plugins
-   - {:$/neovim/plugins/LLM:}[Llm Plugins] - LLM-related plugins and configurations
+  - {:$/neovim/plugins/LLM:}[Llm Plugins] - LLM-related plugins and configurations
   - {:$/neovim/plugins/UI:}[Ui Improvements] - UI plugins to help Neovim POP
   - {:$/neovim/plugins/colorschemes:}[Colorschemes] - list of colorschemes to download and set
   - {:$/neovim/plugins/data:}[Data Plugins] - Plugins for viewing, fetching, and interacting with data from within Neovim
@@ -64,7 +64,7 @@ version: 1.0.0
   - {:$/neovim/plugins/navigation:}[Navigation Plugins] - plugins to make navigating in neovim easier
   - {:$/neovim/plugins/prose:}[Prose Writing Plugin] - plugins to help me write prose documents
 ** Neovim Service
-  - {:$/neovim/services/Server/service:}[Neovim Server Systemd Service] - Systemd services for on-demand neovim server with socket activation
+  - {:$/neovim/services/Server/proxy-service:}[Neovim Server Systemd Proxy Service] - Systemd proxy service that forwards frontend socket connections to backend neovim
   - {:$/neovim/services/Server/socket:}[Neovim Socket] - Socket Service unit for dynamic activation of Neovim
 ** Neovim Test
   - {:$/neovim/generation_test:}[Generation_test] - we are using this to see if we can do this properly
@@ -90,6 +90,7 @@ version: 1.0.0
   - {:$/containers/devcontainer:}[Devcontainer]
   - {:$/scripts/neovim_automation:}[Neovim Literate Configuration Automation (fish)] - A Fish script to automate the creation of Neovim configuration files from literate norg files.
   - {:$/neovim/config/utils:}[Utils]
+  - {:$/neovim/services/Server/service:}[Neovim Backend Service] - The actual neovim server that runs headless and listens on the backend socket
   - {:$/neovim/services/Server/testing:}[Testing]
 ** Version Control Git
   - {:$/git/config:}[Git Config] - All the git config in one place for this repo

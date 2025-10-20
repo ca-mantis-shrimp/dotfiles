@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../.chezmoitemplates/Neovim/plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-09-08T23:01:58-0800
+updated: 2025-10-19T18:24:46-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -21,8 +21,12 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
  {1 :olimorris/codecompanion.nvim
   :dependencies [{1 :ravitemer/mcphub.nvim
                   :build "npm install -g mcp-hub@latest"
-                  :opts {}}]
-  :opts {:extensions {:mcphub {:callback :mcphub.extensions.codecompanion
+                  :opts {}}
+                 {1 :Davidyz/VectorCode :version "*"}]
+  :opts {:strategies {:chat {:adapter :anthropic}
+                      :inline {:adapter :anthropic}
+                      :cmd {:adapter :anthropic}}
+         :extensions {:mcphub {:callback :mcphub.extensions.codecompanion
                                :opts {:make_tools true
                                       :show_server_tools_in_chat true
                                       :add_mcp_prefix_to_tool_names false
@@ -48,7 +52,12 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
                                                            :adapter nil
                                                            :query_argument true}
                                                :file_ls {}
-                                               :files_rm {}}}}}
+                                               :files_rm {}}}}
+         :adapters {:acp {:claude_code #(. (require :codecompanion.adapters)
+                                           :extend
+                                           [:claude_code
+                                            {:env {:CLAUDE_CODE_AUTH_TOKEN :ANTHROPIC_API_KEY}}])}}
+         :memory {:opts {:chat {:enabled true}}}}
   :keys [{1 :<leader>uc
           2 "<cmd>CodeCompanionChat Toggle<CR>"
           :desc "Toggle [u]i for [c]ode companion"}

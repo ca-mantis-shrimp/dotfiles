@@ -69,3 +69,5 @@ chezmoi apply
 
 NO comments in the code blocks, ALL commentary should be within the norg files
 but within those files we are explaining the WHY around our decisions, not necesarily what is going on
+
+the work

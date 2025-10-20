@@ -3,7 +3,9 @@ export (envsubst < ~/.env)
 set -gx WWW_HOME "http://www.duckduckgo.com"
 
 fish_add_path --append --path ~/.cargo/bin
+fish_add_path --append --path ~/.local/bin
 
+set -gx npm_config_prefix "$HOME/.local"
 fish_vi_key_bindings
 
 {{ if eq .chezmoi.os "linux" }}
@@ -21,6 +23,7 @@ set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
 {{ else }}
 set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
 set -gx GEMINI_API_KEY {{ onepasswordRead "op://Back-End/personal_google/api_key" }}
+set -gx ANTHROPIC_API_KEY {{ onepasswordRead "op://Back-End/anthropic_api_key/Oauth" }}
 {{- end}}
 {{- end }}
 

@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim GUI
 tangle: ../../../../dot_config/systemd/remove_user/neovide-client.service
 created: 2025-08-31T10:45:54-0800
-updated: 2025-08-31T22:40:29-0800
+updated: 2025-09-16T22:03:51-0800
 version: 1.1.1
 @end
 
@@ -16,13 +16,11 @@ The GUI client service now depends on the socket unit rather than the service di
 [Unit]
 Description=Neovide GUI Instance (On-Demand Neovim Connection)
 Documentation=https://neovide.dev
-After=neovim-server.socket
+After=neovim-server-proxy.socket
 
 [Service]
 Type=exec
-ExecStart=/usr/bin/neovide --server %h/.cache/nvim/server.pipe
-Restart=on-failure
-RestartSec=2
+ExecStart=/usr/bin/neovide --server /run/user/1000/nvim/server.sock
 
 [Install]
 WantedBy=default.target

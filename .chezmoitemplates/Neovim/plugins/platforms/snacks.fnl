@@ -1,7 +1,7 @@
 {1 :folke/snacks.nvim
  :priority 1000
  :lazy false
- :dependencies [{1 :folke/persistence.nvim :event :BufReadPre}]
+ :dependencies [{1 :folke/persistence.nvim :event :BufReadPre :opts {}}]
  :opts {:bigfile {:enabled true}
         :dashboard {:sections [{:section :header}
                                {:icon "" :title :Keymaps :section :keys}

@@ -56,7 +56,7 @@ end
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
-	dependencies = { { "folke/persistence.nvim", event = "BufReadPre" } },
+	dependencies = { { "folke/persistence.nvim", event = "BufReadPre", opts = {} } },
 	opts = {
 		bigfile = { enabled = true },
 		dashboard = {

@@ -1,11 +1,25 @@
 -- [nfnl] plugins/LLM.fnl
+local function _1_()
+	return require("codecompanion.adapters").extend[{
+		"claude_code",
+		{ env = { CLAUDE_CODE_AUTH_TOKEN = "ANTHROPIC_API_KEY" } },
+	}]
+end
 return {
 	{ "github/copilot.vim" },
 	{ "CopilotC-Nvim/CopilotChat.nvim", build = "make tiktoken", opts = {} },
 	{
 		"olimorris/codecompanion.nvim",
-		dependencies = { { "ravitemer/mcphub.nvim", build = "npm install -g mcp-hub@latest", opts = {} } },
+		dependencies = {
+			{ "ravitemer/mcphub.nvim", build = "npm install -g mcp-hub@latest", opts = {} },
+			{ "Davidyz/VectorCode", version = "*" },
+		},
 		opts = {
+			strategies = {
+				chat = { adapter = "anthropic" },
+				inline = { adapter = "anthropic" },
+				cmd = { adapter = "anthropic" },
+			},
 			extensions = {
 				mcphub = {
 					callback = "mcphub.extensions.codecompanion",
@@ -37,6 +51,8 @@ return {
 					},
 				},
 			},
+			adapters = { acp = { claude_code = _1_ } },
+			memory = { opts = { chat = { enabled = true } } },
 		},
 		keys = {
 			{ "<leader>uc", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle [u]i for [c]ode companion" },

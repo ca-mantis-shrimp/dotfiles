@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Shells Fish
 tangle: ../../../dot_config/fish/config.fish.tmpl
 created: 2025-07-20T20:22:17-0800
-updated: 2025-09-01T00:16:12-0800
+updated: 2025-10-18T22:13:34-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -26,13 +26,16 @@ the nice part about fish is we really dont need to do much, since we are working
    set -gx WWW_HOME "http://www.duckduckgo.com"
 
    fish_add_path --append --path ~/.cargo/bin
+   fish_add_path --append --path ~/.local/bin
 
+   set -gx npm_config_prefix "$HOME/.local"
    fish_vi_key_bindings
    @end
    - In situations like mobile where we dont have access to `op` as a cli, we want to actually put our relevant passwords into a local .env and just source it here
    -- This is great for making sure it gets handled without network calls too making things faster
    - We can also set the environment variable so that browsers that respect this like `lynx` can see it
    - next we add cargos' bin to our path as we often install things that we will use later including starship at the end of this document
+   - we also add npm stuff installed locally
    - finally, we change to vi keybindings because i dont want to be dealing with the mismatch
 
    From here, we are ready to export
@@ -66,6 +69,7 @@ the nice part about fish is we really dont need to do much, since we are working
     {{ else }}
     set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
     set -gx GEMINI_API_KEY {{ onepasswordRead "op://Back-End/personal_google/api_key" }}
+    set -gx ANTHROPIC_API_KEY {{ onepasswordRead "op://Back-End/anthropic_api_key/Oauth" }}
     {{- end}}
     {{- end }}
     @end
