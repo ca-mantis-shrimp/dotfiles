@@ -13,4 +13,5 @@ return {
 	{ "nvim-tree/nvim-web-devicons", config = true },
 	{ "numToStr/Comment.nvim", config = true, lazy = true },
 	{ "ravitemer/mcphub.nvim", lazy = true },
+	{ "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
 }

@@ -9,5 +9,6 @@
  {1 :rcarriga/nvim-notify :lazy true}
  {1 :nvim-tree/nvim-web-devicons :config true}
  {1 :numToStr/Comment.nvim :config true :lazy true}
- {1 :ravitemer/mcphub.nvim :lazy true}]
+ {1 :ravitemer/mcphub.nvim :lazy true}
+ {1 :nvim-treesitter/nvim-treesitter-textobjects :lazy true}]
 

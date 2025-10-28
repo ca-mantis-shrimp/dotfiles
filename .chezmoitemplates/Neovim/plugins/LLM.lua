@@ -5,6 +5,33 @@ local function _1_()
 		{ env = { CLAUDE_CODE_AUTH_TOKEN = "ANTHROPIC_API_KEY" } },
 	}]
 end
+local function _2_()
+	return (require("sidekick").nex_jump_or_apply() or "<tab>")
+end
+local function _3_()
+	return require("sidekick.cli").toggle()
+end
+local function _4_()
+	return require("sidekick.cli").select()
+end
+local function _5_()
+	return require("sidekick.cli").close()
+end
+local function _6_()
+	return require("sidekick.cli").send({ msg = "{this}" })
+end
+local function _7_()
+	return require("sidekick.cli").send({ msg = "{file}" })
+end
+local function _8_()
+	return require("sidekick.cli").send({ msg = "{selection}" })
+end
+local function _9_()
+	return require("sidekick.cli").prompt()
+end
+local function _10_()
+	return require("sidekick.cli").toggle({ name = "claude", focus = true })
+end
 return {
 	{ "github/copilot.vim" },
 	{ "CopilotC-Nvim/CopilotChat.nvim", build = "make tiktoken", opts = {} },
@@ -58,6 +85,21 @@ return {
 			{ "<leader>uc", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle [u]i for [c]ode companion" },
 			{ "<leader>sC", "<cmd>CodeCompanionActions<CR>", desc = "[s]earch [C]odeCompanion Actions" },
 			{ "ga", "<cmd>CodeCompanionChat Add<CR>", mode = "v", desc = "Add Current Selection to Chat" },
+		},
+	},
+	{
+		"folke/sidekick.nvim",
+		opts = {},
+		keys = {
+			{ "<tab>", _2_, expr = true, desc = "Goto/Apply Next Edit Suggestions" },
+			{ "<c-.>", _3_, desc = "Sidekick Toggle", mode = { "n", "t", "i", "x" } },
+			{ "<leader>as", _4_, desc = "Select CLI" },
+			{ "<leader>ad", _5_, desc = "detatch a CLI Session" },
+			{ "<leader>at", _6_, mode = { "x", "n" }, desc = "Send This" },
+			{ "<leader>af", _7_, mode = { "x", "n" }, desc = "Send File" },
+			{ "<leader>av", _8_, mode = { "x", "n" }, desc = "Send Visual Selection" },
+			{ "<leader>ap", _9_, mode = { "n", "x" }, desc = "Sidekick Select Prompt" },
+			{ "<leader>ac", _10_, desc = "Sidekick Toggle Claude" },
 		},
 	},
 }

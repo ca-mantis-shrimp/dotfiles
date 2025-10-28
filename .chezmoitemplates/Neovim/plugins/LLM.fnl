@@ -49,5 +49,40 @@
          {1 :ga
           2 "<cmd>CodeCompanionChat Add<CR>"
           :mode :v
-          :desc "Add Current Selection to Chat"}]}]
+          :desc "Add Current Selection to Chat"}]}
+ {1 :folke/sidekick.nvim
+  :opts {}
+  :keys [{1 :<tab>
+          2 #(or ((. (require :sidekick) :nex_jump_or_apply)) :<tab>)
+          :expr true
+          :desc "Goto/Apply Next Edit Suggestions"}
+         {1 :<c-.>
+          2 #((. (require :sidekick.cli) :toggle))
+          :desc "Sidekick Toggle"
+          :mode [:n :t :i :x]}
+         {1 :<leader>as
+          2 #((. (require :sidekick.cli) :select))
+          :desc "Select CLI"}
+         {1 :<leader>ad
+          2 #((. (require :sidekick.cli) :close))
+          :desc "detatch a CLI Session"}
+         {1 :<leader>at
+          2 #((. (require :sidekick.cli) :send) {:msg "{this}"})
+          :mode [:x :n]
+          :desc "Send This"}
+         {1 :<leader>af
+          2 #((. (require :sidekick.cli) :send) {:msg "{file}"})
+          :mode [:x :n]
+          :desc "Send File"}
+         {1 :<leader>av
+          2 #((. (require :sidekick.cli) :send) {:msg "{selection}"})
+          :mode [:x :n]
+          :desc "Send Visual Selection"}
+         {1 :<leader>ap
+          2 #((. (require :sidekick.cli) :prompt))
+          :mode [:n :x]
+          :desc "Sidekick Select Prompt"}
+         {1 :<leader>ac
+          2 #((. (require :sidekick.cli) :toggle) {:name :claude :focus true})
+          :desc "Sidekick Toggle Claude"}]}]
 
