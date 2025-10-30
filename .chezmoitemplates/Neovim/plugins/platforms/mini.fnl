@@ -6,7 +6,8 @@
            ((. (require :mini.statusline) :setup))
            ((. (require :mini.files) :setup))
            ((. (require :mini.pick) :setup))
-           ((. (require :mini.sessions) :setup)))
+           ((. (require :mini.sessions) :setup))
+           ((. (require :mini.tabline) :setup)))
  :keys [[:n
          :<leader>F
          (fn []
