@@ -1,0 +1,20 @@
+@document.meta
+title: Bash Shell Index
+description: Starting point for configuring the bash shell files
+authors: Darrion Burgess
+categories: Alternate Index
+tangle: dot_bashrc.tmpl
+created: 2023-10-06T08:39:41-0800
+updated: 2025-07-23T21:56:52-0800
+version: 1.1.1
+@end
+Bash should be relatively straightforward, with the exception of my custom prompt and adding some things to the path
+#tangle
+@code bash
+#!/bin/bash
+@end
+- just standard bash starting point, nothing strange so far hopefully
+* index 
+  - {:bash_templates:}[templates in the bash lang]
+  - {:bashrc:}[bashrc]
+  - {:profile_config:}[bash profile configuration]

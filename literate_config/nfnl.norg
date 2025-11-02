@@ -1,0 +1,32 @@
+@document.meta
+title: `nfnl` setup for literate config
+description: nfnl setup for the literate config itsef
+authors: primary_desktop
+categories: Neovim
+created: 2025-07-25T23:29:49-0800
+updated: 2025-07-30T23:30:32-0800
+version: 1.1.1
+@end
+* Generating Lua Files automatically 
+  this is one case where the literate config is really helpful because we are literally just making an empty file, but this is actually intended so that is important.
+
+  for more information go ahead and read the information on {:$/neovim/plugins/lisp:}[the lisp norg config] where we actually setup `nfnl` but for now we are just going to generate the default config to ensure that our files are being generated properly
+  #tangle .nfnl.fnl
+  @code fennel
+  @end
+
+  Thats not a mistake, we just want an empty file called `.nfnl.fnl` at the base of this literate config so that we can create this work any time
+
+  we can add more config options, but for our case where we are fine with the defaults, this guy can just chill at the base of the literate_config and it will be fine to generate the lua files we need 
+
+** A note on generate files and chezmoi
+   one thing that we are going to be doing here that is subtle and would be hard to see otherwise, is that we are going to use these generate lua files as a replacement for the files in `.chezmoitemplates` as this eliminates the problem of the generated lua files being treated as broken templates until we formatted it
+
+   instead, we are going to make regular symlinks to the lua files that are generated here so that we simply dont have to worry about it
+
+   to avoid the problem of duplication, we will still leverage the `.chezmoiignore` to make sure that only the relevant symlink will be used in each computer, so this will give us what we wanted while avoiding this annoying bug that arose from our workflow!
+
+** why is this file not with the rest of the neovim config?
+   due to a bug in neorg, the relative paths are not supported when tangling, so for an instance like this where the file is going to be at the base of the folder anyways, might as well just colocate the knowledge with the file itself so we can save ourelves the complexity of another symlink.
+
+   while the symlink strategy is cool, im worried it will cause issues down the road so i will avoid utilizing it if we can avoid it like here where tangling will just throw it in the proper place

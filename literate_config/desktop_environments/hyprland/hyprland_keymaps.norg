@@ -1,0 +1,207 @@
+@document.meta
+title: Hyprland Keymaps
+description: The Keymaps for our Hyprland Setup
+authors: primary_desktop
+categories: Desktop Environment Hyprland
+tangle: keymaps.conf
+created: 2025-07-20T21:52:39-0800
+updated: 2025-07-24T22:19:55-0800
+version: 1.1.1
+@end
+Hyprland is primarily driven through keyboard shortcuts so this file is tremendously important, not just for our structure, but for reference when we forget one.
+
+We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds docs]
+
+* Setting our super key
+  See {https://wiki.hyprland.org/Configuring/Keywords/}[keywords] for more info on what is happening since all we are doing here is setting the `$mainMod` keyword to `SUPER` which is the windows key usually
+  #tangle
+  @code conf
+  $mainMod = SUPER
+  @end
+
+  from here on out, anywhere we see `$mainMod` we are referring to this variable which represents the `WIN` key for most computers
+* Basics
+  We start with the basics, using those variables we defined earlier and keybinds that should be under the fingers and useful in many contexts
+
+  This is where we leverage the variables from the base config so they need to be defined by the time we get here
+  - `Q` create a terminal 
+  - `B` Creates a new browser 
+  - `E` Creates an editor window
+  - `R` runs the menu we set earlier
+  - `C` Kills whatever window we have
+  -- Great for just killing a misbehaving app
+  #tangle
+  @code conf
+  bind = $mainMod, Q, exec, $terminal
+  bind = $mainMod, B, exec, $browser
+  bind = $mainMod, E, exec, $editor
+  bind = $mainMod, R, exec, $menu
+
+  @end
+
+* Window Management
+  This is where we setup the window part of the tiling window manager and get it setup for us to actually interact with the windows themselves and make something strong that we can use every day and get under our fingers
+
+  - `M` Dead-ass logs you out unprompted so be careful with that one
+  - `P` dwindles the window to make it smaller temporarily
+  - `x` will change the roataion, so if they are vertical they go horizontal, or vice versa
+  - `F` with make the current window "float" over other windows, useful if you need a bit of extra space
+  - `V` fullscreens the window if you need the whole screen for something really quick
+  #tangle
+  @code conf
+  bind = $mainMod, C, killactive,
+  bind = $mainMod, M, exit,
+
+  bind = $mainMod, P, pseudo,
+  bind = $mainMod, x, togglesplit,
+  bind = $mainMod, F, togglefloating,
+  bind = $mainMod, V, fullscreen, 1
+  @end
+** Window Focus
+   Next we focus (pun-intended) on the focus point so that we can easily jump and move windows
+   - `left,h` moves focus to the left
+   - `right,l` move focus right
+   - `up,k` move focus up
+   - `down,j` move focus down
+   #tangle
+   @code conf
+   bind = $mainMod, left, movefocus, l
+   bind = $mainMod, right, movefocus, r
+   bind = $mainMod, up, movefocus, u
+   bind = $mainMod, down, movefocus, d
+
+   bind = $mainMod, h, movefocus, l
+   bind = $mainMod, l, movefocus, r
+   bind = $mainMod, k, movefocus, u
+   bind = $mainMod, j, movefocus, d
+   @end
+*** Moving Focused Windows
+    By doing nothing but adding shift, we can go from simply moving our focus to a new window, to moving the current window of our focus in the direction we choose, swapping with the window in the meantime
+
+    This is the core part of window management and configuring the worskapce to look the way we want
+
+    we can also move windows by just doing what you expect and dragging the edge
+    - 
+    #tangle
+    @code conf
+    bind = $mainMod + SHIFT, left, movewindow, l
+    bind = $mainMod + SHIFT, right, movewindow, r
+    bind = $mainMod + SHIFT, up, movewindow, u
+    bind = $mainMod + SHIFT, down, movewindow, d
+
+    bind = $mainMod + SHIFT, h, swapwindow, l
+    bind = $mainMod + SHIFT, l, swapwindow, r
+    bind = $mainMod + SHIFT, k, swapwindow, u
+    bind = $mainMod + SHIFT, j, swapwindow, d
+
+     bindm = $mainMod, mouse:272, movewindow
+     bindm = $mainMod, mouse:273, resizewindow
+     @end
+*** Window Resizing
+    For precise window size control, we use ALT + main modifier + direction keys to resize the active window. This allows fine-tuning of window dimensions without needing to use the mouse.
+    
+    - `ALT + left/h` shrinks window width
+    - `ALT + right/l` expands window width  
+    - `ALT + up/k` shrinks window height
+    - `ALT + down/j` expands window height
+    
+    The `binde` binding type allows for repeating when held down, making it easy to get the exact size you want.
+    #tangle
+    @code conf
+    binde = $mainMod ALT, left, resizeactive, -10 0
+    binde = $mainMod ALT, right, resizeactive, 10 0
+    binde = $mainMod ALT, up, resizeactive, 0 -10
+    binde = $mainMod ALT, down, resizeactive, 0 10
+
+    binde = $mainMod ALT, h, resizeactive, -10 0
+    binde = $mainMod ALT, l, resizeactive, 10 0
+    binde = $mainMod ALT, k, resizeactive, 0 -10
+    binde = $mainMod ALT, j, resizeactive, 0 10
+    @end
+* Workspaces
+  The other dimmension we have to manage windows is the workspace which captures a different collection of windows.
+
+  This is how we manage windows when they get too big to fit on the screen, since we dont want to just "hide" them like normal configurations
+
+  We can do this with the main mod + the number of the workspace we want to jump to
+
+  we can also "scroll" through workspaces by holding the main modifier while scrolling our physical mouse wheel, great for moving around quickly when we dont know which workspace we are on or just have our hand on the mouse at the time
+  #tangle
+  @code conf
+  bind = $mainMod, 1, workspace, 1
+  bind = $mainMod, 2, workspace, 2
+  bind = $mainMod, 3, workspace, 3
+  bind = $mainMod, 4, workspace, 4
+  bind = $mainMod, 5, workspace, 5
+  bind = $mainMod, 6, workspace, 6
+  bind = $mainMod, 7, workspace, 7
+  bind = $mainMod, 8, workspace, 8
+  bind = $mainMod, 9, workspace, 9
+  bind = $mainMod, 0, workspace, 10
+
+  bind = $mainMod, mouse_down, workspace, e+1
+  bind = $mainMod, mouse_up, workspace, e-1
+  @end
+*** Moving Windows Between Workspaces
+    Yet again, by adding shift, we shift (pun-intended again) from moving our view between workspaces, to moving the window in focus to the workspace that we want to move it to
+    #tangle
+    @code conf
+    bind = $mainMod SHIFT, 1, movetoworkspace, 1
+    bind = $mainMod SHIFT, 2, movetoworkspace, 2
+    bind = $mainMod SHIFT, 3, movetoworkspace, 3
+    bind = $mainMod SHIFT, 4, movetoworkspace, 4
+    bind = $mainMod SHIFT, 5, movetoworkspace, 5
+    bind = $mainMod SHIFT, 6, movetoworkspace, 6
+    bind = $mainMod SHIFT, 7, movetoworkspace, 7
+    bind = $mainMod SHIFT, 8, movetoworkspace, 8
+    bind = $mainMod SHIFT, 9, movetoworkspace, 9
+    bind = $mainMod SHIFT, 0, movetoworkspace, 10
+    @end
+**** The magic workspace
+     There is one "magic" workspace that can be thought of as a scratchpad of sorts. windows in here are actually immune from the switching and are always available at any time, might be good for something like the journal so that we can always "pop" in and out of the magic workspace
+
+     - so we have 1 keymap to toggle the magic workspace
+     - one hotkey to move the current window to the magic workspace
+       In order to move something OUT of the workspace, just move it to the desired workspace
+     #tangle
+     @code conf
+     bind = $mainMod, S, togglespecialworkspace, magic
+     bind = $mainMod SHIFT, S, movetoworkspace, special:magic
+     @end
+     #tangle
+* Computer state Management
+  Finally, we have stuff to actually interact with the state of our machine itself, these are the most configuration-specific so they are the most likely to break, but they are also where we start to automate the really cool stuff since we can alter much of what other desktop environments wont let you touch
+
+  This is also the part where things can start failing since we are relying on external dependencies so we need to be sure that everything is done right
+** Notifications
+   We use {https://codeberg.org/dnkl/fnott}[fnott] to get our notifications so just using `D` is enough to dismiss each notification
+   @code conf
+   bind = $mainMod, D, exec, fnottctl dismiss
+   @end
+** Utility Functions
+   This is all the stuff that is so common many laptops have a dedicated button for the stuff and here is us setting them to the proper commands:
+   - Volume
+   -- Loudness
+   -- Mute
+   --- both your microphone and speakers
+   - Brightness
+   #tangle
+   @code conf
+   bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+   bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+   bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+   bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+   bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
+   bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
+   @end
+*** Audio Player Controls
+    once we have volume set, we can control our playlists with the provided buttons for most keyboards
+
+    {https://github.com/altdesktop/playerctl}[playerctl] is the utility making this possible and makes our audio hotkeys work as we expected
+    #tangle
+    @code conf
+    bindl = , XF86AudioNext, exec, playerctl next
+    bindl = , XF86AudioPause, exec, playerctl play-pause
+    bindl = , XF86AudioPlay, exec, playerctl play-pause
+    bindl = , XF86AudioPrev, exec, playerctl previous
+    @end

@@ -1,0 +1,134 @@
+@document.meta
+title: Chezmoi Configuration
+description: Collection of chezmoi files for configuration
+authors: primary_desktop
+categories: Dotfile Management Chezmoi
+tangle: {
+	toml: ~/.local/share/chezmoi/.chezmoi.toml.tmpl
+	gitignore: ~/.local/share/chezmoi/.chezmoiignore
+}
+created: 2025-07-20T13:21:18-0800
+updated: 2025-08-22T23:38:59-0800
+version: 1.1.1
+@end
+This will be where we store all of the various pieces of chezmoi data all at once.
+
+This is necessary because chezmoi is a critical part of holding all of this together so we need to be sure and treat it with care
+
+* understanding {https://www.chezmoi.io/}[chezmoi]
+  so with chezmoi, i like to think of it as a very big, but very unix-y format that is allowing us to capture a single configuration that works by having interlocking mechanics. All of which come together to make it possible to have a single configuration file for multiple machines and even containers
+
+  the following are the key mechanics that allow us to put everything together:
+  - templating for per-machine differences
+  -- This goes farther than altering the file itself and even controlling the placement of files and controlling chezmoi itself through templates
+  - a strong CLI tool for testing and implementing changes to the environment, all git controlled
+  - lots of configuration files to manage what gets copied and hot
+  -- This in combination with the templates makes it feel like systemd but more focused on our own work 
+  - script support for getting the last mile work done
+
+* User Configuration
+  We are opting to do the standard chezmoi TOML file
+
+  Feel free to review the Chezmoi knowledge itself for further reference, here we are just going to define our chezmoi setup and why we made the decisions we did
+** Windows config
+   windows has this annoying habit of default to cmd so we change to pwsh when we can
+
+   #tangle 
+   @code toml
+   {{ if eq .chezmoi.os "windows" }}
+   [cd]
+   command = "pwsh"
+   {{ end }}
+   @end
+
+** Neovim Config
+   We use neovim for our editor so ofcourse we set the work we need to our structured editor
+   #tangle 
+   @code toml
+   [edit]
+   command = "nvim"
+   @end
+
+** Internet config
+   finally we have to remember this is a git repo that is public so we have to deal with how we handle git versions and secrets
+   #tangle
+   @code toml
+   [git]
+   autoCommit = true
+
+   [onepassword]
+   mode = "service"
+   @end
+   - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
+   - we use 1password for our password service, and in order to make the {https://www.chezmoi.io/user-guide/password-managers/1password/#sign-in-prompt}[templates work] so we need to set the environment variable and have chezmoi look at it with this option
+
+** implementing changes
+   unlike other files, after you make changes to this one and tangle it, you will still need to regenerate it specifically using `chezmoi init` and THEN you can do your traditional `chezmoi apply` workflow
+
+* {https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines}[Ignore File]
+  Another surprisingly import file, since this is one of the main mechanisms we use to control the different configuration variations between the different OSs
+
+  Do note that this is an interesting combination of mechanics
+  - the `.chezmoiignore` file itself to ignore files and folders
+  - the use of templates to actually make the layout of even this file dynamic based on what we see!
+  -- this is how we are able to ignore files properly within different operating systems 
+
+** Same file in different places on different operating systems
+   Where this goes from a cute little tool to keep each operating system clean, and transcends into a core mechanic for how we manage differences is in the interaction with the {https://www.chezmoi.io/reference/special-directories/chezmoitemplates/}[`.chezmoitemplates`] folder which serves as the most important place to put centralized configuration that needs to exist in multiple places.
+
+   Consider this example, we have a configuration file that needs to go into two separate places based on operating system, how do we do this? Its not simple, but once you see it the solution is elegant to say the least, if not confusing.
+   ~ First, we write the config file itself in the `.chezmoitemplate` folder. where doesnt really matter, only that we can reach it easily from both places
+   ~ You will put two template files in the places where they are needed for the two machines
+   ~~ importantly, these template files will only have 1 line, which is the template invocation that will actually grab the contents of the file we wrote in step 1 and place it where that template string was
+   ~ Finally, we will add a dynamic condition within the `.chezmoiignore` file that will ignore the proper folder/file on each operating system, ensuring that the file is only made in one place for each operating system
+
+   As you can see, this combination of three interlocking mechanics is powerful, but can be very hard to wrap your head around unless you ponder it for a minute
+** Dynamic Ignore
+   So, first we are going to ignore the folders/files NOT needed by linux machines, and vice-versa for windows
+*** Linux Ignore
+    as linux is our main operating system, that is our default so we say that if we see NOT windows, we ill ignore the following files/directories
+    #tangle
+    @code gitignore
+    {{ if ne .chezmoi.os "windows" }}
+    AppData/
+    *.ps1
+    scoop/
+    @end
+    - That `AppData` piece isnt small, for our work we can hit problems if the wrong config is sourced so this is where we prevent the windows version of our config files from getting in
+    - we dont want powershell scripts
+    - and we dont want any scoop config as that is the windows package manager
+
+*** Windows ignore
+    #tangle
+    @code gitignore
+    {{ else }}
+    dot_ssh/
+    dot_config/
+    dot_bashrc*
+    *.sh
+    dot_local/
+    {{ end }}
+    @end
+    - remove the dot_config folders we dont need such as sway and neovim for windows and it can cause issues on windows since there would be duplicate configs
+    - our `bashrc`
+    -- including templates which is the `*`
+    - any bash scripts as this isnt helpful on windows
+    - and the `dot_local` folder as this is another linux  directory 
+** Non-Chezmoi files
+   These are meta files, files that are important for the operations of this repo, but we dont actually want cloned
+   #tangle
+   @code gitignore
+   literate_config/
+   wiki/
+   intentions/*
+   Session.vim
+   Dockerfile
+   .nvim.lua
+   *.md
+   @end
+   - literate config (this folder!)
+   - `wiki` which is my attempt to make the first folder into a website
+   - `intentions` which comes from my own personal work
+   - `Dockerfile` from out attempts to make this into a container
+   - `.nvim.lua` which helps us configure neovim for this repo specifically
+

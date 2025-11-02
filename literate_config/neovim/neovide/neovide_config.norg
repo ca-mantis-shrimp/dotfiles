@@ -1,0 +1,92 @@
+@document.meta
+title: Neovide GUI Configuration
+description: Literate configuration for Neovide, the GUI frontend for Neovim
+author: primary_desktop
+categories: Neovim GUI
+created: 2025-08-23T11:13:12-0800
+updated: 2025-08-24T09:06:58-0800
+version: 1.0.0
+@end
+* Overview
+  {https://neovide.dev/}[Neovide] is a simple, no-nonsense, cross-platform graphical user interface for Neovim.
+  We use it as our primary GUI editor, connecting to a shared Neovim server for consistent state across windows.
+
+* Architecture Integration
+  Neovide integrates with our broader Neovim setup through several components:
+  - *Server Mode*: Uses `neovim-server.service` systemd service for persistent sessions
+  - *Window Service*: `neovide-window.service` spawns GUI instances connected to the server
+  - *Hyprland Integration*: Set as the default editor (`$editor = uwsm app neovide`)
+  - *Fish Shell*: Auto-starts neovide-window service on shell initialization
+
+* Configuration Philosophy
+  Our neovide configuration is intentionally minimal, focusing on:
+  - *Font Selection*: FiraCode Nerd Font for programming ligatures and icons
+  - *Readable Size*: 20pt font size for comfortable reading
+  - *Server Connection*: Relies on systemd services for session management
+  - *Neovim-Native Settings*: Most GUI behavior controlled via Neovim settings
+
+* Neovim Integration Settings
+  The main Neovim configuration includes neovide-specific settings:
+  - *Scale Factor*: `vim.g.neovide_scale_factor = 1.0` for default zoom level
+  - *Zoom Controls*: `<C-=>` and `<C-->` for dynamic scaling
+  - *Reset Zoom*: `<C-[>` to reset scale factor to 1.0
+
+  These are defined in config.norg:literate_config/neovim/config/config.norg
+
+* Current Configuration
+  The configuration file is minimal, focusing only on font settings.
+  Most visual and behavioral settings are handled through Neovim's built-in neovide variables.
+
+  #tangle config.toml
+  @code toml
+  [font]
+  normal = ["FiraCode Nerd Font"]
+  size = 20
+  @end
+
+* System Integration
+  Neovide is integrated into the system through several mechanisms:
+
+** Systemd Services
+   - `neovim-server.service`: Persistent Neovim server instance
+   - `neovide-window.service`: GUI window that connects to the server
+   - This allows multiple neovide windows to share buffers and state
+
+** Desktop Environment
+   - Hyprland: Set as default editor for file associations
+   - Fish shell: Auto-starts the neovide window service
+
+** Font Requirements
+   - Requires FiraCode Nerd Font to be installed system-wide
+   - Provides programming ligatures and icon support
+   - Size 20 chosen for readability on various screen sizes
+
+* Testing
+  To verify neovide configuration:
+  - Command to test: `neovide --version` (check installation)
+  - Service test: `systemctl --user status neovide-window.service`
+  - Expected behavior: 
+  - Neovide should launch with FiraCode Nerd Font at size 20
+  - Should connect to existing neovim server if available
+  - Zoom controls should work (Ctrl+= / Ctrl+- / Ctrl+[)
+
+* Performance Considerations
+  - *Server Mode*: Reduces startup time by connecting to persistent session
+  - *Minimal Config*: Keeps GUI overhead low
+  - *Font Rendering*: FiraCode provides good performance with ligatures
+  - *Scale Factor*: Dynamic scaling allows adaptation to different displays
+
+* Troubleshooting
+  Common issues and solutions:
+  - *Font not found*: Ensure FiraCode Nerd Font is installed system-wide
+  - *Server connection fails*: Check `neovim-server.service` status
+  - *Window won't start*: Verify `neovide-window.service` configuration
+  - *Scaling issues*: Use Ctrl+[ to reset scale factor
+
+* References
+  - {https://neovide.dev/configuration.html}[Official doc]
+  - {https://github.com/tonsky/FiraCode}[FiraCode font]
+  - {https://www.nerdfonts.com/}[Nerd Fonts]
+  - Related configs: 
+  -- {:$/neovim/config/config.norg:}[Main Neovim config]
+  -- {:$/desktop_environments/hyprland/hyprland_config.norg:}[Hyprland integration]

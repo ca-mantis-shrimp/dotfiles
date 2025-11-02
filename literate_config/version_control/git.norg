@@ -1,0 +1,75 @@
+@document.meta
+title: Git Config
+description: All the git config in one place for this repo
+authors: primary_desktop
+categories: Version Control Git
+tangle: {
+	gitignore: .gitignore
+	gitconfig: dot_gitconfig.tmpl
+}
+created: 2025-07-20T15:08:36-0800
+updated: 2025-07-30T11:58:06-0800
+version: 1.1.1
+@end
+Git is the main way that we are managing this repo so it will also be used to keep it in order.
+
+This one can be tough because part of it is generated using the `gh auth alter-config` option so it wont always be accurate but we can handle it here
+
+* User Config
+  for the config we are going to capture the git config format that allows us to do the most by default
+** User Details
+   First, we configure the basic global stuff
+   #tangle
+   @code gitconfig
+   [user]
+   {{- if eq .chezmoi.hostname "USMINDARBURGES1" }}
+   email = darburgess@deloitte.com
+   {{ else }}
+   email = dargondab9@gmail.com
+   {{- end }}
+   name = Darrion Burgess
+   @end
+   - if we are in our work computer, we use our work email
+   - otherwise, we use our normal email
+   - and our name is always the same
+** core properties
+   for the main pieces we shouldnt need to do much, this line just enables the use of symlinks from git to make it more portable and make it so that symlinks in bash can be used in windows
+   #tangle
+   @code gitconfig
+   [core]
+   symlinks = true
+   @end
+
+** credentials
+   for this, we use the output of `gh auth setup-git` which actually updates the file directly, but we may need to change this per operating system
+
+   *NOTE* this assumes that you have already setup `gh` with your credentials, but after that, this should work every time
+
+   #tangle
+   @code gitconfig
+   [credential "https://github.com"]
+   helper = !gh auth git-credential
+
+   [credential "https://gist.github.com"]
+   helper = !gh auth git-credential
+
+   @end
+   im not entirely sure why we do the blank header piece but it does that every time so im assuming that is intentioal?
+
+   otherwise, we just run the `git-credential` subcommand to get the git post
+* Repo-specific
+  whereas the other piece was meant to configure git GLOBALLY, this will be meant to configure git here as the user in the chezmoi repo
+** Git Ignore
+   For this we have to ignore stuff that is only relevant for that machine and not something we want shared between machines
+
+   #tangle
+   @code gitignore
+   Session.vim
+   .aider*
+   image/*
+   image.*
+   @end
+
+   - `Session.vim` is just the session file for that machine so we dont want it
+   - both `image/` and `image.*` refer to the output of `mkosi` in which we are generating a new image to disk
+   -- as is standard, we want to use these files as output files and not force people to keep these changes

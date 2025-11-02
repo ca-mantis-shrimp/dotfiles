@@ -1,0 +1,1 @@
+../../../literate_config/neovim/ftplugin/norg.lua

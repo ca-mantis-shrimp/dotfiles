@@ -1,0 +1,48 @@
+@document.meta
+title: Data Plugins
+description: Plugins for viewing, fetching, and interacting with data from within Neovim
+authors: primary_desktop
+categories: Neovim Plugins
+created: 2025-08-20T23:58:04-0800
+updated: 2025-08-23T10:10:15-0800
+version: 1.1.1
+@end
+
+#tangle data.fnl
+@code fennel
+[{1 :cameron-wags/rainbow_csv.nvim
+:config true
+:ft [:csv
+:tsv
+:csv_semicolon
+:csv_whitespace
+:csv_pipe
+:rfc_csv
+:rfc_semicolon]
+:cmd [:RainboxDelim
+:RainboxDelimSimple
+:RainboxDelimQuoted
+:RainboxMultiDelim]}
+{1 :tpope/vim-dadbod}
+{1 :mistweaverco/kulala.nvim :ft [:http :rest] :opts {:global_keymaps true}}]
+
+@end
+
+* different colors for columns in using {https://github.com/cameron-wags/rainbow_csv.nvim}[rainbox_csv.vim]
+  working through this work we can see that coloring the different columns is nice.
+
+  now, we only load this with the various CSV variants but not on other files
+
+  we also load it if we run the commands themselves
+
+* database viewing with dadbod
+  dadbod is made by the god himself, tpope, so we can just run this sucker and work on the documentation from there so that we are able to make it all easy to handle without even worrying
+
+  this is interesting because its sophisticated, using primarily commands, or even just a command, `DB` to connect to ALL databases using a connection string-like format that allows us to designate what database we are running against along with our query.
+
+this makes it all very scriptable and mature from the perspective of respecting the various layers of variables so that we can accomplish the task of setting various settings for various projects, all without worrying about how we structure the output or how we handle the unruly API underneath
+
+* Rest calls with Kulala
+  kulala is our REST client of choice within the neovim ecosystem. I still havent found my forever plugin but for now kulala has won me over with their above-average formatting and the ability to structure our work individual in a file with variable support
+
+however, there is still room to improve so we will be watching this one closely

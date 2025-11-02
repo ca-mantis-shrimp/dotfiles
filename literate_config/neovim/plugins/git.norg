@@ -1,0 +1,36 @@
+@document.meta
+title: Git Plugins
+description: Neovim Git plugins for a nice experience
+authors: primary_desktop
+categories: Neovim Plugins
+created: 2025-08-19T19:35:59-0800
+updated: 2025-08-23T10:10:27-0800
+version: 1.1.1
+@end
+we use a few plugins to keep everything setup in git
+
+#tangle git.fnl
+@code fennel
+[{1 :lewis6991/gitsigns.nvim
+  :opts {:signs {:add {:text "+"}
+                 :change {:text "~"}
+                 :delete {:text "_"}
+                 :topdelete {:text "‾"}
+                 :changedelete {:text "~"}}}}
+ {1 :NeogitOrg/neogit
+  :dependencies [:nvim-lua/plenary.nvim
+                 :sindrets/diffview.nvim
+                 :nvim-telescope/telescope.nvim]
+  :config true
+  :keys [{1 :<leader>g 2 :<cmd>Neogit<CR> :desc :NeoGit}]}]
+@end
+* gitsigns
+  gitsigns go into the sign column on the left and give us information about the individual parts of our code, allowing us to actually see the git status before we touch anything else locally
+
+** signs setup
+   we set the individual signs and have some basic ones right now so nothing to write home about still it shows how we can declaratively set this without much hastle
+
+* neogit
+  by contrast, neogit allows us to actually edit the git repo using a TUI that is reminiscent of lazygit but is more centered around the structures of our work
+
+we only set a keymap so that this plugin only get lazy loaded when we do the mapping `<leader>g` to take us to neogit for the current repo 

@@ -1,0 +1,3 @@
+( ) Improve the structure of the chezmoi repo
+> ( ) build out the workspace file to make it easier for llms to access the information
+> ( ) audit the literate config so we can start inputting this data as context
