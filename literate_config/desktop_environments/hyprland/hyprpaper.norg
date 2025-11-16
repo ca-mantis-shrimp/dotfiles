@@ -4,7 +4,7 @@ description: config for hyprpaper
 authors: backup-admin
 categories: hyprland
 created: 2025-11-15T21:30:57-0800
-updated: 2025-11-15T22:05:56-0800
+updated: 2025-11-16T08:46:15-0800
 version: 1.1.1
 tangle: ../../../dot_config/hypr/hyprpaper.conf
 @end
@@ -33,6 +33,16 @@ tangle: ../../../dot_config/hypr/hyprpaper.conf
    #tangle
    @code ini
    preload = ~/Pictures/Wallpapers/mountain_lake.jpg
+   preload = ~/Pictures/Wallpapers/aurora-borealis.jpg
+   preload = ~/Pictures/Wallpapers/brown-tunnel-near-body-of-water.jpg
+   preload = ~/Pictures/Wallpapers/close-up-of-a-red-siamese-fighting-fish.jpg
+   preload = ~/Pictures/Wallpapers/close-up-photo-of-berries.jpg
+   preload = ~/Pictures/Wallpapers/green-pine-trees-near-body-of-water.jpg
+   preload = ~/Pictures/Wallpapers/macro-photography-of-water-waves.jpg
+   preload = ~/Pictures/Wallpapers/lavender-flower-field-under-pink-sky.jpg
+   preload = ~/Pictures/Wallpapers/silhouette-of-mountains.jpg
+   preload = ~/Pictures/Wallpapers/red-and-black-bird-on-red-flowers.jpg
+
 
    wallpaper = DP-3,~/Pictures/Wallpapers/mountain_lake.jpg
    @end

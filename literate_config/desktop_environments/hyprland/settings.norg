@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/settings.conf
 created: 2025-08-30T22:26:12-0800
-updated: 2025-11-15T21:13:49-0800
+updated: 2025-11-16T09:06:14-0800
 version: 1.1.1
 @end
 Finally, we get to the settings that compose the hyprland desktop
@@ -23,14 +23,14 @@ Finally, we get to the settings that compose the hyprland desktop
 * Autostarted Programs
   Autostart necessary processes (like notifications daemons, status bars, etc.)
   # Or execute your favorite apps at launch like this:
+  `exec-once = $terminal`
 
-  @code hyprlang
-   exec-once = $terminal
-  @end
   #tangle
   @code hyprlang
   exec-once = uwsm app hyprpaper & uwsm app fnott & uwsm app ashell & uwsm app nwg-dock-hyprland
   @end
+
+  this is us getting our primary tools setup at the start using `uwsm` to put them in proper sub services
 * LOOK AND FEEL 
 ** General Settings
    {https://wiki.hyprland.org/Configuring/Variables/#general}[general variables] is a good reference for these general settings

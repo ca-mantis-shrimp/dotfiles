@@ -5,21 +5,56 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/keymaps.conf
 created: 2025-07-20T21:52:39-0800
-updated: 2025-10-03T12:21:44-0800
+updated: 2025-11-16T09:11:49-0800
 version: 1.1.1
 @end
 Hyprland is primarily driven through keyboard shortcuts so this file is tremendously important, not just for our structure, but for reference when we forget one.
 
 We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds docs]
 
-* Setting our super key
-  See {https://wiki.hyprland.org/Configuring/Keywords/}[keywords] for more info on what is happening since all we are doing here is setting the `$mainMod` keyword to `SUPER` which is the windows key usually
-  #tangle
-  @code hyprlang
-  $mainMod = SUPER
-  @end
+* Variables
+  we can shorten invocations of command commands with variables that we use to handle our work for us and make a special name
+  Refer to {https://wiki.hyprland.org/Configuring/Variables/}[Variables] for more information
+** Setting our super key
+   See {https://wiki.hyprland.org/Configuring/Keywords/}[keywords] for more info on what is happening since all we are doing here is setting the `$mainMod` keyword to `SUPER` which is the windows key usually
+   #tangle
+   @code hyprlang
+   $mainMod = SUPER
+   @end
 
-  from here on out, anywhere we see `$mainMod` we are referring to this variable which represents the `WIN` key for most computers
+   from here on out, anywhere we see `$mainMod` we are referring to this variable which represents the `WIN` key for most computers
+   #tangle
+   @code hyprlang
+   $terminal = uwsm app kitty
+   $menu = uwsm app wofi
+   $browser = uwsm app qutebrowser
+   $editor = uwsm app neovide
+   @end
+   - our terminal is a service for `kitty`
+   - our menu is {https://github.com/SimplyCEO/wofi}[wofi] which we can use to quickly open our work at the flick of a button
+   - our browser of choice is {qute://help/index.html}[qute browser]
+   - and our editor is {https://neovide.dev/index.html}[Neovide]
+
+   But we havent done anything yet, these will largely be used in hotkeys later but other things like setting need these too which is why we set them up here
+
+** Wallpapers
+   In particular we are defining some wallpapers that were PRELOADED when we actually setup {./hyprpaper.norg}[hyprpaper] so that we are able to CHANGE them whenever we need later in the primary lang files
+
+   #tangle
+   @code hyprlang
+   $w1 = hyprctl hyprpaper wallpaper "DP-3,~/Pictures/Wallpapers/mountain_lake.jpg"
+   $w2 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/aurora-borealis.jpg"
+   $w3 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/brown-tunnel-near-body-of-water.jpg"
+   $w4 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/close-up-of-a-red-siamese-fighting-fish.jpg"
+   $w5 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/close-up-photo-of-berries.jpg"
+   $w6 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/green-pine-trees-near-body-of-water.jpg"
+   $w7 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/macro-photography-of-water-waves.jpg"
+   $w8 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/lavender-flower-field-under-pink-sky.jpg"
+   $w9 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/silhouette-of-mountains.jpg"
+   $w10 = hyprctl hyprpaper wallpaper "DP-3, ~/Pictures/Wallpapers/red-and-black-bird-on-red-flowers.jpg"
+   @end
+
+   we will primarily be using these new wallpapers whenever we are changing workspaces so that each workspace is associated with a given wallpaper and we enforce that using the proper switching mechanisms within hyprland itsel
 * Basics
   We start with the basics, using those variables we defined earlier and keybinds that should be under the fingers and useful in many contexts
 
@@ -129,19 +164,32 @@ We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds 
   #tangle
   @code hyprlang
   bind = $mainMod, 1, workspace, 1
+  bind = $mainMod, 1, exec, $w1
   bind = $mainMod, 2, workspace, 2
+  bind = $mainMod, 2, exec, $w2
   bind = $mainMod, 3, workspace, 3
+  bind = $mainMod, 3, exec, $w3
   bind = $mainMod, 4, workspace, 4
+  bind = $mainMod, 4, exec, $w4
   bind = $mainMod, 5, workspace, 5
+  bind = $mainMod, 5, exec, $w5
   bind = $mainMod, 6, workspace, 6
+  bind = $mainMod, 6, exec, $w6
   bind = $mainMod, 7, workspace, 7
+  bind = $mainMod, 7, exec, $w7
   bind = $mainMod, 8, workspace, 8
+  bind = $mainMod, 8, exec, $w8
   bind = $mainMod, 9, workspace, 9
+  bind = $mainMod, 9, exec, $w9
   bind = $mainMod, 0, workspace, 10
+  bind = $mainMod, 0, exec, $w10
 
   bind = $mainMod, mouse_down, workspace, e+1
   bind = $mainMod, mouse_up, workspace, e-1
   @end
+
+  be sure to review {./config.norg}[the core config] to double check the variables are defined properly
+  we should also review {./hyprpaper.norg}[the hyprpaper config]  so that we are sure to get the wallpapers loaded and also just so we understand how everything moves
 *** Moving Windows Between Workspaces
     Yet again, by adding shift, we shift (pun-intended again) from moving our view between workspaces, to moving the window in focus to the workspace that we want to move it to
     #tangle
