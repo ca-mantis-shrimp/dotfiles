@@ -1,0 +1,39 @@
+@document.meta
+title: hyprpaper
+description: config for hyprpaper
+authors: backup-admin
+categories: hyprland
+created: 2025-11-15T21:30:57-0800
+updated: 2025-11-15T22:05:56-0800
+version: 1.1.1
+tangle: ../../../dot_config/hypr/hyprpaper.conf
+@end
+* managing background images with {https://github.com/hyprwm/hyprpaper}[hyprpaper]
+  we can use different things but i like having hyprpaper done so we dont need to worry
+
+  we are going to put our wallpapers in `~/Pictures/Wallpapers/`
+
+  now, this is a very simple program that simply gets the files that we preload and allows us to change the wallpaper with a command
+
+** config format
+   we have 3 steps:
+   ~ configure wallpapers and hotkeys
+   ~ load wallpapers
+   ~ set wallpapers on workspace changes
+
+** Monitor format
+   remember, the wallpaper we have is set to the following resolution:
+   - 2560x1440 so just make sure to get wallpapers downloaded
+
+* Config
+  okay first we set the format in the tangle, then we USE this in {./keymaps.norg}[keymaps] when we switch
+  and we use {./settings.norg}[settings] to RUN the program
+
+** hyprpaper config
+   #tangle
+   @code ini
+   preload = ~/Pictures/Wallpapers/mountain_lake.jpg
+
+   wallpaper = DP-3,~/Pictures/Wallpapers/mountain_lake.jpg
+   @end
+

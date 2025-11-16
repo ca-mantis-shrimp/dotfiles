@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/settings.conf
 created: 2025-08-30T22:26:12-0800
-updated: 2025-09-10T21:04:00-0800
+updated: 2025-11-15T21:13:49-0800
 version: 1.1.1
 @end
 Finally, we get to the settings that compose the hyprland desktop
@@ -26,11 +26,10 @@ Finally, we get to the settings that compose the hyprland desktop
 
   @code hyprlang
    exec-once = $terminal
-   exec-once = nm-applet &
   @end
   #tangle
   @code hyprlang
-  exec-once = uwsm app hyprpaper & uwsm app fnott
+  exec-once = uwsm app hyprpaper & uwsm app fnott & uwsm app ashell & uwsm app nwg-dock-hyprland
   @end
 * LOOK AND FEEL 
 ** General Settings
