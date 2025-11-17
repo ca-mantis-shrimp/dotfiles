@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Shells Fish
 tangle: ../../../dot_config/fish/config.fish.tmpl
 created: 2025-07-20T20:22:17-0800
-updated: 2025-11-16T10:45:27-0800
+updated: 2025-11-16T21:39:53-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -55,35 +55,6 @@ the nice part about fish is we really dont need to do much, since we are working
     {{ end }}
     {{ end }}
     @end
-*** Utilizing the OP CLI to get secrets
-    Here we are actually leveraging the 1password template which assumes `op` is installed and configured (which is line 1) and from here we just need to get the environment variables set when we apply the config
-    EXCEPT when we are on termux which doesnt support op because we are technically not in root. for that, we just ignore this and assume the environment variables were set from that first line
-
-    Therefore, this is only done when we are not in termux
-
-    This has the added benefit of working even in situations where we really dont want to care about performance and we dont need to do this every time
-    Otherwie, we have this annoying thing where it needs to do the queries each time
-    #tangle
-    @code fish
-    {{- if not (env "TERMUX_VERSION") }}
-    set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
-    {{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
-    alias op op.exe
-    set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
-    set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
-    {{ else }}
-    set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
-    set -gx GEMINI_API_KEY {{ onepasswordRead "op://Back-End/personal_google/api_key" }}
-    set -gx ANTHROPIC_API_KEY {{ onepasswordRead "op://Back-End/anthropic_api_key/Oauth" }}
-    {{- end}}
-    {{- end }}
-    @end
-    - Todoist is always nice so we always set it for automation purposes
-    - then we do a check of if we are on our work laptop
-    -- if we are, we set some work-specific api keys
-    --- do note this also assumes the OP key that was given is the one that has access to our automation AND work keys
-    -- else, we put keys we actually DONT want to risk giving to our work machine like openrouter so that we dont have to worry about leaking company data to external secrets
-
 ** Neovim Server and Neovide services
    This is a fun little experiment i created, these two functions actually create systemd services that will create sister systemd services
 
@@ -94,7 +65,7 @@ the nice part about fish is we really dont need to do much, since we are working
    end
 
    function SpawnNeovideWindow
-	   systemctl --user start neovide-window
+	   systemctl --user start neovide-client
    end
    @end
    - The first service starts neovim as a server and makes it available
@@ -116,5 +87,18 @@ the nice part about fish is we really dont need to do much, since we are working
    nerdfetch
    @end
 
-* next-steps
-  what i need to do is actually check if we are in WSL, then we can go ahead and make the alias, this gets around the problem of making it work within WSL because it means we can just use the one that is connected to the proper app in the normal thing
+* credentials
+  it is assumed that credentials are handled either at runtime, or they are actually configured on a per-app configuration basis.
+
+  This ensures that configuration for things like `claude`, `copilot` and `gemini` get what they need WITHOUT using our work in this format such that we cant get it working without op.
+
+  This kinda undoes the problems ive been having with the local phone config too since we have removed the hard dependency on `op` and are just going to leverage native completion.
+
+  still dont know but we will see how it goes then it comes down to it
+
+  for the usecases be sure to review:
+  - `systemd-creds` for service credentials
+  - `op run` for running applications live
+  - op shell plugins that will allow us to generate configs at runtime and erase them later
+
+  with these we should be able to work WITHOUT having our secure keys in the environment just lying around

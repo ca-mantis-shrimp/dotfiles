@@ -16,25 +16,12 @@ alias op="op.exe"
 {{ end }}
 {{ end }}
 
-{{- if not (env "TERMUX_VERSION") }}
-set -gx TODOIST_API_KEY {{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}
-{{- if eq .chezmoi.hostname "USSFODARBURGES3" }}
-alias op op.exe
-set -gx OPENAI_API_BASE "https://api.githubcopilot.com"
-set -gx SNOW_MIRROR_DADBOD "{{ onepasswordRead "op://work/SNOWMIRROR/dadbod" }}"
-{{ else }}
-set -gx OPENROUTER_API_KEY {{ onepasswordRead "op://Back-End/OpenRouter/api_key" }}
-set -gx GEMINI_API_KEY {{ onepasswordRead "op://Back-End/personal_google/api_key" }}
-set -gx ANTHROPIC_API_KEY {{ onepasswordRead "op://Back-End/anthropic_api_key/Oauth" }}
-{{- end}}
-{{- end }}
-
 function RestartNvimServer
  systemctl --user restart neovim-server
 end
 
 function SpawnNeovideWindow
- systemctl --user start neovide-window
+ systemctl --user start neovide-client
 end
 
 starship init fish | source
