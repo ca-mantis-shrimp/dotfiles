@@ -3,8 +3,10 @@ Description=Neovim Embedded Server (Backend)
 Documentation=man:nvim
 
 [Service]
-Type=simple
-ExecStart=/home/primary_desktop/.local/share/bob/nvim-bin/nvim --headless --listen /run/user/%U/nvim/neovim-backend.sock
+Type=exec
+RuntimeDirectory=nvim
+ExecStart=/usr/bin/nvim --headless --listen %t/nvim/backend.sock
+Restart=on-success
 
 [Install]
 WantedBy=default.target

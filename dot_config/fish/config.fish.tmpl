@@ -1,6 +1,8 @@
 export (envsubst < ~/.env)
 
 set -gx WWW_HOME "http://www.duckduckgo.com"
+set -gx EDITOR "nvim"
+set -gx MANPAGER "nvim +Man!"
 
 fish_add_path --append --path ~/.cargo/bin
 fish_add_path --append --path ~/.local/bin

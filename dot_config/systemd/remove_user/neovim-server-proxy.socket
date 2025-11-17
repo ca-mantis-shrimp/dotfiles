@@ -1,9 +1,0 @@
-[Unit]
-Description=Neovim Server Socket (On-Demand Activation)
-Documentation=man:systemd.socket
-
-[Socket]
-ListenStream=/run/user/%U/nvim/server.sock
-
-[Install]
-WantedBy=sockets.target

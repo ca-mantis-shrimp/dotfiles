@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: 
 tangle: ../../../../dot_config/systemd/remove_user/neovim-server.service
 created: 2025-09-14T00:37:11-0800
-updated: 2025-09-14T20:23:08-0800
+updated: 2025-11-16T20:47:04-0800
 version: 1.2.0
 @end
 
@@ -20,11 +20,8 @@ Neovim listens on `/run/user/%U/nvim/neovim-backend.sock` because:
 - Only the proxy service connects here, never clients directly
 
 ** Why Not Socket Activation for Neovim?
-
 Neovim doesn't natively support systemd socket activation, so we can't use `StandardInput=socket`. Instead:
-1. This service starts neovim with `--listen` on its own socket
-2. The proxy service forwards connections from frontend → backend
-3. This allows socket-like behavior without neovim needing to understand systemd sockets
+This service starts neovim with `--listen` on its own socket
 
 #tangle 
 @code ini
@@ -33,8 +30,10 @@ Description=Neovim Embedded Server (Backend)
 Documentation=man:nvim
 
 [Service]
-Type=simple
-ExecStart=/home/primary_desktop/.local/share/bob/nvim-bin/nvim --headless --listen /run/user/%U/nvim/neovim-backend.sock
+Type=exec
+RuntimeDirectory=nvim
+ExecStart=/usr/bin/nvim --headless --listen %t/nvim/backend.sock
+Restart=on-success
 
 [Install]
 WantedBy=default.target
@@ -42,15 +41,4 @@ WantedBy=default.target
 
 Key configuration:
 - `--listen /run/user/%U/nvim/neovim-backend.sock`: Backend socket (different from frontend)
-- `RuntimeDirectory=nvim`: Creates `/run/user/%U/nvim/` directory automatically
-- `RuntimeDirectoryMode=0750`: Directory permissions (owner full, group read/execute)
-- `StandardOutput/Error=journal`: Proper logging for debugging
-- `Type=exec`: Service is ready when neovim starts listening
 
-** Runtime Directory Management
-
-`RuntimeDirectory=nvim` is crucial because:
-- systemd creates `/run/user/%U/nvim/` with correct permissions
-- Directory is cleaned up automatically when service stops
-- Ensures the directory exists before neovim tries to create its socket
-- Prevents permission issues
