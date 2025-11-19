@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/keymaps.conf
 created: 2025-07-20T21:52:39-0800
-updated: 2025-11-16T09:11:49-0800
+updated: 2025-11-17T09:33:26-0800
 version: 1.1.1
 @end
 Hyprland is primarily driven through keyboard shortcuts so this file is tremendously important, not just for our structure, but for reference when we forget one.
@@ -26,7 +26,7 @@ We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds 
    #tangle
    @code hyprlang
    $terminal = uwsm app kitty
-   $menu = uwsm app wofi
+   $menu = uwsm app walker
    $browser = uwsm app qutebrowser
    $editor = uwsm app neovide
    @end

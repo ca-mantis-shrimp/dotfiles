@@ -1,0 +1,44 @@
+@document.meta
+title: environment
+description: 
+authors: backup-admin
+categories:  Shell, Systemd
+tangle: ../../dot_config/environment.d/00-base.conf
+created: 2025-11-18T18:06:45-0800
+updated: 2025-11-18T18:29:46-0800
+version: 1.1.1
+@end
+* Managing environment variables with systemd
+  another AWESOME feature of systemd is the ability to control environment variables.
+  
+All we need to do is put the usual `##-<name>.conf` file within the users` environment.d folder and it will automatically get this whenever we want!
+
+** Setting proper programs
+   we will primarily be setting some easy stuff that is small but really makes a difference when we start to look at how all of this is handled from the perspective of our work structure and what applications we use for what
+
+   #tangle
+   @code ini
+   WWW_HOME=http://www.duckduckgo.com
+   EDITOR=nvim
+   PAGER=nvim +Man!
+
+   npm_config_prefix=$HOME/.local
+   @end
+   - when we use terminal browsers like `lynx` having the home set will make it so that we have a homepage set similar to how we do our work in a normal browser
+   - our editor is ofcourse set to neovim. This is nice because it interacts with a bunch of systems that respect the environment variable like `chezmoi`, `visudo`, and `git` just to name a few.
+   - but the more interesting part is setting `PAGER` to our Man command
+   -- we will notice that we set `PAGER` which is even more expansive and covers things like help docs that are usually really long (think `systemctl`)
+   -- that `+Man!` part is a neovim command that tells neovim to open the command in the Man command which handles help docs of all kinds
+
+** Altering PATH
+   The other core part of what we usually do in the config that can now live in the environment file is altering our `PATH` variable to include custom locations for our binaries
+   #tangle
+   @code ini
+   PATH=$PATH:$HOME/.cargo/bin
+   PATH=$PATH:$HOME/.local/bin
+   @end
+   - this is pretty straightforward and just appends our cargo and local bin folders to the existing PATH variable so that any binaries we install there are automatically found by the system
+
+
+
+

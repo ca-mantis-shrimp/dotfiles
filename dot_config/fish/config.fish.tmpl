@@ -1,25 +1,10 @@
-export (envsubst < ~/.env)
-
-set -gx WWW_HOME "http://www.duckduckgo.com"
-set -gx EDITOR "nvim"
-set -gx MANPAGER "nvim +Man!"
-
-fish_add_path --append --path ~/.cargo/bin
-fish_add_path --append --path ~/.local/bin
-
-set -gx npm_config_prefix "$HOME/.local"
-fish_vi_key_bindings
-
 {{ if eq .chezmoi.os "linux" }}
 {{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
 alias op="op.exe"
 {{ end }}
 {{ end }}
 
-function RestartNvimServer
- systemctl --user restart neovim-server
-end
-
+fish_vi_key_bindings
 function SpawnNeovideWindow
  systemctl --user start neovide-client
 end

@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Shells Fish
 tangle: ../../../dot_config/fish/config.fish.tmpl
 created: 2025-07-20T20:22:17-0800
-updated: 2025-11-16T21:39:53-0800
+updated: 2025-11-18T18:35:14-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -15,32 +15,9 @@ the nice part about fish is we really dont need to do much, since we are working
 * Fish Setup
   Fish just has a standard config file in the fish language, as one would expect
 
-  What is important here is that this is where we pass along the environment variables for our shell so we are leveraging the password manager capabilities here
+  now that we have moved all the environment variable setup to {:$/systemd/environment:}[our base environment config] we can let fish config focus on fish config.
 
-** Setup 
-   First, we need to get some stuff set so that the rest of the commands go off without a hitch
-   #tangle
-   @code fish
-   export (envsubst < ~/.env)
-
-   set -gx WWW_HOME "http://www.duckduckgo.com"
-   set -gx EDITOR "nvim"
-   set -gx MANPAGER "nvim +Man!"
-
-   fish_add_path --append --path ~/.cargo/bin
-   fish_add_path --append --path ~/.local/bin
-
-   set -gx npm_config_prefix "$HOME/.local"
-   fish_vi_key_bindings
-   @end
-   - In situations like mobile where we dont have access to `op` as a cli, we want to actually put our relevant passwords into a local .env and just source it here
-   -- This is great for making sure it gets handled without network calls too making things faster
-   - We can also set the environment variable so that browsers that respect this like `lynx` can see it
-   - we set neovim as our `EDITOR` since it is
-   - interestingly, we also use neovim as our pager by setting the `MANPAGER` variable to the man command in neovim
-   - next we add cargos' bin to our path as we often install things that we will use later including starship at the end of this document
-   - we also add npm stuff installed locally
-   - finally, we change to vi keybindings because i dont want to be dealing with the mismatch
+  With this and the changes to management of credentials, there is basically nothing left in here! which is exactly what we love to see because that means this is all just being done properly within the tool it was intended for
 
 
    From here, we are ready to export
@@ -55,26 +32,19 @@ the nice part about fish is we really dont need to do much, since we are working
     {{ end }}
     {{ end }}
     @end
-** Neovim Server and Neovide services
-   This is a fun little experiment i created, these two functions actually create systemd services that will create sister systemd services
+** Binding and Commands
+Now we just have a few things to setup for fish itself, mostly key bindings and commands to start neovim in neovide properly
 
    #tangle
    @code fish
-   function RestartNvimServer
-	   systemctl --user restart neovim-server
-   end
-
+   fish_vi_key_bindings
    function SpawnNeovideWindow
 	   systemctl --user start neovide-client
    end
    @end
-   - The first service starts neovim as a server and makes it available
-   - the second command starts a neovide window and connects it to that original server
-
-   This allows us in theory to have a set of neovide windows that share a server so they can share buffers and state.
-
-   In theory, this neovim server could also serve the other computers over the internet, finally serving as the development server we have wanted where we will access our work on the tiny travel server from our big server
-
+   - we setup fish vi key bindings since we are used to that mode of operation
+   - we also setup a function to spawn neovide windows properly using systemd
+   -- be sure to review {:$/neovim/services/client/neovide-client.norg:}[the neovide client service] for more details
 ** Prompt and startup screen
    Finally we go ahead and run the starship init for fish since that is our prompt
    and we run nerdfetch
