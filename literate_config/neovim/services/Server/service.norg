@@ -2,10 +2,10 @@
 title: Neovim Backend Service
 description: The actual neovim server that runs headless and listens on the backend socket
 authors: primary_desktop
-categories: 
+categories: Neovim, Systemd, Services
 tangle: ../../../../dot_config/systemd/remove_user/neovim-server.service
 created: 2025-09-14T00:37:11-0800
-updated: 2025-11-16T20:47:04-0800
+updated: 2025-11-18T19:56:15-0800
 version: 1.2.0
 @end
 

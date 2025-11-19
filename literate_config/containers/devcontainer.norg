@@ -2,10 +2,10 @@
 title: devcontainer
 description: 
 authors: primary_desktop
-categories: 
+categories: Devcontainers
 tangle: ../../.devcontainer.json
 created: 2025-08-30T21:46:34-0800
-updated: 2025-08-30T21:47:14-0800
+updated: 2025-11-18T19:57:09-0800
 version: 1.1.1
 @end
 * Devcontainer spec
