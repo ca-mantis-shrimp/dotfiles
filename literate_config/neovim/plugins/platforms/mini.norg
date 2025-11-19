@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/mini.fnl
 created: 2025-08-21T20:43:37-0800
-updated: 2025-09-11T11:10:58-0800
+updated: 2025-11-18T20:03:46-0800
 version: 1.1.1
 @end
 some plugins are more like platforms in the form of plugins.
@@ -23,15 +23,8 @@ This is also why we are making a dedicated file for a seemingly small amount of 
            ((. (require :mini.ai) :setup) {:n_lines 500})
            ((. (require :mini.surround) :setup))
            ((. (require :mini.statusline) :setup))
-           ((. (require :mini.files) :setup))
-           ((. (require :mini.pick) :setup))
            ((. (require :mini.sessions) :setup))
-           ((. (require :mini.tabline) :setup)))
- :keys [[:n
-         :<leader>F
-         (fn []
-           ((. _G.MiniFiles :open)))
-         {:desc "Open File Explorer"}]]}
+           ((. (require :mini.tabline) :setup)))}
 @end
 - we use `ai` to enhance "around" objects like `a(` which enables us to extend the vim motions that are naturally under our fingers to the parts that probably should have been included all along
 - we use `surround` for surround hotkeys to make it easier to make updates with motions
