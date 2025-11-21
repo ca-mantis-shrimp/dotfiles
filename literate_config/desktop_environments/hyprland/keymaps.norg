@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/keymaps.conf
 created: 2025-07-20T21:52:39-0800
-updated: 2025-11-20T21:50:10-0800
+updated: 2025-11-20T21:57:23-0800
 version: 1.1.1
 @end
 Hyprland is primarily driven through keyboard shortcuts so this file is tremendously important, not just for our structure, but for reference when we forget one.
@@ -222,10 +222,10 @@ We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds 
 
   This is also the part where things can start failing since we are relying on external dependencies so we need to be sure that everything is done right
 ** Notifications
-   We use {https://codeberg.org/dnkl/fnott}[fnott] to get our notifications so just using `D` is enough to dismiss each notification
+   We use {https://github.com/emersion/mako}[mako] to get our notifications so just using `D` is enough to dismiss each notification
    @code hyprlang
-   bind = $mainMod, D, exec, fnottctl dismiss
-   bind = $mainMod SHIFT, D, exec, fnottctl dismiss all
+   bind = $mainMod, D, exec, mako dismiss
+   bind = $mainMod SHIFT, D, exec, mako dismiss --all
    @end
 ** Utility Functions
    This is all the stuff that is so common many laptops have a dedicated button for the stuff and here is us setting them to the proper commands:
