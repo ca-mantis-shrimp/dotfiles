@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Elephant
+GenericName=Elephant Backend
+Comment=Creates Desktop Entries for the various modules
+Categories=Utility;
+Keywords=wayland;clipboard;
+TryExec=elephant
+Exec=elephant
+StartupNotify=false
+Terminal=false
+Icon=backend
+OnlyShowIn=wlroots;Hyprland

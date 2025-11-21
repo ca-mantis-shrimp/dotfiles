@@ -1,0 +1,24 @@
+@document.meta
+title: index
+description: 
+authors: backup-admin
+categories: 
+created: 2025-11-20T20:08:11-0800
+updated: 2025-11-20T21:21:07-0800
+version: 1.1.1
+@end
+* Desktop Environment Autostart Applications
+  We are trying to setup a few things at once and im very excited to go over the nuances because there is allot of exciting work here:
+
+  we are setting up to solve a few problems:
+  - we want certain applications to start when we log into our desktop environment
+  - we want the applications to be managed as services within the slices created by `uwsm` so that we can have better control over them
+  - we want to be able to have the applications start in a desktop agnostic way so
+  - we want to move this list of applications OUT of our config code and IN to more systemd friendly places
+
+** Index
+   Each file represents a different autostart desktop entry that will actually be placed in the `~/.config/autostart/` directory to be picked up by the desktop environment when we log in
+   - {:$/desktop_environments/autostart/app_fnott:}[Fnott Autostart] - autostart entry for fnott notes app
+   - {:$/desktop_environments/autostart/hyprpaper:}[Hyprpaper Autostart] - autostart entry for hyprpaper wallpaper manager
+   - {:$/desktop_environments/autostart/ashell:}[Ashell Autostart] - autostart entry for ashell wayland bar
+   - {:$/desktop_environments/autostart/app_nwg-dock-hyprland:}[Nwg-dock-hyprland Autostart] - autostart entry for nwg-dock-hyprland dock

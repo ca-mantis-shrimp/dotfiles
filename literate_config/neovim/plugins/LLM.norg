@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../.chezmoitemplates/Neovim/plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-10-28T00:09:45-0800
+updated: 2025-11-18T20:09:05-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI

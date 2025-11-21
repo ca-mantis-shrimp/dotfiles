@@ -1,0 +1,37 @@
+@document.meta
+title: hyprpaper autostart
+description: Autostart User Service for Hyprpaper
+authors: backup-admin
+categories: Desktop Environment Autostart Service
+tangle: ../../../dot_config/systemd/remove_user/hyprpaper.service
+created: 2025-11-20T20:06:07-0800
+updated: 2025-11-20T21:49:36-0800
+version: 1.1.1
+@end
+* Hyprpaper Autostart Desktop
+we are doing some awesome work around autostart so what we are doing is making the applications that we use from our desktop environment more portable and desktop agnostic so we are going to be able to start stuff using the tradition `xdg-autostart` directories as well as `uwsm` to wrap those in services within the desktop environment
+
+** Desktop environment
+   okay here is the layout 
+   #tangle
+   @code ini
+   [Unit]
+   Description=Hyprpaper wallpaper utility for Hyprland
+   Documentation=man:hyprpaper(1)
+   # order startup after WM
+   After=graphical-session.target
+
+   [Service]
+   Type=exec
+   # Repurpose XDG Autostart filtering
+   ExecCondition=/lib/systemd/systemd-xdg-autostart-condition "Hyprland" ""
+   ExecStart=uwsm app hyprpaper
+   Restart=on-failure
+   Slice=background-graphical.slice
+
+   [Install]
+   WantedBy=graphical-session.target
+   # Alternatively can be wanted by specific WMs' targets
+   # Should also be duplicated in 'After=' to avoid ordering loop
+   #WantedBy=wayland-session@hyprland.desktop.target
+   @end

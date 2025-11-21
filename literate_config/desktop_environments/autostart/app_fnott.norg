@@ -1,0 +1,17 @@
+@document.meta
+title: app_mako
+description: Autostart entry for mako notification daemon
+authors: backup-admin
+categories: Desktop Environment Autostart Applications
+tangle: ../../../dot_config/autostart/mako_daemon.desktop
+created: 2025-11-20T20:50:11-0800
+updated: 2025-11-20T20:58:40-0800
+version: 1.1.1
+@end
+* {https://github.com/emersion/mako}[Mako Notification Daemon] Autostart Entry
+Mako is a wonderful little daemon that implements the full {https://specifications.freedesktop.org/notification/latest/}[Freedesktop Notification Specification] for Wayland systems.
+
+  Super configurable we just need to autostart it with our desktop environment so that we can get notifications when we need them.
+  #table
+@code ini
+@end
