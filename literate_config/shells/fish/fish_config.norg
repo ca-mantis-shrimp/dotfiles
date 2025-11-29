@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Shells Fish
 tangle: ../../../dot_config/fish/config.fish.tmpl
 created: 2025-07-20T20:22:17-0800
-updated: 2025-11-28T19:00:49-0800
+updated: 2025-11-28T19:52:40-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -15,14 +15,32 @@ the nice part about fish is we really dont need to do much, since we are working
 * Fish Setup
   Fish just has a standard config file in the fish language, as one would expect
 
-  now that we have moved all the environment variable setup to {:$/systemd/environment:}[our base environment config] we can let fish config focus on fish config.
-
+working through this we are working to get some of our environments setup so that we are able
 
 ** Environment Variables
-   So
+   working on the environment variables 
 
+*** New Environment Variables
+    We are going to set some environment variables that are more about configuring our tools rather than the more systemic pieces
+    #tangle
+    @code fish
+    set -xg WWW_HOME "http://www.duckduckgo.com"
+    set -xg EDITOR "nvim"
+    set -xg PAGER "nvim +Man!"
 
-   From here, we are ready to export
+    set -xg npm_config_prefix "$HOME/.local"
+    @end
+    - setting `WWW_HOME` to duckduckgo makes it so that terminal browsers have a homepage set
+    - setting `EDITOR` to nvim makes it so that any application that respects the editor
+    - `PAGER` Lets us use several formats to actually work these pieces out
+
+*** PATH APPENDS
+    Next, we just need to append a few things to our PATH so that we can find our binaries properly
+    #tangle
+    @code fish
+    fish_add_path "$HOME/.cargo/bin"
+    fish_add_path "$HOME/.local/bin"
+    @end
 ** Querying for 1password credentials
 *** Ensuring we are using the right op
     The first thing we need to do is ensure that if we are on WSL, we are actually using the windows version of op since it is more deeply integrated with the desktop app and will work better

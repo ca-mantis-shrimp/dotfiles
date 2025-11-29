@@ -1,3 +1,12 @@
+set -xg WWW_HOME "http://www.duckduckgo.com"
+set -xg EDITOR "nvim"
+set -xg PAGER "nvim +Man!"
+
+set -xg npm_config_prefix "$HOME/.local"
+
+fish_add_path "$HOME/.cargo/bin"
+fish_add_path "$HOME/.local/bin"
+
 {{ if eq .chezmoi.os "linux" }}
 {{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
 alias op="op.exe"
