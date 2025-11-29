@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Shells Fish
 tangle: ../../../dot_config/fish/config.fish.tmpl
 created: 2025-07-20T20:22:17-0800
-updated: 2025-11-18T18:35:14-0800
+updated: 2025-11-28T19:00:49-0800
 version: 1.1.1
 @end
 Fish is our primary shell these days so its good to get a bit familiar with the format 
@@ -17,7 +17,9 @@ the nice part about fish is we really dont need to do much, since we are working
 
   now that we have moved all the environment variable setup to {:$/systemd/environment:}[our base environment config] we can let fish config focus on fish config.
 
-  With this and the changes to management of credentials, there is basically nothing left in here! which is exactly what we love to see because that means this is all just being done properly within the tool it was intended for
+
+** Environment Variables
+   So
 
 
    From here, we are ready to export
