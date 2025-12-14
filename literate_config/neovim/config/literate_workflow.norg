@@ -1,0 +1,337 @@
+@document.meta
+title: Literate Configuration Workflow Automation
+description: Automates the tangle → compile → format → apply workflow for literate config changes
+authors: dab
+categories: Neovim Config
+tangle: ../../../.chezmoitemplates/Neovim/config/literate_workflow.fnl
+created: 2025-12-14
+updated: 2025-12-14T13:30:09-0800
+version: 1.0.0
+@end
+
+* The Problem
+  When working with literate configuration, making a change requires several manual steps:
+
+  1. Save the norg file (or risk tangling stale content)
+  2. Run `:Neorg tangle current-file` to extract code blocks
+  3. For fennel files: open and save the `.fnl` to trigger nfnl compilation
+  4. Open and save the resulting `.lua` file to format it properly
+  5. Run `chezmoi apply` to sync changes to actual config locations
+  6. Deal with any errors that occurred along the way
+
+  This is tedious and error-prone. Miss a step and you're debugging why your changes didn't apply.
+
+* The Solution
+  We collapse all these steps into a single command that:
+  - Uses the neorg, nfnl, and conform APIs directly (no shell scripts)
+  - Runs synchronously so we have full control over the flow
+  - Fails fast with errors in the quickfix list for easy navigation
+  - Works from anywhere in the repo (chezmoi auto-detects source directory)
+
+* The Pipeline
+  Our workflow is a sequential pipeline where data flows through phases:
+
+  @code
+  .norg file → Validation → Tangling → Compilation → Formatting → Application
+       ↓            ↓            ↓            ↓             ↓            ↓
+    verify      save if      extract      fennel→lua    format for   sync to
+    context     modified     code to      using nfnl    chezmoi      system
+                             files                      using        locations
+                                                        conform
+  @end
+
+  Each phase can fail fast, stopping the pipeline and reporting errors.
+
+* Phase 1: Validation
+  Before we start the workflow, we need to ensure we're in the right context.
+
+#tangle
+@code fennel
+(local M {})
+@end
+
+** Verify Norg Buffer
+   #tangle
+   @code fennel
+   (fn M.verify-norg-buffer [bufnr]
+     "Check if the given buffer is a .norg file. Returns bufname or nil + error."
+     (let [bufname (vim.api.nvim_buf_get_name bufnr)]
+       (if (bufname:match "%.norg$")
+           bufname
+           (values nil "Not a .norg file!"))))
+   @end
+
+   This check ensures we don't try to tangle a non-norg file
+   - early return prevents wasted work
+   - clear error message tells user what went wrong
+
+** Save If Modified
+   #tangle
+   @code fennel
+   (fn M.save-if-modified [bufnr]
+     "Save buffer if it has unsaved changes. Returns true on success."
+     (when (. vim.bo bufnr :modified)
+       (vim.notify "Saving buffer before tangling..." vim.log.levels.INFO)
+       (vim.api.nvim_buf_call bufnr (fn [] (vim.cmd.write))))
+     true)
+   @end
+
+   Automatically saving prevents the annoying bug where you forget to save before tangling
+   - only saves if buffer is actually modified
+   - notifies user so they know something happened
+   - uses `nvim_buf_call` to save the specific buffer, not current
+
+* Phase 2: Tangling
+  Extract code blocks from the norg file and write them to their target locations.
+
+** Get Tangle Metadata
+   #tangle
+   @code fennel
+   (fn M.get-tangle-metadata [bufnr]
+     "Get tangle metadata from the current norg buffer. Returns tangle path or nil + error."
+     (let [(ok neorg) (pcall require :neorg)]
+       (if (not ok)
+           (values nil "Neorg not available")
+           (let [ts (neorg.modules.get_module :core.integrations.treesitter)]
+             (if ts
+                 (let [metadata (ts.get_document_metadata bufnr)]
+                   (if (and metadata metadata.tangle)
+                       metadata.tangle
+                       (values nil "No tangle directive in document metadata")))
+                 (values nil "Neorg treesitter module not loaded"))))))
+   @end
+
+   Instead of using the tangle module directly, we parse the metadata to find out where files will be tangled
+   - use the treesitter integration to parse document metadata
+   - the tangle directive tells us where code blocks will go
+   - this avoids issues with the tangle module not being fully initialized
+
+** Tangle Current File
+   #tangle
+   @code fennel
+   (fn M.tangle-current-file []
+     "Run :Neorg tangle current-file command. Returns true or nil + error."
+     (let [(ok err) (pcall vim.cmd "Neorg tangle current-file")]
+       (if ok
+           ;; Give neorg a moment to finish async file writes
+           (do
+             (vim.wait 100) true)
+           (values nil (.. "Tangle command failed: " (tostring err))))))
+   @end
+
+   We use the `:Neorg tangle current-file` command instead of the API
+   - this ensures neorg handles initialization properly
+   - the command is async, so we wait a bit for files to be written
+   - more reliable than trying to use the module API directly
+
+* Phase 3: Compilation
+  For fennel files, we need to compile them to lua and format the result.
+
+** Compile Fennel
+   #tangle
+   @code fennel
+   (fn M.compile-fennel [filepath]
+     "Compile a fennel file to lua using nfnl. Returns true or nil + error."
+     (let [(ok nfnl) (pcall require :nfnl.api)]
+       (if (not ok)
+           (do
+             (vim.notify "nfnl not available, skipping compilation"
+                         vim.log.levels.WARN)
+             true)
+           ;; Not an error, just skip
+           (let [compile-file (. nfnl :compile-file)
+                 dir (vim.fn.fnamemodify filepath ":h")
+                 result (compile-file {:path filepath : dir})]
+             (if (= result.status :ok)
+                 true
+                 (values nil
+                         (or result.error
+                             (.. "nfnl compilation failed for " filepath))))))))
+   @end
+
+   Instead of opening and saving the fennel file, we call nfnl's API directly
+   - much cleaner than simulating user actions
+   - pass the file's directory so nfnl can find its `.nfnl.fnl` config
+   - nfnl returns a result table with status and error info
+   - if nfnl isn't available, we warn but don't fail (optional dependency)
+   - compilation errors stop the workflow immediately
+
+** Format Lua
+   #tangle
+   @code fennel
+   (fn M.format-lua [filepath]
+     "Format a lua file using conform in a hidden buffer. Returns true or nil + error."
+     (let [(ok conform) (pcall require :conform)]
+       (if (not ok)
+           (do
+             (vim.notify "conform not available, skipping format"
+                         vim.log.levels.WARN)
+             true)
+           ;; Not an error, just skip
+           ;; Load file into hidden buffer, format, save, close
+           (let [lua-bufnr (vim.fn.bufadd filepath)]
+             (vim.fn.bufload lua-bufnr)
+             (conform.format {:bufnr lua-bufnr :async false})
+             (vim.api.nvim_buf_call lua-bufnr (fn [] (vim.cmd.write)))
+             (vim.api.nvim_buf_delete lua-bufnr {:force true :unload true})
+             true))))
+   @end
+
+   This formatting step is crucial: it prevents chezmoi from treating lua files as broken templates
+   - we load the file into a hidden buffer (user never sees it)
+   - conform.format works on buffers, so this is cleaner than opening/saving
+   - synchronous formatting ensures it completes before we continue
+   - we unload the buffer after to clean up (but keep in buffer list for formatters that need it)
+
+** Process Fennel Pipeline
+   #tangle
+   @code fennel
+   (fn M.process-fennel-file [filepath]
+     "Compile and format a fennel file. Returns true or nil + error."
+     (let [(ok err) (M.compile-fennel filepath)]
+       (if (not ok)
+           (values nil err)
+           (let [lua-file (filepath:gsub "%.fnl$" :.lua)]
+             (M.format-lua lua-file)))))
+   @end
+
+   This orchestrates the fennel-specific workflow
+   - compile fennel to lua
+   - if successful, format the resulting lua file
+   - if compilation fails, skip formatting (no lua file to format)
+
+* Phase 4: Application
+  Run chezmoi to sync changes to actual config locations.
+
+** Apply With Chezmoi
+   #tangle
+   @code fennel
+   (fn M.apply-with-chezmoi []
+     "Run chezmoi apply and handle errors. Returns true or nil + error."
+     (let [output (vim.fn.system "chezmoi apply 2>&1")
+           exit-code vim.v.shell_error]
+       (if (= exit-code 0)
+           true
+           ;; Put errors in quickfix list
+           (do
+             (var qf-entries [])
+             (each [line (output:gmatch "[^\r\n]+")]
+               (table.insert qf-entries {:text line}))
+             (vim.fn.setqflist qf-entries :r)
+             (vim.fn.setqflist [] :a {:title "chezmoi apply errors"})
+             (vim.cmd.copen)
+             (values nil "chezmoi apply failed! Check quickfix list.")))))
+   @end
+
+   chezmoi handles finding the source directory automatically
+   - we just run `chezmoi apply` from anywhere in the repo
+   - capture both stdout and stderr with `2>&1`
+   - on error, parse output into quickfix list for easy navigation
+   - auto-open quickfix so user sees errors immediately
+
+* Orchestration
+  Now we put all the phases together into the main workflow.
+
+** Tangle And Apply
+   #tangle
+   @code fennel
+   (fn M.tangle-and-apply []
+     "Main workflow: tangle → compile → format → apply"
+     (let [bufnr (vim.api.nvim_get_current_buf)]
+       ;; Phase 1: Validation
+       (let [(bufname err) (M.verify-norg-buffer bufnr)]
+         (when (not bufname)
+           (vim.notify err vim.log.levels.ERROR)
+           (lua :return)))
+       (M.save-if-modified bufnr)
+       ;; Phase 2: Tangling
+       (let [(tangle-path err) (M.get-tangle-metadata bufnr)]
+         (when (not tangle-path)
+           (vim.notify err vim.log.levels.ERROR)
+           (lua :return))
+         ;; Run the tangle command
+         (let [(ok err) (M.tangle-current-file)]
+           (when (not ok)
+             (vim.notify err vim.log.levels.ERROR)
+             (lua :return))
+           ;; Phase 3: Compilation (if tangled to a fennel file)
+           (when (and (= (type tangle-path) :string) (tangle-path:match "%.fnl$"))
+             ;; Resolve relative path to absolute
+             (let [bufdir (vim.fn.fnamemodify bufname ":h")
+                   abs-path (vim.fn.fnamemodify (.. bufdir "/" tangle-path) ":p")
+                   (ok err) (M.process-fennel-file abs-path)]
+               (when (not ok)
+                 (vim.notify err vim.log.levels.ERROR)
+                 (lua :return))))
+           ;; Return to original buffer before applying
+           (vim.api.nvim_set_current_buf bufnr)
+           ;; Phase 4: Application
+           (let [(ok err) (M.apply-with-chezmoi)]
+             (if ok
+                 (vim.notify "Successfully tangled and applied!"
+                             vim.log.levels.INFO)
+                 (vim.notify err vim.log.levels.ERROR)))))))
+   @end
+
+   This orchestration function reads like a story:
+   - verify we're in the right place
+   - save if needed
+   - get the tangle metadata to know where files will go
+   - run the tangle command
+   - if we tangled a fennel file, compile and format it
+   - return to original buffer
+   - apply with chezmoi
+   - notify success or failure
+
+   The nested `let` blocks enforce the sequential flow - each phase must succeed before the next begins.
+
+   Note: We simplified from handling multiple files to just the main tangle path for now.
+   Most norg files have a single tangle directive, and this covers the common case cleanly.
+
+* User Interface
+  We expose this workflow through a command and a keymap.
+
+#tangle
+@code fennel
+;; Create user command
+(vim.api.nvim_create_user_command :TangleAndApply M.tangle-and-apply {})
+
+;; Create keymap (only in norg buffers)
+(vim.api.nvim_create_autocmd :FileType
+                             {:pattern :norg
+                              :callback (fn []
+                                          (vim.keymap.set :n :<leader>nA
+                                                          M.tangle-and-apply
+                                                          {:buffer true
+                                                           :desc "Tangle and apply literate config"}))})
+
+M
+@end
+
+The command works from any norg buffer, the keymap is buffer-local
+- `<leader>nA` mnemonic: "neorg Apply"
+- buffer-local keymap means it only exists in norg files
+- we return `M` so the module can be required elsewhere if needed
+
+* Usage
+  Once this module is loaded (via your init system), you have two ways to run the workflow:
+
+  1. Command: `:TangleAndApply` - works from any norg buffer
+  2. Keymap: `<leader>nA` - only available in norg buffers
+
+  The workflow will:
+  - Save your current buffer if it has unsaved changes
+  - Tangle all code blocks to their target files
+  - For fennel files: compile to lua and format
+  - Run `chezmoi apply` to sync changes to your actual config
+  - Show any errors in the quickfix list for easy navigation
+
+* Future Improvements
+  Potential enhancements we could add as this workflow matures:
+
+  - Batch mode: tangle all norg files in the workspace at once
+  - Dry-run flag: show what would be changed without applying
+  - Git integration: auto-commit successful applies
+  - Progress notifications: show which phase we're in for long operations
+  - Selective application: tangle without applying, or apply without tangling
+  - Recovery mode: if tangling fails partway through, clean up partial writes

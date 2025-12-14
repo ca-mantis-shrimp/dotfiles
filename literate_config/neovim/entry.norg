@@ -110,8 +110,10 @@ However still this is how we get the initial bootstrap done so that we can actua
    @code fennel
    (require :config.keymaps)
    (require :config.autocmds)
+   (require :config.literate_workflow)
    @end
    - the source file with keymaps may have plugin-specific keymaps which is why it must come after plugin setup
    -- in addition to keymaps for OOTB functionality, this is also where we put hotkeys that COULDNT be setup before the plugin was setup which should be relatively rare
    - Same with the autocommand, we may be utilizing plugin functionality so we can setup autocommands for plugins when necessary
+   - literate_workflow depends on neorg, nfnl, and conform so it must come after plugin setup
 

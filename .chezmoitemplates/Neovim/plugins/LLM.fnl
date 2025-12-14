@@ -1,5 +1,4 @@
 [{1 :github/copilot.vim}
- {1 :CopilotC-Nvim/CopilotChat.nvim :build "make tiktoken" :opts {}}
  {1 :olimorris/codecompanion.nvim
   :dependencies [{1 :ravitemer/mcphub.nvim
                   :build "npm install -g mcp-hub@latest"
@@ -85,4 +84,3 @@
          {1 :<leader>ac
           2 #((. (require :sidekick.cli) :toggle) {:name :claude :focus true})
           :desc "Sidekick Toggle Claude"}]}]
-

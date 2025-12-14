@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Dotfile Management Chezmoi
 tangle: ../../.chezmoiignore
 created: 2025-08-30T22:49:46-0800
-updated: 2025-09-08T01:34:49-0800
+updated: 2025-12-14T14:34:17-0800
 version: 1.1.1
 @end
 * {https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines}[Ignore File]
@@ -70,6 +70,7 @@ version: 1.1.1
    *.md
    *.lua
    **.*.fnl
+   LLM/
    @end
    - literate config (this folder!)
    - `wiki` which is my attempt to make the first folder into a website

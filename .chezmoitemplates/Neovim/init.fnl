@@ -20,4 +20,5 @@
 
 (require :config.keymaps)
 (require :config.autocmds)
+(require :config.literate_workflow)
 

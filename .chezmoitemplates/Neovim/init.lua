@@ -14,4 +14,5 @@ do
 	lazy.setup(setup_opts)
 end
 require("config.keymaps")
-return require("config.autocmds")
+require("config.autocmds")
+return require("config.literate_workflow")

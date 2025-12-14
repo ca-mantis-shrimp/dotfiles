@@ -34,7 +34,6 @@ local function _10_()
 end
 return {
 	{ "github/copilot.vim" },
-	{ "CopilotC-Nvim/CopilotChat.nvim", build = "make tiktoken", opts = {} },
 	{
 		"olimorris/codecompanion.nvim",
 		dependencies = {
