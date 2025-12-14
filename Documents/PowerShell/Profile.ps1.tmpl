@@ -1,11 +1,3 @@
 $Env:SHELL = "pwsh"
 
-{{- if ne .chezmoi.hostname "USSFODARBURGES3" }}
-$env:OPENAI_API_KEY= "{{ onepasswordRead "op://Back-End/openai_api_key/credential" }}"
-{{- end }}
-
-$Env:ATAC_MAIN_DIR = "~/AppData/Local/atac"
-
-$Env:TODOIST_API_KEY = "{{ onepasswordRead "op://Back-End/todoist_api_key/credential" }}"
-
 Invoke-Expression (&starship init powershell)
