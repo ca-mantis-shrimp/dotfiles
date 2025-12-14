@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Neovim
 tangle: ../../.chezmoitemplates/Neovim/init.fnl
 created: 2025-07-25T19:12:38-0800
-updated: 2025-09-03T11:31:38-0800
+updated: 2025-12-14T10:49:25-0800
 version: 1.1.1
 @end
 * A note on tangling
@@ -82,14 +82,21 @@ However still this is how we get the initial bootstrap done so that we can actua
 *** Setting up Lazy
     With all the preludes out of the way, we are ready to setup Lazy as our first plugin properly
 
-    #tangle
+   #tangle
     @code fennel
     (let [lazy (require :lazy)
-          setup_opts {:spec [{:import :plugins}]}]
+          setup_opts {:spec [{:import :plugins}]
+                      :dev {:path "~/Products" :patterns [:tree-sitter-actions]}}]
       (lazy.setup setup_opts))
     @end
     - now that lazy is downloaded and appended to the `rtp` we can require it like any other plugin
-    - the only notable setting we use is that we import `plugins` which says we should automatically source any files in the `plugins/` directory of the config structure
+    - we import `plugins` which says we should automatically source any files in the `plugins/` directory of the config structure
+    - the `:dev` configuration enables seamless development/production switching:
+    -- `:path` sets the directory where local plugin development happens (~/Products)
+    -- `:patterns` specifies which plugins to load from the local path when available
+    -- when `~/Products/tree-sitter-actions` exists, lazy uses that version (development machines)
+    -- when it doesn't exist, lazy falls back to cloning from GitHub (production/user machines)
+    -- this allows one config to work across all machines without modification
     -- feel free to review `:h *lazy.nvim-⚙️-configuration*` for information on how to configure lazy itself
 
     Finally, we take the combination of the library and the config to actually setup lazy for the first time

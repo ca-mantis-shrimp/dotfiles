@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/keymaps.conf
 created: 2025-07-20T21:52:39-0800
-updated: 2025-11-28T19:02:48-0800
+updated: 2025-11-28T20:30:55-0800
 version: 1.1.1
 @end
 Hyprland is primarily driven through keyboard shortcuts so this file is tremendously important, not just for our structure, but for reference when we forget one.
@@ -71,6 +71,7 @@ We can look up more at {https://wiki.hyprland.org/Configuring/Binds/}[the Binds 
   bind = $mainMod, B, exec, $browser
   bind = $mainMod, E, exec, $editor
   bind = $mainMod, R, exec, $menu
+  bind = $mainMod + ALT, S, exec, grim
   @end
 
 * Window Management

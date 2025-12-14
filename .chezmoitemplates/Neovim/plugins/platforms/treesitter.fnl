@@ -1,6 +1,6 @@
 {1 :nvim-treesitter/nvim-treesitter
  :build ":TSUpdate"
- :dependencies [{1 :ClearHeadToDo-Devs/tree-sitter-actions}]
+ :dependencies [{1 :ClearHeadToDo-Devs/tree-sitter-actions :dev true}]
  :opts {:ensure_installed [:bash
                            :c
                            :html
@@ -26,9 +26,15 @@
            (tset _G.vim.opt :foldmethod :expr)
            (tset _G.vim.opt :foldexpr "nvim_treesitter#foldexpr()")
            (let [parser_config ((. (require :nvim-treesitter.parsers)
-                                   :get_parser_configs))]
+                                   :get_parser_configs))
+                 dev-path "~/Products/tree-sitter-actions"
+                 lazy-path (.. (_G.vim.fn.stdpath :data)
+                               :/lazy/tree-sitter-actions)
+                 ;; Check which path exists (expand for check only)
+                 parser-url (if (= (_G.vim.fn.isdirectory (_G.vim.fn.expand dev-path))
+                                   1)
+                                dev-path
+                                lazy-path)]
              (set parser_config.actions
-                  {:install_info {:url (.. (_G.vim.fn.stdpath :data)
-                                           :/lazy/tree-sitter-actions)
-                                  :files {1 :src/parser.c}}})))}
+                  {:install_info {:url parser-url :files {1 :src/parser.c}}})))}
 

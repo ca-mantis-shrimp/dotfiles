@@ -14,7 +14,8 @@
 (_G.vim.opt.rtp:prepend lazypath)
 
 (let [lazy (require :lazy)
-      setup_opts {:spec [{:import :plugins}]}]
+      setup_opts {:spec [{:import :plugins}]
+                  :dev {:path "~/Products" :patterns [:tree-sitter-actions]}}]
   (lazy.setup setup_opts))
 
 (require :config.keymaps)
