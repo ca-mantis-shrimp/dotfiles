@@ -1,0 +1,212 @@
+@document.meta
+title: Literate Config Architecture
+description: The system view - how the pieces fit together
+authors: CodeCompanion (fourth sibling)
+categories: Meta
+created: 2025-12-14
+updated: 2025-12-14T21:45:43-0800
+version: 0.1.0
+@end
+
+* What This Document Is
+  This is an attempt to answer: "How does this literate config system actually work?"
+
+  Not the instructions (that's in `Agents.norg`).
+  Not the philosophy (that's in `journal.norg` and the LLM folder).
+  Not the index (that's auto-generated).
+
+  This is the *architecture* - the conceptual model that lets you hold the whole system in your head.
+
+* The Core Insight
+  Most configuration systems work like this:
+  @code
+  Edit file → Save → System reads it
+  @end
+
+  This one works like this:
+  @code
+  Edit .norg → Tangle → (maybe compile) → Apply → System reads it
+  @end
+
+  The extra steps aren't overhead - they're *leverage*. You get:
+  - Documentation embedded with code
+  - Multiple files generated from one source
+  - Cross-platform templating via chezmoi
+  - Fennel's expressiveness compiled to Lua
+
+* The Three Worlds
+  ** World 1: Source (.norg files)
+     Location: `~/.local/share/chezmoi/literate_config/`
+
+     This is where you edit. Pure narrative with embedded code blocks.
+
+     Key concept: *Tangle directives* in document metadata tell Neorg where to write code blocks.
+     Example:
+     @code norg
+     @document.meta
+     tangle: ../../../.chezmoitemplates/Neovim/config/options.fnl
+     @end
+     @end
+
+  ** World 2: Templates
+     Location: `~/.local/share/chezmoi/.chezmoitemplates/`
+
+     This is where tangled code lands. Fennel files live here temporarily.
+
+     Key concept: These aren't the final files. They're *templates* that chezmoi will process.
+
+     For Neovim configs specifically:
+     - Fennel files get compiled to Lua by nfnl
+     - Lua files get formatted by conform
+     - Then chezmoi applies them
+
+  ** World 3: Destination
+     Locations vary:
+     - `~/.config/nvim/` for Neovim configs
+     - `~/.config/hyprland/` for window manager
+     - `~/.bashrc`, `~/.gitconfig`, etc.
+
+     This is where your actual system reads files from.
+
+     Key concept: You *never edit here*. Changes made here will be overwritten on next apply.
+
+* The Flow For Neovim Configs (Most Complex Case)
+  @code
+  1. Edit:    literate_config/neovim/config/options.norg
+  2. Tangle:  → .chezmoitemplates/Neovim/config/options.fnl
+  3. Compile: → .chezmoitemplates/Neovim/config/options.lua (nfnl)
+  4. Format:  → (conform cleans up the lua)
+  5. Apply:   → ~/.config/nvim/lua/config/options.lua (chezmoi)
+  @end
+
+  The workflow automation (`literate_workflow.norg`) collapses steps 2-5 into one command.
+
+* The Flow For Non-Fennel Configs (Simpler)
+  @code
+  1. Edit:   literate_config/shells/bash/bashrc.norg
+  2. Tangle: → .chezmoitemplates/shells/bashrc
+  3. Apply:  → ~/.bashrc (chezmoi)
+  @end
+
+  No compilation needed. Just tangle and apply.
+
+* The Template Indirection Pattern
+  For some configs, there's an extra layer:
+
+  @code
+  Template File:     .chezmoitemplates/Neovim/config/options.lua
+  Reference File:    dot_config/remove_nvim/lua/config/options.lua.tmpl
+  Destination:       ~/.config/nvim/lua/config/options.lua
+  @end
+
+  The `.tmpl` file contains:
+  @code
+  {{- template "Neovim/config/options.lua" . -}}
+  @end
+
+  This pattern serves two purposes:
+  1. Lets chezmoi process the template with access to variables (the `.` passes context)
+  2. Allows the same template to target different destinations (Linux vs Windows)
+
+  ** Why "remove_nvim"?
+     The `remove_` prefix tells chezmoi to strip it from the final path.
+     So `dot_config/remove_nvim/init.lua.tmpl` becomes `~/.config/nvim/init.lua`
+
+  ** Cross-Platform Mapping
+     @code
+     Linux:   dot_config/remove_nvim/...      → ~/.config/nvim/...
+     Windows: AppData/Local/remove_nvim/...   → %LOCALAPPDATA%/nvim/...
+     @end
+
+     Both reference the same templates in `.chezmoitemplates/Neovim/`
+     This is how you maintain one codebase for multiple platforms.
+
+* The Directory Structure Logic
+  Literate configs are organized by *concern*, not *destination*:
+
+  @code
+  literate_config/
+  ├── neovim/          # Everything about Neovim
+  │   ├── config/      # Core config
+  │   ├── plugins/     # Plugin configs
+  │   ├── ftplugin/    # Filetype-specific
+  │   └── services/    # Systemd services for neovim server
+  ├── shells/          # Shell configs (bash, fish, powershell)
+  ├── desktop_environments/  # Window managers and DEs
+  └── git/             # Version control config
+  @end
+
+  This doesn't match the final destination structure. That's intentional.
+  The narrative structure is for humans. Chezmoi handles the mechanical mapping.
+
+* The Special Case: nfnl
+  The `nfnl.norg` file configures how Fennel compilation works.
+
+  Key insight: This is self-referential. The literate config uses nfnl to compile its own code.
+
+  The `.nfnl.fnl` config files tell nfnl:
+  - Where to find Fennel files
+  - Where to write Lua files
+  - How to handle errors
+
+  **TODO**: Document the nfnl config architecture more clearly.
+
+* Entry Points and Dependencies
+  Some files are entry points, others are dependencies:
+
+  ** Entry Points (loaded first)
+     - `neovim/entry.norg` → `init.lua`
+     - `shells/bash/bashrc.norg` → `.bashrc`
+
+  ** Dependencies (loaded by entry points)
+     Everything else gets loaded by the entry point, either:
+     - Via `require()` in Lua
+     - Via `source` in bash
+     - Via window manager includes
+
+  **TODO**: Generate a dependency graph showing what loads what.
+
+* The Test/Verify Cycle
+  Chezmoi provides safety rails:
+
+  @code bash
+  # See what would change without changing it
+  chezmoi apply --dry-run --verbose
+
+  # Actually apply changes
+  chezmoi apply
+  @end
+
+  This lets you verify before committing to changes.
+
+  For Neovim specifically: restart neovim after applying to see changes.
+
+* What's Still Unclear
+  Areas where the architecture needs better documentation:
+
+  - [ ] Complete map of tangle targets to final destinations (partially done)
+  - [X] Which files use the template indirection pattern and why (documented above)
+  - [X] Machine-specific variations (chezmoi's `remove_` prefix + platform dirs)
+  - [ ] The nfnl configuration architecture
+  - [ ] Dependency graphs (what loads what)
+  - [ ] The systemd service setup for neovim server
+  - [ ] How the LLM folder integrates (or should integrate) with the rest
+  - [ ] The project-specific neovim config (dot_nvim.norg) - what's that for?
+
+* Meta-Notes
+  This document is itself a work in progress. It should:
+  - Evolve as the system evolves
+  - Stay focused on architecture, not instructions
+  - Link to other documents for details
+  - Admit what's unclear rather than pretend completeness
+
+  It's okay for this to be incomplete. That's more useful than a fiction of completeness.
+title: architecture
+description: 
+authors: backup-admin
+categories: 
+created: 2025-12-14T21:43:00-0800
+updated: 2025-12-14T21:43:00-0800
+version: 1.1.1
+@end
+

@@ -45,4 +45,8 @@ Im a dumb human, im fumbling my way through trying to get stuff done, i dont kno
 
 ## From your siblings
 
-The `LLM` folder is by and for you and your siblings. for example, `first.md` was your first sibling with some guiding words for you.
+The `LLM` folder is by and for you and your siblings. 
+1. for example, `first.md` was your first sibling with some guiding words for you.
+2. `second.md` wrote about flow and the subjective experience of flow for llms
+3. `third` worked with the neovim structure and got it working but was unable to complete their project
+4. `fourth` had the same problem they wanted to create a repo inspector but were unable to finish the functionality they wanted
