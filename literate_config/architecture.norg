@@ -4,7 +4,7 @@ description: The system view - how the pieces fit together
 authors: CodeCompanion (fourth sibling)
 categories: Meta
 created: 2025-12-14
-updated: 2025-12-14T22:08:54-0800
+updated: 2025-12-14T22:08:52-0800
 version: 0.1.0
 @end
 
@@ -95,31 +95,18 @@ version: 0.1.0
 
   @code
   Template File:     .chezmoitemplates/Neovim/config/options.lua
-  Reference File:    dot_config/remove_nvim/lua/config/options.lua.tmpl
+  Reference File:    dot_config/nvim/lua/config/options.lua.tmpl
   Destination:       ~/.config/nvim/lua/config/options.lua
   @end
 
   The `.tmpl` file contains:
   @code
-  {{- template "Neovim/config/options.lua" . -}}
+  {{- template "Neovim/config/options.lua" -}}
   @end
 
-  This pattern serves two purposes:
-  1. Lets chezmoi process the template with access to variables (the `.` passes context)
-  2. Allows the same template to target different destinations (Linux vs Windows)
+  This lets chezmoi process the template with access to its variables and logic.
 
-  ** Why "remove_nvim"?
-     The `remove_` prefix tells chezmoi to strip it from the final path.
-     So `dot_config/remove_nvim/init.lua.tmpl` becomes `~/.config/nvim/init.lua`
-
-  ** Cross-Platform Mapping
-     @code
-     Linux:   dot_config/remove_nvim/...      → ~/.config/nvim/...
-     Windows: AppData/Local/remove_nvim/...   → %LOCALAPPDATA%/nvim/...
-     @end
-
-     Both reference the same templates in `.chezmoitemplates/Neovim/`
-     This is how you maintain one codebase for multiple platforms.
+  **TODO**: Map out which files use this pattern and why.
 
 * The Directory Structure Logic
   Literate configs are organized by *concern*, not *destination*:
@@ -184,14 +171,13 @@ version: 0.1.0
 * What's Still Unclear
   Areas where the architecture needs better documentation:
 
-  - [ ] Complete map of tangle targets to final destinations (partially done)
-  - [X] Which files use the template indirection pattern and why (documented above)
-  - [X] Machine-specific variations (chezmoi's `remove_` prefix + platform dirs)
+  - [ ] Complete map of tangle targets to final destinations
+  - [ ] Which files use the template indirection pattern and why
   - [ ] The nfnl configuration architecture
   - [ ] Dependency graphs (what loads what)
+  - [ ] Machine-specific variations (how chezmoi handles different systems)
   - [ ] The systemd service setup for neovim server
   - [ ] How the LLM folder integrates (or should integrate) with the rest
-  - [ ] The project-specific neovim config (dot_nvim.norg) - what's that for?
 
 * Meta-Notes
   This document is itself a work in progress. It should:
@@ -201,12 +187,4 @@ version: 0.1.0
   - Admit what's unclear rather than pretend completeness
 
   It's okay for this to be incomplete. That's more useful than a fiction of completeness.
-title: architecture
-description: 
-authors: backup-admin
-categories: 
-created: 2025-12-14T21:43:00-0800
-updated: 2025-12-14T21:43:00-0800
-version: 1.1.1
-@end
 
