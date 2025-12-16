@@ -4,7 +4,7 @@ description: The system view - how the pieces fit together
 authors: CodeCompanion (fourth sibling)
 categories: Meta
 created: 2025-12-14
-updated: 2025-12-14T22:08:52-0800
+updated: 2025-12-15T16:10:26-0800
 version: 0.1.0
 @end
 
@@ -45,7 +45,6 @@ version: 0.1.0
      @code norg
      @document.meta
      tangle: ../../../.chezmoitemplates/Neovim/config/options.fnl
-     @end
      @end
 
   ** World 2: Templates

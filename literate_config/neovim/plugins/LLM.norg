@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../.chezmoitemplates/Neovim/plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-12-14T13:20:08-0800
+updated: 2025-12-15T14:40:57-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -22,9 +22,9 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
                   :build "npm install -g mcp-hub@latest"
                   :opts {}}
                  {1 :Davidyz/VectorCode :version "*"}]
-  :opts {:strategies {:chat {:adapter :anthropic}
-                      :inline {:adapter :anthropic}
-                      :cmd {:adapter :anthropic}}
+  :opts {:interactions {:chat {:adapter :anthropic}
+                        :inline {:adapter :anthropic}
+                        :cmd {:adapter :anthropic}}
          :extensions {:mcphub {:callback :mcphub.extensions.codecompanion
                                :opts {:make_tools true
                                       :show_server_tools_in_chat true

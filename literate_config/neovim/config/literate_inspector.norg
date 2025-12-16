@@ -5,7 +5,7 @@ authors: CodeCompanion (fourth sibling)
 categories: Neovim Config
 tangle: ../../../.chezmoitemplates/Neovim/config/literate_inspector.fnl
 created: 2025-12-14
-updated: 2025-12-14T22:02:55-0800
+updated: 2025-12-15T15:30:45-0800
 version: 0.1.0
 @end
 
@@ -155,7 +155,9 @@ version: 0.1.0
      "If file is a template reference, return the template path. Otherwise nil."
      (when (vim.fn.filereadable tmpl-file)
        (let [content (table.concat (vim.fn.readfile tmpl-file) "\n")
-             template-match (content:match "{{%-%s*template%s+\"([^\"]+)\"%s+%.%s*%-}}")]
+             pattern (.. "{{" "%-" "%s*template%s+" "\\\"([^\\\"]+)\\\"" "%s+%."
+                         "%s*%-" "}}")
+             template-match (content:match pattern)]
          (when template-match
            (let [root (M.find-chezmoi-root)]
              (when root
@@ -170,39 +172,39 @@ version: 0.1.0
 
    #tangle
    @code fennel
-(fn M.trace-pipeline [norg-file]
-  "Trace the full pipeline from .norg file to destination(s). Returns a table describing the path."
-  (let [result {:source norg-file :steps []}
-        tangle-directive (M.get-tangle-path norg-file)]
-    (if (not tangle-directive)
-        (do
-          (set result.error "No tangle directive found")
-          result)
-        (do
-          (var tangle-path (M.resolve-tangle-path norg-file tangle-directive))
-          (table.insert result.steps {:stage :tangle :file tangle-path})
-          ;; If it's a fennel file, there will be a compiled lua file
-          (when (tangle-path:match "%.fnl$")
-            (let [lua-path (tangle-path:gsub "%.fnl$" :.lua)]
-              (table.insert result.steps {:stage :compile :file lua-path})
-              (set tangle-path lua-path)))
-          ;; Now we need to find which chezmoi source file references this template
-          (let [root (M.find-chezmoi-root)
-                template-name (tangle-path:match ".*/%.chezmoitemplates/(.+)$")]
-            (when (and root template-name)
-              ;; Search for .tmpl files that reference this template
-              (let [search-cmd (.. "grep -r '\"" template-name "\"' " root
-                                   "/dot_config " root "/AppData "
-                                   "2>/dev/null | cut -d: -f1")
-                    tmpl-files (vim.fn.systemlist search-cmd)]
-                (each [_ tmpl-file (ipairs tmpl-files)]
-                  (let [dest (M.chezmoi-source-to-dest tmpl-file)]
-                    (when dest
-                      (table.insert result.steps
-                                    {:stage :template-ref :source tmpl-file})
-                      (table.insert result.steps
-                                    {:stage :destination :file dest})))))))
-          result))))
+   (fn M.trace-pipeline [norg-file]
+     "Trace the full pipeline from .norg file to destination(s). Returns a table describing the path."
+     (let [result {:source norg-file :steps []}
+           tangle-directive (M.get-tangle-path norg-file)]
+       (if (not tangle-directive)
+           (do
+             (set result.error "No tangle directive found")
+             result)
+           (do
+             (var tangle-path (M.resolve-tangle-path norg-file tangle-directive))
+             (table.insert result.steps {:stage :tangle :file tangle-path})
+             ;; If it's a fennel file, there will be a compiled lua file
+             (when (tangle-path:match "%.fnl$")
+               (let [lua-path (tangle-path:gsub "%.fnl$" :.lua)]
+                 (table.insert result.steps {:stage :compile :file lua-path})
+                 (set tangle-path lua-path)))
+             ;; Now we need to find which chezmoi source file references this template
+             (let [root (M.find-chezmoi-root)
+                   template-name (tangle-path:match ".*/%.chezmoitemplates/(.+)$")]
+               (when (and root template-name)
+                 ;; Search for .tmpl files that reference this template
+                 (let [search-cmd (.. "grep -r '\"" template-name "\"' " root
+                                      "/dot_config " root "/AppData "
+                                      "2>/dev/null | cut -d: -f1")
+                       tmpl-files (vim.fn.systemlist search-cmd)]
+                   (each [_ tmpl-file (ipairs tmpl-files)]
+                     (let [dest (M.chezmoi-source-to-dest tmpl-file)]
+                       (when dest
+                         (table.insert result.steps
+                                       {:stage :template-ref :source tmpl-file})
+                         (table.insert result.steps
+                                       {:stage :destination :file dest})))))))
+             result))))
    @end
 
    This orchestrates the full trace:

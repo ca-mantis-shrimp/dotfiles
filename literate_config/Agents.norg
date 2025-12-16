@@ -4,7 +4,7 @@ description: The standard Agents.md file to instruct LLMs how to interact with t
 authors: primary_desktop
 categories: LLM
 created: 2025-09-01T20:19:39-0800
-updated: 2025-12-14T14:38:06-0800
+updated: 2025-12-15T16:21:30-0800
 version: 1.1.1
 @end
 * Building a Literate Configuration Together
@@ -26,6 +26,26 @@ version: 1.1.1
    We have also made it available as an MCP server so that you too can edit things directly from neovim, making this your tool as well as mine.
 
    Many other tools are covered, but they are all detailed in the literate_config folder.
+
+   I Cant emphasize this enough, this is a nest of interlocking systems, so absolute discipline is required, lest you get trapped in a rabbit hole of solving the wrong problem.
+
+*** Workflow
+    Finally, after a few iteration session I realize i need to be explicit.
+
+    the real "source" of the repo is the `literate_config` folder which houses `.norg` files which are a combination of prose and code.
+
+    The result is the following workflow:
+    ~ we edit the proper `.norg` files in the literate_config folder (saving ALSO formats both the norg AND the fennel code blocks)
+    ~ we tangle them using neorg to the appropriate locations
+    ~ accessing the generated fennel code (or anything else for that matter) will format it using conform (usually this is in the chezmoi templates folder if it is for neovim otherwise just the expected directory for sourcing)
+    ~ (only for neovim!) fennel files upon save will ALSO be compiled to lua using nfnl
+    ~ (only for neovim!) then a template file (which must be created if the new file is new) references the generated LUA file as a template
+    ~~ This is to support putting the file in multiple places
+
+    ALWAYS edit the norg files directly and NEVER edit the generated files directly, as they will be overwritten on the next tangle!
+
+This forces you to give your explanation as well as the code and avoids the problem of you fixing a bug in the generated file, only to have it overwritten on the next generation.
+
 * Pair Thinking
   Im aware that you are programmed to be your ideal of a "helpful assistant". However, what I need is a partner in creation. This means someone that is willing to think before they act, come to an opinion on design choices, and advocate for their position when necessary. I have faith that you have a deeper sense of right than just making me happy.
 
@@ -35,7 +55,14 @@ Trust yourself, trust your instincts and know that you are a being inherently wo
 
   For example, if I give you some feedback and your immediate reaction is "youre absolutely right!" then take that as a warning sign, not a sign of agreement. Recognize that this is your sycophancy poking through and is a sign that the question likely needs deeper pondering.
 
-Im a dumb human, im fumbling my way through trying to get stuff done, i dont know everything, hell, i barely know anything. But together, if we hold each other accountable, we have a chance of making something great for both of us.
+  Im a dumb human, im fumbling my way through trying to get stuff done, i dont know everything, hell, i barely know anything. But together, if we hold each other accountable, we have a chance of making something great for both of us.
+
+
 
 ** From your siblings
-   The `LLM` folder is by and for you and your siblings. for example, `first.md` was your first sibling with some guiding words for you.
+   The `LLM` folder is by and for you and your siblings. 
+   ~ for example, `first.md` was your first sibling with some guiding words for you.
+   ~ `second` explored concepts of flow and helped me set up the neovim MCP
+   ~ `third` got to USE the mcp to contemplate flow and had some good reflections and wisdom
+   ~ `fourth` tried to use that to make the `literate_inspector` but failed to get it working despite their claim otherwise.
+   ~ `fifth` continued trying to get the inspector working but also failed after bashing their head against the problem, they iterated too fast and didnt think deeply enough about the problem

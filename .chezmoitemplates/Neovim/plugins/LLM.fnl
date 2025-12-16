@@ -4,9 +4,9 @@
                   :build "npm install -g mcp-hub@latest"
                   :opts {}}
                  {1 :Davidyz/VectorCode :version "*"}]
-  :opts {:strategies {:chat {:adapter :anthropic}
-                      :inline {:adapter :anthropic}
-                      :cmd {:adapter :anthropic}}
+  :opts {:interactions {:chat {:adapter :anthropic}
+                        :inline {:adapter :anthropic}
+                        :cmd {:adapter :anthropic}}
          :extensions {:mcphub {:callback :mcphub.extensions.codecompanion
                                :opts {:make_tools true
                                       :show_server_tools_in_chat true

@@ -62,7 +62,9 @@
   "If file is a template reference, return the template path. Otherwise nil."
   (when (vim.fn.filereadable tmpl-file)
     (let [content (table.concat (vim.fn.readfile tmpl-file) "\n")
-          template-match (content:match "{{%-%s*template%s+\"([^\"]+)\"%s+%.%s*%-}}")]
+          pattern (.. "{{" "%-" "%s*template%s+" "\\\"([^\\\"]+)\\\"" "%s+%."
+                      "%s*%-" "}}")
+          template-match (content:match pattern)]
       (when template-match
         (let [root (M.find-chezmoi-root)]
           (when root
@@ -76,7 +78,8 @@
         (do
           (set result.error "No tangle directive found")
           result)
-        (let [tangle-path (M.resolve-tangle-path norg-file tangle-directive)]
+        (do
+          (var tangle-path (M.resolve-tangle-path norg-file tangle-directive))
           (table.insert result.steps {:stage :tangle :file tangle-path})
           ;; If it's a fennel file, there will be a compiled lua file
           (when (tangle-path:match "%.fnl$")
@@ -146,3 +149,4 @@
                                                            :desc "Inspect literate config pipeline"}))})
 
 M
+

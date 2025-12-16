@@ -41,7 +41,7 @@ return {
 			{ "Davidyz/VectorCode", version = "*" },
 		},
 		opts = {
-			strategies = {
+			interactions = {
 				chat = { adapter = "anthropic" },
 				inline = { adapter = "anthropic" },
 				cmd = { adapter = "anthropic" },
