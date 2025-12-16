@@ -1,5 +1,7 @@
 (require :config.options)
 
+(require :config.literate_inspector)
+
 (local lazypath (.. (_G.vim.fn.stdpath :data) :/lazy/lazy.nvim))
 
 (when (not (_G.vim.loop.fs_stat lazypath))

@@ -63,25 +63,6 @@ M["chezmoi-source-to-dest"] = function(source_path)
 	end
 	return result
 end
-M["resolve-template-reference"] = function(tmpl_file)
-	if vim.fn.filereadable(tmpl_file) then
-		local content = table.concat(vim.fn.readfile(tmpl_file), "\n")
-		local pattern = ("{{" .. "%-" .. "%s*template%s+" .. '\\"([^\\"]+)\\"' .. "%s+%." .. "%s*%-" .. "}}")
-		local template_match = content:match(pattern)
-		if template_match then
-			local root = M["find-chezmoi-root"]()
-			if root then
-				return (root .. "/.chezmoitemplates/" .. template_match)
-			else
-				return nil
-			end
-		else
-			return nil
-		end
-	else
-		return nil
-	end
-end
 M["trace-pipeline"] = function(norg_file)
 	local result = { source = norg_file, steps = {} }
 	local tangle_directive = M["get-tangle-path"](norg_file)
@@ -164,7 +145,7 @@ M["show-current-pipeline"] = function()
 	end
 end
 vim.api.nvim_create_user_command("InspectPipeline", M["show-current-pipeline"], {})
-local function _17_()
+local function _14_()
 	return vim.keymap.set(
 		"n",
 		"<leader>ni",
@@ -172,5 +153,5 @@ local function _17_()
 		{ buffer = true, desc = "Inspect literate config pipeline" }
 	)
 end
-vim.api.nvim_create_autocmd("FileType", { pattern = "norg", callback = _17_ })
+vim.api.nvim_create_autocmd("FileType", { pattern = "norg", callback = _14_ })
 return M

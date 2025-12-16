@@ -58,18 +58,6 @@
             (set result transformed)))))
     result))
 
-(fn M.resolve-template-reference [tmpl-file]
-  "If file is a template reference, return the template path. Otherwise nil."
-  (when (vim.fn.filereadable tmpl-file)
-    (let [content (table.concat (vim.fn.readfile tmpl-file) "\n")
-          pattern (.. "{{" "%-" "%s*template%s+" "\\\"([^\\\"]+)\\\"" "%s+%."
-                      "%s*%-" "}}")
-          template-match (content:match pattern)]
-      (when template-match
-        (let [root (M.find-chezmoi-root)]
-          (when root
-            (.. root :/.chezmoitemplates/ template-match)))))))
-
 (fn M.trace-pipeline [norg-file]
   "Trace the full pipeline from .norg file to destination(s). Returns a table describing the path."
   (let [result {:source norg-file :steps []}
@@ -149,4 +137,3 @@
                                                            :desc "Inspect literate config pipeline"}))})
 
 M
-

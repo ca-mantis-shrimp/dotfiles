@@ -1,12 +1,12 @@
 @document.meta
 title: Literate Config Inspector
 description: Tools to understand and navigate the literate config pipeline
-authors: CodeCompanion (fourth sibling)
+authors: CodeCompanion (fourth sibling), Claude Code (sixth sibling)
 categories: Neovim Config
 tangle: ../../../.chezmoitemplates/Neovim/config/literate_inspector.fnl
 created: 2025-12-14
-updated: 2025-12-15T15:30:45-0800
-version: 0.1.0
+updated: 2025-12-15
+version: 0.2.0
 @end
 
 * The Problem
@@ -28,6 +28,16 @@ version: 0.1.0
   - Forward: "This .norg file affects which system files?"
   - Backward: "This system file comes from which .norg file?"
   - Validation: "Are there any broken links in the pipeline?"
+
+* Prerequisites
+  This module follows the standard literate config workflow documented in `literate_workflow.norg`.
+
+  **Critical**: Like all neovim config modules, this must be tangled, compiled (fennel→lua), and formatted
+  before `chezmoi apply` will work. The formatting step (via stylua/conform) is essential for preventing
+  template syntax conflicts in `.chezmoitemplates/`.
+
+  See `literate_workflow.norg` for the full pipeline explanation and the `:TangleAndApply` command
+  that automates this workflow.
 
 * Architecture
   We'll build this in layers:
@@ -145,27 +155,6 @@ version: 0.1.0
    - `.tmpl` suffix indicates template processing
    
    This is simplified - real chezmoi has more rules.
-
-** Following Template References
-   Some files reference templates instead of containing content.
-
-   #tangle
-   @code fennel
-   (fn M.resolve-template-reference [tmpl-file]
-     "If file is a template reference, return the template path. Otherwise nil."
-     (when (vim.fn.filereadable tmpl-file)
-       (let [content (table.concat (vim.fn.readfile tmpl-file) "\n")
-             pattern (.. "{{" "%-" "%s*template%s+" "\\\"([^\\\"]+)\\\"" "%s+%."
-                         "%s*%-" "}}")
-             template-match (content:match pattern)]
-         (when template-match
-           (let [root (M.find-chezmoi-root)]
-             (when root
-               (.. root :/.chezmoitemplates/ template-match)))))))
-   @end
-
-   Template references look like: `{{- template "Neovim/config/options.lua" . -}}`
-   We extract the template name and resolve it to the actual file.
 
 ** The Main Pipeline Tracer
    Put it all together: trace from .norg to destination.

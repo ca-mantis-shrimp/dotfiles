@@ -177,7 +177,29 @@ version: 1.0.0
              true))))
    @end
 
-   This formatting step is crucial: it prevents chezmoi from treating lua files as broken templates
+   **Why formatting is critical**: Generated lua files live in `.chezmoitemplates/` and are included by `.tmpl` files
+   via `{{- template "path" . -}}`. When chezmoi processes this inclusion, it treats the lua file AS A TEMPLATE,
+   parsing it for template syntax like `{{ }}`.
+
+   **The problem**: Unformatted lua often contains nested tables on one line: `{{"key", "value"}}`. Chezmoi sees
+   the `{{` and tries to parse it as template syntax, resulting in errors like "unexpected % in operand" or
+   "function not defined" when it hits lua code instead of template directives.
+
+   **How stylua fixes this**: The formatter breaks nested tables across multiple lines:
+   @code lua
+   -- Before formatting (breaks chezmoi):
+   local t = {{"a", "b"}, {"c", "d"}}
+
+   -- After stylua formatting (safe for chezmoi):
+   local t = {
+     {"a", "b"},
+     {"c", "d"},
+   }
+   @end
+
+   With proper line breaks, `{{` never appears as adjacent characters, so chezmoi doesn't interpret it as template syntax.
+
+   **Implementation details**:
    - we load the file into a hidden buffer (user never sees it)
    - conform.format works on buffers, so this is cleaner than opening/saving
    - synchronous formatting ensures it completes before we continue
