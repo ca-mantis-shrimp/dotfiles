@@ -1,0 +1,39 @@
+@document.meta
+title: diagrams
+description: Diagram visualization plugin for mermaid files
+authors: backup-admin
+categories: Neovim Plugins Diagrams
+tangle: ../../../.chezmoitemplates/Neovim/plugins/diagrams.fnl
+created: 2025-12-17T22:39:35-0800
+updated: 2025-12-17T23:19:28-0800
+version: 1.1.1
+@end
+We use {http://mermaid.js.org/}[mermaid] to generate diagrams for our work here and so its important that we can easily see them within the structure we make here.
+
+To do so, we have use {https://github.com/snrogers/mermaider.nvim}[mermaider.nvim] which is a neovim plugin that allows us to render mermaid diagrams directly within neovim itself.
+
+All we need to do is tangle anything with a mermaid code block so that we can represent them easily
+
+* Mermaider config
+  To get this guy setup is just our usual work with the plugin config for lazy:
+  #tangle
+  @code fennel
+  {1 :snrogers/mermaider.nvim
+   :dependencies [:3rd/image.nvim]
+   :config #(: (require :mermaider) :setup
+               {:mermaider_cmd "npx -y -p @mermaid-js/mermaid-cli mmdc -i {{IN_FILE}} -o {{OUT_FILE}}.png -s 3"
+                :temp_dir (vim.fn.expand :$HOME/.cache/mermaider)
+                :auto_render true
+                :auto_render_on_open true
+                :auto_preview true
+                :theme :forest
+                :background_color "#1e1e2e"
+                :mmdc_options ""
+                :max_width_window_percentage 80
+                :max_height_window_percentage 80
+                :inline_render true
+                :use_split true
+                :split_direction :vertical
+                :split_width 50})
+   :ft [:mmd :mermaid]}
+  @end

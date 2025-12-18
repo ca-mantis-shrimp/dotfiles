@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-12-15T16:08:57-0800
+updated: 2025-12-17T22:52:07-0800
 version: 1.0.0
 @end
 * Index
@@ -36,11 +36,9 @@ version: 1.0.0
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
 ** Llm
   - {:$/Agents:}[Standard Agents.md File] - The standard Agents.md file to instruct LLMs how to interact with the repo
-  - {:$/Agents_explanation:}[Agents Direction] - Hand-written guidance for LLM agents working on the literate config
 ** Meta
   - {:$/architecture:}[Literate Config Architecture] - The system view - how the pieces fit together
-  - {:$/literate_config/architecture:}[Literate Config Architecture] - The system view - how the pieces fit together
-  - {:$/literate_config/literate_config/architecture:}[Literate Config Architecture] - The system view - how the pieces fit together
+  - {:$/architecture_diagrams:}[Literate Config Architecture Diagrams] - Visual representations of how the literate config pipeline works
 ** Neovim
   - {:$/nfnl:}[`nfnl` Setup For Literate Config] - nfnl setup for the literate config itsef
   - {:$/neovim/entry:}[Entry] - First and root files for the neovim configuration
@@ -53,7 +51,6 @@ version: 1.0.0
   - {:$/neovim/config/keymaps:}[Neovim Keymaps] - All the keymaps we need in one place
   - {:$/neovim/config/literate_inspector:}[Literate Config Inspector] - Tools to understand and navigate the literate config pipeline
   - {:$/neovim/config/literate_workflow:}[Literate Configuration Workflow Automation] - Automates the tangle → compile → format → apply workflow for literate config changes
-  - {:$/neovim/config/literate_config/neovim/config/literate_inspector:}[Literate Config Inspector] - Tools to understand and navigate the literate config pipeline
 ** Neovim Config Project
   - {:$/neovim/dot_nvim:}[Dotfile Specific Neovim Config] - the project-specific Neovim configuration for this literate config repo
 ** Neovim Ftplugin
@@ -104,7 +101,7 @@ version: 1.0.0
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
   - {:$/desktop_environments/autostart/index:}[Index]
-  - {:$/neovim/config/literate_config/neovim/entry:}[Entry]
+  - {:$/neovim/plugins/diagrams:}[Diagrams]
 ** Version Control Git
   - {:$/git/config:}[Git Config] - All the git config in one place for this repo
   - {:$/git/ignore:}[Git Ignore] - the gitignore for this repo

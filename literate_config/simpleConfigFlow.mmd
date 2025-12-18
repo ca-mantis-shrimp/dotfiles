@@ -1,0 +1,10 @@
+graph TD
+  A[literate_config/shells/bash/bashrc.norg<br/>Source with prose + code]
+  A -->|1. Tangle| B[.chezmoitemplates/shells/bashrc<br/>Extracted code]
+  B -->|2. Referenced by| C[dot_bashrc.tmpl<br/>Template reference]
+  C -->|3. Apply via chezmoi| D[~/.bashrc<br/>Final destination]
+
+  style A fill:#e1f5ff
+  style B fill:#fff4e1
+  style C fill:#ffe1f5
+  style D fill:#e8f5e9

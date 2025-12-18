@@ -1,0 +1,13 @@
+graph TD
+  A[literate_config/neovim/config/options.norg<br/>Source with prose + code]
+  A -->|1. Tangle| B[.chezmoitemplates/Neovim/config/options.fnl<br/>Extracted Fennel code]
+  B -->|2. Compile via nfnl| C[.chezmoitemplates/Neovim/config/options.lua<br/>Generated Lua]
+  C -->|3. Format via conform| C
+  C -->|4. Referenced by| D[dot_config/nvim/lua/config/options.lua.tmpl<br/>Template reference file]
+  D -->|5. Apply via chezmoi| E[~/.config/nvim/lua/config/options.lua<br/>Final destination]
+
+  style A fill:#e1f5ff
+  style B fill:#fff4e1
+  style C fill:#fff4e1
+  style D fill:#ffe1f5
+  style E fill:#e8f5e9

@@ -1,0 +1,16 @@
+graph TD
+  A[literate_config/neovim/config/keymaps.norg<br/>Single source file]
+  A -->|Tangle + Compile| B[.chezmoitemplates/Neovim/config/keymaps.lua<br/>One template]
+
+  B -->|Referenced by| C1[dot_config/remove_nvim/lua/config/keymaps.lua.tmpl<br/>Linux reference]
+  B -->|Referenced by| C2[AppData/Local/remove_nvim/lua/config/keymaps.lua.tmpl<br/>Windows reference]
+
+  C1 -->|Chezmoi apply on Linux| D1[~/.config/nvim/lua/config/keymaps.lua<br/>Linux destination]
+  C2 -->|Chezmoi apply on Windows| D2[~/AppData/Local/nvim/lua/config/keymaps.lua<br/>Windows destination]
+
+  style A fill:#e1f5ff
+  style B fill:#fff4e1
+  style C1 fill:#ffe1f5
+  style C2 fill:#ffe1f5
+  style D1 fill:#e8f5e9
+  style D2 fill:#e8f5e9

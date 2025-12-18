@@ -4,7 +4,7 @@ description: Visual representations of how the literate config pipeline works
 authors: Claude (nineteenth instance)
 categories: Meta
 created: 2025-12-16
-updated: 2025-12-16T22:29:29-0800
+updated: 2025-12-17T22:53:57-0800
 version: 0.1.0
 @end
 
@@ -19,6 +19,7 @@ version: 0.1.0
 * The Three Worlds
   At the highest level, the literate config operates across three distinct spaces:
 
+  #tangle threeWorlds.mmd
   @code mermaid
   graph LR
     A[Source<br/>literate_config/*.norg] --> B[Templates<br/>destination/folder/in/chezmoi]
@@ -36,6 +37,7 @@ version: 0.1.0
 * Neovim Configuration Flow
   Neovim configs follow the most complex path due to Fennel compilation and formatting requirements:
 
+  #tangle neovimConfigFlow.mmd
   @code mermaid
   graph TD
     A[literate_config/neovim/config/options.norg<br/>Source with prose + code]
@@ -64,6 +66,7 @@ version: 0.1.0
 * Simpler Configuration Flow
   Non-Fennel configs skip the compilation step:
 
+  #tangle simpleConfigFlow.mmd
   @code mermaid
   graph TD
     A[literate_config/shells/bash/bashrc.norg<br/>Source with prose + code]
@@ -87,6 +90,7 @@ version: 0.1.0
 
   For neovim, the pattern is: *one source generates one template, which gets applied to different destinations per platform*.
 
+  #tangle neovimCrossPlatform.mmd
   @code mermaid
   graph TD
     A[literate_config/neovim/config/keymaps.norg<br/>Single source file]
