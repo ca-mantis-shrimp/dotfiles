@@ -3,7 +3,7 @@ title: UI Improvements
 description: UI plugins to help Neovim POP
 authors: Darrion Burgess
 categories: Neovim Plugins
-tangle: ../../../.chezmoitemplates/Neovim/plugins/UI.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/UI.fnl
 created: 2025-08-27T08:32:22-0800
 updated: 2025-08-31T09:59:00-0800
 version: 1.1.1

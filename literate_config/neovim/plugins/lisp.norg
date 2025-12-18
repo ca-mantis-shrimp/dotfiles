@@ -2,7 +2,7 @@
 title: Lisp Plugins
 description: Lisp-related plugins for our Neovim configuration
 authors: Darrion Burgess
-tangle: ../../../.chezmoitemplates/Neovim/plugins/lisp.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/lisp.fnl
 categories: Neovim Plugins
 created: 2025-07-25T19:19:52-0800
 updated: 2025-08-31T10:15:43-0800

@@ -2,7 +2,7 @@
 title: Libraries
 description: Lua/vimscript needed for other plugins
 authors: primary_desktop
-tangle: ../../../.chezmoitemplates/Neovim/plugins/libs.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/libs.fnl
 categories: Neovim Plugins
 created: 2025-07-30T22:39:39-0800
 updated: 2025-10-27T23:34:59-0800

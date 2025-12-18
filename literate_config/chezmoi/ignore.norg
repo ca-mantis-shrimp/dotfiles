@@ -33,11 +33,9 @@ version: 1.1.1
     #tangle
     @code gitignore
     {{ if ne .chezmoi.os "windows" }}
-    AppData/
     *.ps1
     scoop/
     @end
-    - That `AppData` piece isnt small, for our work we can hit problems if the wrong config is sourced so this is where we prevent the windows version of our config files from getting in
     - we dont want powershell scripts
     - and we dont want any scoop config as that is the windows package manager
 
@@ -46,13 +44,12 @@ version: 1.1.1
     @code gitignore
     {{ else }}
     dot_ssh/
-    dot_config/
     dot_bashrc*
     *.sh
     dot_local/
     {{ end }}
     @end
-    - remove the dot_config folders we dont need such as sway and neovim for windows and it can cause issues on windows since there would be duplicate configs
+    - remove linux-specific directories like dot_ssh and dot_local
     - our `bashrc`
     -- including templates which is the `*`
     - any bash scripts as this isnt helpful on windows
@@ -69,6 +66,7 @@ version: 1.1.1
    .nvim.lua
    *.md
    *.lua
+   dot_config/remove_nvim/**/*.fnl
    **.*.fnl
    LLM/
    @end

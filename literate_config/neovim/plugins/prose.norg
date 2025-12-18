@@ -2,7 +2,7 @@
 title: prose writing plugin
 description: plugins to help me write prose documents
 authors: primary_desktop
-tangle: ../../../.chezmoitemplates/Neovim/plugins/prose.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/prose.fnl
 categories: Neovim Plugins
 created: 2025-08-20T11:11:23-0800
 updated: 2025-08-31T10:25:55-0800

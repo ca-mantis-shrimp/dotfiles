@@ -2,7 +2,7 @@
 title: Git Plugins
 description: Neovim Git plugins for a nice experience
 authors: primary_desktop
-tangle: ../../../.chezmoitemplates/Neovim/plugins/git.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/git.fnl
 categories: Neovim Plugins
 created: 2025-08-19T19:35:59-0800
 updated: 2025-08-31T10:10:10-0800

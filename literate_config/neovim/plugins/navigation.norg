@@ -2,7 +2,7 @@
 title: navigation plugins
 description: plugins to make navigating in neovim easier
 authors: primary_desktop
-tangle: ../../../.chezmoitemplates/Neovim/plugins/navigation.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/navigation.fnl
 categories: Neovim Plugins
 created: 2025-08-21T20:58:49-0800
 updated: 2025-08-31T10:24:03-0800

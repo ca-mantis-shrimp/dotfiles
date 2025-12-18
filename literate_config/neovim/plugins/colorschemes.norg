@@ -2,7 +2,7 @@
 title: Colorschemes
 description: list of colorschemes to download and set
 authors: primary_desktop
-tangle: ../../../.chezmoitemplates/Neovim/plugins/colorschemes.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/colorschemes.fnl
 categories: Neovim Plugins
 created: 2025-08-10T00:09:26-0800
 updated: 2025-08-31T10:01:41-0800

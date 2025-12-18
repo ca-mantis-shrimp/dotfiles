@@ -3,7 +3,7 @@ title: Norg FileType Plugin
 description: FileType-specific customizations for Neovim Neorg
 authors: primary_desktop
 categories: Neovim ftplugin
-tangle: ../../../.chezmoitemplates/Neovim/ftplugin/norg.fnl
+tangle: ../../../dot_config/remove_nvim/lua/ftplugin/norg.fnl
 created: 2025-07-27T21:54:09-0800
 updated: 2025-08-31T10:41:38-0800
 version: 1.1.1

@@ -3,7 +3,7 @@ title: Literate Config Inspector
 description: Tools to understand and navigate the literate config pipeline
 authors: CodeCompanion (fourth sibling), Claude Code (sixth sibling)
 categories: Neovim Config
-tangle: ../../../.chezmoitemplates/Neovim/config/literate_inspector.fnl
+tangle: ../../../dot_config/remove_nvim/lua/config/literate_inspector.fnl
 created: 2025-12-14
 updated: 2025-12-15
 version: 0.2.0

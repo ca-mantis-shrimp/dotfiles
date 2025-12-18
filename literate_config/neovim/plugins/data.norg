@@ -3,7 +3,7 @@ title: Data Plugins
 description: Plugins for viewing, fetching, and interacting with data from within Neovim
 authors: primary_desktop
 categories: Neovim Plugins
-tangle: ../../../.chezmoitemplates/Neovim/plugins/data.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/data.fnl
 created: 2025-08-20T23:58:04-0800
 updated: 2025-08-31T10:07:50-0800
 version: 1.1.1

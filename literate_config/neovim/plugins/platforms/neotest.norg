@@ -3,9 +3,9 @@ title: testing plugins
 description: neotest config so we can test and review directly in neovim
 authors: primary_desktop
 categories: Neovim Platform Plugins
-tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/neotest.fnl
+tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/platforms/neotest.fnl
 created: 2025-08-21T21:10:49-0800
-updated: 2025-08-31T10:35:23-0800
+updated: 2025-12-18T00:25:48-0800
 version: 1.1.1
 @end
 testing gets its own file because both the topic and the plugin of choice, `neotest` are BIG, and require special attention

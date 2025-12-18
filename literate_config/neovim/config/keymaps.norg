@@ -3,7 +3,7 @@ title: Neovim Keymaps
 description: All the keymaps we need in one place
 authors: primary_desktop
 categories: Neovim Config
-tangle: ../../../.chezmoitemplates/Neovim/config/keymaps.fnl
+tangle: ../../../dot_config/remove_nvim/lua/config/keymaps.fnl
 created: 2025-08-31T09:08:29-0800
 updated: 2025-08-31T09:52:28-0800
 version: 1.1.1

@@ -3,7 +3,7 @@ title: diagrams
 description: Diagram visualization plugin for mermaid files
 authors: backup-admin
 categories: Neovim Plugins Diagrams
-tangle: ../../../.chezmoitemplates/Neovim/plugins/diagrams.fnl
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/diagrams.fnl
 created: 2025-12-17T22:39:35-0800
 updated: 2025-12-17T23:19:28-0800
 version: 1.1.1

@@ -3,7 +3,7 @@ title: Fennel FileType Plugin
 description: FileType-specific customizations for fennel files
 authors: primary_desktop
 categories: Neovim ftplugin
-tangle: ../../../.chezmoitemplates/Neovim/ftplugin/fennel.fnl
+tangle: ../../../dot_config/remove_nvim/lua/ftplugin/fennel.fnl
 created: 2025-07-27T21:54:09-0800
 updated: 2025-09-08T01:02:31-0800
 version: 1.1.1

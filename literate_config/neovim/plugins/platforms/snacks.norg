@@ -3,9 +3,9 @@ title: snacks.nvim
 description: configuration for the various plugins for `snacks`
 authors: primary_desktop
 categories: Neovim Platform Plugins
-tangle: ../../../../.chezmoitemplates/Neovim/plugins/platforms/snacks.fnl
+tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/platforms/snacks.fnl
 created: 2025-08-04T16:21:11-0800
-updated: 2025-10-19T18:33:21-0800
+updated: 2025-12-18T00:26:02-0800
 version: 1.1.1
 @end
 Folkes' sprawling plugin empire became so hard to manage i think even he needed to cut a bunch out and make them more modular. 
