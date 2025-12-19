@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/platforms/treesitter.fnl
 created: 2025-08-21T21:22:13-0800
-updated: 2025-12-18T00:26:15-0800
+updated: 2025-12-19T03:28:58-0800
 version: 1.1.1
 @end
 another topic that is both exciting and complex is treesitter one of the other core features of neovim

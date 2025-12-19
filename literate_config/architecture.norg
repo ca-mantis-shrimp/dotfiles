@@ -34,6 +34,50 @@ version: 0.2.0
   - Cross-platform templating via chezmoi
   - Fennel's expressiveness compiled to Lua
 
+* The Tool That Makes This Possible: Neorg
+
+  Neorg occupies a unique meta position in this system - it's both a component and the foundation.
+
+  ** Neorg as Foundation
+     The entire literate config system depends on Neorg:
+
+     - *File format:* All `.norg` files use Neorg's markup syntax - prose, headings, code blocks, cross-references
+     - *Tangling:* The `:Neorg tangle` command extracts code blocks from prose and writes them to target files
+     - *Workspace:* Neorg's workspace system enables cross-file navigation and linking (the `{:$/path:}` syntax)
+     - *Summary generation:* `:Neorg generate-workspace-summary` creates the index automatically
+     - *Directives:* The `#tangle` directive and `tangle:` metadata tell Neorg where to write code blocks
+
+     This isn't just for neovim configs - Neorg powers *all* configs in this repo: shells, desktop environments, git, everything.
+
+  ** Neorg as Plugin
+     Paradoxically, Neorg is also just a neovim plugin:
+
+     - Configured in `neovim/plugins/platforms/neorg.norg` like any other plugin
+     - Loaded by lazy.nvim during neovim startup
+     - Has its own configuration, keybindings, and features
+
+     But its role extends far beyond neovim - it's the meta-tool that enables the entire literate config approach.
+
+  ** The Bootstrap Problem
+     Neorg's configuration is itself written in `.norg` format and tangled to fennel/lua.
+
+     This is intentionally self-referential: the system uses itself to configure itself.
+
+     The initial bootstrap requires:
+     1. Neorg plugin installed (via lazy.nvim)
+     2. Neorg configured minimally to enable tangling
+     3. Then Neorg can tangle its own full configuration
+
+     This circularity is a feature, not a bug - it proves the system works on itself.
+
+  ** Why This Matters
+     Understanding Neorg's dual role is crucial:
+     - When working on the *literate config system itself* (tangling, workspace), you're working with Neorg as foundation
+     - When working on the *neovim plugin configuration*, you're working with Neorg as plugin
+     - Most of the time, you're using Neorg's foundation features (tangling) without thinking about its plugin side
+
+     Don't confuse the two roles - they overlap but serve different purposes.
+
 * The Three Worlds
   ** World 1: Source (.norg files)
      Location: `~/.local/share/chezmoi/literate_config/`
@@ -259,6 +303,45 @@ version: 0.2.0
   This lets you verify before committing to changes.
 
   For Neovim specifically: restart neovim after applying to see changes.
+
+* Working with this System - Practical Guide
+  *This section is for AI assistants and human contributors.*
+
+  ** Before making changes - checklist
+     ~ *Does this already exist?* Check built-in commands and existing functionality before building new features
+     ~ *Read the relevant .norg file(s)* to understand current implementation and design decisions
+     ~ *Understand the workflow:* norg → tangle → (maybe compile) → apply - each step must succeed
+     ~ *Never edit generated files* - always edit the `.norg` source and re-tangle
+
+  ** What already exists - check these first
+     Before building diagnostics or utilities, check if they already exist:
+
+     - *Formatters (neovim):* `:ConformInfo` (shows status, errors, log location)
+     - *LSP (neovim):* `:LspInfo`, `:LspLog`
+     - *General health:* `:checkhealth` or `:checkhealth [plugin-name]`
+     - *Module loading (neovim):* `:lua vim.loader.reset()` (fixes cache issues)
+     - *View changes before applying:* `chezmoi apply --dry-run --verbose`
+     - *See what chezmoi manages:* `chezmoi status`
+
+  ** Common gotchas
+     - *Never edit generated files* - Files in `.chezmoitemplates/`, `dot_config/`, etc. are auto-generated
+     - *Tangle paths matter* - Follow the pattern from similar files; check existing `.norg` files for correct relative paths
+     - *Module cache (neovim):* New lua modules won't load until neovim restarts or `:lua vim.loader.reset()`
+     - *Formatters are system packages* - Install via pacman/your package manager, not through the config system
+     - *Test before applying* - Use `chezmoi apply --dry-run` to preview changes
+     - *Order matters in neovim* - Plugins load before config files (see `neovim/entry.norg` for sourcing order)
+
+  ** Navigation hints
+     When working on specific areas:
+
+     - *Neovim formatters* → `neovim/plugins/platforms/conform.norg`
+     - *Neovim LSP* → Check `neovim/plugins/platforms/` for LSP-related configs
+     - *Neovim keybindings* → `neovim/config/keymaps.norg`
+     - *Neovim options* → `neovim/config/options.norg`
+     - *Neovim workflow automation* → `neovim/config/literate_workflow.norg`
+     - *Shell configs* → `shells/[shell-name]/`
+     - *Desktop environments* → `desktop_environments/[de-name]/`
+     - *Git config* → `git/config.norg`
 
 * What's Still Unclear
   Areas where the architecture needs better documentation:

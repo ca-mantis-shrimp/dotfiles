@@ -33,3 +33,23 @@ we prefer doing this with just our own package manager so we just need to be sur
                              :norg [:injected]}
           :format_on_save {:timeout_ms 500 :lsp_format :fallback}}}
   @end
+
+* Troubleshooting Formatters
+
+  ** Checking Formatter Status
+     Run `:ConformInfo` to see:
+     - Which formatters are available (ready vs unavailable)
+     - Recent errors from the conform log
+     - The log file location for deeper investigation
+
+  ** Installing Formatters
+     Formatters are system packages, not managed by conform or neovim.
+     Install missing formatters via your package manager:
+     @code bash
+     pacman -S stylua fnlfmt python-black python-ruff clojure jq tombi
+     @end
+
+  ** Common Issues
+     - *"Formatter not found"* → Install the system package for that formatter
+     - *Parse errors or formatting failures* → Check the conform log shown in `:ConformInfo`
+     - *Formatter installed but still shows as unavailable* → The formatter binary may not be in your PATH, or neovim may need to be restarted

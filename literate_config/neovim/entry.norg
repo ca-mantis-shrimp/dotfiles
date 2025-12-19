@@ -8,11 +8,60 @@ created: 2025-07-25T19:12:38-0800
 updated: 2025-12-18T00:10:57-0800
 version: 1.1.1
 @end
+
+* Working with Neovim Literate Config
+
+  *For general literate config guidance (workflow, architecture), see `{:$/architecture:}[architecture.norg]`.*
+
+  This section covers neovim-specific details.
+
+** Neovim-specific workflow
+   Neovim configs have an extended pipeline due to Fennel compilation:
+
+   @code
+   1. Edit:    literate_config/neovim/**/*.norg
+   2. Tangle:  → dot_config/remove_nvim/lua/**/*.fnl (Neorg extracts code)
+   3. Compile: → dot_config/remove_nvim/lua/**/*.lua (nfnl compiles fennel)
+   4. Format:  → (conform formats lua to prevent chezmoi `{{` conflicts)
+   5. Apply:   → ~/.config/nvim/lua/**/*.lua (chezmoi deploys)
+   @end
+
+   See `config/literate_workflow.norg` for automation that collapses steps 2-5.
+
+** Where to find things
+   - *Formatters* → `plugins/platforms/conform.norg`
+   - *LSP* → Check `plugins/platforms/` for LSP configs
+   - *Keybindings* → `config/keymaps.norg`
+   - *Autocommands* → `config/autocmds.norg`
+   - *Options* → `config/options.norg`
+   - *Workflow automation* → `config/literate_workflow.norg`
+   - *Plugin specs* → `plugins/[category]/[name].norg`
+
+** Neovim-specific tools
+   - `:ConformInfo` - Check formatter status, errors, log
+   - `:LspInfo`, `:LspLog` - LSP diagnostics
+   - `:checkhealth [plugin]` - Plugin health checks
+   - `:lua vim.loader.reset()` - Reset module cache (fixes "module not found")
+   - `:Telescope keymaps` - Browse all keybindings
+
+** Neovim-specific gotchas
+   - *Module cache:* New lua modules need `:lua vim.loader.reset()` or neovim restart
+   - *Formatters are system packages:* Install via pacman, not through neovim
+   - *Load order:* Plugins load before config files (see sourcing order at end of this file)
+
 * A note on tangling
   one very important note is that while we are tangling fennel files, the real flow for changing the config is this:
   ~ Tangle the new fennel file to the chezmoitemplates directory
   ~ Format and save the file directly to generate an equivalent `*.lua` file
-  ~ 
+  ~
+
+* A note on module loading
+  Neovim caches lua module locations for performance. When adding new lua modules or moving files, the cache may not reflect the changes until neovim is restarted.
+
+  *Quick fix:* Run `:lua vim.loader.reset()` to rebuild the cache without restarting.
+
+  This is particularly relevant when working with the literate config - after tangling and compiling new modules, they may not be immediately `require()`-able until the cache is reset or neovim is restarted.
+
 * Starting Init
   Our init file is primarily concerned with setting us up for success over the rest of the config and ensuring that we are ready for the rest of our plugins/config while being relatively minimal
 
