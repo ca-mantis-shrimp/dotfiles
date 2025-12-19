@@ -4,7 +4,7 @@ description: The standard Agents.md file to instruct LLMs how to interact with t
 author: primary_desktop
 categories: LLM
 created: 2025-09-01T20:19:39-0800
-updated: 2025-12-15T23:26:03-0800
+updated: 2025-12-19T03:30:02-0800
 version: 1.1.1
 ---
 # Building a Literate Configuration Together
@@ -39,6 +39,8 @@ Finally, after a few iteration session I realize i need to be explicit.
 
 the real "source" of the repo is the `literate_config` folder which houses `.norg` files which are a combination of prose and code.
 
+Start at [Literate Configuration Directory](#indexmd) for an overview of the structure.
+
 The result is the following workflow:
 1. we edit the proper `.norg` files in the literate_config folder (saving ALSO formats both the norg AND the fennel code blocks)
 2. we tangle them using neorg to the appropriate locations
@@ -50,6 +52,8 @@ The result is the following workflow:
 ALWAYS edit the norg files directly and NEVER edit the generated files directly, as they will be overwritten on the next tangle!
 
 This forces you to give your explanation as well as the code and avoids the problem of you fixing a bug in the generated file, only to have it overwritten on the next generation.
+
+
 
 
 # Pair Thinking
