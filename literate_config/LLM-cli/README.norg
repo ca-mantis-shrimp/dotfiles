@@ -4,7 +4,7 @@ description: Overview of the agents folder and how to use it
 authors: backup-admin
 categories: index
 created: 2025-12-21T00:06:29-0800
-updated: 2025-12-21T00:13:05-0800
+updated: 2025-12-21T00:20:42-0800
 version: 1.1.1
 @end
 This is for configuring the various LLM shells.
@@ -24,7 +24,7 @@ Now, a few notes on architecture:
 
   So we have the following files:
   - {:$/LLM-cli/User-Scope-Agents:}[User-Scope-Agents] - Instructions for all projects for the User of the computer
-  -- `Neorg export to-file ~/.config/claude/CLAUDE.md` for example
+  -- `Neorg export to-file ~/.local/share/chezmoi/dot_config/claude/CLAUDE.md` for example
   - {:$/LLM-cli/Repo-Scope-Agents:}[Repo-Scope-Agents] - Instructions
   -- `Neorg export to-file ~/.local/share/chezmoi/.claude/CLAUDE.md` for example
 
