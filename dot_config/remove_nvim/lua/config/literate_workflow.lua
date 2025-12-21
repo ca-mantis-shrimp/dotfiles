@@ -62,6 +62,28 @@ M["compile-fennel"] = function(filepath)
 		end
 	end
 end
+M["format-lua"] = function(filepath)
+	if not vim.fn.filereadable(filepath) then
+		return nil, ("File not found: " .. filepath)
+	else
+		local buf = vim.fn.bufadd(filepath)
+		vim.fn.bufload(buf)
+		local function _10_()
+			local ok, err = pcall(vim.cmd.write)
+			if not ok then
+				return nil, ("Failed to save/format " .. filepath .. ": " .. tostring(err))
+			else
+				return true
+			end
+		end
+		vim.api.nvim_buf_call(buf, _10_)
+		if vim.api.nvim_buf_is_loaded(buf) then
+			vim.api.nvim_buf_delete(buf, { force = false })
+		else
+		end
+		return true
+	end
+end
 M["process-fennel-file"] = function(filepath)
 	local ok, err = M["compile-fennel"](filepath)
 	if not ok then
@@ -130,7 +152,7 @@ M["tangle-and-apply"] = function()
 	end
 end
 vim.api.nvim_create_user_command("TangleAndApply", M["tangle-and-apply"], {})
-local function _18_()
+local function _22_()
 	return vim.keymap.set(
 		"n",
 		"<leader>nA",
@@ -138,5 +160,5 @@ local function _18_()
 		{ buffer = true, desc = "Tangle and apply literate config" }
 	)
 end
-vim.api.nvim_create_autocmd("FileType", { pattern = "norg", callback = _18_ })
+vim.api.nvim_create_autocmd("FileType", { pattern = "norg", callback = _22_ })
 return M

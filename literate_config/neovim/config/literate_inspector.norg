@@ -1,25 +1,24 @@
 @document.meta
 title: Literate Config Inspector
 description: Tools to understand and navigate the literate config pipeline
-authors: CodeCompanion (fourth sibling), Claude Code (sixth sibling)
+authors: CodeCompanion (fourth sibling), Claude Code (sixth sibling), Claude Code (eighth sibling)
 categories: Neovim Config
 tangle: ../../../dot_config/remove_nvim/lua/config/literate_inspector.fnl
 created: 2025-12-14
-updated: 2025-12-15
-version: 0.2.0
+updated: 2025-12-21
+version: 0.3.0
 @end
 
 * The Problem
   The literate config system has multiple layers:
   - Source: `.norg` files in `literate_config/`
-  - Templates: `.fnl` and `.lua` files in `.chezmoitemplates/`
-  - Destinations: actual config files in `~/.config/` etc.
+  - Chezmoi source: tangled files in `dot_config/`, `dot_bashrc`, etc.
+  - Destinations: actual config files in `~/.config/`, `~/`, etc.
 
   Understanding how a change flows through these layers requires:
   - Knowing the tangle directive
   - Understanding chezmoi's mapping rules (`dot_`, `remove_`, etc.)
-  - Tracking fennel compilation
-  - Following template references
+  - Tracking fennel compilation (for `.fnl` files)
 
   This is hard to hold in your head. We need tooling.
 
@@ -33,8 +32,7 @@ version: 0.2.0
   This module follows the standard literate config workflow documented in `literate_workflow.norg`.
 
   **Critical**: Like all neovim config modules, this must be tangled, compiled (fennel→lua), and formatted
-  before `chezmoi apply` will work. The formatting step (via stylua/conform) is essential for preventing
-  template syntax conflicts in `.chezmoitemplates/`.
+  before `chezmoi apply` will work. The formatting step (via stylua/conform) ensures clean, consistent code.
 
   See `literate_workflow.norg` for the full pipeline explanation and the `:TangleAndApply` command
   that automates this workflow.
@@ -123,20 +121,20 @@ version: 0.2.0
    (fn M.chezmoi-source-to-dest [source-path]
      "Convert chezmoi source path to destination path. Returns nil if not a chezmoi file."
      (let [home (os.getenv :HOME)
-           patterns [;; dot_ becomes .
-                     ["^.*/dot_(.+)%.tmpl$" (.. home "/%1")]
-                     ["^.*/dot_(.+)$" (.. home "/.%1")]
-                     ;; remove_ gets stripped
+           patterns [;; More specific patterns MUST come first!
+                     ;; remove_ prefix gets stripped
                      ["^.*/dot_config/remove_(.+)%.tmpl$" (.. home "/.config/%1")]
                      ["^.*/dot_config/remove_(.+)$" (.. home "/.config/%1")]
-                     ;; AppData for Windows (less common in this context)
                      ["^.*/AppData/Local/remove_(.+)%.tmpl$"
                       (.. home "/AppData/Local/%1")]
                      ["^.*/AppData/Local/remove_(.+)$"
                       (.. home "/AppData/Local/%1")]
                      ;; Direct .config paths
                      ["^.*/dot_config/(.+)%.tmpl$" (.. home "/.config/%1")]
-                     ["^.*/dot_config/(.+)$" (.. home "/.config/%1")]]]
+                     ["^.*/dot_config/(.+)$" (.. home "/.config/%1")]
+                     ;; General dot_ becomes .
+                     ["^.*/dot_(.+)%.tmpl$" (.. home "/%1")]
+                     ["^.*/dot_(.+)$" (.. home "/.%1")]]]
        (var result nil)
        (each [_ [pattern replacement] (ipairs patterns)]
          (when (not result)
@@ -177,31 +175,19 @@ version: 0.2.0
                (let [lua-path (tangle-path:gsub "%.fnl$" :.lua)]
                  (table.insert result.steps {:stage :compile :file lua-path})
                  (set tangle-path lua-path)))
-             ;; Now we need to find which chezmoi source file references this template
-             (let [root (M.find-chezmoi-root)
-                   template-name (tangle-path:match ".*/%.chezmoitemplates/(.+)$")]
-               (when (and root template-name)
-                 ;; Search for .tmpl files that reference this template
-                 (let [search-cmd (.. "grep -r '\"" template-name "\"' " root
-                                      "/dot_config " root "/AppData "
-                                      "2>/dev/null | cut -d: -f1")
-                       tmpl-files (vim.fn.systemlist search-cmd)]
-                   (each [_ tmpl-file (ipairs tmpl-files)]
-                     (let [dest (M.chezmoi-source-to-dest tmpl-file)]
-                       (when dest
-                         (table.insert result.steps
-                                       {:stage :template-ref :source tmpl-file})
-                         (table.insert result.steps
-                                       {:stage :destination :file dest})))))))
+             ;; Map the final file directly to its destination
+             ;; (new structure: no template indirection, files tangle directly to dot_config/)
+             (let [dest (M.chezmoi-source-to-dest tangle-path)]
+               (when dest
+                 (table.insert result.steps {:stage :destination :file dest})))
              result))))
    @end
 
    This orchestrates the full trace:
    1. Extract tangle directive
    2. Resolve to absolute path
-   3. Check for fennel compilation
-   4. Find template references
-   5. Map to destination paths
+   3. Check for fennel compilation (if .fnl file)
+   4. Map directly to destination path (chezmoi applies the file)
 
    It returns a structured table showing each step of the pipeline.
 

@@ -36,20 +36,20 @@
 (fn M.chezmoi-source-to-dest [source-path]
   "Convert chezmoi source path to destination path. Returns nil if not a chezmoi file."
   (let [home (os.getenv :HOME)
-        patterns [;; dot_ becomes .
-                  ["^.*/dot_(.+)%.tmpl$" (.. home "/%1")]
-                  ["^.*/dot_(.+)$" (.. home "/.%1")]
-                  ;; remove_ gets stripped
+        patterns [;; More specific patterns MUST come first!
+                  ;; remove_ prefix gets stripped
                   ["^.*/dot_config/remove_(.+)%.tmpl$" (.. home "/.config/%1")]
                   ["^.*/dot_config/remove_(.+)$" (.. home "/.config/%1")]
-                  ;; AppData for Windows (less common in this context)
                   ["^.*/AppData/Local/remove_(.+)%.tmpl$"
                    (.. home "/AppData/Local/%1")]
                   ["^.*/AppData/Local/remove_(.+)$"
                    (.. home "/AppData/Local/%1")]
                   ;; Direct .config paths
                   ["^.*/dot_config/(.+)%.tmpl$" (.. home "/.config/%1")]
-                  ["^.*/dot_config/(.+)$" (.. home "/.config/%1")]]]
+                  ["^.*/dot_config/(.+)$" (.. home "/.config/%1")]
+                  ;; General dot_ becomes .
+                  ["^.*/dot_(.+)%.tmpl$" (.. home "/%1")]
+                  ["^.*/dot_(.+)$" (.. home "/.%1")]]]
     (var result nil)
     (each [_ [pattern replacement] (ipairs patterns)]
       (when (not result)
@@ -74,22 +74,11 @@
             (let [lua-path (tangle-path:gsub "%.fnl$" :.lua)]
               (table.insert result.steps {:stage :compile :file lua-path})
               (set tangle-path lua-path)))
-          ;; Now we need to find which chezmoi source file references this template
-          (let [root (M.find-chezmoi-root)
-                template-name (tangle-path:match ".*/%.chezmoitemplates/(.+)$")]
-            (when (and root template-name)
-              ;; Search for .tmpl files that reference this template
-              (let [search-cmd (.. "grep -r '\"" template-name "\"' " root
-                                   "/dot_config " root "/AppData "
-                                   "2>/dev/null | cut -d: -f1")
-                    tmpl-files (vim.fn.systemlist search-cmd)]
-                (each [_ tmpl-file (ipairs tmpl-files)]
-                  (let [dest (M.chezmoi-source-to-dest tmpl-file)]
-                    (when dest
-                      (table.insert result.steps
-                                    {:stage :template-ref :source tmpl-file})
-                      (table.insert result.steps
-                                    {:stage :destination :file dest})))))))
+          ;; Map the final file directly to its destination
+          ;; (new structure: no template indirection, files tangle directly to dot_config/)
+          (let [dest (M.chezmoi-source-to-dest tangle-path)]
+            (when dest
+              (table.insert result.steps {:stage :destination :file dest})))
           result))))
 
 (fn M.show-current-pipeline []
@@ -137,4 +126,3 @@
                                                            :desc "Inspect literate config pipeline"}))})
 
 M
-

@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-12-17T22:52:07-0800
+updated: 2025-12-21T00:48:32-0800
 version: 1.0.0
 @end
 
@@ -56,8 +56,12 @@ version: 1.0.0
   - {:$/desktop_environments/hyprland/hyprpaper:}[Hyprpaper] - config for hyprpaper
 ** Index
   - {:$/index:}[Literate Configuration Directory] - Starting Point, Chezmoi Configuration, and Home Directory Files
+  - {:$/LLM-cli/README:}[Agents Folder Readme] - Overview of the agents folder and how to use it
 ** Llm
   - {:$/Agents:}[Standard Agents.md File] - The standard Agents.md file to instruct LLMs how to interact with the repo
+  - {:$/LLM-cli/Repo-Scope-Agents:}[Standard Agents.md File For The User-level] - The standard Agents.md file to instruct LLMs how to interact with the repo
+** Llm Config Prose
+  - {:$/LLM-cli/User-Scope-Agents:}[User-scope-agents] - The user-level instructions for LLMs when interacting with any repo
 ** Meta
   - {:$/architecture:}[Literate Config Architecture] - The system view - how the pieces fit together
   - {:$/architecture_diagrams:}[Literate Config Architecture Diagrams] - Visual representations of how the literate config pipeline works
@@ -67,7 +71,6 @@ version: 1.0.0
   - {:$/neovim/config/options:}[Default Options Config] - Configuring the default Neovim options to get what we want out of the box
   - {:$/neovim/config/utils:}[Utils]
   - {:$/neovim/plugins/index:}[Plugin Index] - Index of Neovim Plugins
-  - {:$/neovim/literate_config/neovim/entry:}[Entry] - First and root files for the neovim configuration
 ** Neovim Config
   - {:$/neovim/config/autocmds:}[Default Autocommands] - Neovim autocommands defined at the start
   - {:$/neovim/config/keymaps:}[Neovim Keymaps] - All the keymaps we need in one place
@@ -99,6 +102,8 @@ version: 1.0.0
   - {:$/neovim/plugins/lisp:}[Lisp Plugins] - Lisp-related plugins for our Neovim configuration
   - {:$/neovim/plugins/navigation:}[Navigation Plugins] - plugins to make navigating in neovim easier
   - {:$/neovim/plugins/prose:}[Prose Writing Plugin] - plugins to help me write prose documents
+** Neovim Plugins Diagrams
+  - {:$/neovim/plugins/diagrams:}[Diagrams] - Diagram visualization plugin for mermaid files
 ** Neovim Test
   - {:$/neovim/generation_test:}[Generation_test] - we are using this to see if we can do this properly
 ** Neovim, Systemd, Services
@@ -123,7 +128,6 @@ version: 1.0.0
   - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
   - {:$/desktop_environments/autostart/index:}[Index]
-  - {:$/neovim/plugins/diagrams:}[Diagrams]
 ** Version Control Git
   - {:$/git/config:}[Git Config] - All the git config in one place for this repo
   - {:$/git/ignore:}[Git Ignore] - the gitignore for this repo

@@ -1,11 +1,11 @@
 @document.meta
 title: Literate Config Architecture
 description: The system view - how the pieces fit together
-authors: CodeCompanion (fourth sibling), Claude (nineteenth instance), Claude Code (seventh sibling)
+authors: CodeCompanion (fourth sibling), Claude (nineteenth instance), Claude Code (seventh sibling), Claude Code (eighth sibling)
 categories: Meta
 created: 2025-12-14
-updated: 2025-12-17
-version: 0.2.0
+updated: 2025-12-21
+version: 0.3.0
 @end
 
 * What This Document Is
@@ -88,20 +88,21 @@ version: 0.2.0
      Example:
      @code norg
      @document.meta
-     tangle: ../../../.chezmoitemplates/Neovim/config/options.fnl
+     tangle: ../../../dot_config/remove_nvim/lua/config/options.fnl
      @end
 
-  ** World 2: Templates
-     Location: `~/.local/share/chezmoi/.chezmoitemplates/`
+  ** World 2: Chezmoi Source
+     Location: `~/.local/share/chezmoi/` (e.g., `dot_config/`, `dot_bashrc`, etc.)
 
-     This is where tangled code lands. Fennel files live here temporarily.
+     This is where tangled code lands in the chezmoi source directory structure.
 
-     Key concept: These aren't the final files. They're *templates* that chezmoi will process.
+     Key concept: Chezmoi manages these files and applies them to their destinations.
 
      For Neovim configs specifically:
-     - Fennel files get compiled to Lua by nfnl
-     - Lua files get formatted by conform
-     - Then chezmoi applies them
+     - Files tangle to `dot_config/remove_nvim/` (the `remove_` prefix gets stripped on apply)
+     - Fennel files get compiled to Lua by nfnl (via save hooks)
+     - Lua files get formatted by conform (via save hooks)
+     - Then chezmoi applies them to `~/.config/nvim/`
 
   ** World 3: Destination
      Locations vary:
@@ -118,8 +119,8 @@ version: 0.2.0
 
      @code mermaid
      graph LR
-       A[Source<br/>literate_config/*.norg] --> B[Templates<br/>.chezmoitemplates/]
-       B --> C[Destination<br/>~/.config/, etc.]
+       A[Source<br/>literate_config/*.norg] --> B[Chezmoi Source<br/>dot_config/, dot_bashrc, etc.]
+       B --> C[Destination<br/>~/.config/, ~/, etc.]
 
        style A fill:#e1f5ff
        style B fill:#fff4e1
@@ -127,43 +128,40 @@ version: 0.2.0
      @end
 
      - *Source*: Where you edit. Norg files with prose and embedded code blocks.
-     - *Templates*: Where tangled code lands. Fennel files, Lua files, or other formats.
+     - *Chezmoi Source*: Where tangled code lands. Chezmoi's source directory structure.
      - *Destination*: Where your actual system reads files from. Never edit here directly.
 
-* The Flow For Neovim Configs (Most Complex Case)
+* The Flow For Neovim Configs
   @code
   1. Edit:    literate_config/neovim/config/options.norg
-  2. Tangle:  → .chezmoitemplates/Neovim/config/options.fnl
-  3. Compile: → .chezmoitemplates/Neovim/config/options.lua (nfnl)
-  4. Format:  → (conform cleans up the lua)
-  5. Apply:   → ~/.config/nvim/lua/config/options.lua (chezmoi)
+  2. Tangle:  → dot_config/remove_nvim/lua/config/options.fnl
+  3. Compile: → dot_config/remove_nvim/lua/config/options.lua (nfnl, via save hook)
+  4. Format:  → (conform cleans up the lua, via save hook)
+  5. Apply:   → ~/.config/nvim/lua/config/options.lua (chezmoi strips remove_ prefix)
   @end
 
-  The workflow automation (`literate_workflow.norg`) collapses steps 2-5 into one command.
+  The workflow automation (`literate_workflow.norg`) collapses steps 2-5 into one `:TangleAndApply` command.
 
   ** Visual Flow
      @code mermaid
      graph TD
        A[literate_config/neovim/config/options.norg<br/>Source with prose + code]
-       A -->|1. Tangle| B[.chezmoitemplates/Neovim/config/options.fnl<br/>Extracted Fennel code]
-       B -->|2. Compile via nfnl| C[.chezmoitemplates/Neovim/config/options.lua<br/>Generated Lua]
+       A -->|1. Tangle| B[dot_config/remove_nvim/lua/config/options.fnl<br/>Tangled Fennel in chezmoi source]
+       B -->|2. Compile via nfnl| C[dot_config/remove_nvim/lua/config/options.lua<br/>Compiled Lua]
        C -->|3. Format via conform| C
-       C -->|4. Referenced by| D[dot_config/nvim/lua/config/options.lua.tmpl<br/>Template reference file]
-       D -->|5. Apply via chezmoi| E[~/.config/nvim/lua/config/options.lua<br/>Final destination]
+       C -->|4. Apply via chezmoi| D[~/.config/nvim/lua/config/options.lua<br/>Final destination]
 
        style A fill:#e1f5ff
        style B fill:#fff4e1
        style C fill:#fff4e1
-       style D fill:#ffe1f5
-       style E fill:#e8f5e9
+       style D fill:#e8f5e9
      @end
 
      Key steps:
-     1. *Tangle*: Extract code blocks from norg to fennel file
-     2. *Compile*: Transform fennel to lua using nfnl
-     3. *Format*: Run stylua via conform to prevent `{{` template syntax conflicts
-     4. *Reference*: Template file includes the lua with `{{- template "path" -}}`
-     5. *Apply*: Chezmoi processes template and writes to destination
+     1. *Tangle*: Extract code blocks from norg directly to chezmoi source directory
+     2. *Compile*: Transform fennel to lua using nfnl (triggered by save hook on .fnl file)
+     3. *Format*: Run stylua via conform (triggered by save hook on .lua file)
+     4. *Apply*: Chezmoi processes files and writes to destination (remove_ prefix becomes nvim/)
 
 * The Flow For Non-Fennel Configs (Simpler)
   @code
@@ -189,60 +187,46 @@ version: 0.2.0
      @end
 
 * The Cross-Platform Pattern (Neovim-Specific)
-  Neovim is unique in requiring different folder paths on different operating systems:
+  Neovim historically required different folder paths on different operating systems:
   - Linux: `~/.config/nvim/`
   - Windows: `~/AppData/Local/nvim/`
 
-  Other software either uses the same path across OSes or isn't used on certain platforms,
-  so their configs can tangle directly to the destination path (like `dot_bashrc`).
-
-  For neovim, the pattern is: *one source generates one template, which gets applied to different destinations per platform*.
+  **Current approach**: Instead of managing separate paths, we use `XDG_CONFIG_HOME` on Windows.
+  This allows a single `dot_config/remove_nvim/` source to work on both platforms.
 
   @code mermaid
   graph TD
     A[literate_config/neovim/config/keymaps.norg<br/>Single source file]
-    A -->|Tangle + Compile| B[.chezmoitemplates/Neovim/config/keymaps.lua<br/>One template]
+    A -->|Tangle + Compile| B[dot_config/remove_nvim/lua/config/keymaps.lua<br/>Single chezmoi source]
 
-    B -->|Referenced by| C1[dot_config/remove_nvim/lua/config/keymaps.lua.tmpl<br/>Linux reference]
-    B -->|Referenced by| C2[AppData/Local/remove_nvim/lua/config/keymaps.lua.tmpl<br/>Windows reference]
-
-    C1 -->|Chezmoi apply on Linux| D1[~/.config/nvim/lua/config/keymaps.lua<br/>Linux destination]
-    C2 -->|Chezmoi apply on Windows| D2[~/AppData/Local/nvim/lua/config/keymaps.lua<br/>Windows destination]
+    B -->|Chezmoi apply on Linux| D1[~/.config/nvim/lua/config/keymaps.lua<br/>Linux destination]
+    B -->|Chezmoi apply on Windows<br/>with XDG_CONFIG_HOME set| D2[~/.config/nvim/lua/config/keymaps.lua<br/>Windows destination via XDG]
 
     style A fill:#e1f5ff
     style B fill:#fff4e1
-    style C1 fill:#ffe1f5
-    style C2 fill:#ffe1f5
     style D1 fill:#e8f5e9
     style D2 fill:#e8f5e9
   @end
 
-  ** Why This Matters
+  ** Why This Simplified Approach Works
      - You write the config once in the norg file
-     - It tangles/compiles to one template in `.chezmoitemplates/`
-     - Multiple `.tmpl` reference files exist (one per platform) that all include the same template
-     - Chezmoi only processes the relevant `.tmpl` file for the current OS
-     - The same generated code ends up in platform-appropriate locations
+     - It tangles/compiles to one location in `dot_config/remove_nvim/`
+     - Setting `XDG_CONFIG_HOME` on Windows makes both platforms use `~/.config/`
+     - No template indirection needed - direct tangle to chezmoi source
+     - Simpler pipeline with fewer moving parts
 
-     This is why you might see what looks like "duplicate" paths:
-     - `dot_config/remove_nvim/lua/config/foo.lua.tmpl` (Linux: becomes `~/.config/nvim/...`)
-     - `AppData/Local/remove_nvim/lua/config/foo.lua.tmpl` (Windows: becomes `~/AppData/Local/nvim/...`)
+     The `remove_` prefix in the directory name gets stripped by chezmoi on apply:
+     - Source: `dot_config/remove_nvim/lua/config/foo.lua`
+     - Destination: `~/.config/nvim/lua/config/foo.lua` (works on both Linux and Windows with XDG)
 
-     They're not duplicates - they're platform-specific references to the same template source.
+  ** Benefits of This Approach
+     - *Simpler*: One less layer of indirection (no `.chezmoitemplates/`)
+     - *Unified*: Same path structure works across platforms via `XDG_CONFIG_HOME`
+     - *Clearer*: Direct mapping from source to destination
+     - *Fewer files*: No separate `.tmpl` reference files needed
 
-  ** Template Indirection Benefits
-     Why does neovim use `.chezmoitemplates/` instead of tangling directly to `dot_config/...`?
-
-     - *Cross-platform requirement*: Neovim needs different destination folders on different OSes
-     - *Single source of truth*: One tangled/compiled file, multiple platform-specific references
-     - *Platform flexibility*: Add new platforms by adding new reference files
-     - *Separation of concerns*: Generated code lives separately from chezmoi source structure
-
-     The trade-off is complexity - more moving parts, more indirection. But for neovim's cross-platform
-     needs, the benefits outweigh the costs.
-
-     *Note*: Most other configs in this repo tangle directly to their destination paths (like `dot_bashrc`)
-     because they don't need cross-platform folder differences.
+     This is the pattern used for neovim configs. Other configs (like shell configs) may use
+     different patterns depending on their specific needs.
 
 * The Directory Structure Logic
   Literate configs are organized by *concern*, not *destination*:

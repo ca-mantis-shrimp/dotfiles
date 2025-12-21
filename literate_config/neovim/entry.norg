@@ -51,9 +51,11 @@ version: 1.1.1
 
 * A note on tangling
   one very important note is that while we are tangling fennel files, the real flow for changing the config is this:
-  ~ Tangle the new fennel file to the chezmoitemplates directory
-  ~ Format and save the file directly to generate an equivalent `*.lua` file
-  ~
+  ~ Tangle the new fennel file directly to the chezmoi source directory (`dot_config/remove_nvim/`)
+  ~ The fennel file gets compiled to lua via nfnl (triggered by save hook)
+  ~ The lua file gets formatted via conform (triggered by save hook)
+  ~ Run `chezmoi apply` to sync to `~/.config/nvim/`
+  ~ Or use `:TangleAndApply` to automate all steps
 
 * A note on module loading
   Neovim caches lua module locations for performance. When adding new lua modules or moving files, the cache may not reflect the changes until neovim is restarted.

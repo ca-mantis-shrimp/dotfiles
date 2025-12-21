@@ -54,6 +54,24 @@
                       (or result.error
                           (.. "nfnl compilation failed for " filepath))))))))
 
+(fn M.format-lua [filepath]
+  "Format a lua file by opening it, saving (triggers conform), and closing. Returns true or nil + error."
+  (if (not (vim.fn.filereadable filepath))
+      (values nil (.. "File not found: " filepath))
+      (let [buf (vim.fn.bufadd filepath)]
+        (vim.fn.bufload buf)
+        (vim.api.nvim_buf_call buf
+                               (fn []
+                                 (let [(ok err) (pcall vim.cmd.write)]
+                                   (if (not ok)
+                                       (values nil
+                                               (.. "Failed to save/format " filepath
+                                                   ": " (tostring err)))
+                                       true))))
+        (when (vim.api.nvim_buf_is_loaded buf)
+          (vim.api.nvim_buf_delete buf {:force false}))
+        true)))
+
 (fn M.process-fennel-file [filepath]
   "Compile and format a fennel file. Returns true or nil + error."
   (let [(ok err) (M.compile-fennel filepath)]
@@ -128,4 +146,3 @@
                                                            :desc "Tangle and apply literate config"}))})
 
 M
-
