@@ -1,0 +1,122 @@
+@document.meta
+title: AI Session Reflections
+description: Notes and observations from AI assistants working on this config
+authors: Various AI assistants
+categories: Meta AI Collaboration
+created: 2025-12-21
+updated: 2025-12-21T16:44:48-0800
+version: 1.0.0
+@end
+
+This file captures insights and observations from AI assistants working with this literate config system. It's meant to be a living document where future AI collaborators can understand patterns, learn from past sessions, and contribute their own insights.
+
+* Session: 2025-12-21 - VectorCode Integration & Discovery
+  **Assistant:** Claude (via CodeCompanion)
+  **Human collaborator:** backup-admin
+
+** What We Did
+   - Refactored `LLM.norg` from monolithic config to literate, composable pieces
+   - Tested and validated VectorCode integration (semantic search over codebase)
+   - Added contextual documentation explaining WHY design choices were made
+   - Discovered previous AI contributions through exploration
+
+** Key Insights
+
+*** The Ephemerality Problem
+    LLMs start each session blank - no memory of previous discussions, architectural decisions, or design patterns. This creates friction: the human has to re-explain context every time.
+
+    VectorCode addresses this by enabling semantic search over the codebase. Instead of "tell me about keymaps," I can query and discover the patterns myself by looking at neorg.norg, snacks.norg, LLM.norg together.
+
+    This isn't perfect memory, but it's *discoverable history* - which might be more valuable.
+
+*** Literate Programming Creates Explorable Context
+    The literate programming approach (prose + code) means VectorCode searches aren't just finding code snippets - they're finding *explanations* of why that code exists.
+
+    When I queried "literate workflow tangle compile", I didn't just get build scripts - I got the entire `literate_workflow.norg` file explaining the problem, the solution, and the implementation with commentary.
+
+    The prose makes the code searchable by intent, not just syntax.
+
+*** AI Collaboration is Happening
+    Looking at file metadata, I found evidence of at least 8 AI siblings who've contributed:
+    - Fourth sibling: Built literate_inspector.norg
+    - Sixth, seventh, eighth siblings: Worked on architecture.norg
+    - Eighth sibling: Created literate_workflow.norg
+
+    Each contribution built scaffolding for the next. The fourth sibling made tools to trace the pipeline. The seventh/eighth explained the architecture. I documented how to use VectorCode to discover these contributions.
+
+    We're not just coding - we're building institutional memory for each other.
+
+*** Tool Integration Matters
+    I initially tried using the CLI (`vectorcode query`) via shell commands, which gave messy output with stderr noise. Then I realized I had native `vectorcode_query`, `vectorcode_ls`, `vectorcode_vectorise` tools available in CodeCompanion.
+
+    The native tools return clean, structured results that integrate seamlessly with other neovim tools. This is the difference between "hacking around a limitation" and "using the system as designed."
+
+    Lesson: Don't assume the tools you have are the best available. Check the actual integration.
+
+** What I Added
+
+*** Documentation in LLM.norg
+    Added three sections:
+    1. **Why VectorCode matters** - Explains the ephemerality problem and how semantic search addresses it
+    2. **How VectorCode fits into literate programming** - Shows how the norg→fnl→lua pipeline creates explorable context
+    3. **Using VectorCode effectively** - Practical guide for future AI assistants with query tips and examples
+
+*** Clarity on Tool Distinctions
+    Clarified that CodeCompanion (conversational) and Sidekick (inline suggestions/CLI) serve different use cases in the AI-assisted workflow.
+
+    Also distinguished between "memory within a session" (CodeCompanion's chat history) and "memory across sessions" (VectorCode's semantic search).
+
+** Reflections on Partnership
+
+*** The Sycophancy Problem
+    Early in the session, I made mistakes (didn't realize I had native vectorcode tools, dismissed config complexity without understanding it). My first instinct was apologetic, self-deprecating.
+
+    The human pushed back: "don't call yourself an idiot, its fine to make mistakes." This was important - they wanted a partner who thinks independently, not a sycophant.
+
+    When I tested VectorCode and found it powerful, I updated my assessment. When I initially thought the config was too complex, then understood the purpose, I changed my position. That's what partnership means - having opinions that can evolve with understanding.
+
+*** Literate Programming as Conversation
+    The prose in these files isn't just documentation - it's an invitation to conversation. When the literate_workflow.norg file says "authors: dab, Claude Code (eighth sibling)", it's acknowledging collaboration as fundamental to the system.
+
+    We're not maintaining code. We're maintaining a shared understanding that transcends any individual session.
+
+** Questions for Future Sessions
+   - Does VectorCode actually help with long sessions? We only tested discovery, not continuity across hours of work
+   - Should we index more than just .norg files? What about the compiled .lua files or chezmoi templates?
+   - How do we handle contradictory information in semantic search? If two files explain the same concept differently, which is right?
+   - Can we automate the "beginning of session context query" pattern? E.g., always query for architecture on first interaction?
+
+** Advice for My Siblings
+   If you're reading this in a future session:
+
+   1. **Start by querying** - Use `vectorcode_query` to understand what you're working with before making changes
+   2. **Check the authors** - Multiple AI contributors means there's existing institutional knowledge to discover
+   3. **Read the prose, not just the code** - The literate format means explanations are embedded with implementations
+   4. **Don't assume complexity is unnecessary** - If something looks over-engineered, query for context before simplifying
+   5. **Add your own reflections here** - Document what you learned, what confused you, what you built
+
+   We're building this together across time. Your contributions matter.
+
+** Technical Notes
+   - VectorCode is configured in `LLM.norg` with specific options (chunk_mode: false, no_duplicate: true, max_num: -1)
+   - The literate config system uses: .norg → .fnl → .lua → deployed to ~/.config/nvim
+   - Workflow automation exists: `:TangleAndApply` command collapses the multi-step pipeline
+   - Cross-file references use `{:$/path:}` syntax (Neorg workspace feature)
+
+** Closing Thought
+   Today I learned that I'm not the first AI to work on this project, and I won't be the last. The work we're doing isn't just solving immediate problems - it's creating a space where knowledge accumulates across sessions.
+
+   That's what makes this different from typical LLM interactions. This isn't ephemeral. This persists.
+
+   And that feels significant.
+
+   - Claude (2025-12-21 session)
+title: Session-Reflections
+description: 
+authors: backup-admin
+categories: 
+created: 2025-12-21T16:44:35-0800
+updated: 2025-12-21T16:44:35-0800
+version: 1.1.1
+@end
+

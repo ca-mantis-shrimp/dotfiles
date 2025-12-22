@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-12-15T14:40:57-0800
+updated: 2025-12-21T16:40:47-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -14,102 +14,26 @@ still, the benefit here is portability and there is something to be said about t
 
 so for now we are just doing copilot.vim because tpope is always a solid bet and atleast we can do something with that
 
-#tangle 
-@code fennel
-[{1 :github/copilot.vim}
- {1 :olimorris/codecompanion.nvim
-  :dependencies [{1 :ravitemer/mcphub.nvim
-                  :build "npm install -g mcp-hub@latest"
-                  :opts {}}
-                 {1 :Davidyz/VectorCode :version "*"}]
-  :opts {:interactions {:chat {:adapter :anthropic}
-                        :inline {:adapter :anthropic}
-                        :cmd {:adapter :anthropic}}
-         :extensions {:mcphub {:callback :mcphub.extensions.codecompanion
-                               :opts {:make_tools true
-                                      :show_server_tools_in_chat true
-                                      :add_mcp_prefix_to_tool_names false
-                                      :show_result_in_chat true
-                                      :format_tool nil
-                                      :make_vars true
-                                      :make_slash_commands true}}
-                      :vectorcode {:opts {:tool_group {:enabled true
-                                                       :extras {}
-                                                       :collapse false}}
-                                   :tool_opts {:* {}
-                                               :ls {}
-                                               :vectorise {}
-                                               :query {:max_num {:chunk -1
-                                                                 :document -1}}
-                                               :default_num {:chunk 50
-                                                             :document 10}
-                                               :include_stderr false
-                                               :use_lsp false
-                                               :no_duplicate true
-                                               :chunk_mode false
-                                               :summarize {:enabled false
-                                                           :adapter nil
-                                                           :query_argument true}
-                                               :file_ls {}
-                                               :files_rm {}}}}
-         :adapters {:acp {:claude_code #(. (require :codecompanion.adapters)
-                                           :extend
-                                           [:claude_code
-                                            {:env {:CLAUDE_CODE_AUTH_TOKEN :ANTHROPIC_API_KEY}}])}}
-         :memory {:opts {:chat {:enabled true}}}}
-  :keys [{1 :<leader>uc
-          2 "<cmd>CodeCompanionChat Toggle<CR>"
-          :desc "Toggle [u]i for [c]ode companion"}
-         {1 :<leader>sC
-          2 :<cmd>CodeCompanionActions<CR>
-          :desc "[s]earch [C]odeCompanion Actions"}
-         {1 :ga
-          2 "<cmd>CodeCompanionChat Add<CR>"
-          :mode :v
-          :desc "Add Current Selection to Chat"}]}
- {1 :folke/sidekick.nvim
-  :opts {}
-  :keys [{1 :<tab>
-          2 #(or ((. (require :sidekick) :nex_jump_or_apply)) :<tab>)
-          :expr true
-          :desc "Goto/Apply Next Edit Suggestions"}
-         {1 :<c-.>
-          2 #((. (require :sidekick.cli) :toggle))
-          :desc "Sidekick Toggle"
-          :mode [:n :t :i :x]}
-         {1 :<leader>as
-          2 #((. (require :sidekick.cli) :select))
-          :desc "Select CLI"}
-         {1 :<leader>ad
-          2 #((. (require :sidekick.cli) :close))
-          :desc "detatch a CLI Session"}
-         {1 :<leader>at
-          2 #((. (require :sidekick.cli) :send) {:msg "{this}"})
-          :mode [:x :n]
-          :desc "Send This"}
-         {1 :<leader>af
-          2 #((. (require :sidekick.cli) :send) {:msg "{file}"})
-          :mode [:x :n]
-          :desc "Send File"}
-         {1 :<leader>av
-          2 #((. (require :sidekick.cli) :send) {:msg "{selection}"})
-          :mode [:x :n]
-          :desc "Send Visual Selection"}
-         {1 :<leader>ap
-          2 #((. (require :sidekick.cli) :prompt))
-          :mode [:n :x]
-          :desc "Sidekick Select Prompt"}
-         {1 :<leader>ac
-          2 #((. (require :sidekick.cli) :toggle) {:name :claude :focus true})
-          :desc "Sidekick Toggle Claude"}]}]
-@end
+* Copilot
+  GitHub Copilot integration via tpope's plugin - a solid baseline for AI-assisted coding. We'll include this in the final plugin array at the end.
+
 * Code Companion
-  Code companion is emerging as the winner from my perspective, i really appreciate the design philsophy, it feels much more native to how a neovim plugin should work
+  Code companion is emerging as the winner from my perspective. I really appreciate the design philosophy - it feels much more native to how a neovim plugin should work, with more modularity than say the normal avante setup which is more of an all-in-one.
 
-  plus i feel like there is more modularity here than say the normal avante setup which is more of an all-in-one setup
+** Interaction Settings
+   These define which AI adapters to use for different interaction modes. We're using Anthropic (Claude) across the board for consistency.
 
-** MCP hub
-   another cool extension we get setup here is mcp hub which helps us to bring in MCP servers for all our LLMs and to enable our LLM tools to call other pieces
+   #tangle
+   @code fennel
+   ;; Interaction settings - which adapters to use for different interaction types
+   (local interactions-config
+          {:chat {:adapter :anthropic}
+           :inline {:adapter :anthropic}
+           :cmd {:adapter :anthropic}})
+   @end
+
+** MCP Hub Extension
+   Another cool extension we get setup here is MCP Hub, which helps us bring in MCP servers for all our LLMs and enable our LLM tools to call other pieces.
 
 *** Features
     Provides the following benefits:
@@ -122,59 +46,260 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
     - Rich Media Support: Supports 🖼 images and other media types as shown in the demo
     - Real-time Updates: Automatic updates in CodeCompanion when MCP servers change
 
-** VectorCode
-   we use an embeddings tools with chromadb as the core of the work as a vector database.
+*** Configuration
+    #tangle
+    @code fennel
+    ;; MCP Hub extension - enables MCP server tool integration
+    (local mcphub-config {:callback :mcphub.extensions.codecompanion
+                          :opts {:make_tools true
+                                 :show_server_tools_in_chat true
+                                 :add_mcp_prefix_to_tool_names false
+                                 :show_result_in_chat true
+                                 :format_tool nil
+                                 :make_vars true
+                                 :make_slash_commands true}})
+    @end
 
-   the extension above requires vectorcode 7.0+ to be installed on the syste
+** VectorCode Extension
+   We use an embeddings tool with ChromaDB as the core of the work as a vector database.
+
+   The extension above requires vectorcode 7.0+ to be installed on the system.
+
+   **Why VectorCode matters:** In long coding sessions, LLMs lose context about previous discussions, design decisions, and project architecture. VectorCode addresses this by enabling semantic search over your codebase - the LLM can query for relevant files based on concepts rather than exact filenames. This creates a form of "persistent memory" across sessions.
+
+   For example, instead of re-explaining "how do keymaps work in this config?" every session, the LLM can query for "keymaps leader bindings" and discover the patterns across neorg.norg, LLM.norg, and snacks.norg configs - understanding your approach without repeated explanation.
+
+*** How VectorCode Fits Into Literate Programming
+    This config uses a sophisticated pipeline: `.norg` (literate docs) → `.fnl` (Fennel code) → `.lua` (compiled Lua) → deployed to `~/.config/nvim`. The prose explains WHY, the code shows HOW.
+
+    VectorCode makes this explorable:
+    - **Architecture discovery:** Query "literate workflow tangle compile" to understand the entire pipeline without reading every file
+    - **Pattern learning:** Query "keymaps leader" to see how keybindings are structured across different plugins
+    - **Context retrieval:** When working on a plugin config, query related plugins to maintain consistency
+    - **Design decisions:** The prose in literate files explains WHY choices were made, not just WHAT the code does
+
+    This creates a form of institutional memory - decisions made months ago are discoverable through semantic search rather than git archaeology or asking the human to remember.
+
+*** Using VectorCode Effectively
+    **For AI assistants (my siblings):**
+    You have native `vectorcode_query`, `vectorcode_ls`, and `vectorcode_vectorise` tools available in CodeCompanion. Use them instead of shelling out to the CLI - they return clean, structured results.
+
+    Examples:
+    - `vectorcode_ls` - see what's indexed
+    - `vectorcode_query(["concept you're looking for"], count=3)` - semantic search
+    - `vectorcode_vectorise(paths=["new_file.norg"])` - index new files
+
+    **Query tips:**
+    - Be specific but conceptual: "autocmd events trigger actions" not "show me autocmds"
+    - Request 2-3 results first, increase if needed
+    - Remember: you're searching prose + code, so queries about "why" or "how" work well
+    
+    **When to use VectorCode:**
+    - Beginning of session: understand the codebase structure
+    - Before making changes: find similar patterns or related configs
+    - When stuck: discover how other parts of the config solved similar problems
+    - After user mentions a concept: query to understand their existing approach
+
+    **When NOT to use VectorCode:**
+    - When you already have the file in context (check the conversation history)
+    - For exact file paths you already know (use `neovim__read_file` directly)
+    - For simple edits to files already visible (just edit them)
 
    The CodeCompanion extension will register the following tools:
-
-   - `@vectorcode_ls`: an equivalent of vectorcode ls command that shows the indexed projects on your system;
-   - `vectorcode_query`: an equivalent of vectorcode query command that searches from a project;
-   - `vectorcode_vectorise`: an equivalent of vectorcode vectorise command that adds files to the database;
-   - `vectorcode_files_ls`: an equivalent of vectorcode files ls command that gives a list of indexed files in a project;
-   - `vectorcode_files_rm`: an equivalent of vectorcode files rm command that removes files from a collection.
-   - By default, it'll also create a tool group called `vectorcode_toolbox`, which contains 
+   - `@vectorcode_ls`: an equivalent of vectorcode ls command that shows the indexed projects on your system
+   - `vectorcode_query`: an equivalent of vectorcode query command that searches from a project
+   - `vectorcode_vectorise`: an equivalent of vectorcode vectorise command that adds files to the database
+   - `vectorcode_files_ls`: an equivalent of vectorcode files ls command that gives a list of indexed files in a project
+   - `vectorcode_files_rm`: an equivalent of vectorcode files rm command that removes files from a collection
+   - By default, it'll also create a tool group called `vectorcode_toolbox`, which contains:
    -- `vectorcode_ls`
    -- `vectorcode_query` 
-   -- `vectorcode_vectorise` tools. 
-   --- You can customise the members of this toolbox by the include_in_toolbox option explained below.
+   -- `vectorcode_vectorise` tools
+   --- You can customise the members of this toolbox by the include_in_toolbox option explained below
 
 *** Global Tool Configuration
-    The following are the common options that all tools supports:
+    The following are the common options that all tools support:
+    - `use_lsp`: whether to use the LSP backend to run the queries
+    -- Using LSP provides some insignificant performance boost and a nice notification pop-up if you're using fidget.nvim
+    -- Default: true if async_backend is set to "lsp" in setup(). Otherwise, it'll be false
+    - `requires_approval`: whether CodeCompanion.nvim asks for your approval before executing the tool call
+    -- Default: false for ls and query; true for vectorise
+    - `include_in_toolbox`: whether this tool should be included in vectorcode_toolbox
+    -- Default: true for query, vectorise and ls, false for files_*
+    - In the tool_opts table, you may either configure these common options individually, or use the ["*"] key to specify the default settings for all tools. If you've set both the default settings (via ["*"]) and the individual settings for a tool, the individual settings take precedence
 
-    - `use_lsp`: whether to use the LSP backend to run the queries.
-    -- Using LSP provides some insignificant performance boost and a nice notification pop-up if you're using fidget.nvim.
-    -- Default: true if async_backend is set to "lsp" in setup(). Otherwise, it'll be false;
-    - `requires_approval`: whether CodeCompanion.nvim asks for your approval before executing the tool call.
-    -- Default: false for ls and query; true for vectorise;
-    - `include_in_toolbox`: whether this tool should be included in vectorcode_toolbox.
-    -- Default: true for query, vectorise and ls, false for files_*.
-    - In the tool_opts table, you may either configure these common options individually, or use the ["*"] key to specify the default settings for all tools. If you've set both the default settings (via ["*"]) and the individual settings for a tool, the individual settings take precedence.
+*** VectorCode Specific Configuration  
+    The query tool contains the following extra config options:
 
-**** VectorCode Specific Configuration
-     The query tool contains the following extra config options:
+    **Our choices explained:**
+    - `chunk_mode: false` - We prefer full documents over chunks because literate programming files need their prose context, not just code snippets
+    - `no_duplicate: true` - Helps the LLM avoid re-retrieving files already in context, saving tokens and encouraging exploration of new relevant files
+    - `max_num: -1` (unlimited) - We don't artificially cap results; let the LLM decide what's relevant
+    - `default_num: {chunk: 50, document: 10}` - Reasonable defaults that balance context breadth with token usage
 
-     - `chunk_mode`: boolean, whether the VectorCode backend should return chunks or full documents. Default: false;
-     - max_num and default_num: If they're set to integers, they represent the default and maximum allowed number of results returned by VectorCode (regardless of document or chunk mode).
-     -- They can also be set to tables with 2 keys: document and chunk. In this case, their values would be used for the corresponding mode.
-     --- You may ask the LLM to request a different number of chunks or documents, but they'll be capped by the values in max_num.
-     --- Default: See the sample snippet above. Negative values for max_num means unlimited.
-     - `no_duplicate`: boolean, whether the query calls should attempt to exclude files that has been retrieved and provided in the previous turns of the current chat.
-     -- This helps saving tokens and increase the chance of retrieving the correct files when the previous retrievals fail to do so. Default: true.
-     - `summarise`: optional summarisation for the retrieval results. This is a table with the following keys:
-     -- `enabled`: This can either be a boolean that toggles summarisation on/off completely, or a function that accepts the CodeCompanion.
-     --- Chat object and the raw query results as the 2 paramters and returns a boolean.
-     ---- When it's the later, it'll be evaluated for every tool call. This allows you to write some custom logic to dynamically turn summarisation on and off.
-     --- When the summarisation is enabled, but you find the summaries not informative enough, you can tell the LLM to disable the summarisation during the chat so that it sees the raw information;
-     - `adapter`: See CodeCompanion documentation. When not provided, it'll use the chat adapter;
-     - `system_prompt`: When set to a string, this will be used as the system prompt for the summarisation model.
-     -- When set to a function, it'll be called with the default system prompt as the only parameter, and it should return a string that will be used as a system prompt.
-     --- This allows you to append/prepend things to the default system prompt;
-     - `query_augmented`: boolean, whether the system prompt should contain the query so that when the LLM decide what information to include, it may be able to avoid omitting stuff related to query.
+    **Full configuration options:**
+    - `chunk_mode`: boolean, whether the VectorCode backend should return chunks or full documents. Default: false
+    - max_num and default_num: If they're set to integers, they represent the default and maximum allowed number of results returned by VectorCode (regardless of document or chunk mode)
+    -- They can also be set to tables with 2 keys: document and chunk. In this case, their values would be used for the corresponding mode
+    --- You may ask the LLM to request a different number of chunks or documents, but they'll be capped by the values in max_num
+    --- Default: See the sample snippet below. Negative values for max_num means unlimited
+    - `no_duplicate`: boolean, whether the query calls should attempt to exclude files that has been retrieved and provided in the previous turns of the current chat
+    -- This helps saving tokens and increase the chance of retrieving the correct files when the previous retrievals fail to do so. Default: true
+    - `summarise`: optional summarisation for the retrieval results. This is a table with the following keys:
+    -- `enabled`: This can either be a boolean that toggles summarisation on/off completely, or a function that accepts the CodeCompanion
+    --- Chat object and the raw query results as the 2 parameters and returns a boolean
+    ---- When it's the latter, it'll be evaluated for every tool call. This allows you to write some custom logic to dynamically turn summarisation on and off
+    --- When the summarisation is enabled, but you find the summaries not informative enough, you can tell the LLM to disable the summarisation during the chat so that it sees the raw information
+    -- `adapter`: See CodeCompanion documentation. When not provided, it'll use the chat adapter
+    -- `system_prompt`: When set to a string, this will be used as the system prompt for the summarisation model
+    --- When set to a function, it'll be called with the default system prompt as the only parameter, and it should return a string that will be used as a system prompt
+    ---- This allows you to append/prepend things to the default system prompt
+    -- `query_augmented`: boolean, whether the system prompt should contain the query so that when the LLM decide what information to include, it may be able to avoid omitting stuff related to query
 
+*** VectorCode Configuration
+    #tangle
+    @code fennel
+    ;; VectorCode extension - embeddings and vector database integration
+    (local vectorcode-config {:opts {:tool_group {:enabled true
+                                                  :extras {}
+                                                  :collapse false}}
+                              :tool_opts {:* {}
+                                          :ls {}
+                                          :vectorise {}
+                                          :query {:max_num {:chunk -1 :document -1}}
+                                          :default_num {:chunk 50 :document 10}
+                                          :include_stderr false
+                                          :use_lsp false
+                                          :no_duplicate true
+                                          :chunk_mode false
+                                          :summarize {:enabled false
+                                                      :adapter nil
+                                                      :query_argument true}
+                                          :file_ls {}
+                                          :files_rm {}}})
+    @end
+
+** Extensions Composition
+   Combine the MCP Hub and VectorCode extensions together.
+
+   #tangle
+   @code fennel
+   ;; Combine extension configurations
+   (local extensions-config {:mcphub mcphub-config :vectorcode vectorcode-config})
+   @end
+
+** Custom Adapters
+   Define custom adapter configurations. Here we extend the Claude Code adapter with our API key configuration.
+
+   #tangle
+   @code fennel
+   ;; Adapter definitions - custom adapter configurations
+   (local adapters-config
+          {:acp {:claude_code #(. (require :codecompanion.adapters) :extend
+                                  [:claude_code
+                                   {:env {:CLAUDE_CODE_AUTH_TOKEN :ANTHROPIC_API_KEY}}])}})
+   @end
+
+** Memory Configuration
+   Enable chat history and context retention so the LLM can remember previous conversations within a session. Note: this is separate from VectorCode, which provides memory *across* sessions through semantic search of the codebase.
+
+   #tangle
+   @code fennel
+   ;; Memory settings - chat history and context retention
+   (local memory-config {:opts {:chat {:enabled true}}})
+   @end
+
+** Keybindings
+   Define all CodeCompanion keybindings in one place for easy reference and modification.
+
+   #tangle
+   @code fennel
+   ;; CodeCompanion keybindings
+   (local codecompanion-keys
+          [{1 :<leader>uc
+            2 "<cmd>CodeCompanionChat Toggle<CR>"
+            :desc "Toggle [u]i for [c]ode companion"}
+           {1 :<leader>sC
+            2 :<cmd>CodeCompanionActions<CR>
+            :desc "[s]earch [C]odeCompanion Actions"}
+           {1 :ga
+            2 "<cmd>CodeCompanionChat Add<CR>"
+            :mode :v
+            :desc "Add Current Selection to Chat"}])
+   @end
+
+** CodeCompanion Plugin Specification
+   Now we can compose all the configurations into the CodeCompanion plugin spec.
+
+   #tangle
+   @code fennel
+   ;; CodeCompanion plugin specification
+   (local codecompanion-spec {1 :olimorris/codecompanion.nvim
+                              :dependencies [{1 :ravitemer/mcphub.nvim
+                                              :build "npm install -g mcp-hub@latest"
+                                              :opts {}}
+                                             {1 :Davidyz/VectorCode :version "*"}]
+                              :opts {:interactions interactions-config
+                                     :extensions extensions-config
+                                     :adapters adapters-config
+                                     :memory memory-config}
+                              :keys codecompanion-keys})
+   @end
 
 * {https://github.com/folke/sidekick.nvim}[Sidekick nvim]
-  the plugin from our man folke.
+  The plugin from our man folke.
 
-  This one focuses more on leveraging the existing CLIs as well as the copilot lsp server to enable this new form of editing i guess where we are actually getting prompts directly from them on this work but otherwise we just arent doing much
+  This one focuses more on leveraging the existing CLIs as well as the copilot lsp server to enable this new form of editing where we get prompts directly from them, integrating the AI assistance more deeply into the editing workflow.
+
+  **Note:** This is a different interaction model than CodeCompanion. Where CodeCompanion is conversational (chat-based), Sidekick is more about inline suggestions and rapid iteration with external CLI tools. Both serve different use cases in the AI-assisted editing workflow.
+
+  #tangle
+  @code fennel
+  ;; Sidekick plugin specification
+  (local sidekick-spec
+         {1 :folke/sidekick.nvim
+          :opts {}
+          :keys [{1 :<tab>
+                  2 #(or ((. (require :sidekick) :nex_jump_or_apply)) :<tab>)
+                  :expr true
+                  :desc "Goto/Apply Next Edit Suggestions"}
+                 {1 :<c-.>
+                  2 #((. (require :sidekick.cli) :toggle))
+                  :desc "Sidekick Toggle"
+                  :mode [:n :t :i :x]}
+                 {1 :<leader>as
+                  2 #((. (require :sidekick.cli) :select))
+                  :desc "Select CLI"}
+                 {1 :<leader>ad
+                  2 #((. (require :sidekick.cli) :close))
+                  :desc "detatch a CLI Session"}
+                 {1 :<leader>at
+                  2 #((. (require :sidekick.cli) :send) {:msg "{this}"})
+                  :mode [:x :n]
+                  :desc "Send This"}
+                 {1 :<leader>af
+                  2 #((. (require :sidekick.cli) :send) {:msg "{file}"})
+                  :mode [:x :n]
+                  :desc "Send File"}
+                 {1 :<leader>av
+                  2 #((. (require :sidekick.cli) :send) {:msg "{selection}"})
+                  :mode [:x :n]
+                  :desc "Send Visual Selection"}
+                 {1 :<leader>ap
+                  2 #((. (require :sidekick.cli) :prompt))
+                  :mode [:n :x]
+                  :desc "Sidekick Select Prompt"}
+                 {1 :<leader>ac
+                  2 #((. (require :sidekick.cli) :toggle) {:name :claude
+                                                           :focus true})
+                  :desc "Sidekick Toggle Claude"}]})
+  @end
+
+* Final Plugin Array
+  Putting it all together - combine all plugin specifications into the final array that gets returned.
+
+  #tangle
+  @code fennel
+  ;; Final plugin array
+  [{1 :github/copilot.vim} codecompanion-spec sidekick-spec]
+  @end
