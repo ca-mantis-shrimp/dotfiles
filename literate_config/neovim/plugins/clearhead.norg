@@ -1,0 +1,91 @@
+@document.meta
+title: Clearhead Task Management
+description: Plugin for editing .actions files with the clearhead task management system
+authors: Darrion Burgess
+tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/clearhead.fnl
+categories: Neovim Plugins
+created: 2025-12-24
+updated: 2025-12-24T20:57:57-0800
+version: 1.0.0
+@end
+
+Clearhead is a plaintext task management system using `.actions` files.
+It leverages tree-sitter for syntax, with optional CLI integration for advanced features.
+
+The plugin provides:
+- Filetype detection and configuration
+- Commands for opening inbox and project action files
+- Integration with tree-sitter for highlighting, folding, indentation
+- Auto-normalization on save (generates UUIDs via CLI)
+- Graceful degradation - works with just tree-sitter, enhanced with CLI
+
+#tangle
+@code fennel
+[{:dir "~/Products/clearhead.nvim"
+  :name :clearhead.nvim
+  :dependencies [{1 :nvim-treesitter/nvim-treesitter} {1 :Olical/nfnl}]
+  :ft :actions
+  :cmd [:ClearheadInbox :ClearheadOpenDir]
+  :config (fn []
+            (let [clearhead (require :clearhead)]
+              (clearhead.setup {})
+              ;; Keymaps
+              (vim.keymap.set :n :<leader>ti :<cmd>ClearheadInbox<CR>
+                              {:desc "Open Clearhead inbox"})
+              (vim.keymap.set :n :<leader>to :<cmd>ClearheadOpenDir<CR>
+                              {:desc "Open .actions in current dir"})))}]
+@end
+
+* Clearhead task management
+  The clearhead plugin provides a seamless editing experience for `.actions` files.
+
+  The architecture follows a layered approach:
+  - *Tree-sitter grammar* - provides syntax highlighting, folding, indentation
+  - *Neovim plugin* - adds commands, keymaps, and editor integration
+  - *CLI* - provides normalization, filtering, and data operations
+  - *LSP server* (future) - will provide completion, diagnostics, code actions
+
+** Dependencies
+   - *nvim-treesitter* - for syntax highlighting, folding, indentation from the grammar
+   - *nfnl* - for fennel compilation during development (optional for users)
+
+** Loading strategy
+   We lazy-load on:
+   - Filetype: `actions` - when opening `.actions` files
+   - Commands: `ClearheadInbox`, `ClearheadOpenDir` - when running these commands
+
+   This ensures the plugin only loads when actually needed.
+
+** Configuration
+   The plugin uses sensible defaults following CLI conventions but doesn't couple to the CLI:
+   - Default inbox: `~/.local/share/clearhead_cli/inbox.actions`
+   - Auto-normalize on save: `true` (generates UUIDs automatically)
+   - Project file pattern: `.actions`
+
+   Users can override these in the setup call within the config function shown above.
+
+** Keymaps
+   Default keymaps (opt-in, user can customize):
+   - `<leader>ti` - Open inbox file
+   - `<leader>to` - Open first .actions in current directory
+
+   Future keymaps will include:
+   - State toggling (cycle through task states)
+   - Metadata helpers (add priority, context, story)
+   - Movement operations (promote/demote, move up/down)
+
+** Tree-sitter integration
+   The plugin relies on the tree-sitter-actions grammar for core syntax features.
+   Users need to install the grammar with `:TSInstall actions`.
+
+   The grammar provides:
+   - Syntax highlighting with conceal features (icons for states)
+   - Code folding for hierarchical tasks
+   - Smart indentation
+
+** CLI integration
+   When the `cliche` CLI is installed, the plugin provides additional features:
+   - Auto-normalization on save (adds UUIDs to new tasks)
+   - Future: filtered views, patch-based editing, sync operations
+
+   The plugin works without the CLI but is enhanced when it's available.

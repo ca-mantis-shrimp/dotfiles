@@ -21,3 +21,4 @@ This index covers all the files that will be used to:
   - {:$/neovim/plugins/colorschemes.norg:}[colorscheme-related plugins]
   - {:$/neovim/plugins/libs.norg:}[library plugins]
   - {:$/neovim/plugins/snacks.norg:}[snacks plugins]
+  - {:$/neovim/plugins/clearhead.norg:}[clearhead task management]
