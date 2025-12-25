@@ -54,7 +54,9 @@ interestingly we are mainly focused on working through our own plugin here from 
                                 dev-path
                                 lazy-path)]
              (set parser_config.actions
-                  {:install_info {:url parser-url :files {1 :src/parser.c}}})))}
+                  {:install_info {:url parser-url :files {1 :src/parser.c}}})
+             ;; Add grammar repo to runtimepath so queries can be found
+             (vim.opt.runtimepath:prepend parser-url)))}
 @end
 - the `:dev true` flag tells lazy to use the dev version when available (configured in entry.norg)
 - parser_config uses 'url' which nvim-treesitter accepts for both remote repos and local directories

@@ -36,5 +36,7 @@
                                 dev-path
                                 lazy-path)]
              (set parser_config.actions
-                  {:install_info {:url parser-url :files {1 :src/parser.c}}})))}
+                  {:install_info {:url parser-url :files {1 :src/parser.c}}})
+             ;; Add grammar repo to runtimepath so queries can be found
+             (vim.opt.runtimepath:prepend parser-url)))}
 
