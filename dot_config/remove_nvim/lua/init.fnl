@@ -1,4 +1,5 @@
 (require :config.options)
+(require :config.utils)
 
 (require :config.literate_inspector)
 

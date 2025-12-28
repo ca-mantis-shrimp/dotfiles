@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/platforms/treesitter.fnl
 created: 2025-08-21T21:22:13-0800
-updated: 2025-12-19T03:28:58-0800
+updated: 2025-12-27T14:19:34-0800
 version: 1.1.1
 @end
 another topic that is both exciting and complex is treesitter one of the other core features of neovim
@@ -14,71 +14,24 @@ although we have strong support, the bulk of functionality is still in `nvim-tre
 
 
 interestingly we are mainly focused on working through our own plugin here from where we are installing a custom parser and making sure its setup for our work
-#tangle
-@code fennel
-{1 :nvim-treesitter/nvim-treesitter
- :build ":TSUpdate"
- :dependencies [{1 :ClearHeadToDo-Devs/tree-sitter-actions :dev true}]
- :opts {:ensure_installed [:bash
-                           :c
-                           :html
-                           :lua
-                           :luadoc
-                           :markdown
-                           :vim
-                           :vimdoc
-                           :python]
-        :auto_install true
-        :highlight {:enable true}
-        :indent {:enable true}
-        :incremental_selection {:enable true
-                                :keymaps {:init_selection :gsi
-                                          :node_incremental :gsn
-                                          :scope_incremental :gss
-                                          :node_decremental :gsd}}}
- :config (fn [_ opts]
-           (tset (require :nvim-treesitter.install) :prefer_git true)
-           (if (= (_G.vim.fn.has :win32) 1)
-               (tset (require :nvim-treesitter.install) :compilers [:zig]))
-           ((. (require :nvim-treesitter.configs) :setup) opts)
-           (tset _G.vim.opt :foldmethod :expr)
-           (tset _G.vim.opt :foldexpr "nvim_treesitter#foldexpr()")
-           (let [parser_config ((. (require :nvim-treesitter.parsers)
-                                   :get_parser_configs))
-                 dev-path "~/Products/tree-sitter-actions"
-                 lazy-path (.. (_G.vim.fn.stdpath :data)
-                               :/lazy/tree-sitter-actions)
-                 ;; Check which path exists (expand for check only)
-                 parser-url (if (= (_G.vim.fn.isdirectory (_G.vim.fn.expand dev-path))
-                                   1)
-                                dev-path
-                                lazy-path)]
-             (set parser_config.actions
-                  {:install_info {:url parser-url :files {1 :src/parser.c}}})
-             ;; Add grammar repo to runtimepath so queries can be found
-             (vim.opt.runtimepath:prepend parser-url)))}
-@end
-- the `:dev true` flag tells lazy to use the dev version when available (configured in entry.norg)
-- parser_config uses 'url' which nvim-treesitter accepts for both remote repos and local directories
-- nvim-treesitter expands and checks if url is a directory; if yes, compiles locally; if no, treats as git URL
-- mirrors lazy's behavior: checks dev path first, falls back to lazy cache on non-dev machines
-- only configures the actions parser; other parsers (bash, lua, python, etc.) work normally
 
-** Technical Notes: Dev Mode + nvim-treesitter Integration
-   - lazy's dev mode loads plugins from ~/Products when dev.patterns matches (configured in entry.norg)
-   - nvim-treesitter requires 'url' (string) and 'files' (table) in install_info - these are validated at runtime
-   - nvim-treesitter's install.lua (line 324-328) expands url and checks if it's a directory
-   -- if directory exists: compiles parser locally from that path
-   -- if not a directory: treats as git URL and attempts to clone
-   - our parser_config.actions conditional checks which directory exists (dev or lazy cache) and provides that path
-   - this allows one config to work seamlessly across dev machines (with ~/Products) and production machines (lazy clones from GitHub)
-   - troubleshooting: if you see "url: expected string, got nil" - install_info requires the url field
-   - troubleshooting: if you see "files: expected table, got nil" - install_info requires the files field
+Another important note, while we are mostly leveraging {https://github.com/nvim-treesitter/nvim-treesitter}[nvim-treesitter] which contains a lot of the functionality.
 
-- otherwise, we are just moving through the standard stuff
--- setting the folds to be treesitter folds rather than the standard one
--- we also are sure to install some important parsers so that as long as we have this plugin it will install those parsers, ensuring that we dont have to install them manually each time when we install the stuff in a new plugin or editor session
-- the only other interesting tidbit is that we use zig to compile the structure of treesitter because i find it works better than the other methods funnily enough so that has been my primary approach to making this not suck on the main plugin system
-- we also are sure to install the tree-sitter parser as a dependency up front, then we go ahead and add its folder to the `runtime path` so that we will have it for the querying that we need to do
+But we are also leveraging `help treesitter` which is the core treesitter functionality built into neovim itself
 
-this is a bit of complexity but it represents allot of work saved because we were able to leverage our relatively simple parser to do a crazy amount of stuff for the plugin so im happy with the progress to value coordination
+Many of the changes are going to be done here, but also be sure to check out {:$/neovim/config/autocomds:}[autocmds] config for autocommands that will run afterwards
+
+Also many of the changes are {:$/neovim/ftplugin/index:}[ftplugin] to set things up on a per-filetype basis 
+
+* The Core Config
+  First, we do a small config for our structure
+
+  This is going to be the most generic form of getting this started, pulled directly from the README with a small update to fennel
+
+  Now, when we look at the treesitter we just need to remember a few things:
+  - when we update the plugin, we need to run `:TSUpdate` to make sure the parsers are updated
+  - nvim-treesitter cannot be lazy-loaded, so we need to make sure its always available
+  #tangle
+  @code fennel
+  {1 :nvim-treesitter/nvim-treesitter :lazy false :build :TSUpdate}
+  @end

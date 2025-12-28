@@ -1,0 +1,18 @@
+@document.meta
+title: index
+description:  Index of ftplugins for neovim
+authors: backup-admin
+categories: Neovim plugin
+created: 2025-12-27T14:21:41-0800
+updated: 2025-12-27T16:05:03-0800
+version: 1.1.1
+@end
+`ftplugins` are considered plugins (files) that are ONLY run when a specific filetype is detected.
+
+This means, we are able to work through filetype-specific customizations that only apply to certain filetypes.
+
+Here, we are going to place filetype-specific customizations that will only apply for certain filetypes. you know the relevant filetype by the name of the file being created, with each one corresponding to a specific filetype to be handled
+* Index
+  Each file corresponds to the equivalent filetype and should be expected to do most of the config within that file, avoiding requiring out to other modules unless absolutely necessary.
+  - {:$/neovim/ftplugin/fennel:}[Fennel FileType Plugin] - FileType-specific customizations for fennel files
+  - {:$/neovim/ftplugin/norg:}[Norg FileType Plugin

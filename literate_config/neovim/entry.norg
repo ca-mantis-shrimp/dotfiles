@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Neovim
 tangle: ../../dot_config/remove_nvim/lua/init.fnl
 created: 2025-07-25T19:12:38-0800
-updated: 2025-12-18T00:10:57-0800
+updated: 2025-12-27T16:41:36-0800
 version: 1.1.1
 @end
 
@@ -69,9 +69,12 @@ version: 1.1.1
 
 ** Source Config Files
    Before we do anything, we want to set the options for neovim itself by source the file at `config/options.lua` which we do with the following structure
+
+   we also source some utlity functions that we will use throughout the rest of the config such as the treesitter setup function
    #tangle
    @code fennel
    (require :config.options)
+   (require :config.utils)
    @end
 
    We need to source this first because some options may be relevant for the rest of the config so we need to be sure we source it BEFORE the rest

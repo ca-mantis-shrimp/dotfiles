@@ -1,30 +1,99 @@
 @document.meta
 title: utils
-description: 
-authors: 
-categories: Neovim
+description: Utility functions for Neovim configuration
+authors: Darrion Burgess
+categories: Neovim Config
+tangle: ../../../dot_config/remove_nvim/lua/config/utils.fnl
 created: 2025-08-27T12:28:00-0800
-updated: 2025-11-18T19:57:20-0800
+updated: 2025-12-27T17:30:03-0800
 version: 1.1.1
 @end
 we have a few functions that will be used in a few files so better to get them configured now rather than working through the individual pieces and making them available later
+* Module Definition
+  First we need to define our module so that we can return it at the end
 
-#tangle utils.fnl
-@code fennel
-(fn is_windows []
-  (_G.vim.fn.has :win32))
-@end
+  #tangle
+  @code fennel
+  (local M {})
+  @end
+* Conditionals
+  Some functions are meant to be used with the `cond` config for lazy.nvim so that plugins can be dynamically loaded based on the context we are in.
 
-this function is a nice little helper to quickly check if we are on a windows system or not.
+** Check if we are on Windows
+   this function is a nice little helper to quickly check if we are on a windows system or not.
 
-Great for conditional loading of plugins and other such things
+   Many plugins are built with linux in mind including making sure we have certain dependencies available (caugh caugh c++) 
 
-#tangle utils.fnl
-@code fennel
-(fn is_vscode []
-  (_G.vim.fn.exists "g:vscode"))
-@end
+   #tangle
+   @code fennel
+   (set M.is_windows (fn []
+                       (_G.vim.fn.has :win32)))
+   @end
 
-this function is a nice little helper to quickly check if we are running inside of vscode or not
+** Check if we are running in VSCode
+   this function is a nice little helper to quickly check if we are running inside of vscode or not
 
-Again, great for conditional loading of plugins and other such things that can or cant work when loaded in vscode
+   the neovim plugin for vscode is awesome but takes us really making sure we turn off functionality that is provided by the host so this is littered in many conditionals
+
+   #tangle
+   @code fennel
+   (set M.is_vscode (fn []
+                      (_G.vim.fn.exists "g:vscode")))
+   @end
+
+* Setup Plugins
+  Neovim tries to be conservative about what it does and doesnt turn on especially when it comes to plugins and extra functionality so we have some things that are turned on dynamically based on context and this is where they are defined so they can be reused
+** Setup Treesitter
+   One of the core pieces is treesitter which provides many features but they must be enabled explicitly 
+   Here we setup:
+   - Highlighting (by virtue of starting treesitter)
+   - Folding based on treesitter structure
+   - Indentation based on treesitter structure
+*** Start Highlighlighting
+
+    #tangle
+    @code fennel
+    (set M.setup_treesitter_highlight
+         (fn [] "Setup Treesitter highlighting"
+           (_G.vim.treesitter.start)))
+    @end
+
+*** Setup Folding
+
+    #tangle
+    @code fennel
+    (set M.setup_treesitter_folding
+         (fn []
+           "Setup Treesitter-based folding"
+           (let [wo (. vim.wo 0 0)]
+             (tset wo :foldexpr "v:lua.vim.treesitter.foldexpr()")
+             (tset wo :foldmethod :expr))))
+    @end
+
+*** Setup Indentation
+    #tangle
+    @code fennel
+    (set M.setup_treesitter_indentation
+         (fn [] "Setup Treesitter-based indentation"
+           (tset vim.bo :indentexpr "v:lua.require'nvim-treesitter'.indentexpr()")))
+    @end
+*** Full Setup
+    combines all three into one function
+
+    #tangle
+    @code fennel
+    (set M.setup_treesitter_full
+         (fn []
+           "Setup Treesitter with all features enabled"
+           (M.setup_treesitter_highlight)
+           (M.setup_treesitter_folding)
+           (M.setup_treesitter_indentation)))
+    @end
+
+* Return Module
+  Finally we need to return our module so that it can be used elsewhere
+  #tangle
+  @code fennel
+  M
+  @end
+
