@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Neovim Config
 tangle: ../../../dot_config/remove_nvim/lua/config/autocmds.fnl
 created: 2025-08-31T09:08:46-0800
-updated: 2025-08-31T09:10:59-0800
+updated: 2025-12-28T22:28:19-0800
 version: 1.1.1
 @end
 `autocmd` is a powerful api that lets us hook into various pieces of Neovim to extend or otherwise change it dynamically at runtime based on certain conditions.
@@ -76,4 +76,40 @@ But they are also very brittle and easy to mess up so absolute discipline is nec
                                     {:group (_G.vim.api.nvim_create_augroup :lsp-attach
                                                                             {:clear true})
                                      :callback setup_lsp})
+    @end
+
+* Configure Local Treesitter Parser for Development
+  For local development of our tree-sitter-actions grammar we will setup an autocmd to update `TSUpdate` to properly use our local repository
+
+  ** Understanding the Configuration
+     The new nvim-treesitter (main branch rewrite) requires using a `User TSUpdate` autocommand to register custom parsers.
+
+     Key learnings:
+     - The `path` field points to the local grammar directory
+     - The `queries` field must point to the subdirectory containing the .scm files
+       - WRONG: `queries` (creates double-nesting: queries/actions/actions/)
+       - RIGHT: `queries/actions` (creates correct structure: queries/actions/)
+     - nvim-treesitter will symlink the queries directory to `~/.local/share/nvim/site/queries/actions`
+     - The parser .so file goes to `~/.local/share/nvim/site/parser/actions.so`
+
+  ** Query Syntax Requirements
+     For concealment to work properly:
+     - Use double parentheses for standalone patterns: `((node) @capture (#set! conceal "icon"))`
+     - Empty concealment requires explicit empty string: `((node) @conceal (#set! conceal ""))`
+     - Anonymous tokens (like `[`, `]`, `>`) must be named nodes in grammar to be capturable
+     - The `concealcursor` setting must exclude modes where you want concealment visible
+       - `concealcursor=` (empty) shows concealment in all modes
+       - `concealcursor=nc` hides concealment in normal/command mode (bad for editing)
+
+    #tangle
+    @code fennel
+    (vim.api.nvim_create_autocmd :User
+                                 {:pattern :TSUpdate
+                                  :callback (fn []
+                                              ;; Configure local actions parser for development
+                                              (tset (require :nvim-treesitter.parsers)
+                                                    :actions
+                                                    {:install_info {:path "~/Products/tree-sitter-actions"
+                                                                    :queries :queries/actions}
+                                                     :filetype :actions}))})
     @end

@@ -47,5 +47,6 @@
          2 "<cmd>Neorg index<CR>"
          :desc "Go to Index of Neorg Workspace"}]
  :dependencies [{1 :jmbuhr/otter.nvim}]
- :lazy false}
+ :lazy false
+ :version "*"}
 

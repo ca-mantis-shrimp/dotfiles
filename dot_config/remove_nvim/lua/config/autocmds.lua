@@ -38,7 +38,15 @@ local function setup_lsp(event)
 		return nil
 	end
 end
-return _G.vim.api.nvim_create_autocmd(
+_G.vim.api.nvim_create_autocmd(
 	"LspAttach",
 	{ group = _G.vim.api.nvim_create_augroup("lsp-attach", { clear = true }), callback = setup_lsp }
 )
+local function _6_()
+	require("nvim-treesitter.parsers")["actions"] = {
+		install_info = { path = "~/Products/tree-sitter-actions", queries = "queries/actions" },
+		filetype = "actions",
+	}
+	return nil
+end
+return vim.api.nvim_create_autocmd("User", { pattern = "TSUpdate", callback = _6_ })

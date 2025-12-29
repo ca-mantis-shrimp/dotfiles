@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/platforms/neorg.fnl
 created: 2025-07-29T21:21:17-0800
-updated: 2025-12-18T00:25:02-0800
+updated: 2025-12-28T00:48:41-0800
 version: 1.1.1
 @end
 This one is very meta and very important as this is the plugin information for Neorg, the writing tool that i am using to do this whole config so handling this work is important for making the whole thing run smoothly.
@@ -63,7 +63,8 @@ we tried to break this up into various pieces so now we are going to go over the
          2 "<cmd>Neorg index<CR>"
          :desc "Go to Index of Neorg Workspace"}]
  :dependencies [{1 :jmbuhr/otter.nvim}]
- :lazy false}
+ :lazy false
+ :version "*"}
 @end
 * Loading Modules
   Next, we actually outline the modules that we want to load, we can review what is available from {https://github.com/nvim-neorg/neorg/wiki}[the Neorg wiki] but here we outline which ones we actually want to load when getting this all setup

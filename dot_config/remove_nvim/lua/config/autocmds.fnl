@@ -35,3 +35,13 @@
                                                                         {:clear true})
                                  :callback setup_lsp})
 
+(vim.api.nvim_create_autocmd :User
+                             {:pattern :TSUpdate
+                              :callback (fn []
+                                          ;; Configure local actions parser for development
+                                          (tset (require :nvim-treesitter.parsers)
+                                                :actions
+                                                {:install_info {:path "~/Products/tree-sitter-actions"
+                                                                :queries :queries/actions}
+                                                 :filetype :actions}))})
+

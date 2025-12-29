@@ -1,0 +1,31 @@
+@document.meta
+title: actions
+description: 
+authors: backup-admin
+categories: Neovim ftplugin
+tangle: ../../../dot_config/remove_nvim/ftplugin/actions.fnl
+created: 2025-12-28T00:51:56-0800
+updated: 2025-12-28T10:45:37-0800
+version: 1.1.1
+@end
+the ftplugin for our own action files!
+* treesitter
+  like the others, we are setting up treesitter for our filetype because it does all the heavy lifting for us 
+
+  #tangle
+  @code fennel
+  ((. (require :config.utils) :setup_treesitter_full))
+  @end
+
+
+* Conceal Settings
+  Enable conceal to hide syntax elements and show icons instead.
+  
+  - conceallevel=2: Hide concealed text completely and show replacement character
+  - concealcursor="": Show concealed text when cursor is on the line (for editing)
+  
+  #tangle
+  @code fennel
+  (set vim.opt_local.conceallevel 2)
+  (set vim.opt_local.concealcursor "")
+  @end

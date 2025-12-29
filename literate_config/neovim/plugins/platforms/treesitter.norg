@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Neovim Platform Plugins
 tangle: ../../../../dot_config/remove_nvim/lua/remove_plugins/platforms/treesitter.fnl
 created: 2025-08-21T21:22:13-0800
-updated: 2025-12-27T14:19:34-0800
+updated: 2025-12-28T21:16:41-0800
 version: 1.1.1
 @end
 another topic that is both exciting and complex is treesitter one of the other core features of neovim
@@ -31,7 +31,19 @@ Also many of the changes are {:$/neovim/ftplugin/index:}[ftplugin] to set things
   Now, when we look at the treesitter we just need to remember a few things:
   - when we update the plugin, we need to run `:TSUpdate` to make sure the parsers are updated
   - nvim-treesitter cannot be lazy-loaded, so we need to make sure its always available
-  #tangle
-  @code fennel
-  {1 :nvim-treesitter/nvim-treesitter :lazy false :build :TSUpdate}
-  @end
+** Local Parser Configuration
+   For local development of tree-sitter grammars, we need to configure nvim-treesitter to know where our local grammar source is.
+
+   This allows `:TSInstall` and `:TSUpdate` to compile from the local directory instead of fetching from a remote repository.
+
+   We configure the actions parser to use the local tree-sitter-actions grammar at `~/Products/tree-sitter-actions`.
+
+   After making changes to the grammar:
+   1. Run `tree-sitter generate` in the grammar directory
+   2. Run `:TSUpdate actions` in Neovim to recompile
+   3. Restart Neovim to load the new parser
+
+   #tangle
+   @code fennel
+   {1 :nvim-treesitter/nvim-treesitter :lazy false :build :TSUpdate}
+   @end
