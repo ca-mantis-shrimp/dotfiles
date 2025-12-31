@@ -30,7 +30,7 @@
                     :fennel_language_server
                     :pyright
                     :fish-lsp
-                    :systemd_ls
+                    :systemd_lsp
                     :powershell_es
                     :jsonls
                     :clojure_lsp

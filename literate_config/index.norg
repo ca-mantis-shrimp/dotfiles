@@ -4,10 +4,9 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-12-27T16:14:49-0800
+updated: 2025-12-30T21:31:14-0800
 version: 1.0.0
 @end
-
 * Start Here
 
   *If you're new to this literate config (human or AI assistant):*
