@@ -1,4 +1,4 @@
-[{:dir "~/Products/clearhead.nvim"
+[{:dir "~/Products/platform/clearhead.nvim"
   :name :clearhead.nvim
   :dependencies [{1 :nvim-treesitter/nvim-treesitter} {1 :Olical/nfnl}]
   :ft :actions

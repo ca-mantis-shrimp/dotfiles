@@ -44,7 +44,7 @@ _G.vim.api.nvim_create_autocmd(
 )
 local function _6_()
 	require("nvim-treesitter.parsers")["actions"] = {
-		install_info = { path = "~/Products/tree-sitter-actions", queries = "queries/actions" },
+		install_info = { path = "~/Products/platform/tree-sitter-actions", queries = "queries/actions" },
 		filetype = "actions",
 	}
 	return nil

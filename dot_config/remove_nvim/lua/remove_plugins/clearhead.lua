@@ -21,7 +21,7 @@ local function _1_()
 end
 return {
 	{
-		dir = "~/Products/clearhead.nvim",
+		dir = "~/Products/platform/clearhead.nvim",
 		name = "clearhead.nvim",
 		dependencies = { { "nvim-treesitter/nvim-treesitter" }, { "Olical/nfnl" } },
 		ft = "actions",
