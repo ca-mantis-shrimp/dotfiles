@@ -1,0 +1,23 @@
+@document.meta
+title: config
+description: Ghostty Terminal Emulator Configuration
+authors: backup-admin
+categories: Terminal Emulator Ghostty
+tangle: ../../../dot_config/ghostty/config
+created: 2026-02-03T15:42:18-0800
+updated: 2026-02-03T15:48:00-0800
+version: 1.1.1
+@end
+* {https://ghostty.org/}[Ghostty Terminal Emulator]
+  Ghostty is a terminal emulator that ive been working with as my new primary for a minute now and while it prides itself on being zero config, often times we need to do a few edits to make the process easier and save some little things
+
+  the format is dead simple, nothing but key, value pairs in the spirit of env files
+
+
+  All options here can be referenced at {https://ghostty.org/docs/config/reference}[Ghostty Configuration Reference]
+** Fonts
+   one of the only things we are going to do is actually edit the base config number so that we have this work done properly
+
+@code env
+font-size = 14
+@end

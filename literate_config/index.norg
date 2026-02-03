@@ -4,7 +4,7 @@ description: Starting Point, Chezmoi Configuration, and Home Directory Files
 authors: Darrion Burgess
 categories: index
 created: 2023-04-05
-updated: 2025-12-30T21:31:14-0800
+updated: 2026-02-03T15:42:14-0800
 version: 1.0.0
 @end
 * Start Here
@@ -127,6 +127,7 @@ version: 1.0.0
    - {:$/shells/prompts/starship/starship_config:}[Starship Prompt Configuration] - Literate configuration for the Starship cross-shell prompt
 ** Terminal Emulator Kitty
    - {:$/terminal_emulators/kitty/kitty_config:}[Kitty Terminal Configuration] - Configuration for the Kitty terminal emulator with fonts, colors, and keybindings
+   - {:$/terminal_emulators/ghostty/config:}[Kitty Terminal Configuration] - Configuration for the ghostty terminal emulator with fonts, colors, and keybindings
 ** Uncategorised
    - {:$/desktop_environments/autostart/index:}[Index]
 ** Version Control Git

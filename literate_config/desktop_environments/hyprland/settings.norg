@@ -5,7 +5,7 @@ authors: primary_desktop
 categories: Desktop Environment Hyprland
 tangle: ../../../dot_config/hypr/settings.conf
 created: 2025-08-30T22:26:12-0800
-updated: 2025-11-24T14:16:41-0800
+updated: 2026-01-23T11:20:59-0800
 version: 1.1.1
 @end
 Finally, we get to the settings that compose the hyprland desktop
@@ -119,13 +119,17 @@ Finally, we get to the settings that compose the hyprland desktop
 
   this allows the different workspaces to act differently
   "Smart gaps" / "No gaps when only"
+
+  These rules use the new v2 windowrule syntax. Rules are evaluated top to bottom, so order matters.
+  Props use the `match:` prefix (match:workspace, match:float, match:class) and effects have no prefix (border_size, rounding, etc).
+
   @code hyprlang
   workspace = w[tv1], gapsout:0, gapsin:0
   workspace = f[1], gapsout:0, gapsin:0
-  windowrulev2 = bordersize 0, floating:0, onworkspace:w[tv1]
-  windowrulev2 = rounding 0, floating:0, onworkspace:w[tv1]
-  windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
-  windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
+  windowrule = match:workspace w[tv1], match:float false, border_size 0
+  windowrule = match:workspace w[tv1], match:float false, rounding 0
+  windowrule = match:workspace f[1], match:float false, border_size 0
+  windowrule = match:workspace f[1], match:float false, rounding 0
   @end
 
   but we are really here to handle the structured examples needed to get idle layouts working
@@ -195,21 +199,18 @@ Finally, we get to the settings that compose the hyprland desktop
 * Window and Workspace Settings
   See {https://wiki.hyprland.org/Configuring/Window-Rules/}[window rules] for more on window rules
   See {https://wiki.hyprland.org/Configuring/Workspace-Rules/}[Workspace Rules] for workspace rules
-  herer are some example rules:
-  - windowrule v1
-  - windowrule v2
 
-  @code hyprlang
-  #windowrule = float, ^(kitty)$
-
-  #windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-  @end
+  The windowrule syntax changed in recent Hyprland versions. The new v2 syntax uses:
+  - Props with `match:` prefix (match:class, match:title, match:float, match:xwayland, etc)
+  - Effects without prefix (border_size, rounding, suppress_event, no_focus, etc)
+  - Format: `windowrule = <match_props>, <effects>`
+  - Rules are evaluated top to bottom, order matters
 
   as for the setting we actually run:
   - Ignore maximize requests from apps. You'll probably like this.
   - Fix some dragging issues with XWayland
   #tangle
   @code hyprlang
-  windowrulev2 = suppressevent maximize, class:.*
-  windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+  windowrule = match:class .*, suppress_event maximize
+  windowrule = match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false, no_focus on
   @end
