@@ -1,0 +1,20 @@
+@document.meta
+title: Rust FileType Plugin
+description: FileType-specific customizations for rust files
+authors: primary_desktop
+categories: Neovim ftplugin
+tangle: ../../../dot_config/remove_nvim/ftplugin/rust.fnl
+created: 2025-07-27T21:54:09-0800
+updated: 2026-02-03T16:20:38-0800
+version: 1.1.1
+@end
+the `ftplugin` directory allows us to customize buffers of a certain filetype AFTER it has been detected which is different from `ftdetect` which is used BEFORE the filetype is identified
+
+Here, we are going to place filetype-specific customizations that will only apply for certain filetypes. you know the relevant filetype by the name of the file being created, with each one corresponding to a specific filetype to be handled
+* Treesitter
+  one of the things we do is setup treesitter for both the structure AND the format such that we are able to come into a file and just know everything is setup immediately
+
+  #tangle
+  @code fennel
+  ((. (require :config.utils) :setup_treesitter_full))
+  @end

@@ -75,7 +75,7 @@
        {1 :folke/sidekick.nvim
         :opts {}
         :keys [{1 :<tab>
-                2 #(or ((. (require :sidekick) :nex_jump_or_apply)) :<tab>)
+                2 #(or ((. (require :sidekick) :nes_jump_or_apply)) :<tab>)
                 :expr true
                 :desc "Goto/Apply Next Edit Suggestions"}
                {1 :<c-.>

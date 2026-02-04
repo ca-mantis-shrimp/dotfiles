@@ -5,7 +5,7 @@ authors: Darrion Burgess
 tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/LLM.fnl
 categories: Neovim Plugins
 created: 2025-08-27T09:30:30-0800
-updated: 2025-12-21T16:40:47-0800
+updated: 2026-02-03T15:52:46-0800
 version: 1.1.1
 @end
 LLMs are the newest level of the stack and we are still trying to figure out what the format we are looking to do will be. im testing out a few plugins but i cant shake the feeling that the real answer to do is to just get really good at handling our work from within the CLI
@@ -260,7 +260,7 @@ so for now we are just doing copilot.vim because tpope is always a solid bet and
          {1 :folke/sidekick.nvim
           :opts {}
           :keys [{1 :<tab>
-                  2 #(or ((. (require :sidekick) :nex_jump_or_apply)) :<tab>)
+                  2 #(or ((. (require :sidekick) :nes_jump_or_apply)) :<tab>)
                   :expr true
                   :desc "Goto/Apply Next Edit Suggestions"}
                  {1 :<c-.>

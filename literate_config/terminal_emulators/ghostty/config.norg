@@ -2,10 +2,10 @@
 title: config
 description: Ghostty Terminal Emulator Configuration
 authors: backup-admin
-categories: Terminal Emulator Ghostty
+categories: Terminal Emulator
 tangle: ../../../dot_config/ghostty/config
 created: 2026-02-03T15:42:18-0800
-updated: 2026-02-03T15:48:00-0800
+updated: 2026-02-03T15:49:27-0800
 version: 1.1.1
 @end
 * {https://ghostty.org/}[Ghostty Terminal Emulator]

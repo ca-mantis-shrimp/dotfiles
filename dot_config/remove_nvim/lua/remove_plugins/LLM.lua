@@ -61,7 +61,7 @@ local codecompanion_spec = {
 }
 local sidekick_spec
 local function _2_()
-	return (require("sidekick").nex_jump_or_apply() or "<tab>")
+	return (require("sidekick").nes_jump_or_apply() or "<tab>")
 end
 local function _3_()
 	return require("sidekick.cli").toggle()
