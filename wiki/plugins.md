@@ -56,34 +56,6 @@ This plugin does many things, but chief among them is:
 },
 ```
 
-# LSP Lines
-
-By Default, LSP diagnostics are displayed as virtual text at the end of the line
-Virtual Text is the text that is made outside of the buffer and can move to stick to a specific line rather than being present in the buffer
-- However, this makes it dificult to read all bust the most succinct warnings/errors
-- doubly-so for the case where we have multiple diagnostics/errors to review
-
-[lsp_lines.nvim](https://github.com/ErichDonGubler/lsp_lines.nvim/tree/3b57922d2d79762e6baedaf9d66d8ba71f822816) attempts to fix this issue by replacing the default virtual text solution with one where instead each diagnostic gets its own line (hence the name) so multiple/long diagnostic messages can be shown without issue
-``` lua
-{
-  "ErichDonGubler/lsp_lines.nvim",
-  dependencies = { "neovim/nvim-lspconfig" },
-  config = function()
-    vim.diagnostic.config({
-      virtual_text = false,
-    })
-    require("lsp_lines").setup()
-  end,
-  ft = { "lua", "python", "rust" },
-},
-```
-- First, we need to ensure this is loaded after lspconfig since this relies on the configuration for this.
-- we have to use the functional way of setting up the plugin because we need to make a small change first
-    - The thing we need to do is disable the default virtual_text solution for diagnostics in Neovim
-        - if we dont, this will result in duplicate diagnostic messages when we are editing code
-        - afterwards, we can setup the plugin like normal
-- Finally, we need to restrict the filetypes that we enable lsp_lines on because otherwise we get annoying duplication in things like the lazy floating window
-
 # Git Diff
 
 The standard diff view for Neovim is fine, but it leaves a few things to be desired.
