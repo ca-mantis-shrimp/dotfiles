@@ -1,0 +1,149 @@
+@document.meta
+title: Waybar Configuration (Sway)
+description: Status bar configuration for the Sway window manager
+authors: Darrion Burgess
+categories: Desktop Environment Sway
+tangle: ../../../dot_config/waybar/config.jsonc
+created: 2026-02-22
+updated: 2026-02-22
+version: 1.0.0
+@end
+
+{https://github.com/Alexays/Waybar}[Waybar] is our status bar, shared between sway and hyprland but configured here for sway. The key difference from hyprland is the workspace/window modules: sway has its own native IPC protocol and waybar ships first-class modules for it.
+
+* Module Layout
+
+  Waybar is divided into left, center, and right module groups. We keep this minimal and close to out-of-the-box.
+
+  #tangle
+  @code json
+  {
+  	"height": 30,
+  	"spacing": 4,
+  	"modules-left": [
+  		"sway/workspaces",
+  		"sway/mode"
+  	],
+  	"modules-center": [
+  		"sway/window"
+  	],
+  	"modules-right": [
+  		"idle_inhibitor",
+  		"cpu",
+  		"memory",
+  		"temperature",
+  		"wireplumber",
+  		"bluetooth",
+  		"clock",
+  		"tray",
+  		"custom/power"
+  	],
+  @end
+
+  - Left: sway workspaces (shows numbered workspaces with active indicator) and mode (shows the current sway binding mode, e.g. "resize")
+  - Center: the focused window title
+  - Right: system info and controls. MPD and keyboard-state are excluded — too opinionated for a baseline config.
+
+* Sway-Specific Module Configuration
+
+  The sway modules need minimal configuration — waybar handles workspace numbering and active state automatically via sway IPC.
+  #tangle
+  @code json
+  	"sway/workspaces": {
+  		"disable-scroll": true,
+  		"all-outputs": true,
+  		"format": "{name}"
+  	},
+  	"sway/mode": {
+  		"format": "<span style=\"italic\">{}</span>"
+  	},
+  	"sway/window": {
+  		"max-length": 50
+  	},
+  @end
+
+  - `disable-scroll` prevents accidentally changing workspaces by scrolling over the bar
+  - `all-outputs` shows all workspaces regardless of which monitor waybar is on (single-monitor setup)
+  - The mode module italicises the mode name (e.g. "resize") to distinguish it visually
+
+* Idle Inhibitor
+  #tangle
+  @code json
+  	"idle_inhibitor": {
+  		"format": "{icon}",
+  		"format-icons": {
+  			"activated": "",
+  			"deactivated": ""
+  		}
+  	},
+  @end
+
+  Lets you temporarily prevent the screen from locking — useful during presentations or long reads. Works with swayidle.
+
+* System Info Modules
+
+  Standard system information — CPU, memory, temperature. These are WM-agnostic.
+  #tangle
+  @code json
+  	"cpu": {
+  		"format": "{usage}% ",
+  		"tooltip": false
+  	},
+  	"memory": {
+  		"format": "{}% "
+  	},
+  	"temperature": {
+  		"critical-threshold": 80,
+  		"format": "{temperatureC}°C {icon}",
+  		"format-icons": ["", "", ""]
+  	},
+  @end
+
+* Audio and Bluetooth
+  #tangle
+  @code json
+  	"wireplumber": {
+  		"on-click": "helvum"
+  	},
+  	"bluetooth": {
+  		"on-click": "/usr/bin/blueman-manager"
+  	},
+  @end
+
+  - wireplumber shows volume; clicking opens helvum for audio routing
+  - bluetooth shows status; clicking opens blueman
+
+* Clock
+  #tangle
+  @code json
+  	"clock": {
+  		"format": "{:%I:%M %p}",
+  		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+  		"format-alt": "{:%Y-%m-%d}"
+  	},
+  @end
+
+  12-hour format by default. Click to toggle to ISO date.
+
+* Tray and Power Menu
+  #tangle
+  @code json
+  	"tray": {
+  		"spacing": 10
+  	},
+  	"custom/power": {
+  		"format": "⏻ ",
+  		"tooltip": false,
+  		"menu": "on-click",
+  		"menu-file": "$HOME/.config/waybar/power_menu.xml",
+  		"menu-actions": {
+  			"shutdown": "shutdown",
+  			"reboot": "reboot",
+  			"suspend": "systemctl suspend",
+  			"hibernate": "systemctl hibernate"
+  		}
+  	}
+  }
+  @end
+
+  The power menu uses the existing `power_menu.xml` which is already deployed. The closing `}` here closes the top-level waybar config object.

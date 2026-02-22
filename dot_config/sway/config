@@ -1,18 +1,15 @@
-set $term wezterm
+set $term ghostty
 
-set $menu ulauncher | xargs swaymsg exec --
+set $menu walker
 bar swaybar_command waybar
 include /etc/sway/config.d/*
 
-output * bg $HOME/Pictures/leaves-background.jpg fill
+exec mako
+exec walker --gapplication-service
 
-output LVDS-1 resolution 1600x900
-output VGA-1 resolution 1920x1080
-output DP-1 resolution 1920x1080
+output * bg $HOME/Pictures/mountain_lake.jpg fill
 
-# Oma House 2 monitor layout
-output HDMI-A-1 position 0 0 res 2560x1440 
-output DP-2 position 560 1440 res 1920x1080
+output DP-3 resolution 2560x1440@144Hz
 
 exec swayidle -w \
 timeout 300 'swaylock -f -c 000000' \

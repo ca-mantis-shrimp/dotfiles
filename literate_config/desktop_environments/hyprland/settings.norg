@@ -28,9 +28,13 @@ Finally, we get to the settings that compose the hyprland desktop
   #tangle
   @code hyprlang
   exec-once = uwsm app ashell & uwsm app nwg-dock-hyprland -d
+  exec-once = hyprpaper
+  exec-once = hypridle
   @end
 
   this is us getting our primary tools setup at the start using `uwsm` to put them in proper sub services
+
+  Importantly, `hyprpaper` and `hypridle` are started here (not as persistent systemd user services) so their lifetime is scoped to this hyprland session. If you previously had `hyprpaper.service` or `hypridle.service` enabled, disable them: `systemctl --user disable --now hyprpaper.service hypridle.service`
 * LOOK AND FEEL 
 ** General Settings
    {https://wiki.hyprland.org/Configuring/Variables/#general}[general variables] is a good reference for these general settings

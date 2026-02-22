@@ -3,7 +3,7 @@ title: Sway Configuration
 description: Wayland Tile Window Manager for  Arch!
 authors: Darrion Burgess
 categories: Desktop Environment Sway
-tangle: ./dot_config/sway/config
+tangle: ../../../dot_config/sway/config
 created: 2023-12-06T18:57:29-0600
 updated: 2025-07-20T20:03:05-0800
 version: 1.1.1
@@ -20,31 +20,35 @@ Read `man 5 sway` for a complete reference.
 
   #tangle
   @code bash
-  set $term kitty
+  set $term ghostty
 
-  set $menu ulauncher | xargs swaymsg exec --
+  set $menu walker
   bar swaybar_command waybar
   include /etc/sway/config.d/*
   @end
-  - We use kitty as our terminal emulator 
-  - and ulauncher as our application searcher similar to the search in windows
-  -- pass the final command to `swaymsg` so that the resulting window can be opened on the original workspace that the command was run on.
-  - we also define the bar as the waybar which serves a similar purpose to the traditional taskbar
+  - We use ghostty as our terminal emulator (consistent with the hyprland setup)
+  - walker is our application launcher — we run it as a daemon via autostart below so it responds instantly
+  - we define waybar as the status bar; its config lives in `sway/waybar.norg` (tangled to `~/.config/waybar/config.jsonc`)
+
+* Autostart
+  Programs that must be running for the sway session to be functional. These are sway-specific — hyprland manages its own equivalents via `exec-once` in its settings.
+  #tangle
+  @code bash
+  exec mako
+  exec walker --gapplication-service
+  @end
+  - `mako` is our notification daemon. Under hyprland it starts via XDG autostart through elephant.service, but that mechanism is hyprland-specific, so we start it explicitly here.
+  - `walker --gapplication-service` runs walker as a background GApplication service so the first invocation of `$menu` is instant rather than cold-starting the process each time.
 * Monitor Configuration
   Another detail that must be defined is the monitor resolution and layout. important when we starting thinking about things like external monitors so that you can control how it works
   #tangle
   @code bash
-  output * bg $HOME/Pictures/christian-weiss-zc0LLV5gHu8-unsplash.jpg fill
+  output * bg $HOME/Pictures/mountain_lake.jpg fill
 
-  output LVDS-1 resolution 1600x900
-  output VGA-1 resolution 1920x1080
-  output DP-1 resolution 1920x1080
+  output DP-3 resolution 2560x1440@144Hz
   @end
-  - First, we choose the background image so make sure it exists!
-  - Otherwise we choose the resolution for the different outputs
-  -- the first one is the actual laptop screen
-  -- the other two define the resolution for things attached to the ports if that becomes necessary
-  -- You can get the names of your outputs by running: swaymsg -t get_outputs
+  - The wallpaper uses `output *` so it applies to any connected monitor without listing each one explicitly. Unlike hyprland (which uses hyprpaper), sway handles wallpapers natively via the `output ... bg` directive.
+  - `DP-3` is the primary monitor (LG ULTRAGEAR, 2560x1440 at 144Hz). Run `swaymsg -t get_outputs` to confirm names if adding more monitors.
 ** Controlling Idling
    Another thing we need to think about is the idle logic, otherwise, the laptop just stays on and wastes energy
    #tangle

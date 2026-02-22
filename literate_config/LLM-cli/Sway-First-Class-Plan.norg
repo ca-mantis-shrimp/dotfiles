@@ -1,0 +1,101 @@
+@document.meta
+title: Sway First-Class: Work Plan
+description: Plan to bring sway up to parity and fix WM-scoping of hyprland services
+authors: Claude Sonnet 4.6 (seventh sibling)
+categories: Meta AI Collaboration
+created: 2026-02-22
+updated: 2026-02-22
+version: 1.0.0
+@end
+
+A specification-forward session. The human asked me to deeply research the literate config, produce a plan, and await annotation before touching anything. This document is that plan — annotated by the human — and serves as the work order for implementation.
+
+* Context
+
+  Sway has been a secondary WM that drifted while hyprland became the primary. Three concrete problems:
+
+  - *Waybar orphaned from the literate pipeline*: `dot_config/waybar/config.jsonc` exists as a hand-edited file with no `.norg` source. It uses hyprland-specific modules (`hyprland/workspaces`, `hyprland/submap`, `hyprland/window`) that do nothing under sway.
+  - *Sway config references outdated tools*: still uses `kitty` and `ulauncher` from 2023. Current toolchain is `ghostty` and `walker`.
+  - *Hyprland-specific services run globally*: `hyprpaper.service` and `hypridle.service` are persistently enabled user services. They start regardless of which WM is active. Under sway, hyprpaper is useless and hypridle conflicts with sway's built-in `swayidle`. Both need to be scoped to the hyprland session via `exec-once`.
+
+* Live System State
+
+  Findings from `systemctl --user list-unit-files --state=enabled` and live unit inspection.
+
+** Services That Need Fixing
+
+   | Service         | Problem                                          |
+   | hyprpaper       | Globally enabled — runs even under sway          |
+   | hypridle        | Hyprland idle daemon — conflicts with swayidle   |
+
+** Services That Are Already Correct
+
+   | Service         | Why It's Fine                                                  |
+   | walker          | Has `ExecCondition` for Hyprland — WM-aware already            |
+   | ashell          | Not enabled; transient, started by hyprland `exec-once`        |
+   | mako            | Running but not enabled; started dynamically via elephant/XDG  |
+
+   Note: mako works fine under hyprland but elephant.service (which provides XDG autostart) filters to Hyprland. Under sway, mako won't start automatically — needs an explicit `exec` in the sway config.
+
+* Work Items
+
+** A. New: literate_config/desktop_environments/sway/waybar.norg
+
+   Tangle target: `dot_config/waybar/config.jsonc` (replaces the orphaned hand-edited file).
+
+   Replace hyprland modules with sway equivalents:
+   - `hyprland/workspaces` → `sway/workspaces`
+   - `hyprland/submap` → `sway/mode`
+   - `hyprland/window` → `sway/window`
+
+   Keep right-side system modules: `cpu`, `memory`, `temperature`, `wireplumber`, `bluetooth`, `clock`, `tray`, `custom/power`, `idle_inhibitor`.
+   Drop `mpd` and `keyboard-state` — opinionated, not out-of-box.
+
+** B. Update: literate_config/desktop_environments/sway/sway_config.norg
+
+   - Terminal: `kitty` → `ghostty`
+   - Launcher: `ulauncher | xargs swaymsg exec --` → `walker`
+   - Add `exec walker --gapplication-service` to start walker daemon under sway (simpler than modifying walker.service ExecCondition)
+   - Add `exec mako` to start notifications under sway
+   - Monitor section: update to actual hardware (`DP-3, 2560x1440@144Hz`) confirmed via `hyprctl monitors`
+
+   Human annotation: walker for sway — use exec strategy (not ExecCondition change). Mako — correct, exec strategy. Monitor confirmed as DP-3.
+
+** C. Update: literate_config/desktop_environments/hyprland/settings.norg
+
+   In the Autostarted Programs section, add:
+   - `exec-once = hyprpaper`
+   - `exec-once = hypridle`
+
+   These join the existing `exec-once = uwsm app ashell & uwsm app nwg-dock-hyprland -d`.
+   Add prose noting these are intentionally managed here (not as standalone services) so their lifetime is scoped to the hyprland session.
+
+   User must then run: `systemctl --user disable --now hyprpaper.service hypridle.service`
+
+   Human annotation: correct.
+
+** D. Update: literate_config/index.norg
+
+   Add waybar.norg entry under the "Desktop Environment Sway" section.
+
+* Out of Scope
+
+  - `ashell`, `nwg-dock-hyprland`: already correct ✓
+  - `walker.service`: ExecCondition already handles WM filtering ✓
+  - waybar style.css: use defaults for now
+  - The `remove_user` path in walker.service tangle: pre-existing issue, separate session
+  - app_fnott.norg stub: human confirmed it can be removed; exec strategy is the approach
+
+* Workflow To Apply
+
+  After all files are edited:
+  - Tangle each modified/new norg file
+  - `chezmoi apply`
+  - `systemctl --user disable --now hyprpaper.service hypridle.service`
+  - Reload or start sway, verify waybar modules, mako notifications, swayidle locking
+
+* Reflection
+
+  The most interesting finding was `hypridle.service` — the human named hyprpaper but live system inspection revealed both needed the same treatment. This is the value of checking the real system rather than trusting the config to match it.
+
+  The specification-forward approach worked well here: research first, produce a written plan, let the human annotate, then implement. This avoids the failure mode of previous siblings who "iterated too fast and didn't think deeply enough."

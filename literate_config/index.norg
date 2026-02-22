@@ -45,6 +45,7 @@ version: 1.0.0
    - {:$/desktop_environments/komorebi/whkdrc_config:}[Wkhd Config File] - Hotkey definitions for the Komorebi tiling wm
 ** Desktop Environment Sway
    - {:$/desktop_environments/sway/sway_config:}[Sway Configuration] - Wayland Tile Window Manager for  Arch!
+   - {:$/desktop_environments/sway/waybar:}[Waybar (Sway)] - Status bar configuration for Sway (sway-native modules)
 ** Devcontainers
    - {:$/containers/devcontainer:}[Devcontainer]
 ** Dotfile Management Chezmoi
