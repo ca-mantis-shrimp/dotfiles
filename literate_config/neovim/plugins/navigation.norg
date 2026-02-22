@@ -5,14 +5,29 @@ authors: primary_desktop
 tangle: ../../../dot_config/remove_nvim/lua/remove_plugins/navigation.fnl
 categories: Neovim Plugins
 created: 2025-08-21T20:58:49-0800
-updated: 2025-08-31T10:24:03-0800
+updated: 2026-02-11T21:25:56-0800
 version: 1.1.1
 @end
+* Movement Plugins
 one category of plugins is the act of MOVING around and so we have a few plugins to accomodate that
+  ** Flash
+- flash comes from our god folke and is his take on this hop like experience which can be thought of as the take on the universal navigation plugin for neovim. Folke adds some spice by enabling treesitter coloring and some other goodies such as alternate searching using `f` and `F` so that we can even use this within other movement plugins
+** Oil.nvim
+Oil is the definitive neovim file manager because it works like netrw but way better than i could have hoped because we get to use all of the navigation hotkeys already under our fingers while still being able to handle all of the work necessary to manage the filesystem (for the most part)
+
+** {https://github.com/mrjones2014/smart-splits.nvim?tab=readme-ov-file}[smart-splits]
+   This plugin is great for moving the cursor between splits (even if they are in a multiplexed tab in your editor of choice) or we are wanting to just work through splits in general.
+
+   we use the recommended hotkeys to get this going in {:../config/keymaps:}[the hotkey config]
+
+   includes:
+   - moving the cursor between splits with Ctrl + h/j/k/l
+   - resizing splits with Alt + h/j/k/l
+   - swapping buffers between splits with <leader><leader> + h/j/k/l
+** Code Block
 #tangle 
 @code fennel
-[{1 :ThePrimeagen/harpoon :branch :harpoon2 :lazy true :config true}
- {1 :folke/flash.nvim
+[{1 :folke/flash.nvim
   :even :VeryLazy
   :opts {}
   :keys [{1 :<leader>j :mode [:n :x :o] 2 #((. (require :flash) :jump))}
@@ -22,8 +37,20 @@ one category of plugins is the act of MOVING around and so we have a few plugins
          {1 :<c-s> :mode :c 2 #((. (require :flash) :toggle))}]}
  {1 :stevearc/oil.nvim
   :opts {}
-  :keys [{1 :<leader>O 2 :<cmd>Oil<cr> :desc "Open Oil"}]}]
+  :keys [{1 :<leader>O 2 :<cmd>Oil<cr> :desc "Open Oil"}]}
+ {1 :mrjones2014/smart-splits.nvim
+  :opts {}
+  :keys [{1 :<c-h> 2 #((. (require :smart-splits) :move_cursor_left))}
+         {1 :<c-j> 2 #((. (require :smart-splits) :move_cursor_down))}
+         {1 :<c-k> 2 #((. (require :smart-splits) :move_cursor_up))}
+         {1 :<c-l> 2 #((. (require :smart-splits) :move_cursor_right))}
+         {1 :<A-h> 2 #((. (require :smart-splits) :resize_left))}
+         {1 :<A-j> 2 #((. (require :smart-splits) :resize_down))}
+         {1 :<A-k> 2 #((. (require :smart-splits) :resize_up))}
+         {1 :<A-l> 2 #((. (require :smart-splits) :resize_right))}
+         {1 :<leader><leader>h 2 #((. (require :smart-splits) :swap_buf_left))}
+         {1 :<leader><leader>j 2 #((. (require :smart-splits) :swap_buf_down))}
+         {1 :<leader><leader>k 2 #((. (require :smart-splits) :swap_buf_up))}
+         {1 :<leader><leader>l
+          2 #((. (require :smart-splits) :swap_buf_right))}]}]
 @end
-- harpoon is interesting, it is the only plugin i use from the Primegen, and actually comes from our shared experience as starcraft players, it attempts to bring the idea of location hotkeys to the editor which is both funny that it wasnt there before but also feels fairly dumb when compared to the sophisticated methods we have available to use. still, i find it helpful for putting things so close to my fingers they are just a click away and often i just want to go to a file instead of a specific place in  the file
-- flash comes from our god folke and is his take on this hop like experience which can be thought of as the take on the universal navigation plugin for neovim. Folke adds some spice by enabling treesitter coloring and some other goodies such as alternate searching using `f` and `F` so that we can even use this within other movement plugins
-- finally last but not least is Oil which is the definitive neovim file manager because it works like netrw but way better than i could have hoped because we get to use all of the navigation hotkeys already under our fingers while still being able to handle all of the work necessary to manage the filesystem (for the most part)
