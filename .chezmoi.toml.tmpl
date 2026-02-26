@@ -11,3 +11,9 @@ autoCommit = true
 
 [onepassword]
 mode = "service"
+
+{{ if eq .chezmoi.os "linux" }}
+[hooks.read-source-state.pre]
+    command = "sh"
+    args = ["{{ .chezmoi.sourceDir }}/bootstrap-paru.sh"]
+{{ end }}

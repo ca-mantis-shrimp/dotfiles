@@ -59,6 +59,29 @@ This is necessary because chezmoi is a critical part of holding all of this toge
    - Finally we have autocommit set to true so that whenever we add a change to our config it autocommits the changes to the repo to make the process of updating the config more seamless
    - we use 1password for our password service, and in order to make the {https://www.chezmoi.io/user-guide/password-managers/1password/#sign-in-prompt}[templates work] so we need to set the environment variable and have chezmoi look at it with this option
 
+** Linux Bootstrap Hook
+   On Linux (Arch-based systems), we register a hook that runs before chezmoi reads its
+   source state. This hook installs `paru` (the AUR helper) if it is not already present,
+   which must happen before any template scripts can install AUR packages.
+
+   See `package_management/bootstrap.norg` for the hook script itself.
+
+   The hook command uses `{{ .chezmoi.sourceDir }}` so the path is correct regardless
+   of where the chezmoi source directory is located.
+
+   Using `sh` as the command and passing the script as an argument means the file does not
+   need the executable bit set — this is important because every time `bootstrap.norg` is
+   re-tangled, the generated file is overwritten and would otherwise lose its `+x` permission.
+
+   #tangle
+   @code toml
+   {{ if eq .chezmoi.os "linux" }}
+   [hooks.read-source-state.pre]
+       command = "sh"
+       args = ["{{ .chezmoi.sourceDir }}/bootstrap-paru.sh"]
+   {{ end }}
+   @end
+
 ** implementing changes
    unlike other files, after you make changes to this one and tangle it, you will still need to regenerate it specifically using `chezmoi init` and THEN you can do your traditional `chezmoi apply` workflow
 

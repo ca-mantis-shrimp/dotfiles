@@ -7,7 +7,7 @@ include /etc/sway/config.d/*
 exec mako
 exec walker --gapplication-service
 
-output * bg $HOME/Pictures/mountain_lake.jpg fill
+output * bg $HOME/Pictures/Wallpapers/mountain_lake.jpg fill
 
 output DP-3 resolution 2560x1440@144Hz
 

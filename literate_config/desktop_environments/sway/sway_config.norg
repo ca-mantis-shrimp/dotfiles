@@ -5,7 +5,7 @@ authors: Darrion Burgess
 categories: Desktop Environment Sway
 tangle: ../../../dot_config/sway/config
 created: 2023-12-06T18:57:29-0600
-updated: 2025-07-20T20:03:05-0800
+updated: 2026-02-22T15:27:28-0800
 version: 1.1.1
 @end
 {https://github.com/swaywm/sway}[Sway] is the primary tiling wm for the wayland system that i was able to get working on arch linux
@@ -43,7 +43,7 @@ Read `man 5 sway` for a complete reference.
   Another detail that must be defined is the monitor resolution and layout. important when we starting thinking about things like external monitors so that you can control how it works
   #tangle
   @code bash
-  output * bg $HOME/Pictures/mountain_lake.jpg fill
+  output * bg $HOME/Pictures/Wallpapers/mountain_lake.jpg fill
 
   output DP-3 resolution 2560x1440@144Hz
   @end

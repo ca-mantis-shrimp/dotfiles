@@ -1,0 +1,71 @@
+@document.meta
+title: Paru Bootstrap
+description: Hook script that installs the paru AUR helper before chezmoi reads source state
+authors: primary_desktop
+categories: Package Management Bootstrap
+tangle: ../../bootstrap-paru.sh
+created: 2026-02-25
+updated: 2026-02-25
+version: 0.1.0
+@end
+
+`paru` is the primary AUR helper for this configuration. The problem: paru lives in the AUR,
+so it cannot be installed via pacman, and using `run_onchange_` scripts to install it would
+fail because those scripts are templates — they need paru to already exist before they can
+run. Classic chicken-and-egg.
+
+The solution is chezmoi's `hooks.read-source-state.pre` hook. This hook runs *after*
+`chezmoi init` clones the repository but *before* chezmoi reads the source state and
+evaluates templates. This is the exact right moment to install paru: the repo is available,
+but no template evaluation has happened yet.
+
+The hook script is registered in `.chezmoi.toml.tmpl` (see `chezmoi/config.norg`).
+
+* Detection Strategy
+
+  We detect Arch-based systems using `/etc/arch-release`. This file exists on:
+  - Arch Linux
+  - Manjaro
+  - EndeavourOS
+  - And most other Arch derivatives
+
+  It is a 1-byte marker file — we only test for its existence, not its contents.
+
+  We do NOT use `uname -s` here because that only distinguishes between Linux, macOS,
+  and Windows — it does not identify the distribution.
+
+* Idempotency
+
+  The script exits immediately if `paru` or `yay` is already in `$PATH`. This ensures:
+  - Re-running `chezmoi init` on an already-configured machine does nothing
+  - The hook is safe to run multiple times
+
+* Build Requirements
+
+  Building paru from AUR requires `base-devel` and `git` to be present. These are expected
+  to exist on any Arch installation. `makepkg` must NOT be run as root — this script is
+  designed to run as the logged-in user who has sudo access.
+
+* The Script
+
+  #tangle
+  @code sh
+  #!/bin/sh
+
+  # Only runs on Arch-based systems
+  [ -f /etc/arch-release ] || exit 0
+
+  # Exit if an AUR helper is already installed
+  type paru >/dev/null 2>&1 && exit 0
+  type yay >/dev/null 2>&1 && exit 0
+
+  # Build and install paru from AUR
+  # Requires: base-devel, git (standard on any Arch base install)
+  # Must NOT run as root — makepkg refuses to build as root
+  TMPDIR=$(mktemp -d)
+  cd "$TMPDIR" || exit 1
+  git clone https://aur.archlinux.org/paru.git
+  cd paru || exit 1
+  makepkg -si --noconfirm
+  cd / && rm -rf "$TMPDIR"
+  @end

@@ -1,0 +1,415 @@
+packages:
+  pacman:
+    # --- Base System ---
+    - base
+    - base-devel
+    - sudo
+    - linux
+    - linux-firmware
+    - linux-headers
+    - intel-ucode
+    - man-db
+    - man-pages
+    - logrotate
+    - pkgfile
+
+    # --- Shell & Terminal Experience ---
+    - fish
+    - tmux
+    - starship
+    - fzf
+    - zoxide
+    - fd
+    - ripgrep
+    - most
+    - yazi
+    - lazygit
+
+    # --- Editor ---
+    - neovim
+    - neovide
+    - vim
+
+    # --- Version Control & Dev Tooling ---
+    - git
+    - github-cli
+    - glab
+    - chezmoi
+    - cmake
+    - meson
+    - ninja
+    - mercurial
+    - cvs
+    - pkgstats
+
+    # --- Language Runtimes ---
+    - rust
+    - rust-analyzer
+    - go
+    - nodejs
+    - npm
+    - uv
+    - ruby
+    - ruby-docs
+    - ruby-stdlib
+    - fennel
+    - clisp
+    - tcl
+    - tk
+    - vala
+    - lua51
+    - luarocks
+
+    # --- Formatters & Code Quality ---
+    - stylua
+    - fnlfmt
+    - python-ruff
+    - tombi
+    - tree-sitter-cli
+
+    # --- Python Tooling ---
+    - python-pygments
+    - python-pyopenssl
+    - python-pyvips
+    - python-pyzmq
+    - python-adblock
+    - python-argon2-cffi
+
+    # --- Compositor: Sway Stack ---
+    - sway
+    - sway-contrib
+    - waybar
+    - wofi
+    - mako
+    - wl-clipboard
+    - xclip
+    - xsel
+
+    # --- Compositor: Hyprland Stack ---
+    - hyprland
+    - hypridle
+    - hyprlock
+    - hyprpaper
+    - hyprlauncher
+    - hyprpolkitagent
+    - nwg-look
+    - nwg-shell
+    - nwg-dock-hyprland
+    - xdg-desktop-portal-hyprland
+    - uwsm
+    - layer-shell-qt
+
+    # --- Display & Wayland Infrastructure ---
+    - qt5-wayland
+    - qt6-wayland
+    - qt6-tools
+    - xdg-desktop-portal-gtk
+    - dex
+    - vulkan-mesa-layers
+    - vulkan-validation-layers
+    - vulkan-intel
+    - libva-intel-driver
+    - nvidia-open
+
+    # --- Audio & Bluetooth ---
+    - gst-plugin-pipewire
+    - gst-plugins-good
+    - gst-plugins-bad
+    - gst-libav
+    - pavucontrol
+    - bluez
+    - blueman
+    - bluetui
+    - mpd
+
+    # --- KDE Plasma (secondary DE) ---
+    - plasma-desktop
+    - plasma-workspace
+    - kwin
+    - kwin-x11
+    - sddm
+    - sddm-kcm
+    - plasma-activities
+    - plasma-activities-stats
+    - plasma-nm
+    - plasma-pa
+    - plasma-systemmonitor
+    - plasma-integration
+    - plasma-browser-integration
+    - plasma-firewall
+    - plasma-disks
+    - plasma-vault
+    - plasma-welcome
+    - plasma-keyboard
+    - plasma-login-manager
+    - plasma-thunderbolt
+    - plasma-sdk
+    - plasma5support
+    - kscreen
+    - libkscreen
+    - kscreenlocker
+    - kglobalacceld
+    - kactivitymanagerd
+    - kde-cli-tools
+    - kde-gtk-config
+    - kdeplasma-addons
+    - kinfocenter
+    - kmenuedit
+    - kpipewire
+    - krdp
+    - kwallet-pam
+    - kwayland
+    - kwrited
+    - ksystemstats
+    - ksshaskpass
+    - knighttime
+    - kgamma
+    - bluedevil
+    - powerdevil
+    - polkit-kde-agent
+    - systemsettings
+    - flatpak-kcm
+    - milou
+    - breeze
+    - breeze-gtk
+    - breeze-plymouth
+    - oxygen
+    - oxygen-sounds
+    - ocean-sound-theme
+    - qqc2-breeze-style
+    - kdecoration
+    - wacomtablet
+    - discover
+    - drkonqi
+    - spectacle
+    - kdialog
+    - kgraphviewer
+    - aurorae
+    - libplasma
+    - libksysguard
+
+    # --- Terminal Emulators ---
+    - kitty
+
+    # --- Browsers ---
+    - firefox
+    - qutebrowser
+    - chromium
+    - nyxt
+
+    # --- Text Browsers ---
+    - elinks
+    - lynx
+    - chawan
+
+    # --- Communication ---
+    - signal-desktop
+    - discord
+    - telegram-desktop
+    - thunderbird
+    - kdeconnect
+
+    # --- Media ---
+    - vlc
+    - vlc-plugins-all
+    - obs-studio
+    - yt-dlp
+    - mympd
+    - mopidy
+
+    # --- Office & Documents ---
+    - libreoffice-fresh
+    - evince
+    - mdbook
+    - texinfo
+    - texlive-bin
+
+    # --- File Management ---
+    - thunar
+    - thunar-archive-plugin
+    - thunar-media-tags-plugin
+    - thunar-volman
+    - nautilus-python
+    - tumbler
+    - catfish
+    - ark
+    - xarchiver
+    - engrampa
+    - file-roller
+    - unrar
+    - unzip
+    - sshfs
+    - rsync
+    - wget
+    - fuse-overlayfs
+
+    # --- System Tools ---
+    - fwupd
+    - dkms
+    - sbctl
+    - efitools
+    - edk2-shell
+    - gptfdisk
+    - arch-install-scripts
+    - profile-sync-daemon
+    - tailscale
+    - iwd
+    - ntp
+    - iftop
+    - netdata
+    - nvme-cli
+    - v4l2loopback-dkms
+    - wayvnc
+
+    # --- Security ---
+    - cups-browsed
+    - foomatic-db
+    - foomatic-db-engine
+    - foomatic-db-nonfree
+    - foomatic-db-nonfree-ppds
+    - foomatic-db-ppds
+    - ipp-usb
+    - print-manager
+    - samba
+
+    # --- Productivity ---
+    - khal
+    - chafa
+    - impala
+    - resvg
+    - filezilla
+    - steam
+    - protege
+    - 7zip
+    - cfssl
+    - speedtest-cli
+    - copyparty
+    - pdfjs-legacy
+
+    # --- Fonts: Nerd Fonts (official repos) ---
+    - noto-fonts
+    - noto-fonts-cjk
+    - noto-fonts-emoji
+    - noto-fonts-extra
+    - ttf-opensans
+    - ttf-nerd-fonts-symbols
+    - ttf-nerd-fonts-symbols-mono
+    - otf-aurulent-nerd
+    - otf-codenewroman-nerd
+    - otf-comicshanns-nerd
+    - otf-commit-mono-nerd
+    - otf-droid-nerd
+    - otf-firamono-nerd
+    - otf-geist-mono-nerd
+    - otf-hasklig-nerd
+    - otf-hermit-nerd
+    - otf-monaspace-nerd
+    - otf-opendyslexic-nerd
+    - otf-overpass-nerd
+    - ttf-0xproto-nerd
+    - ttf-3270-nerd
+    - ttf-agave-nerd
+    - ttf-anonymouspro-nerd
+    - ttf-arimo-nerd
+    - ttf-bigblueterminal-nerd
+    - ttf-bitstream-vera-mono-nerd
+    - ttf-cascadia-code-nerd
+    - ttf-cascadia-mono-nerd
+    - ttf-cousine-nerd
+    - ttf-d2coding-nerd
+    - ttf-daddytime-mono-nerd
+    - ttf-dejavu-nerd
+    - ttf-envycoder-nerd
+    - ttf-fantasque-nerd
+    - ttf-firacode-nerd
+    - ttf-gohu-nerd
+    - ttf-go-nerd
+    - ttf-hack-nerd
+    - ttf-heavydata-nerd
+    - ttf-iawriter-nerd
+    - ttf-ibmplex-mono-nerd
+    - ttf-inconsolata-go-nerd
+    - ttf-inconsolata-lgc-nerd
+    - ttf-inconsolata-nerd
+    - ttf-intone-nerd
+    - ttf-iosevka-nerd
+    - ttf-iosevkaterm-nerd
+    - ttf-iosevkatermslab-nerd
+    - ttf-jetbrains-mono-nerd
+    - ttf-lekton-nerd
+    - ttf-liberation-mono-nerd
+    - ttf-lilex-nerd
+    - ttf-martian-mono-nerd
+    - ttf-meslo-nerd
+    - ttf-monofur-nerd
+    - ttf-monoid-nerd
+    - ttf-mononoki-nerd
+    - ttf-mplus-nerd
+    - ttf-noto-nerd
+    - ttf-profont-nerd
+    - ttf-proggyclean-nerd
+    - ttf-recursive-nerd
+    - ttf-roboto-mono-nerd
+    - ttf-sharetech-mono-nerd
+    - ttf-sourcecodepro-nerd
+    - ttf-space-mono-nerd
+    - ttf-terminus-nerd
+    - ttf-tinos-nerd
+    - ttf-ubuntu-mono-nerd
+    - ttf-ubuntu-nerd
+    - ttf-victor-mono-nerd
+    - ttf-zed-mono-nerd
+    - hunspell-en_us
+
+  aur:
+    # --- AUR packages ---
+    # paru is NOT here — it is bootstrapped separately before this script runs
+
+    # --- Password & Security ---
+    - 1password
+
+    # --- Desktop Environment Extras ---
+    - ashell
+    - pear-desktop
+    - sysd-manager
+    - walker
+
+    # --- AUR Browsers ---
+    - brave-bin
+    - librewolf-bin
+
+    # --- Display & Hardware ---
+    - displaylink
+    - evdi-dkms
+
+    # --- Audio ---
+    - pwvucontrol
+    - mopidy-iris
+    - mopidy-mpd
+
+    # --- Utilities ---
+    - nvimpager
+    - nerdfetch
+    - elephant
+    - elephant-archlinuxpkgs
+    - elephant-bluetooth
+    - elephant-clipboard
+    - elephant-desktopapplications
+    - elephant-files
+    - topiary
+    - js-beautify
+    - browsh
+    - iwqt
+    - wpa_supplicant_gui
+    - external-editor-revived
+    - youtube-dl
+
+    # --- Compatibility ---
+    - libwireplumber-4.0-compat
+    - libgnome-keyring
+    - qt5-webchannel
+    - qt-sudo
+    - python-uritools
+
+    # --- AUR Backup AUR Helper ---
+    - yay
