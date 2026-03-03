@@ -21,3 +21,4 @@ Dockerfile
 *.lua
 **.*.fnl
 LLM/
+Archive/

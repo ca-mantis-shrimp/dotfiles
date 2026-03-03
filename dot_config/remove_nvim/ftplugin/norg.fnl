@@ -1,4 +1,4 @@
-((. (require :config.utils) :setup_treesitter_full))
+((. (require :config.utils) :setup_treesitter.full))
 
 (set _G.vim.opt_local.wrap true)
 (set _G.vim.opt_local.spell true)
@@ -8,4 +8,3 @@
 (_G.vim.keymap.set :n :<localLeader>gf
                    #((. (require :conform) :format) {:formatters [:injected]})
                    {:buffer true :desc "Format norg code blocks"})
-
