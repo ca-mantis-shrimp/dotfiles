@@ -1,1 +1,1 @@
-((. (require :config.utils) :setup_treesitter.full))
+((. (require :config.utils) :setup_treesitter :full))

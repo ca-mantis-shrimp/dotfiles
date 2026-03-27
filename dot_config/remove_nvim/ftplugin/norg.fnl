@@ -1,4 +1,4 @@
-((. (require :config.utils) :setup_treesitter.full))
+((. (require :config.utils) :setup_treesitter :full))
 
 (set _G.vim.opt_local.wrap true)
 (set _G.vim.opt_local.spell true)
