@@ -1,41 +1,40 @@
-_G.vim.opt.exrc = true
-_G.vim.opt.autochdir = true
-_G.vim.opt.mouse = "a"
-_G.vim.opt.showmode = false
-_G.vim.opt.undofile = true
-_G.vim.opt.updatetime = 250
-_G.vim.filetype.add({ extension = { http = "http" } })
-_G.vim.g.mapleader = " "
-_G.vim.g.maplocalleader = ","
-_G.vim.opt.ignorecase = true
-_G.vim.opt.smartcase = true
-_G.vim.opt.inccommand = "split"
-_G.vim.opt.hlsearch = true
-_G.vim.opt.timeoutlen = 300
-_G.vim.opt.formatexpr = "require'conform'.formatexpr()"
-_G.vim.lsp.enable({
-	"lua_ls",
-	"fennel_language_server",
-	"pyright",
-	"fish-lsp",
-	"systemd_lsp",
-	"powershell_es",
-	"jsonls",
-	"clojure_lsp",
-	"rust_analyzer",
+vim.opt.exrc = true
+vim.opt.autochdir = true
+vim.opt.mouse = "a"
+vim.opt.showmode = false
+vim.opt.undofile = true
+vim.opt.updatetime = 250
+vim.filetype.add({ extension = { http = "http" } })
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.inccommand = "split"
+vim.opt.hlsearch = true
+vim.opt.timeoutlen = 300
+vim.opt.formatexpr = "require'conform'.formatexpr()"
+vim.lsp.enable({
+  "lua_ls",
+  "pyright",
+  "fish-lsp",
+  "systemd_lsp",
+  "powershell_es",
+  "jsonls",
+  "clojure_lsp",
+  "rust_analyzer",
 })
-_G.vim.diagnostic.config({ virtual_text = { current_line = true }, virtual_lines = true })
-_G.vim.o.winborder = "rounded"
-_G.vim.opt.splitright = true
-_G.vim.opt.splitbelow = true
-_G.vim.opt.list = true
-_G.vim.opt.listchars = { tab = "\194\187 ", trail = "\194\183", nbsp = "\226\144\163" }
-_G.vim.opt.signcolumn = "yes"
-_G.vim.opt.cursorline = true
-_G.vim.opt.scrolloff = 10
-_G.vim.opt.breakindent = true
-_G.vim.opt.number = true
-_G.vim.opt.relativenumber = true
-_G.vim.g.have_nerd_font = true
-_G.vim.g.neovide_scale_factor = 1.0
+vim.diagnostic.config({ virtual_text = { current_line = true }, virtual_lines = true })
+vim.o.winborder = "rounded"
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.list = true
+vim.opt.listchars = { tab = "\194\187 ", trail = "\194\183", nbsp = "\226\144\163" }
+vim.opt.signcolumn = "yes"
+vim.opt.cursorline = true
+vim.opt.scrolloff = 10
+vim.opt.breakindent = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.g.have_nerd_font = true
+vim.g.neovide_scale_factor = 1.0
 return nil

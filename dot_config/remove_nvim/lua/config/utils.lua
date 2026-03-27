@@ -1,11 +1,10 @@
--- [nfnl] dot_config/remove_nvim/lua/config/utils.fnl
 local M = {}
 local function _1_()
-  return _G.vim.fn.has("win32")
+  return vim.fn.has("win32")
 end
 M.is_windows = _1_
 local function _2_()
-  return _G.vim.fn.exists("g:vscode")
+  return vim.fn.exists("g:vscode")
 end
 M.is_vscode = _2_
 do
@@ -33,6 +32,6 @@ do
     folding()
     return indent()
   end
-  M.setup_treesitter = {highlight = highlight, folding = folding, indent = indent, full = _6_}
+  M.setup_treesitter = { highlight = highlight, folding = folding, indent = indent, full = _6_ }
 end
 return M
