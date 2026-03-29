@@ -20,4 +20,9 @@ end
 
 starship init fish | source
 
+#if on termux, append locally installed cargo binaries to PATH
+{{ if eq .chezmoi.os "android" }}
+set -xg PATH "$HOME/.cargo/bin:$PATH"
+{{ end }}
+
 nerdfetch
