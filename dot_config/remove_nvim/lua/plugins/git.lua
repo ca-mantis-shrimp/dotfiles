@@ -1,20 +1,18 @@
-return {
-  {
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "\226\128\190" },
-        changedelete = { text = "~" },
-      },
-    },
+vim.pack.add({
+  "https://github.com/lewis6991/gitsigns.nvim",
+  "https://github.com/NeogitOrg/neogit",
+  "https://github.com/sindrets/diffview.nvim",
+})
+
+require("gitsigns").setup({
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "_" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
   },
-  {
-    "NeogitOrg/neogit",
-    dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim", "nvim-telescope/telescope.nvim" },
-    config = true,
-    keys = { { "<leader>g", "<cmd>Neogit<CR>", desc = "NeoGit" } },
-  },
-}
+})
+
+require("neogit").setup()
+vim.keymap.set("n", "<leader>g", "<cmd>Neogit<CR>", { desc = "NeoGit" })

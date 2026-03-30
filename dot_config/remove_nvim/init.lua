@@ -1,20 +1,30 @@
-local function lazy_bootstrap()
-  local lazypath = (vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
-  if not vim.loop.fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  else
-  end
-  return vim.opt.rtp:prepend(lazypath)
-end
 require("config.options")
 require("config.utils")
-lazy_bootstrap()
-do
-  local lazy = require("lazy")
-  local setup_opts =
-    { spec = { { import = "plugins" }, { import = "plugins.platforms" } }, dev = { path = "~/Products" } }
-  lazy.setup(setup_opts)
+
+-- local plugins managed outside vim.pack
+vim.opt.rtp:prepend(vim.fn.expand("~/Products/tree-sitter-actions"))
+
+-- wrap plugin loads so first-run installation is graceful
+-- on first run vim.pack installs plugins but they aren't available until restart
+local function load(mod)
+  local ok, err = pcall(require, mod)
+  if not ok and not err:find("not found", 1, true) then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
 end
+
+load("plugins.platforms.mini")
+load("plugins.platforms.snacks")
+load("plugins.platforms.treesitter")
+load("plugins.platforms.blink")
+load("plugins.platforms.conform")
+load("plugins.libs")
+load("plugins.colorschemes")
+load("plugins.git")
+load("plugins.navigation")
+load("plugins.LLM")
+load("plugins.prose")
+load("plugins.clearhead")
+
 require("config.keymaps")
-return require("config.autocmds")
+require("config.autocmds")

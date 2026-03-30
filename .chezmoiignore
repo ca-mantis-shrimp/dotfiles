@@ -11,7 +11,7 @@ dot_bashrc*
 dot_local/
 {{ end }}
 
-literate_config/
+archive/
 wiki/
 intentions/*
 Session.vim

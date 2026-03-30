@@ -1,20 +1,30 @@
-# Personal Configuration
-This is the site of my own personal computer configuration.
+# Personal Dotfiles
 
-The vision is deep and has been worked on for years.
+This is a very intimate product, this is my primary config that is meant to be portable between machines.
 
-One of the biggest missions, is the mission to create a proper literate config at [the literate config folder](./literate_config/index.norg) which is a series of norg files which are supposed to not only contain the code, but the explanations for that code so that the proper context is given and decisions made can be used when talking about this work
+This means we are both altering the config as well as altering the machine as well
 
-# Non-config architecture
-as for the user directory itself, we usually have a few key directories we use amongst the various operating systems that can be assumed to exist:
-- `Downloads` the venerable Downloads folder where all things from the internet usually reside
-- `Documents` Space for where we store stuff that doesnt fit in a repository for version control
-- `Pictures` the standard pictures folder where screenshots and other visual mediums are kept
-- `Products` The list of our various products we maintain, either personal or work products
-- `neorg` is the main workspace for my personal notes and goals
-- `knowledge` is my ever-green workspace full of knowledge on 
-- `Experiments` the folder of code that is not version controlled because it is meant as throw-away code/projects. There might be loose scripts, half-baked products, and none of it will be version controlled because this is where we keep stuff
+## Big Produts
 
-Otherwise, the file conventions of the operating system itself are respected so:
-- config is in `.config` on linux and `AppData` on windows
-- different files maybe be present based on if we are in a work or personal computer
+We have a few big things that we use to manage the structure:
+- [chezmoi](https://www.chezmoi.io/) - This is the main product that manages the dotfiles, it is a great product that allows us to manage our dotfiles in a way that is portable between machines.
+- [neovim](https://neovim.io/) - This is a great tool for custom configurations and is meant to be portable between machines.
+  - [neovide](https://neovide.dev/) - This is a great gui for neovim that allows us to have a more graphical experience with neovim, it is a great product that allows us to have a more graphical experience with neovim.
+- [fish](https://fishshell.com/) - We try to keep this relatively minimal but it can be necessary for custom commands and path alterations.
+- [tailscale](https://tailscale.com/) - This is a vpn that allows us to connect our machines together in a secure way, it is a great product that allows us to access our machines from anywhere.
+- [ghostty](https://ghostty.org/) - our terminal emulator of choice that is modern and gpu accelerated
+
+### Context
+
+Now here is the current state of the machines we need to operate with:
+
+1. the desktop: an arch linux desktop running an nvidia gpu, intel cpu, and is considered the core of the setup
+2. tiny server: a small arch machine that is used for testing and as a part of my modular laptop: full amd cpu and gpu combination in a little box
+3. the phone: on android we are either running termux or even another arch proot distro to be able to do local-first development on the phone, this is a bit of a stretch but it is a fun experiment to see how far we can take it
+4. work laptop: i have a windows machine but it has the windows subsystem for linux so im always going back and forth on how much we should freak out about the windows side or if we just should work entirely from WSL 
+
+#### Pedantic Details
+
+Finally for solid small details, we have fully transitioned to wayland as our backend where relevant. 
+
+and while we have kde and gnome as backup desktop displays, we are really workin with [hyprland](https://hypr.land/) as our primary display manager

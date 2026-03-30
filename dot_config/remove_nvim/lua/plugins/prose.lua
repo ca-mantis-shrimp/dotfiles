@@ -1,8 +1,3 @@
-return {
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { { "nvim-treesitter/nvim-treesitter" } },
-    opts = { file_types = { "markdown", "Avante" } },
-    ft = { "markdown", "Avante" },
-  },
-}
+vim.pack.add({ "https://github.com/MeanderingProgrammer/render-markdown.nvim" })
+
+require("render-markdown").setup({ file_types = { "markdown", "Avante" } })

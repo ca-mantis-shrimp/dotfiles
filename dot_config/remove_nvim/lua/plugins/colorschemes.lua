@@ -1,4 +1,6 @@
-local function _1_()
-  return vim.cmd.colorscheme("tokyonight-night")
-end
-return { { "projekt0n/github-nvim-theme" }, { "folke/tokyonight.nvim", priority = 1000, init = _1_ } }
+vim.pack.add({
+  "https://github.com/projekt0n/github-nvim-theme",
+  "https://github.com/folke/tokyonight.nvim",
+})
+
+vim.cmd.colorscheme("tokyonight-night")

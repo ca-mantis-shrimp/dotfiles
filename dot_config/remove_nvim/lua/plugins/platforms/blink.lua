@@ -1,13 +1,12 @@
-return {
-  "saghen/blink.cmp",
-  dependencies = { "rafamadriz/friendly-snippets" },
-  version = "1.*",
-  opts = {
-    keymap = { preset = "default" },
-    appearance = { nerd_font_variant = "mono" },
-    completion = { documentation = { auto_show = false } },
-    sources = { default = { "lsp", "path", "snippets", "buffer" } },
-    fuzzy = { implementation = "prefer_rust_with_warning" },
-  },
-  opts_extend = { "sources.default" },
-}
+vim.pack.add({
+  "https://github.com/saghen/blink.cmp",
+  "https://github.com/rafamadriz/friendly-snippets",
+})
+
+require("blink.cmp").setup({
+  keymap = { preset = "default" },
+  appearance = { nerd_font_variant = "mono" },
+  completion = { documentation = { auto_show = false } },
+  sources = { default = { "lsp", "path", "snippets", "buffer" } },
+  fuzzy = { implementation = "lua" },
+})

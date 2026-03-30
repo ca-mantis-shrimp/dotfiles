@@ -37,4 +37,3 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.g.have_nerd_font = true
 vim.g.neovide_scale_factor = 1.0
-return nil
