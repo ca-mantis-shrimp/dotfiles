@@ -1,5 +1,4 @@
 vim.opt.exrc = true
-vim.opt.autochdir = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
 vim.opt.undofile = true
