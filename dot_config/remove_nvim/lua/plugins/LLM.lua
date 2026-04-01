@@ -1,6 +1,6 @@
 vim.pack.add({
   "https://github.com/github/copilot.vim",
-  { src = "https://github.com/greggh/claude-code.nvim", version = "55c0cb59828fbc3bec744288286a46f5d5750b83" },
+  { src = "https://github.com/greggh/claude-code.nvim" },
   "https://github.com/folke/sidekick.nvim",
 })
 
