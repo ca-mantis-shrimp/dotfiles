@@ -1,10 +1,3 @@
--- Persistence.nvim work
-vim.pack.add({ "https://github.com/folke/persistence.nvim" })
-
-require("persistence").setup({
-  options = { "buffers", "curdir", "tabpages", "winsize" },
-})
-
 -- snacks plugin collecton
 vim.pack.add({ "https://github.com/folke/snacks.nvim" })
 
@@ -16,7 +9,6 @@ require("snacks").setup({
       { icon = "", title = "Keymaps", section = "keys" },
       { icon = "", title = "Recent Files", section = "recent_files" },
       { icon = "", title = "Projects", section = "projects" },
-      { section = "session", title = "Sessions" },
     },
   },
   explorer = { enabled = true },

@@ -1,37 +1,29 @@
 local M = {}
-local function _1_()
-  return vim.fn.has("win32")
+
+M.is_windows = function()
+  return vim.fn.has("win32") == 1
 end
-M.is_windows = _1_
-local function _2_()
-  return vim.fn.exists("g:vscode")
+M.is_vscode = function()
+  return vim.fn.exists("g:vscode") == 1
 end
-M.is_vscode = _2_
-do
-  local highlight
-  local function _3_()
-    return vim.treesitter.start()
-  end
-  highlight = _3_
-  local folding
-  local function _4_()
-    local wo = vim.wo[0][0]
-    wo["foldexpr"] = "v:lua.vim.treesitter.foldexpr()"
-    wo["foldmethod"] = "expr"
-    return nil
-  end
-  folding = _4_
-  local indent
-  local function _5_()
-    vim.bo["indentexpr"] = "v:lua.require'nvim-treesitter'.indentexpr()"
-    return nil
-  end
-  indent = _5_
-  local function _6_()
-    highlight()
-    folding()
-    return indent()
-  end
-  M.setup_treesitter = { highlight = highlight, folding = folding, indent = indent, full = _6_ }
+
+local ts = {}
+
+ts.highlight = function()
+  vim.treesitter.start()
 end
+
+ts.folding = function()
+  local wo = vim.wo[0][0]
+  wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  wo.foldmethod = "expr"
+end
+
+ts.full = function()
+  ts.highlight()
+  ts.folding()
+end
+
+M.setup_treesitter = ts
+
 return M
