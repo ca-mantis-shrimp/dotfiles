@@ -6,9 +6,10 @@ require("snacks").setup({
   dashboard = {
     sections = {
       { section = "header" },
-      { icon = "", title = "Keymaps", section = "keys" },
-      { icon = "", title = "Recent Files", section = "recent_files" },
-      { icon = "", title = "Projects", section = "projects" },
+      { icon = "⌨️", title = "Keymaps", section = "keys" },
+      { icon = "", title = "Recent Files", section = "recent_files" },
+      { icon = "📁", title = "Projects", section = "projects" },
+      { icon = "󰜉", title = "Sessions", section = "session" },
     },
   },
   explorer = { enabled = true },

@@ -49,9 +49,27 @@ wk.add({
 -- my cute journalin system in a single hotkey
 wk.add({
   { "<leader>j", group = "[j]ournal" },
-  { "<leader>jt", open_journal(0), desc = "[j]ournal for [t]oday" },
-  { "<leader>jy", open_journal(-1), desc = "[j]ournal for [y]esterday" },
-  { "<leader>jT", open_journal(1), desc = "[j]ournal for [T]omorrow" },
+  {
+    "<leader>jt",
+    function()
+      open_journal(0)
+    end,
+    desc = "[j]ournal for [t]oday",
+  },
+  {
+    "<leader>jy",
+    function()
+      open_journal(-1)
+    end,
+    desc = "[j]ournal for [y]esterday",
+  },
+  {
+    "<leader>jT",
+    function()
+      open_journal(1)
+    end,
+    desc = "[j]ournal for [T]omorrow",
+  },
 })
 wk.add({
   { "<leader><tab>", group = "[tab]s" },
