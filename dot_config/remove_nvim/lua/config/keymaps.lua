@@ -2,8 +2,9 @@ local wk = require("which-key")
 
 --- Opens todays journal entry, creating it if it doesn't exist. Journal entries are stored in ~/journal/years/YYYY/MM/DD.md
 --- Doing this to replace the neorg journal module with a single function
-local function open_journal_today()
-  local current_date = os.date("*t")
+local function open_journal(offset)
+  -- we calculate the date based on the current date and the offset, which is in days, so we multiply it by 86400 to get the number of seconds
+  local current_date = os.date("*t", os.time() + offset * 86400)
   local path = vim.fn.expand(
     string.format("~/journal/years/%04d/%02d/%02d.md", current_date.year, current_date.month, current_date.day)
   )
@@ -24,8 +25,10 @@ wk.add({
   { "<leader>t", group = "[t]est" },
   { "<leader>i", group = "[I]ntentions" },
   { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
-  { "<Esc>", "<cmd>nohlsearch<CR>", desc = "Remove Search Highlighting on Escape" },
-  { "<Esc><Esc>", "<C-\\><C-n>", mode = "t", desc = "[Esc]ape terminal mode" },
+})
+
+-- lsp hotkeys need to be defined separately but we can use existing APIs to do the work which is why we dont need an autocmd for these they just dont work until an lsp client is attached to the buffer and then they work without any extra configuration
+wk.add({
   {
     "[d",
     function()
@@ -43,9 +46,12 @@ wk.add({
   { "<leader>q", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" },
 })
 
+-- my cute journalin system in a single hotkey
 wk.add({
   { "<leader>j", group = "[j]ournal" },
-  { "<leader>jj", open_journal_today, desc = "Open today's [j]ournal" },
+  { "<leader>jt", open_journal(0), desc = "[j]ournal for [t]oday" },
+  { "<leader>jy", open_journal(-1), desc = "[j]ournal for [y]esterday" },
+  { "<leader>jT", open_journal(1), desc = "[j]ournal for [T]omorrow" },
 })
 wk.add({
   { "<leader><tab>", group = "[tab]s" },
@@ -102,6 +108,10 @@ end, { desc = "Increase Neovide scale factor" })
 vim.keymap.set("n", "<C-->", function()
   change_scale_factor(1 / 1.25)
 end, { desc = "Decrease Neovide scale factor" })
-return vim.keymap.set("n", "<C-[>", function()
+vim.keymap.set("n", "<C-[>", function()
   vim.g.neovide_scale_factor = 1
 end, { desc = "Reset Neovide scale factor" })
+
+-- we do these little escape hotkeys to either clear search highlights or to exit terminal mode without having to reach for the escape key twice, which is a common pain point for me when using neovim in the terminal since I have to use escape sequences to get out of terminal mode and it can be a bit finicky
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Remove Search Highlighting on Escape" })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "[Esc]ape terminal mode" })
