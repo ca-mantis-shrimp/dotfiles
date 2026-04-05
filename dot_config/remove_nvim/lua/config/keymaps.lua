@@ -1,42 +1,90 @@
-do
-  local wk = require("which-key")
-  local function _1_()
-    return vim.cmd.edit({
-      args = { (vim.fn.fnamemodify(vim.fn.stdpath("data"), ":h") .. "/clhd/active.actions") },
-    })
+local wk = require("which-key")
+
+--- Opens todays journal entry, creating it if it doesn't exist. Journal entries are stored in ~/journal/years/YYYY/MM/DD.md
+--- Doing this to replace the neorg journal module with a single function
+local function open_journal_today()
+  local current_date = os.date("*t")
+  local path = vim.fn.expand(
+    string.format("~/journal/years/%04d/%02d/%02d.md", current_date.year, current_date.month, current_date.day)
+  )
+  vim.fn.mkdir(vim.fn.fnamemodify(path, ":h"), "p")
+  if vim.fn.filereadable(path) == 0 then
+    vim.fn.writefile(
+      { string.format("# %04d-%02d-%02d", current_date.year, current_date.month, current_date.day), "" },
+      path
+    )
   end
-  local function _2_()
-    return vim.diagnostic.goto_prev()
-  end
-  local function _3_()
-    return vim.diagnostic.goto_next()
-  end
-  local function _4_()
-    return vim.diagnostic.setloclist()
-  end
-  wk.add({
-    { "<leader>u", group = "[u]i" },
-    { "<leader>s", group = "[s]earch" },
-    { "<leader>t", group = "[t]est" },
-    { "<leader>n", group = "[N]eorg" },
-    { "<leader><tab>", group = "[tab]s" },
-    { "<leader>i", group = "[I]ntentions" },
-    { "<leader>ie", _1_, desc = "Edit clearhead actions file" },
-    { "<leader><tab><tab>", "<cmd>tabnew<CR>", desc = "Create New [tab]" },
-    { "<leader><tab><Del>", "<cmd>tabclose<CR>", desc = "[Del]ete Current Tab" },
-    { "<leader><tab>n", "<cmd>tabNext<CR>", desc = "[n]ext Tab" },
-    { "<leader><tab>p", "<cmd>tabprevious<CR>", desc = "[p]revious Tab" },
-    { "<leader><tab>r", "<cmd>tcd -<CR>", desc = "CD to previous directory in current tab" },
-    { "<leader>h", desc = "Git [H]unk", mode = "v" },
-    { "<Esc>", "<cmd>nohlsearch<CR>", desc = "Remove Search Highlighting on Escape" },
-    { "<Esc><Esc>", "<C-\\><C-n>", mode = "t", desc = "[Esc]ape terminal mode" },
-    { "[d", _2_, desc = "Go to previous [D]iagnostic message" },
-    { "]d", _3_, desc = "Go to next [D]iagnostic message" },
-    { "<leader>q", _4_, desc = "Open diagnostic [Q]uickfix list" },
-    { "<leader>un", "<cmd>NoiceDismiss<cr>", desc = "Dismiss All Notifications" },
-    { "<leader>l", "<cmd>Lazy<CR>", desc = "Start Lazy" },
-  })
+  vim.cmd.edit(path)
 end
+
+-- By keeping the core keymaps in a which-key invocation we ensure the UI is built properly on startup
+wk.add({
+  { "<leader>u", group = "[u]i" },
+  { "<leader>s", group = "[s]earch" },
+  { "<leader>t", group = "[t]est" },
+  { "<leader>i", group = "[I]ntentions" },
+  { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
+  { "<Esc>", "<cmd>nohlsearch<CR>", desc = "Remove Search Highlighting on Escape" },
+  { "<Esc><Esc>", "<C-\\><C-n>", mode = "t", desc = "[Esc]ape terminal mode" },
+  {
+    "[d",
+    function()
+      vim.diagnostic.jump({ count = -1 })
+    end,
+    desc = "Go to previous [D]iagnostic message",
+  },
+  {
+    "]d",
+    function()
+      vim.diagnostic.jump({ count = 1 })
+    end,
+    desc = "Go to next [D]iagnostic message",
+  },
+  { "<leader>q", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" },
+})
+
+wk.add({
+  { "<leader>j", group = "[j]ournal" },
+  { "<leader>jj", open_journal_today, desc = "Open today's [j]ournal" },
+})
+wk.add({
+  { "<leader><tab>", group = "[tab]s" },
+  { "<leader><tab><tab>", "<cmd>tabnew<CR>", desc = "Create New [tab]" },
+  { "<leader><tab><Del>", "<cmd>tabclose<CR>", desc = "[Del]ete Current Tab" },
+  { "<leader><tab>n", "<cmd>tabNext<CR>", desc = "[n]ext Tab" },
+  { "<leader><tab>p", "<cmd>tabprevious<CR>", desc = "[p]revious Tab" },
+  { "<leader><tab>r", "<cmd>tcd -<CR>", desc = "CD to previous directory in current tab" },
+})
+
+-- our minimal package manager keymaps, we can expand on these as we add more functionality but for now we just need update and clean commands
+wk.add({
+  { "<leader>p", group = "[p]ack" },
+  {
+    "<leader>pu",
+    function()
+      vim.pack.update()
+    end,
+    desc = "Update all packages",
+  },
+  {
+    "<leader>pc",
+    function()
+      vim.pack.del(vim
+        .iter(vim.pack.get())
+        :filter(function(x)
+          return not x.active
+        end)
+        :map(function(x)
+          return x.spec.name
+        end)
+        :totable())
+    end,
+    desc = "clean all unused packages",
+  },
+})
+
+-- Navigation Keymaps that dont use leader keys dont need to be tested with which-key, so we can register them directly
+-- largely replaces fancy window management plugins like smart-splits since we dont need tmux integration
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
@@ -46,16 +94,14 @@ local function change_scale_factor(delta)
   vim.g.neovide_scale_factor = (vim.g.neovide_scale_factor * delta)
   return nil
 end
-local function _5_()
-  return change_scale_factor(1.25)
-end
-vim.keymap.set("n", "<C-=>", _5_)
-local function _6_()
-  return change_scale_factor((1 / 1.25))
-end
-vim.keymap.set("n", "<C-->", _6_)
-local function _7_()
+
+-- we have to do some special hotkeys for when we are using a GUI client to adjust the scale factor which goes into how we actually zoom in and out
+vim.keymap.set("n", "<C-=>", function()
+  change_scale_factor(1.25)
+end, { desc = "Increase Neovide scale factor" })
+vim.keymap.set("n", "<C-->", function()
+  change_scale_factor(1 / 1.25)
+end, { desc = "Decrease Neovide scale factor" })
+return vim.keymap.set("n", "<C-[>", function()
   vim.g.neovide_scale_factor = 1
-  return nil
-end
-return vim.keymap.set("n", "<C-[>", _7_)
+end, { desc = "Reset Neovide scale factor" })

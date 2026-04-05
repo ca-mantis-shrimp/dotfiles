@@ -1,9 +1,0 @@
-require("config.utils").setup_treesitter.full()
-vim.opt_local.wrap = true
-vim.opt_local.spell = true
-vim.opt_local.spelllang = { "en_us" }
-vim.opt_local.conceallevel = 2
-local function _1_()
-  return require("conform").format({ formatters = { "injected" } })
-end
-return vim.keymap.set("n", "<localLeader>gf", _1_, { buffer = true, desc = "Format norg code blocks" })

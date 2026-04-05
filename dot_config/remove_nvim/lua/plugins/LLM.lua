@@ -1,10 +1,7 @@
 vim.pack.add({
   "https://github.com/github/copilot.vim",
-  { src = "https://github.com/greggh/claude-code.nvim" },
   "https://github.com/folke/sidekick.nvim",
 })
-
-require("claude-code").setup()
 
 require("sidekick").setup()
 vim.keymap.set({ "n", "i", "x" }, "<tab>", function()

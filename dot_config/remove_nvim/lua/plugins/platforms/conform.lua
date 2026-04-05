@@ -9,7 +9,6 @@ require("conform").setup({
     jsonc = { "jq" },
     toml = { "tombi" },
     javascript = { "js_beautify" },
-    norg = { "injected" },
   },
   format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
 })
