@@ -20,6 +20,7 @@ end
 
 starship init fish | source
 
+# Only run nerdfetch if we're in an interactive terminal
 if status is-interactive && isatty stdout
     nerdfetch
 end
