@@ -4,27 +4,23 @@ require("config.utils")
 -- local plugins managed outside vim.pack
 vim.opt.rtp:prepend(vim.fn.expand("~/Products/tree-sitter-actions"))
 
--- wrap plugin loads so first-run installation is graceful
--- on first run vim.pack installs plugins but they aren't available until restart
-local function load(mod)
-  local ok, err = pcall(require, mod)
-  if not ok and not err:find("not found", 1, true) then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end
+-- Probably the primary thing that needs to be loaded FIRST as if there are deps they likely live here
+require("plugins.libs")
 
-load("plugins.platforms.mini")
-load("plugins.platforms.snacks")
-load("plugins.platforms.treesitter")
-load("plugins.platforms.blink")
-load("plugins.platforms.conform")
-load("plugins.libs")
-load("plugins.colorschemes")
-load("plugins.git")
-load("plugins.navigation")
-load("plugins.LLM")
-load("plugins.prose")
-load("plugins.clearhead")
+-- Large platform plugins mean that these are the more impactful elements of the config and should be considered on their own
+require("plugins.platforms.mini")
+require("plugins.platforms.snacks")
+require("plugins.platforms.blink")
+require("plugins.platforms.conform")
 
+-- Next we go into the vertical slice use-case plugins, these are more focused on a specific use-case and may be a collection of different plugins based on the use-case
+require("plugins.colorschemes")
+require("plugins.git")
+require("plugins.navigation")
+require("plugins.LLM")
+require("plugins.prose")
+require("plugins.clearhead")
+
+-- Finally, we set keymaps and autocmds last because they may depend on plugins being loaded and configured first, and we want to ensure that all plugins are available before we set up keymaps and autocmds that may rely on them.
 require("config.keymaps")
 require("config.autocmds")

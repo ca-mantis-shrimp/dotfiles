@@ -5,7 +5,7 @@ local clearhead = require("clearhead")
 clearhead.setup({})
 
 vim.keymap.set("n", "<leader>ti", "<cmd>ClearheadInbox<CR>", { desc = "Open Clearhead inbox" })
-vim.keymap.set("n", "<leader>to", "<cmd>ClearheadOpenDir<CR>", { desc = "Open .actions in current dir" })
+vim.keymap.set("n", "<leader>to", "<cmd>ClearheadWorkspace<CR>", { desc = "Open .actions in current dir" })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "actions",
