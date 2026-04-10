@@ -11,6 +11,7 @@ vim.opt.smartcase = true
 vim.opt.inccommand = "split"
 vim.opt.hlsearch = true
 vim.opt.timeoutlen = 300
+vim.opt.cmdheight = 0 -- hide the command line unless needed
 vim.opt.formatexpr = "require'conform'.formatexpr()"
 vim.lsp.enable({
   "lua_ls",

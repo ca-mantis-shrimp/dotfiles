@@ -12,6 +12,7 @@ require("plugins.platforms.mini")
 require("plugins.platforms.snacks")
 require("plugins.platforms.blink")
 require("plugins.platforms.conform")
+require("plugins.platforms.treesitter")
 
 -- Next we go into the vertical slice use-case plugins, these are more focused on a specific use-case and may be a collection of different plugins based on the use-case
 require("plugins.colorschemes")
@@ -24,3 +25,6 @@ require("plugins.clearhead")
 -- Finally, we set keymaps and autocmds last because they may depend on plugins being loaded and configured first, and we want to ensure that all plugins are available before we set up keymaps and autocmds that may rely on them.
 require("config.keymaps")
 require("config.autocmds")
+
+-- trying out the new ui2 of vim
+require("vim._core.ui2").enable({})
