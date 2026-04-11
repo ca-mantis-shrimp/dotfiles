@@ -16,6 +16,7 @@ require("plugins.platforms.snacks")
 require("plugins.platforms.blink")
 require("plugins.platforms.conform")
 require("plugins.platforms.codecompanion")
+--require("plugins.platforms.avante")
 
 -- Next we go into the vertical slice use-case plugins, these are more focused on a specific use-case and may be a collection of different plugins based on the use-case
 require("plugins.colorschemes")

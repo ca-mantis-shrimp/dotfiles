@@ -1,1 +1,1 @@
-_G.vim.opt.makeprg = "chezmoi apply"
+vim.keymap.set("n", "<leader>ca", "<cmd>terminal chezmoi apply<CR>", { desc = "[C]hezmoi [A]pply" })
