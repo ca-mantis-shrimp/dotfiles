@@ -1,7 +1,10 @@
 vim.pack.add({
-  "https://github.com/github/copilot.vim",
-  "https://github.com/folke/sidekick.nvim",
+  "https://github.com/github/copilot.vim", -- For easy copilot setup
+  "https://github.com/folke/sidekick.nvim", -- a nice, minimal ui/terminal wrapper
+  "https://github.com/linw1995/nvim-mcp", -- mcp server that assumes nvim-mcp is already installed
 })
+
+require("nvim-mcp").setup({})
 
 require("sidekick").setup()
 vim.keymap.set({ "n", "i", "x" }, "<tab>", function()
