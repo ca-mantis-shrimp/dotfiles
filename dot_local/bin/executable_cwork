@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# cwork - launch a containerized workspace with credentials injected
+# Usage: cwork <path>
+set -euo pipefail
+
+WORKSPACE=${1:?Usage: cwork <path>}
+MKOSI_DIR="$HOME/.local/share/chezmoi/mkosi"
+exec sudo mkosi \
+    --directory="$MKOSI_DIR" \
+    --runtime-tree="$(realpath "$WORKSPACE")":/workspace \
+    --runtime-tree="$HOME/.claude":/root/.claude \
+    shell
