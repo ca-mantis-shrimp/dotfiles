@@ -10,16 +10,11 @@ vim.keymap.set("n", "<leader>to", "<cmd>ClearheadWorkspace<CR>", { desc = "Open 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "actions",
   callback = function()
-    vim.keymap.set("n", "<leader>tt", clearhead["cycle-state"], { buffer = true, desc = "Cycle task state" })
-    vim.keymap.set("n", "<leader>tx", clearhead["set-state"]("x"), { buffer = true, desc = "Mark as completed" })
-    vim.keymap.set("n", "<leader>t-", clearhead["set-state"]("-"), { buffer = true, desc = "Mark as in-progress" })
-    vim.keymap.set("n", "<leader>t=", clearhead["set-state"]("="), { buffer = true, desc = "Mark as blocked" })
-    vim.keymap.set("n", "<leader>t_", clearhead["set-state"]("_"), { buffer = true, desc = "Mark as cancelled" })
-    vim.keymap.set(
-      "n",
-      "<leader>t<space>",
-      clearhead["set-state"](" "),
-      { buffer = true, desc = "Mark as not started" }
-    )
+    vim.keymap.set("n", "<leader>tt", clearhead.cycle_state, { buffer = true, desc = "Cycle task state" })
+    vim.keymap.set("n", "<leader>tx", clearhead.set_state("x"), { buffer = true, desc = "Mark as completed" })
+    vim.keymap.set("n", "<leader>t-", clearhead.set_state("-"), { buffer = true, desc = "Mark as in-progress" })
+    vim.keymap.set("n", "<leader>t=", clearhead.set_state("="), { buffer = true, desc = "Mark as blocked" })
+    vim.keymap.set("n", "<leader>t_", clearhead.set_state("_"), { buffer = true, desc = "Mark as cancelled" })
+    vim.keymap.set("n", "<leader>t<space>", clearhead.set_state(" "), { buffer = true, desc = "Mark as not started" })
   end,
 })
