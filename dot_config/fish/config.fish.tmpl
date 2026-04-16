@@ -8,6 +8,11 @@ set -xg npm_config_prefix "$HOME/.local"
 fish_add_path "$HOME/.cargo/bin"
 fish_add_path "$HOME/.local/bin"
 
+
+{{ if eq .chezmoi.os "android" }}
+set -xg TMPDIR "/data/data/com.termux/files/usr/tmp"
+{{ end }}
+
 {{ if eq .chezmoi.os "linux" }}
 {{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
 alias op="op.exe"
