@@ -14,7 +14,7 @@ set -xg TMPDIR "/data/data/com.termux/files/usr/tmp"
 {{ end }}
 
 {{ if eq .chezmoi.os "linux" }}
-{{ if (contains "Microsoft" .chezmoi.kernel.osrelease) }}
+{{ if (contains "Microsoft" (default "" (index .chezmoi.kernel "osrelease"))) }}
 alias op="op.exe"
 {{ end }}
 {{ end }}

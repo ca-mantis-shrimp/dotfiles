@@ -1,12 +1,31 @@
 #!/usr/bin/env bash
-# cwork - launch a containerized workspace with credentials injected
-# Usage: cwork <path>
 set -euo pipefail
 
 WORKSPACE=${1:?Usage: cwork <path>}
-MKOSI_DIR="$HOME/.local/share/chezmoi/mkosi"
-exec sudo mkosi \
-    --directory="$MKOSI_DIR" \
-    --runtime-tree="$(realpath "$WORKSPACE")":/workspace \
-    --runtime-tree="$HOME/.claude":/root/.claude \
-    shell
+IMAGE="$HOME/.local/share/chezmoi/mkosi/mkosi.output/image"
+CREDENTIALS="$HOME/.claude/.credentials.json"
+CLAUDE_TOKEN_FILE="$HOME/.local/share/chezmoi/mkosi/mkosi.credentials/CLAUDE_TOKEN"
+
+if [ ! -d "$IMAGE" ]; then
+    printf 'mkosi image not found at %s\n' "$IMAGE" >&2
+    exit 1
+fi
+
+if [ ! -f "$CREDENTIALS" ]; then
+    printf 'Claude credentials not found at %s\n' "$CREDENTIALS" >&2
+    exit 1
+fi
+
+if [ ! -f "$CLAUDE_TOKEN_FILE" ]; then
+    printf 'Claude token not found at %s\n' "$CLAUDE_TOKEN_FILE" >&2
+    exit 1
+fi
+
+exec sudo systemd-nspawn \
+    --directory="$IMAGE" \
+    --bind="$(realpath "$WORKSPACE")":/workspace \
+    --bind="$(realpath "$CREDENTIALS")":/home/agent/.claude/.credentials.json \
+    --bind="$HOME/.config/gh":/home/agent/.config/gh \
+    --setenv=CLAUDE_CODE_OAUTH_TOKEN="$(cat "$CLAUDE_TOKEN_FILE")" \
+    --user=agent \
+    --chdir=/workspace

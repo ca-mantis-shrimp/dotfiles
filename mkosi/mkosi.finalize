@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+chroot "$BUILDROOT" \
+    sudo -u agent \
+    env CHEZMOI_CONTAINER=1 \
+    chezmoi apply --source /home/agent/.local/share/chezmoi --destination /home/agent
+
+touch "$BUILDROOT/home/agent/.claude/.credentials.json"
+chown 1000:1000 "$BUILDROOT/home/agent/.claude/.credentials.json"
+

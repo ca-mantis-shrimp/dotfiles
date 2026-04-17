@@ -2,3 +2,6 @@
 set -euo pipefail
 
 npm install -g @anthropic-ai/claude-code
+
+useradd -m -s /bin/bash agent
+chown -R agent:agent /home/agent

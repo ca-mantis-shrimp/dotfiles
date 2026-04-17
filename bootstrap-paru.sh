@@ -1,5 +1,8 @@
 #!/bin/sh
 
+[ "${CHEZMOI_CONTAINER:-}" = "1" ] && exit 0
+[ "$(id -u)" -eq 0 ] && exit 0
+
 # Only runs on Arch-based systems
 [ -f /etc/arch-release ] || exit 0
 

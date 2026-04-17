@@ -1,9 +1,14 @@
 #!/bin/bash
-alias idv7="python ~/scripts/generate_uuid_v7.py"
 
-eval "$(uwsm app starship init bash)"
+export PATH="$HOME/.local/bin:$PATH"
+
+if [ -n "${CREDENTIALS_DIRECTORY:-}" ] && [ -f "$CREDENTIALS_DIRECTORY/GH_TOKEN" ]; then
+export GH_TOKEN="$(<"$CREDENTIALS_DIRECTORY/GH_TOKEN")"
+fi
 
 # Set up fzf key bindings and fuzzy completion
-eval "$(uwsm app -- fzf --bash)"
+eval "$(fzf --bash)"
 # properly setup environment variables for lua
-eval $(uwsm app -- luarocks path --bin)
+eval $(luarocks path --bin)
+
+eval "$(starship init bash)"
