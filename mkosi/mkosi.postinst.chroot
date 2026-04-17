@@ -11,5 +11,5 @@ install -m 755 -o agent -g agent /dev/stdin /home/agent/setup.sh << 'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 curl -fsSL https://claude.ai/install.sh | bash -s stable
-CHEZMOI_CONTAINER=1 chezmoi init --apply github.com/ca-mantis-shrimp/dotfiles
+chezmoi apply --source /srv/chezmoi-source
 EOF

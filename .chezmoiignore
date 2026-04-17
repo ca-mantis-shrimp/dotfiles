@@ -25,7 +25,3 @@ Archive/
 .clearhead/
 mkosi/
 
-{{ if env "CHEZMOI_CONTAINER" -}}
-.claude/**
-run_onchange_install-packages.sh.tmpl
-{{ end -}}
