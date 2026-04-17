@@ -24,3 +24,7 @@ LLM/
 Archive/
 .clearhead/
 mkosi/
+
+{{ if env "CHEZMOI_CONTAINER" -}}
+.claude/**
+{{ end -}}

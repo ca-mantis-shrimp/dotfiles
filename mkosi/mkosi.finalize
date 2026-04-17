@@ -6,6 +6,5 @@ chroot "$BUILDROOT" \
     env CHEZMOI_CONTAINER=1 \
     chezmoi apply --source /home/agent/.local/share/chezmoi --destination /home/agent
 
-touch "$BUILDROOT/home/agent/.claude/.credentials.json"
-chown 1000:1000 "$BUILDROOT/home/agent/.claude/.credentials.json"
+install -d -o 1000 -g 1000 "$BUILDROOT/home/agent/.claude"
 

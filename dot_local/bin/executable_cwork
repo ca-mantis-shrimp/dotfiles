@@ -4,28 +4,25 @@ set -euo pipefail
 WORKSPACE=${1:?Usage: cwork <path>}
 IMAGE="$HOME/.local/share/chezmoi/mkosi/mkosi.output/image"
 CREDENTIALS="$HOME/.claude/.credentials.json"
-CLAUDE_TOKEN_FILE="$HOME/.local/share/chezmoi/mkosi/mkosi.credentials/CLAUDE_TOKEN"
+CLAUDE_STATE="$HOME/.claude.json"
 
-if [ ! -d "$IMAGE" ]; then
-    printf 'mkosi image not found at %s\n' "$IMAGE" >&2
-    exit 1
-fi
+for required in "$IMAGE" "$CREDENTIALS" "$CLAUDE_STATE"; do
+    if [ ! -e "$required" ]; then
+        printf 'cwork: missing %s\n' "$required" >&2
+        exit 1
+    fi
+done
 
-if [ ! -f "$CREDENTIALS" ]; then
-    printf 'Claude credentials not found at %s\n' "$CREDENTIALS" >&2
-    exit 1
-fi
+SESSION_STATE=$(mktemp --tmpdir cwork-claude-XXXXXX.json)
+trap 'rm -f "$SESSION_STATE"' EXIT
+cp "$CLAUDE_STATE" "$SESSION_STATE"
 
-if [ ! -f "$CLAUDE_TOKEN_FILE" ]; then
-    printf 'Claude token not found at %s\n' "$CLAUDE_TOKEN_FILE" >&2
-    exit 1
-fi
-
-exec sudo systemd-nspawn \
+sudo systemd-nspawn \
     --directory="$IMAGE" \
+    --ephemeral \
     --bind="$(realpath "$WORKSPACE")":/workspace \
     --bind="$(realpath "$CREDENTIALS")":/home/agent/.claude/.credentials.json \
+    --bind="$SESSION_STATE":/home/agent/.claude.json \
     --bind="$HOME/.config/gh":/home/agent/.config/gh \
-    --setenv=CLAUDE_CODE_OAUTH_TOKEN="$(cat "$CLAUDE_TOKEN_FILE")" \
     --user=agent \
     --chdir=/workspace
