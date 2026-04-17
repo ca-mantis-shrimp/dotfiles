@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-npm install -g @anthropic-ai/claude-code
-
 useradd -m -s /bin/bash agent
-chown -R agent:agent /home/agent
+
+install -m 440 /dev/stdin /etc/sudoers.d/agent <<< 'agent ALL=(ALL) NOPASSWD: ALL'
+
+install -d -o agent -g agent /home/agent/.config
+
+install -m 755 -o agent -g agent /dev/stdin /home/agent/setup.sh << 'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+curl -fsSL https://claude.ai/install.sh | bash -s stable
+CHEZMOI_CONTAINER=1 chezmoi init --apply github.com/ca-mantis-shrimp/dotfiles
+EOF

@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-chroot "$BUILDROOT" \
-    sudo -u agent \
-    env CHEZMOI_CONTAINER=1 \
-    chezmoi apply --source /home/agent/.local/share/chezmoi --destination /home/agent
-
 install -d -o 1000 -g 1000 "$BUILDROOT/home/agent/.claude"
-
