@@ -25,4 +25,5 @@ sudo systemd-nspawn \
     --bind="$SESSION_STATE":/home/agent/.claude.json \
     --bind="$HOME/.config/gh":/home/agent/.config/gh \
     --user=agent \
-    --chdir=/workspace
+    --chdir=/workspace \
+    --setenv=PATH=/home/agent/.local/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin

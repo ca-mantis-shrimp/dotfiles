@@ -7,6 +7,8 @@ install -m 440 /dev/stdin /etc/sudoers.d/agent <<< 'agent ALL=(ALL) NOPASSWD: AL
 
 install -d -o agent -g agent /home/agent/.config
 
+echo 'PATH=/home/agent/.local/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin' >> /etc/environment
+
 install -m 755 -o agent -g agent /dev/stdin /home/agent/setup.sh << 'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
