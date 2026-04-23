@@ -25,6 +25,7 @@ wk.add({
   { "<leader>t", group = "[t]est" },
   { "<leader>i", group = "[I]ntentions" },
   { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
+  { "<leader>bd", "<cmd>bd<CR>", desc = "Delete current [b]uffer" },
 })
 
 -- lsp hotkeys need to be defined separately but we can use existing APIs to do the work which is why we dont need an autocmd for these they just dont work until an lsp client is attached to the buffer and then they work without any extra configuration

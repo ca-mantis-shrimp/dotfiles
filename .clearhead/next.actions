@@ -1,3 +1,4 @@
-[x] figure out what the hell is going on with sessions....  $ we have been having a super strange bug where the session loads no matter what in the journal and it seems like i cant even edit it? $ %2026-04-10T23:04 ^2024-04-05T01:25 #019d5cbe-d045-7f61-9d3f-53d81ae9e253
+[ ] figure out what the hell is going on with sessions....  $ we have been having a super strange bug where the session loads no matter what in the journal and it seems like i cant even edit it? $ #019d5cbe-d045-7f61-9d3f-53d81ae9e253
 [ ] fix chezmoi diff  $ when i open it it just hangs assuming that is a neovim config problem $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a37c417df105
-[ ] get the mcphub integration with codecopmanion working  $ worst ever because it SEEMS to work the when the llms try it just fails $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a389830dd7bc
+[_] get the mcphub integration with codecopmanion working  $ worst ever because it SEEMS to work the when the llms try it just fails $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a389830dd7bc
+[-] create hotkey to delete current buffer  $ often we have things like compiler runs and other stuff where we actually just want to delete the entire buffer without leaving the editor $ +neovim  ^2026-04-22T22:04 #019db8ba-12e4-7a51-89b9-869c1bd1b3ef
