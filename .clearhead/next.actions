@@ -1,4 +1,5 @@
-[ ] figure out what the hell is going on with sessions....  $ we have been having a super strange bug where the session loads no matter what in the journal and it seems like i cant even edit it? $ #019d5cbe-d045-7f61-9d3f-53d81ae9e253
-[ ] fix chezmoi diff  $ when i open it it just hangs assuming that is a neovim config problem $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a37c417df105
-[_] get the mcphub integration with codecopmanion working  $ worst ever because it SEEMS to work the when the llms try it just fails $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a389830dd7bc
-[-] create hotkey to delete current buffer  $ often we have things like compiler runs and other stuff where we actually just want to delete the entire buffer without leaving the editor $ +neovim  ^2026-04-22T22:04 #019db8ba-12e4-7a51-89b9-869c1bd1b3ef
+[-] fix chezmoi diff  $ when i open it it just hangs assuming that is a neovim config problem $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a37c417df105
+[ ] onboard mini.sessions  ^2026-04-24T23:51 #019dc368-1ae1-7040-9c21-4e46cdbd8725
+        >[ ] create hotkey to save new session  $ mini.sessions uses names so we should use something where we take input $ ^2026-04-24T23:50 #019dc367-d83f-7bc3-872b-2583ed1e23ba
+        >[ ] create hotkey to select session from existing  ^2026-04-24T23:51 #019dc369-2c44-7492-8773-b482601dad64
+        >[ ] create hotkey to delete session?  ^2026-04-24T23:52 #019dc369-6b56-79e1-b5d4-7a08eef5b4dc
