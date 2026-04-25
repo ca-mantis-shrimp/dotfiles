@@ -106,6 +106,7 @@ wk.add({
     end,
     desc = "clean all unused packages",
   },
+  { "<leader>pr", "<cmd>restart<CR>", desc = "Restart Neovim to apply changes" },
 })
 
 -- Navigation Keymaps that dont use leader keys dont need to be tested with which-key, so we can register them directly
