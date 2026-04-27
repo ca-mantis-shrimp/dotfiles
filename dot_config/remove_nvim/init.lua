@@ -1,5 +1,6 @@
 require("config.options")
 require("config.utils")
+require("config.workspace").setup()
 
 -- local plugins managed outside vim.pack
 vim.opt.rtp:prepend(vim.fn.expand("~/Products/tree-sitter-actions"))

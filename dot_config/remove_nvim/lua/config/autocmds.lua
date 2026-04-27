@@ -29,14 +29,3 @@ vim.api.nvim_create_autocmd("User", {
     }
   end,
 })
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  desc = "Auto tcd to project root on buffer enter",
-  group = vim.api.nvim_create_augroup("auto-rootdir", { clear = true }),
-  callback = function()
-    local root = vim.fs.root(0, { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" })
-    if root then
-      vim.cmd("tcd " .. vim.fn.fnameescape(root))
-    end
-  end,
-})

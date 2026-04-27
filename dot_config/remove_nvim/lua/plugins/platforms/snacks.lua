@@ -9,13 +9,24 @@ require("snacks").setup({
       { icon = "⌨️", title = "Keymaps", section = "keys" },
       { icon = "", title = "Recent Files", section = "recent_files" },
       { icon = "📁", title = "Projects", section = "projects" },
-      { icon = "󰜉", title = "Sessions", section = "session" },
     },
   },
   explorer = { enabled = true },
   indent = { enabled = true },
   input = { enabled = true },
-  picker = { enabled = true },
+  picker = {
+    enabled = true,
+    sources = {
+      projects = {
+        confirm = function(picker, item)
+          picker:close()
+          if item and item.file then
+            require("config.workspace").project_open(item.file)
+          end
+        end,
+      },
+    },
+  },
   notifier = { enabled = true },
   quickfile = { enabled = true },
   scope = { enabled = true },
@@ -59,8 +70,8 @@ vim.keymap.set("n", "<leader>sk", function()
   Snacks.picker.keymaps()
 end, { desc = "Search Keymaps" })
 vim.keymap.set("n", "<leader>sp", function()
-  Snacks.picker.projects()
-end, { desc = "Search Projects" })
+  require("config.workspace").pick_project()
+end, { desc = "Open Project Workspace" })
 vim.keymap.set("n", "<leader>sc", function()
   Snacks.picker.commands()
 end, { desc = "Search Commands" })

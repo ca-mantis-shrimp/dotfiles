@@ -24,8 +24,22 @@ wk.add({
   { "<leader>s", group = "[s]earch" },
   { "<leader>t", group = "[t]est" },
   { "<leader>i", group = "[I]ntentions" },
+  { "<leader>w", group = "[w]orkspace" },
   { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
   { "<leader>bd", "<cmd>bd<CR>", desc = "Delete current [b]uffer" },
+})
+
+wk.add({
+  {
+    "<leader>wp",
+    function()
+      require("config.workspace").pick_project()
+    end,
+    desc = "Open [p]roject workspace",
+  },
+  { "<leader>ws", "<cmd>SessionSave<CR>", desc = "[s]ave workspace session" },
+  { "<leader>wc", "<cmd>ProjectClose<CR>", desc = "[c]lose workspace" },
+  { "<leader>wq", "<cmd>SessionQuit<CR>", desc = "save and [q]uit workspace" },
 })
 
 -- lsp hotkeys need to be defined separately but we can use existing APIs to do the work which is why we dont need an autocmd for these they just dont work until an lsp client is attached to the buffer and then they work without any extra configuration
