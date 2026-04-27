@@ -1,5 +1,2 @@
 [-] fix chezmoi diff  $ when i open it it just hangs assuming that is a neovim config problem $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a37c417df105
-[ ] onboard mini.sessions  ^2026-04-24T23:51 #019dc368-1ae1-7040-9c21-4e46cdbd8725
-        >[ ] create hotkey to save new session  $ mini.sessions uses names so we should use something where we take input $ ^2026-04-24T23:50 #019dc367-d83f-7bc3-872b-2583ed1e23ba
-        >[ ] create hotkey to select session from existing  ^2026-04-24T23:51 #019dc369-2c44-7492-8773-b482601dad64
-        >[ ] create hotkey to delete session?  ^2026-04-24T23:52 #019dc369-6b56-79e1-b5d4-7a08eef5b4dc
+[ ] implement handy into workflow  $ create hotkey to transcribe some words and put them into a buffer we are typing into $ ^2026-04-26T22:57 #019dcd83-c9dd-7e13-907d-d93f661d9f06
