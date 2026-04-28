@@ -1,2 +1,5 @@
 [-] fix chezmoi diff  $ when i open it it just hangs assuming that is a neovim config problem $ ^2026-04-10T23:05 #019d7b25-5375-74c3-9250-a37c417df105
 [ ] implement handy into workflow  $ create hotkey to transcribe some words and put them into a buffer we are typing into $ ^2026-04-26T22:57 #019dcd83-c9dd-7e13-907d-d93f661d9f06
+[ ] implement calendar layer  ^2026-04-27T23:09 #019dd2b4-d9bc-7a41-8d37-d69de39a75a6
+        >[ ] link khal calendars to clearhead  $ we are starting to get ready! now with the structure of the ics setup for vdir all that is left is to configure khal by point it to the plans directory and using that to make calendar events $ ^2026-04-27T23:08 #019dd2b4-0243-7db1-b84a-4a63fd4dd607
+        >[ ] setup vdirsyncer  $ afterwards, we are going to be able to link those calendars up with vdir syncer $ ^2026-04-27T23:09 #019dd2b4-b2cd-7d91-a017-7c72bc17b163
