@@ -1,21 +1,51 @@
 local wk = require("which-key")
 
---- Opens todays journal entry, creating it if it doesn't exist. Journal entries are stored in ~/journal/years/YYYY/MM/DD.md
---- Doing this to replace the neorg journal module with a single function
-local function open_journal(offset)
-  -- we calculate the date based on the current date and the offset, which is in days, so we multiply it by 86400 to get the number of seconds
-  local current_date = os.date("*t", os.time() + offset * 86400)
+local function journal_path(offset)
+  local date = os.date("*t", os.time() + offset * 86400)
   local path = vim.fn.expand(
-    string.format("~/journal/years/%04d/%02d/%02d.md", current_date.year, current_date.month, current_date.day)
+    string.format("~/journal/years/%04d/%02d/%02d.md", date.year, date.month, date.day)
   )
   vim.fn.mkdir(vim.fn.fnamemodify(path, ":h"), "p")
   if vim.fn.filereadable(path) == 0 then
-    vim.fn.writefile(
-      { string.format("# %04d-%02d-%02d", current_date.year, current_date.month, current_date.day), "" },
-      path
-    )
+    vim.fn.writefile({ string.format("# %04d-%02d-%02d", date.year, date.month, date.day), "" }, path)
   end
-  vim.cmd.edit(path)
+  return path
+end
+
+local function open_journal(offset)
+  vim.cmd.tabedit(journal_path(offset))
+end
+
+local journal_win = nil
+
+local function toggle_today()
+  if journal_win and vim.api.nvim_win_is_valid(journal_win) then
+    local buf = vim.api.nvim_win_get_buf(journal_win)
+    if vim.bo[buf].modified then
+      vim.api.nvim_buf_call(buf, function() vim.cmd.write() end)
+    end
+    vim.api.nvim_win_close(journal_win, false)
+    journal_win = nil
+    return
+  end
+
+  local buf = vim.fn.bufadd(journal_path(0))
+  vim.fn.bufload(buf)
+  vim.bo[buf].bufhidden = "wipe"
+
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  journal_win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    border = "rounded",
+    title = " Journal ",
+    title_pos = "center",
+  })
+  vim.keymap.set("n", "q", toggle_today, { buffer = buf, desc = "Close journal" })
 end
 
 -- By keeping the core keymaps in a which-key invocation we ensure the UI is built properly on startup
@@ -66,10 +96,8 @@ wk.add({
   { "<leader>j", group = "[j]ournal" },
   {
     "<leader>jt",
-    function()
-      open_journal(0)
-    end,
-    desc = "[j]ournal for [t]oday",
+    toggle_today,
+    desc = "[j]ournal [t]oggle today",
   },
   {
     "<leader>jy",

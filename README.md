@@ -28,3 +28,5 @@ Now here is the current state of the machines we need to operate with:
 Finally for solid small details, we have fully transitioned to wayland as our backend where relevant. 
 
 and while we have kde and gnome as backup desktop displays, we are really workin with [hyprland](https://hypr.land/) as our primary display manager
+
+
