@@ -1,7 +1,11 @@
 [calendars]
 
 [[private]]
-path = /home/backup-admin/.local/share/khal/calendars/private
+path = ~/.local/share/khal/calendars/private
+type = calendar
+
+[[reflections]]
+path = ~/.local/share/clearhead/charters/reflections.plans/
 type = calendar
 
 [locale]
