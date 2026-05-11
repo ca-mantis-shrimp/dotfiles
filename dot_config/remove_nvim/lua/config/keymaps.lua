@@ -2,9 +2,7 @@ local wk = require("which-key")
 
 local function journal_path(offset)
   local date = os.date("*t", os.time() + offset * 86400)
-  local path = vim.fn.expand(
-    string.format("~/journal/years/%04d/%02d/%02d.md", date.year, date.month, date.day)
-  )
+  local path = vim.fn.expand(string.format("~/journal/years/%04d/%02d/%02d.md", date.year, date.month, date.day))
   vim.fn.mkdir(vim.fn.fnamemodify(path, ":h"), "p")
   if vim.fn.filereadable(path) == 0 then
     vim.fn.writefile({ string.format("# %04d-%02d-%02d", date.year, date.month, date.day), "" }, path)
@@ -22,7 +20,9 @@ local function toggle_today()
   if journal_win and vim.api.nvim_win_is_valid(journal_win) then
     local buf = vim.api.nvim_win_get_buf(journal_win)
     if vim.bo[buf].modified then
-      vim.api.nvim_buf_call(buf, function() vim.cmd.write() end)
+      vim.api.nvim_buf_call(buf, function()
+        vim.cmd.write()
+      end)
     end
     vim.api.nvim_win_close(journal_win, false)
     journal_win = nil
@@ -149,6 +149,7 @@ wk.add({
     desc = "clean all unused packages",
   },
   { "<leader>pr", "<cmd>restart<CR>", desc = "Restart Neovim to apply changes" },
+  { "<leader>ca", "<cmd> terminal chezmoi apply<CR>", desc = "Apply chezmoi changes to the system" },
 })
 
 -- Navigation Keymaps that dont use leader keys dont need to be tested with which-key, so we can register them directly
