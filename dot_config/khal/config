@@ -1,12 +1,12 @@
 [calendars]
 
 [[private]]
-path = ~/.local/share/khal/calendars/private
-type = calendar
+path = ~/.local/share/clearhead/plans/*
+type = discover
 
-[[reflections]]
-path = ~/.local/share/clearhead/charters/reflections.plans/
-type = calendar
+[[system]]
+path = ~/.local/share/khal/calendars/default/
+
 
 [locale]
 timeformat = %H:%M
@@ -16,4 +16,4 @@ datetimeformat = %Y-%m-%d %H:%M
 longdatetimeformat = %Y-%m-%d %H:%M
 
 [default]
-default_calendar = private
+default_calendar = system
