@@ -1,0 +1,14 @@
+[Unit]
+Description=Sync clearhead plans to Google Calendar via vdirsyncer
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/vdirsyncer sync plans
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=default.target

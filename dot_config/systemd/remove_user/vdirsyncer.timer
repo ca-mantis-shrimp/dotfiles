@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically sync clearhead plans to Google Calendar
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=5m
+Unit=vdirsyncer.service
+
+[Install]
+WantedBy=timers.target
