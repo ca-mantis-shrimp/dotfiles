@@ -1,7 +1,7 @@
 [Unit]
 Description=Sync clearhead plans to Google Calendar via vdirsyncer
-Wants=network-online.target
-After=network-online.target
+Wants=network-online.target vdirsyncer-precache.service
+After=network-online.target vdirsyncer-precache.service
 
 [Service]
 Type=oneshot

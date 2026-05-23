@@ -1,8 +1,17 @@
 {
-       "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
-       "workspace": {
-              "library": [
-                     "/usr/share/hypr/stubs"
-              ]
-       }
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "diagnostics": {
+    "globals": [
+      "vim"
+    ]
+  },
+  "workspace": {
+    "checkThirdParty": false,
+    "library": [
+      "/usr/share/hypr/stubs"
+    ]
+  }
 }

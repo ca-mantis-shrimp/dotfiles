@@ -1,0 +1,14 @@
+[Unit]
+Description=Pre-cache vdirsyncer GPG keys for pass
+After=gpg-agent.service
+Requires=gpg-agent.service
+
+[Service]
+Type=oneshot
+# Access the pass entries to warm the gpg-agent cache.
+# This will prompt for your GPG passphrase on first run after boot.
+ExecStart=/bin/sh -c 'pass vdirsyncer/google/client-id >/dev/null && pass vdirsyncer/google/client-secret >/dev/null'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
