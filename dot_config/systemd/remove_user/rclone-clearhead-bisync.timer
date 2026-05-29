@@ -1,0 +1,10 @@
+[Unit]
+Description=Bisync clearhead workspace every 2 minutes
+
+[Timer]
+OnCalendar=*:0/2
+Persistent=true
+Unit=rclone-clearhead-bisync.service
+
+[Install]
+WantedBy=timers.target

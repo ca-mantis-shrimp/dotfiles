@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+
+set -l lock_file (string join '' (or $XDG_RUNTIME_DIR /tmp) '/rclone-clearhead-bisync.lock')
+set -l log_dir (string join '' (or $XDG_STATE_HOME $HOME/.local/state) '/rclone')
+mkdir -p $log_dir
+
+# prevent concurrent runs
+if not flock -n 9 9>$lock_file
+    echo 'rclone-clearhead-bisync: another run is already active' >&2
+    exit 0
+end
+
+set -l src (string join '' (or $XDG_DATA_HOME $HOME/.local/share) '/clearhead')
+set -l dest 'backblaze:dab-primary-95/clearhead'
+
+exec rclone bisync $src $dest \
+    --exclude '.git/**' \
+    --conflict-resolve newer \
+    --log-level INFO \
+    --log-file $log_dir/clearhead-bisync.log
