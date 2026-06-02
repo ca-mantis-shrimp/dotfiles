@@ -19,13 +19,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.api.nvim_create_autocmd("User", {
-  desc = "Register custom tree-sitter parser for actions filetype",
-  pattern = "TSUpdate",
-  callback = function()
-    require("nvim-treesitter.parsers")["actions"] = {
-      install_info = { path = "~/Products/platform/tree-sitter-actions", queries = "queries/actions" },
-      filetype = "actions",
-    }
-  end,
-})

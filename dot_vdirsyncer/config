@@ -4,7 +4,7 @@ status_path = "~/.vdirsyncer/status/"
 [pair plans]
 a = "plans_local"
 b = "plans_google"
-collections = [["reflections", "reflections", "cab23d388fd8b8436abc482ef5b5cdcbfa104bbe23e6fb8d4700cee307f5727e@group.calendar.google.com"]]
+collections = "from a"
 conflict_resolution = "a wins"
 
 [storage plans_local]

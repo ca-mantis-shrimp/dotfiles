@@ -1,3 +1,18 @@
+local function register_local_parsers()
+  local ok, parsers = pcall(require, "nvim-treesitter.parsers")
+  if not ok then
+    return
+  end
+
+  parsers.actions = {
+    install_info = {
+      path = vim.fn.expand("~/Products/platform/tree-sitter-actions"),
+      queries = "queries/actions",
+    },
+    filetype = "actions",
+  }
+end
+
 vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
     local name = ev.data.spec.name
@@ -11,8 +26,11 @@ vim.api.nvim_create_autocmd("PackChanged", {
       vim.cmd.packadd("nvim-treesitter")
     end
 
+    register_local_parsers()
     vim.cmd("TSUpdate")
   end,
 })
 
 vim.pack.add({ "https://github.com/nvim-treesitter/nvim-treesitter" })
+
+register_local_parsers()
