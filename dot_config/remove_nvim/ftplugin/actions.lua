@@ -1,3 +1,1 @@
 require("config.utils").setup_treesitter.full()
-vim.opt_local.conceallevel = 2
-vim.opt_local.concealcursor = ""
