@@ -1,0 +1,3 @@
+[ ] get the rclone job working to sync to backblaze #019e9fe1-1a4e-78f1-89ef-968bff4f6361
+    >[ ] try initial sync with backblaze #019e9fe1-1a4e-78f1-89ef-96a877e302b0
+    >[ ] define use-level job for this work #019e9fe1-1a4e-78f1-89ef-96c9d5011b9d
