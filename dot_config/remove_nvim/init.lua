@@ -3,7 +3,7 @@ require("config.utils")
 require("config.workspace").setup()
 
 -- local plugins managed outside vim.pack
-vim.opt.rtp:prepend(vim.fn.expand("~/Products/tree-sitter-actions"))
+vim.opt.rtp:prepend(vim.fn.expand("~/Products/platform/tree-sitter-actions"))
 
 -- Probably the primary thing that needs to be loaded FIRST as if there are deps they likely live here
 require("plugins.libs")

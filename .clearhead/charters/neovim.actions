@@ -1,1 +1,4 @@
 [ ] get [[arborist|https://github.com/arborist-ts/arborist.nvim]] working $ this looks like the closest thing we have to a successor to our venerable nvim-treesitter so lets get that done now $#019ec9d7-9ff5-7a13-b631-266ceb38ba44
+[ ] get linting working for neovim $ the key usecase being prose like markdown $#019e6f74-f574-70b2-beac-491162378590
+    >[ ] get [[nvim-lint|https://github.com/mfussenegger/nvim-lint]] working #019e6f74-f574-70b2-beac-49312228cb98
+    >[ ] get [[markdownlint|https://github.com/markdownlint/markdownlint]] configured for working through that work #019e6f76-2343-7102-8c14-069be7f3928a

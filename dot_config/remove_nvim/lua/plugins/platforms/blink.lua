@@ -6,12 +6,10 @@ vim.pack.add({
 
 local cmp = require("blink.cmp")
 
-cmp.build():wait(60000)
-
 cmp.setup({
   keymap = { preset = "default" },
   appearance = { nerd_font_variant = "mono" },
   completion = { documentation = { auto_show = false } },
   sources = { default = { "lsp", "path", "snippets", "buffer" } },
-  fuzzy = { implementation = "rust" },
+  fuzzy = { implementation = "lua" },
 })
