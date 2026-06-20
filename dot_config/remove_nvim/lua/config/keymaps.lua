@@ -1,52 +1,5 @@
 local wk = require("which-key")
 
-local function journal_path(offset)
-  local date = os.date("*t", os.time() + offset * 86400)
-  local path = vim.fn.expand(string.format("~/journal/years/%04d/%02d/%02d.md", date.year, date.month, date.day))
-  vim.fn.mkdir(vim.fn.fnamemodify(path, ":h"), "p")
-  if vim.fn.filereadable(path) == 0 then
-    vim.fn.writefile({ string.format("# %04d-%02d-%02d", date.year, date.month, date.day), "" }, path)
-  end
-  return path
-end
-
-local function open_journal(offset)
-  vim.cmd.tabedit(journal_path(offset))
-end
-
-local journal_win = nil
-
-local function toggle_today()
-  if journal_win and vim.api.nvim_win_is_valid(journal_win) then
-    local buf = vim.api.nvim_win_get_buf(journal_win)
-    if vim.bo[buf].modified then
-      vim.api.nvim_buf_call(buf, function()
-        vim.cmd.write()
-      end)
-    end
-    vim.api.nvim_win_close(journal_win, false)
-    journal_win = nil
-    return
-  end
-
-  local buf = vim.fn.bufadd(journal_path(0))
-  vim.fn.bufload(buf)
-  vim.bo[buf].bufhidden = "wipe"
-
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.8)
-  journal_win = vim.api.nvim_open_win(buf, true, {
-    relative = "editor",
-    width = width,
-    height = height,
-    col = math.floor((vim.o.columns - width) / 2),
-    row = math.floor((vim.o.lines - height) / 2),
-    border = "rounded",
-    title = " Journal ",
-    title_pos = "center",
-  })
-  vim.keymap.set("n", "q", toggle_today, { buffer = buf, desc = "Close journal" })
-end
 
 -- By keeping the core keymaps in a which-key invocation we ensure the UI is built properly on startup
 wk.add({
@@ -54,23 +7,10 @@ wk.add({
   { "<leader>s", group = "[s]earch" },
   { "<leader>t", group = "[t]est" },
   { "<leader>i", group = "[I]ntentions" },
-  { "<leader>w", group = "[w]orkspace" },
   { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
   { "<leader>bd", "<cmd>bd<CR>", desc = "Delete current [b]uffer" },
 })
 
-wk.add({
-  {
-    "<leader>wp",
-    function()
-      require("config.workspace").pick_project()
-    end,
-    desc = "Open [p]roject workspace",
-  },
-  { "<leader>ws", "<cmd>SessionSave<CR>", desc = "[s]ave workspace session" },
-  { "<leader>wc", "<cmd>ProjectClose<CR>", desc = "[c]lose workspace" },
-  { "<leader>wq", "<cmd>SessionQuit<CR>", desc = "save and [q]uit workspace" },
-})
 
 -- lsp hotkeys need to be defined separately but we can use existing APIs to do the work which is why we dont need an autocmd for these they just dont work until an lsp client is attached to the buffer and then they work without any extra configuration
 wk.add({
@@ -91,29 +31,7 @@ wk.add({
   { "<leader>q", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" },
 })
 
--- my cute journalin system in a single hotkey
-wk.add({
-  { "<leader>j", group = "[j]ournal" },
-  {
-    "<leader>jt",
-    toggle_today,
-    desc = "[j]ournal [t]oggle today",
-  },
-  {
-    "<leader>jy",
-    function()
-      open_journal(-1)
-    end,
-    desc = "[j]ournal for [y]esterday",
-  },
-  {
-    "<leader>jT",
-    function()
-      open_journal(1)
-    end,
-    desc = "[j]ournal for [T]omorrow",
-  },
-})
+
 wk.add({
   { "<leader><tab>", group = "[tab]s" },
   { "<leader><tab><tab>", "<cmd>tabnew<CR>", desc = "Create New [tab]" },

@@ -205,6 +205,12 @@ function M.setup()
     M.save_session()
   end, {})
 
+  require("which-key").add({
+    { "<leader>w", group = "[w]orkspace" },
+    { "<leader>wp", function() M.pick_project() end, desc = "Open [p]roject workspace" },
+    { "<leader>ws", function() M.save_session() end, desc = "[s]ave workspace session" },
+  })
+
   vim.api.nvim_create_autocmd("VimEnter", {
     group = group,
     callback = function()

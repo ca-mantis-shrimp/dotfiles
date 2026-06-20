@@ -2,3 +2,4 @@
 [ ] get linting working for neovim $ the key usecase being prose like markdown $#019e6f74-f574-70b2-beac-491162378590
     >[ ] get [[nvim-lint|https://github.com/mfussenegger/nvim-lint]] working #019e6f74-f574-70b2-beac-49312228cb98
     >[ ] get [[markdownlint|https://github.com/markdownlint/markdownlint]] configured for working through that work #019e6f76-2343-7102-8c14-069be7f3928a
+[ ] install [[obsidian.nvim|https://github.com/epwalsh/obsidian.nvim]] #019ee60b-9c07-7491-b02f-2c2cf23dc9e9
