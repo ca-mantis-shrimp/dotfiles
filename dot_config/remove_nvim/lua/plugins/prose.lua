@@ -3,15 +3,12 @@ vim.pack.add({ "https://github.com/obsidian-nvim/obsidian.nvim" })
 
 require("render-markdown").setup({ file_types = { "markdown", "Avante" } })
 
-local wk = require("which-key")
-
 require("obsidian").setup({
   workspaces = { { name = "knowledge base", path = "~/Documents/knowledge_base" } },
   daily_notes = {
     folder = "daily",
     date_format = "YYYY/MM/DD",
   },
-  open_notes_in = "tab",
   legacy_commands = false,
 })
 
@@ -20,9 +17,12 @@ local function open_daily(note)
   note:open()
 end
 
-wk.add({
-  { "<leader>j", group = "[j]ournal" },
-  { "<leader>jt", function() open_daily(require("obsidian.daily").today()) end, desc = "[j]ournal [t]oday" },
-  { "<leader>jy", function() open_daily(require("obsidian.daily").yesterday()) end, desc = "[j]ournal [y]esterday" },
-  { "<leader>jT", function() open_daily(require("obsidian.daily").tomorrow()) end, desc = "[j]ournal [T]omorrow" },
-})
+local ok, wk = pcall(require, "which-key")
+if ok then
+  wk.add({
+    { "<leader>j", group = "[j]ournal" },
+    { "<leader>jt", function() open_daily(require("obsidian.daily").today()) end, desc = "[j]ournal [t]oday" },
+    { "<leader>jy", function() open_daily(require("obsidian.daily").yesterday()) end, desc = "[j]ournal [y]esterday" },
+    { "<leader>jT", function() open_daily(require("obsidian.daily").tomorrow()) end, desc = "[j]ournal [T]omorrow" },
+  })
+end
