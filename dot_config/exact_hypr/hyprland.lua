@@ -7,8 +7,9 @@ local menu = "walker"
 -- ── autostart ────────────────────────────────────────────────────────────────
 
 hl.on("hyprland.start", function()
-	hl.exec_cmd("uwsm app ashell")
-	hl.exec_cmd("uwsm app nwg-dock-hyprland -d")
+	hl.exec_cmd("ashell")
+	hl.exec_cmd("nwg-dock-hyprland -d")
+	hl.exec_cmd("elephant")
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hypridle")
 end)
