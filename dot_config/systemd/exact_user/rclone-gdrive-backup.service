@@ -1,0 +1,15 @@
+[Unit]
+Description=Sync Documents to Google Drive backup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/rclone/gdrive-backup.env
+ExecStart=%h/.local/bin/rclone-gdrive-backup
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=default.target
