@@ -5,7 +5,7 @@ Documentation=man:nvim
 [Service]
 Type=exec
 RuntimeDirectory=nvim
-ExecStart=/usr/bin/nvim --headless --listen %t/nvim/backend.sock
+ExecStart=/usr/bin/nvim --headless --listen 0.0.0.0:6666
 Restart=on-success
 
 [Install]
