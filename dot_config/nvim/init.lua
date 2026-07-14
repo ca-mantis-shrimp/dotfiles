@@ -16,6 +16,7 @@ require("plugins.platforms.mini")
 require("plugins.platforms.snacks")
 require("plugins.platforms.blink")
 require("plugins.platforms.conform")
+require("plugins.platforms.lint")
 require("plugins.platforms.codecompanion")
 --require("plugins.platforms.avante")
 

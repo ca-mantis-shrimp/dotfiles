@@ -4,7 +4,37 @@ vim.pack.add({
   "https://github.com/linw1995/nvim-mcp", -- mcp server that assumes nvim-mcp is already installed
 })
 
-require("nvim-mcp").setup({})
+-- Replicate nvim-mcp's default pipe path but with a WSL-safe socket dir check.
+-- XDG_RUNTIME_DIR may be set but not yet created under WSL (no systemd-logind session),
+-- so we must verify it exists before using it.
+local function get_mcp_socket_dir()
+  local xdg = os.getenv("XDG_RUNTIME_DIR")
+  if xdg and xdg ~= "" and vim.fn.isdirectory(xdg) == 1 then
+    return xdg
+  end
+  local tmpdir = os.getenv("TMPDIR")
+  if tmpdir and tmpdir ~= "" then
+    return tmpdir
+  end
+  return "/tmp"
+end
+
+local function get_git_root()
+  local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
+  if not handle then return nil end
+  local result = handle:read("*a")
+  handle:close()
+  result = result:gsub("^%s+", ""):gsub("%s+$", "")
+  return result ~= "" and result or nil
+end
+
+local function generate_pipe_path()
+  local root = get_git_root() or vim.fn.getcwd()
+  local escaped = root:gsub("^%s+", ""):gsub("%s+$", ""):gsub("/", "%%")
+  return string.format("%s/nvim-mcp.%s.%d.sock", get_mcp_socket_dir(), escaped, vim.fn.getpid())
+end
+
+require("nvim-mcp").setup({ pipe = generate_pipe_path() })
 
 require("sidekick").setup()
 vim.keymap.set({ "n", "i", "x" }, "<tab>", function()
