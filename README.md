@@ -7,6 +7,7 @@ This means we are both altering the config as well as altering the machine as we
 ## Big Produts
 
 We have a few big things that we use to manage the structure:
+
 - [chezmoi](https://www.chezmoi.io/) - This is the main product that manages the dotfiles, it is a great product that allows us to manage our dotfiles in a way that is portable between machines.
 - [neovim](https://neovim.io/) - This is a great tool for custom configurations and is meant to be portable between machines.
   - [neovide](https://neovide.dev/) - This is a great gui for neovim that allows us to have a more graphical experience with neovim, it is a great product that allows us to have a more graphical experience with neovim.
