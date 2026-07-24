@@ -1,11 +1,14 @@
 [Unit]
-Description=Sync clearhead plans to Google Calendar via vdirsyncer
+Description=Synchronize ClearHead VTODOs through Radicale
 Wants=network-online.target vdirsyncer-precache.service
 After=network-online.target vdirsyncer-precache.service
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/vdirsyncer sync plans
+WorkingDirectory=%h
+ExecStart=/usr/bin/vdirsyncer sync plans
+ExecStart=%h/.cargo/bin/clearhead sync calendar
+ExecStart=/usr/bin/vdirsyncer sync plans
 Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
