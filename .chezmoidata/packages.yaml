@@ -274,6 +274,9 @@ packages:
 
     # --- Productivity ---
     - khal
+    - pass
+    - radicale
+    - vdirsyncer
     - chafa
     - impala
     - resvg

@@ -5,7 +5,6 @@ status_path = "~/.vdirsyncer/status/"
 a = "plans_local"
 b = "plans_radicale"
 collections = ["from a", "from b"]
-conflict_resolution = "a wins"
 
 [storage plans_local]
 type = "filesystem"
