@@ -209,34 +209,6 @@ function M.setup()
     M.load_session()
   end, {})
 
-  local ok, wk = pcall(require, "which-key")
-  if ok then
-    wk.add({
-      { "<leader>w", group = "[w]orkspace" },
-      {
-        "<leader>wp",
-        function()
-          M.pick_project()
-        end,
-        desc = "Open [p]roject workspace",
-      },
-      {
-        "<leader>ws",
-        function()
-          M.save_session()
-        end,
-        desc = "[s]ave workspace session",
-      },
-      {
-        "<leader>wl",
-        function()
-          M.load_session()
-        end,
-        desc = "[l]oad workspace session",
-      },
-    })
-  end
-
   vim.api.nvim_create_autocmd("VimLeavePre", {
     group = group,
     callback = function()
