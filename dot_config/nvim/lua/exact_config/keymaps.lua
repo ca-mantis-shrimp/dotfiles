@@ -1,5 +1,5 @@
 local wk = require("which-key")
-
+local workspace = require("config.workspace")
 
 -- By keeping the core keymaps in a which-key invocation we ensure the UI is built properly on startup
 wk.add({
@@ -10,7 +10,6 @@ wk.add({
   { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
   { "<leader>bd", "<cmd>bd<CR>", desc = "Delete current [b]uffer" },
 })
-
 
 -- lsp hotkeys need to be defined separately but we can use existing APIs to do the work which is why we dont need an autocmd for these they just dont work until an lsp client is attached to the buffer and then they work without any extra configuration
 wk.add({
@@ -30,7 +29,6 @@ wk.add({
   },
   { "<leader>q", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" },
 })
-
 
 wk.add({
   { "<leader><tab>", group = "[tab]s" },
@@ -92,6 +90,31 @@ end, { desc = "Decrease Neovide scale factor" })
 vim.keymap.set("n", "<C-[>", function()
   vim.g.neovide_scale_factor = 1
 end, { desc = "Reset Neovide scale factor" })
+
+wk.add({
+  { "<leader>w", group = "[w]orkspace" },
+  {
+    "<leader>wp",
+    function()
+      workspace.pick_project()
+    end,
+    desc = "Open [p]roject workspace",
+  },
+  {
+    "<leader>ws",
+    function()
+      workspace.save_session()
+    end,
+    desc = "[s]ave workspace session",
+  },
+  {
+    "<leader>wl",
+    function()
+      workspace.load_session()
+    end,
+    desc = "[l]oad workspace session",
+  },
+})
 
 -- we do these little escape hotkeys to either clear search highlights or to exit terminal mode without having to reach for the escape key twice, which is a common pain point for me when using neovim in the terminal since I have to use escape sequences to get out of terminal mode and it can be a bit finicky
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Remove Search Highlighting on Escape" })
