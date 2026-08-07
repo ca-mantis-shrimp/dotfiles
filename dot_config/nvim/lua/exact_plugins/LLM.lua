@@ -21,7 +21,9 @@ end
 
 local function get_git_root()
   local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
-  if not handle then return nil end
+  if not handle then
+    return nil
+  end
   local result = handle:read("*a")
   handle:close()
   result = result:gsub("^%s+", ""):gsub("%s+$", "")
@@ -36,7 +38,15 @@ end
 
 require("nvim-mcp").setup({ pipe = generate_pipe_path() })
 
-require("sidekick").setup()
+require("sidekick").setup({
+  cli = {
+    tools = {
+      claude_admin = {
+        cmd = { "claude", "--dangerously-skip-permissions" },
+      },
+    },
+  },
+})
 vim.keymap.set({ "n", "i", "x" }, "<tab>", function()
   return require("sidekick").nes_jump_or_apply() or "<tab>"
 end, { expr = true, desc = "Goto/Apply Next Edit Suggestion" })
