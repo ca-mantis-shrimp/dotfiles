@@ -1,0 +1,9 @@
+[ ] stand up the agent log hub =hub ~ $otelcol as a boot-started user service, reachable over the tailnet$ ^2026-09-23T21:57 #01a0d1c6-b0ef-7748-aecc-5ef219f536bb
+    >[ ] write the collector config $otlp receiver on 127.0.0.1:4317 -> file exporter with rotation (+ debug while testing); pass otelcol validate$ ^2026-09-23T21:57 #01a0d1c6-b0fb-74e0-bf20-c8a4a6eb2386
+    >[ ] track the config in chezmoi $chezmoi add ~/.config/otelcol/config.yaml$ ^2026-09-23T21:57 #01a0d1c6-b102-7046-aca1-bd212fd289de
+    >[ ] write otelcol.service in dot_config/systemd/exact_user $user unit, Restart=on-failure, WantedBy=default.target$ ^2026-09-23T21:57 #01a0d1c6-b109-7457-b066-22db5f3d787d
+    >[ ] enable and verify locally $chezmoi apply; systemctl --user enable --now otelcol; watch journalctl --user -u otelcol$ ^2026-09-23T21:57 #01a0d1c6-b113-746b-b782-6fda5aae2c76
+    >[ ] expose over the tailnet $tailscale serve --bg --tcp 4317 tcp://127.0.0.1:4317; confirm with tailscale serve status$ ^2026-09-23T21:57 #01a0d1c6-b11b-706f-92f5-30d1c6031ea7
+    >[ ] reboot test $power cycle without logging in; confirm the port is listening and serve persists$ ^2026-09-23T21:57 #01a0d1c6-b123-76be-a81f-a1dd5ea95644
+    >[ ] point a remote agent at the hub $claude code: CLAUDE_CODE_ENABLE_TELEMETRY=1, OTEL_LOGS_EXPORTER=otlp, OTEL_EXPORTER_OTLP_PROTOCOL=grpc, endpoint http://mini-travel-server:4317; see lines land in the jsonl$ ^2026-09-23T21:57 #01a0d1c6-b12b-746d-b165-e7f4d378b6a1
+[ ] decide retention and query story $answers the open questions in the charter$ ^2026-09-23T21:57 #01a0d1c6-b132-710b-b743-604c0a8f7221

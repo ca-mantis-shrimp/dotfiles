@@ -1,3 +1,6 @@
+---
+id: 01a0d1c7-a594-732a-9783-4a13f6b649db
+---
 # Neovim workspace and session charter
 
 ## Intent

@@ -1,2 +1,1 @@
 [-] fix chezmoi diff $when i open it it just hangs assuming that is a neovim config problem$ <HEAD #019d7b25-5375-74c3-9250-a37c417df105
-[ ] implement handy into workflow $create hotkey to transcribe some words and put them into a buffer we are typing into$ #019dcd83-c9dd-7e13-907d-d93f661d9f06
