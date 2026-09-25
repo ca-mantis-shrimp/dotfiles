@@ -29,6 +29,17 @@ exporters:
       max_backups: 20
       localtime: false
 
+  file/agent_traces:
+    path: ${env:HOME}/.local/state/otelcol/agent-traces.jsonl
+    create_directory: true
+    directory_permissions: "0700"
+    format: json
+    rotation:
+      max_megabytes: 100
+      max_days: 30
+      max_backups: 20
+      localtime: false
+
 service:
   pipelines:
     logs:
@@ -37,3 +48,6 @@ service:
     metrics:
       receivers: [otlp]
       exporters: [file/agent_metrics]
+    traces:
+      receivers: [otlp]
+      exporters: [file/agent_traces]

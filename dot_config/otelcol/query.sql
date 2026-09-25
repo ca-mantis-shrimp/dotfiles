@@ -2,6 +2,7 @@
 -- Then query, for example:
 --   SELECT observed_at, service_name, severity, body FROM agent_logs ORDER BY observed_at DESC LIMIT 50;
 --   SELECT service_name, scope_name, metric_name, metric FROM pi_metrics;
+--   SELECT name, trace_id, parent_span_id, started_at, ended_at FROM agent_spans ORDER BY started_at DESC;
 CREATE OR REPLACE VIEW agent_log_exports AS
 SELECT *
 FROM read_ndjson_auto(
@@ -69,3 +70,26 @@ FROM agent_metric_exports,
   unnest(resourceMetrics) AS resource_metrics(resource_metric),
   unnest(resource_metric.scopeMetrics) AS scope_metrics(scope_metric),
   unnest(scope_metric.metrics) AS metrics(metric);
+
+CREATE OR REPLACE VIEW agent_trace_exports AS
+SELECT *
+FROM read_ndjson_auto(
+  getenv('HOME') || '/.local/state/otelcol/agent-traces*.jsonl',
+  filename = true,
+  union_by_name = true
+);
+
+CREATE OR REPLACE VIEW agent_spans AS
+SELECT
+  filename,
+  span.name,
+  span.traceId AS trace_id,
+  span.spanId AS span_id,
+  span.parentSpanId AS parent_span_id,
+  make_timestamp_ns(CAST(span.startTimeUnixNano AS BIGINT)) AS started_at,
+  make_timestamp_ns(CAST(span.endTimeUnixNano AS BIGINT)) AS ended_at,
+  span.attributes
+FROM agent_trace_exports,
+  unnest(resourceSpans) AS resource_spans(resource_span),
+  unnest(resource_span.scopeSpans) AS scope_spans(scope_span),
+  unnest(scope_span.spans) AS spans(span);

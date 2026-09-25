@@ -31,6 +31,30 @@ Done means: an agent on another tailnet device emits OTLP logs, and they show up
 - **Use `jq` for raw inspection and DuckDB for recurring queries.** `~/.config/otelcol/query.sql` defines views over the active and rotated JSONL files; load it with `duckdb -init ~/.config/otelcol/query.sql`.
 - **Pi exports metrics through `@mobrienv/pi-otlp` over OTLP/HTTP on tailnet port 4318.** Chezmoi owns Pi's package list and the Fish environment that enables the exporter, so every managed machine targets `http://mini-travel-server:4318/v1/metrics`. Metrics are stored separately in `agent-metrics.jsonl` and exposed by the `pi_metrics` DuckDB view.
 - **Pi transcripts remain Pi session JSONL.** `pi-otlp` exports session, turn, tool, token, cost, and duration metrics; it does not export prompts, responses, or historical session entries.
+- **Every agent speaks OTLP/HTTP to port 4318.** The hub URL lives once in
+  `.chezmoidata/telemetry.yaml`. Claude Code reads it from the `env` block of
+  `~/.claude/settings.json`, so it exports no matter which shell, editor, or
+  desktop entry launches it. Pi, opencode and Gemini CLI only read environment
+  variables, so Fish exports them. `OTEL_RESOURCE_ATTRIBUTES` sets `host.name`.
+  The collector retains each signal in separate rotated JSONL files. `agent_spans`
+  provides a flat DuckDB span view; native OTLP JSON remains the source of truth.
+  Do not enable prompt, assistant-response, tool-detail, or raw-API-body content
+  gates by default: even redacted events carry identifying metadata, and content
+  can include secrets.
+
+## Local smoke test
+
+Claude Code 2.1.282 emitted `claude_code.user_prompt`, `claude_code.api_request`,
+and `claude_code.assistant_response` log events; `claude_code.interaction` and
+`claude_code.llm_request` spans shared a trace ID; and `claude_code.*` metrics
+arrived. The test used a single no-session-persistence prompt. It establishes
+local ingest, not remote tailnet delivery or complete transcript capture.
+A second, Read-only test emitted `claude_code.tool_decision` (accepted),
+`claude_code.tool_result` (success), and a `claude_code.tool.execution` span.
+They share the tool-use ID and trace ID with the interaction and model-request
+spans. Without an explicit Read permission, the same test instead produced a
+`claude_code.tool.blocked_on_user` span. The OpenLIT Compose experiment is
+separate and does not own ports 4317/4318.
 
 ## Remaining Validation
 
