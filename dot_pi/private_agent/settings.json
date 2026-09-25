@@ -1,0 +1,19 @@
+{
+  "lastChangelogVersion": "0.85.1",
+  "theme": "dark",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:vscode-languageserver-protocol@3.17.5",
+    "npm:pi-memory",
+    "npm:pi-lens",
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:pi-background-tasks@latest",
+    "npm:remote-pi",
+    "npm:@mobrienv/pi-otlp"
+  ],
+  "hideThinkingBlock": true
+}
