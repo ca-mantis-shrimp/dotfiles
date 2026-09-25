@@ -4,6 +4,10 @@ set -xg PAGER "nvim +Man!"
 
 set -xg npm_config_prefix "$HOME/.local"
 
+# Export Pi session metrics to the tailnet-only OpenTelemetry hub.
+set -xg PI_OTLP_ENABLE 1
+set -xg OTEL_METRICS_EXPORTER otlp
+set -xg OTEL_EXPORTER_OTLP_METRICS_ENDPOINT "http://mini-travel-server:4318/v1/metrics"
 
 fish_add_path "$HOME/.cargo/bin"
 fish_add_path "$HOME/.local/bin"

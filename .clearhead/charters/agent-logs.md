@@ -28,7 +28,9 @@ Done means: an agent on another tailnet device emits OTLP logs, and they show up
 - **`mini-travel-server` is the hub.** It already has the collector binary and user lingering enabled, and its server role makes it the least surprising always-on target.
 - **Retain at most 30 days and 20 rotated 100 MB files.** This bounds rotated history at roughly 2 GB while preserving enough time for retrospective debugging. Revisit after observing real traffic volume.
 - **Do not batch yet.** For the initial low-volume, single-file pipeline, avoiding another buffer keeps failure and shutdown behavior straightforward. Add `batch` only if measured write or throughput pressure warrants it.
-- **Use `jq` for raw inspection and DuckDB for recurring queries.** `~/.config/otelcol/query.sql` defines `agent_log_exports` and a flattened `agent_logs` view over the active and rotated JSONL files; load it with `duckdb -init ~/.config/otelcol/query.sql`.
+- **Use `jq` for raw inspection and DuckDB for recurring queries.** `~/.config/otelcol/query.sql` defines views over the active and rotated JSONL files; load it with `duckdb -init ~/.config/otelcol/query.sql`.
+- **Pi exports metrics through `@mobrienv/pi-otlp` over OTLP/HTTP on tailnet port 4318.** Chezmoi owns Pi's package list and the Fish environment that enables the exporter, so every managed machine targets `http://mini-travel-server:4318/v1/metrics`. Metrics are stored separately in `agent-metrics.jsonl` and exposed by the `pi_metrics` DuckDB view.
+- **Pi transcripts remain Pi session JSONL.** `pi-otlp` exports session, turn, tool, token, cost, and duration metrics; it does not export prompts, responses, or historical session entries.
 
 ## Remaining Validation
 
