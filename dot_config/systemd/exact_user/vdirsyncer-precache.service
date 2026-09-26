@@ -1,0 +1,13 @@
+[Unit]
+Description=Pre-cache the Radicale credential for vdirsyncer
+After=gpg-agent.service
+Requires=gpg-agent.service
+
+[Service]
+Type=oneshot
+# Warm the GPG agent before the background synchronization cycle.
+ExecStart=/bin/sh -c 'pass radicale/password >/dev/null'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
