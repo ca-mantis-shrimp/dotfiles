@@ -1,7 +1,7 @@
 [Unit]
 Description=Synchronize ClearHead VTODOs through Radicale
-Wants=network-online.target vdirsyncer-precache.service
-After=network-online.target vdirsyncer-precache.service
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=oneshot

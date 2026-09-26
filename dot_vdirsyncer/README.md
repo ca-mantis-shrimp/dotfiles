@@ -32,21 +32,16 @@ The full operational recipe is maintained in the
 
 ## Credentials
 
-The `backup-admin` Radicale password is read from the existing `pass` contract:
+`pass radicale/password` remains the human-readable source of truth. Unattended
+runs cannot unlock GPG, so vdirsyncer reads a TPM-sealed copy instead:
 
 ```sh
-pass radicale/password
+pass radicale/password | systemd-creds encrypt --user --name=radicale.cred - \
+  ~/.config/credstore.encrypted/radicale.cred
 ```
 
-Provision it interactively without putting the value in chezmoi:
-
-```sh
-pass insert radicale/password
-```
-
-The systemd pre-cache unit reads this entry before synchronization so the GPG
-agent can prompt once and retain the unlocked key according to
-`~/.gnupg/gpg-agent.conf`.
+The sealed file only decrypts on this host, for this user, and is not tracked
+in chezmoi. Re-run the command above after rotating the password.
 
 ## First setup
 
@@ -55,7 +50,6 @@ package data. After installing packages and applying chezmoi:
 
 ```sh
 chezmoi apply ~/.vdirsyncer/config \
-  ~/.config/systemd/user/vdirsyncer-precache.service \
   ~/.config/systemd/user/vdirsyncer.service \
   ~/.config/systemd/user/vdirsyncer.timer
 systemctl --user daemon-reload
