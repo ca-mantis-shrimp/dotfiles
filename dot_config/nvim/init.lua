@@ -8,8 +8,6 @@ vim.opt.rtp:prepend(vim.fn.expand("~/Products/platform/tree-sitter-actions"))
 -- Probably the primary thing that needs to be loaded FIRST as if there are deps they likely live here
 require("plugins.libs")
 
--- Provisional now that the damn plugin is archived
-require("plugins.platforms.treesitter")
 
 -- Large platform plugins mean that these are the more impactful elements of the config and should be considered on their own
 require("plugins.platforms.mini")

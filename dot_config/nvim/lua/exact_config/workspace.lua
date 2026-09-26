@@ -195,7 +195,7 @@ function M.pick_project()
 end
 
 function M.setup()
-  vim.o.sessionoptions = "buffers,curdir,folds,tabpages,winpos,winsize"
+  vim.o.sessionoptions = "buffers,curdir,folds,tabpages,winpos,winsize,help,terminal,options"
 
   vim.api.nvim_create_user_command("ProjectSwitch", function()
     M.pick_project()

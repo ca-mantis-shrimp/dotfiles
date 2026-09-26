@@ -1,0 +1,53 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 127.0.0.1:4317
+      http:
+        endpoint: 127.0.0.1:4318
+
+exporters:
+  file/agent_logs:
+    path: ${env:HOME}/.local/state/otelcol/agent-logs.jsonl
+    create_directory: true
+    directory_permissions: "0700"
+    format: json
+    rotation:
+      max_megabytes: 100
+      max_days: 30
+      max_backups: 20
+      localtime: false
+
+  file/agent_metrics:
+    path: ${env:HOME}/.local/state/otelcol/agent-metrics.jsonl
+    create_directory: true
+    directory_permissions: "0700"
+    format: json
+    rotation:
+      max_megabytes: 100
+      max_days: 30
+      max_backups: 20
+      localtime: false
+
+  file/agent_traces:
+    path: ${env:HOME}/.local/state/otelcol/agent-traces.jsonl
+    create_directory: true
+    directory_permissions: "0700"
+    format: json
+    rotation:
+      max_megabytes: 100
+      max_days: 30
+      max_backups: 20
+      localtime: false
+
+service:
+  pipelines:
+    logs:
+      receivers: [otlp]
+      exporters: [file/agent_logs]
+    metrics:
+      receivers: [otlp]
+      exporters: [file/agent_metrics]
+    traces:
+      receivers: [otlp]
+      exporters: [file/agent_traces]

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# creates a new worktree at ~/worktrees/<repo>/<branch>
+# usage: scripts/worktree-new <branch>
+
+branch=$1
+repo=$(basename "$(git rev-parse --show-toplevel)")
+target="$HOME/worktrees/$repo/$branch"
+
+git branch "$branch"
+mkdir -p "$HOME/worktrees/$repo"
+git worktree add "$target" "$branch"
+cd "$target" && git submodule update --init --recursive

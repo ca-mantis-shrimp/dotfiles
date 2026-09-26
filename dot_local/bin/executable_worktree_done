@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# removes worktree and branch after work is merged
+# usage: scripts/worktree-done <branch>
+
+branch=$1
+repo=$(basename "$(git rev-parse --show-toplevel)")
+target="$HOME/worktrees/$repo/$branch"
+
+git worktree remove "$target"
+git branch -d "$branch"
