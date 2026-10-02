@@ -11,6 +11,14 @@ dot_bashrc*
 dot_local/
 {{ end }}
 
+{{ if ne .chezmoi.hostname "mini-travel-server" }}
+# Radicale CalDAV sync: needs local Radicale and a TPM-sealed credential
+.vdirsyncer/
+.config/systemd/user/vdirsyncer.service
+.config/systemd/user/vdirsyncer.timer
+.config/systemd/user/timers.target.wants/vdirsyncer.timer
+{{ end }}
+
 archive/
 wiki/
 intentions/*

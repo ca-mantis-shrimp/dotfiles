@@ -1,0 +1,5 @@
+# Sourced by every zsh invocation — login, interactive, non-interactive, and
+# scripts — unlike .zshrc (interactive-only) or .zprofile (login-only). Tools
+# that spawn a plain non-interactive zsh (editor terminal jobs, Claude Code's
+# Bash tool, cron, etc.) only ever pick up PATH additions made here.
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"

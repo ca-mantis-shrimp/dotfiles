@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenTelemetry Collector agent log hub
+Documentation=https://opentelemetry.io/docs/collector/
+
+[Service]
+Type=simple
+ExecStartPre=%h/.local/bin/otelcol validate --config=file:%h/.config/otelcol/config.yaml
+ExecStart=%h/.local/bin/otelcol --config=file:%h/.config/otelcol/config.yaml
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+
+[Install]
+WantedBy=default.target

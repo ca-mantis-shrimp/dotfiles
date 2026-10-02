@@ -1,0 +1,3 @@
+# Tailnet-only OTLP/HTTP hub; see .clearhead/charters/agent-logs.md.
+telemetry:
+  otlpHub: http://mini-travel-server:4318

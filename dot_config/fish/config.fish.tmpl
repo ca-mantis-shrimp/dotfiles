@@ -4,6 +4,20 @@ set -xg PAGER "nvim +Man!"
 
 set -xg npm_config_prefix "$HOME/.local"
 
+# Agent telemetry → tailnet-only OTLP hub. Claude Code is configured in
+# ~/.claude/settings.json instead, so it exports however it is launched.
+set -xg OTEL_RESOURCE_ATTRIBUTES "host.name=$hostname"
+set -xg OTEL_EXPORTER_OTLP_PROTOCOL http/protobuf
+# opencode and Gemini append /v1/<signal> to this base URL.
+set -xg OTEL_EXPORTER_OTLP_ENDPOINT "{{ .telemetry.otlpHub }}"
+# Pi (pi-otlp) uses this verbatim and ignores the base URL's path convention.
+set -xg PI_OTLP_ENABLE 1
+set -xg OTEL_METRICS_EXPORTER otlp
+set -xg OTEL_EXPORTER_OTLP_METRICS_ENDPOINT "{{ .telemetry.otlpHub }}/v1/metrics"
+# Gemini defaults to gRPC and to logging prompts; keep content out.
+set -xg GEMINI_TELEMETRY_ENABLED true
+set -xg GEMINI_TELEMETRY_OTLP_PROTOCOL http
+set -xg GEMINI_TELEMETRY_LOG_PROMPTS false
 
 fish_add_path "$HOME/.cargo/bin"
 fish_add_path "$HOME/.local/bin"

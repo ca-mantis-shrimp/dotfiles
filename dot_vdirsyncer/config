@@ -15,4 +15,4 @@ fileext = ".ics"
 type = "caldav"
 url = "http://localhost:5232/backup-admin/"
 username = "backup-admin"
-password.fetch = ["command", "pass", "radicale/password"]
+password.fetch = ["command", "systemd-creds", "decrypt", "--user", "~/.config/credstore.encrypted/radicale.cred", "-"]

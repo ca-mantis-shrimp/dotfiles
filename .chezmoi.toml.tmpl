@@ -4,8 +4,8 @@ command = "pwsh"
 {{ end }}
 
 [diff]
-command = "nvim"
-args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+command = "{{ .chezmoi.homeDir }}/.local/bin/chezmoi-diff"
+args = ["{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
 
 [merge]
 command = "nvim"

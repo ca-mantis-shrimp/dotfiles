@@ -1,3 +1,6 @@
+---
+id: 01a0d1c7-a58f-77c2-a522-e4a550b197ec
+---
 # User-Level Clearhead config
 part of good api design is the need to ensure the border between our actual code and the user config used to run it are handled properly.
 
