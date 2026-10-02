@@ -4,6 +4,13 @@ This is a very intimate product, this is my primary config that is meant to be p
 
 This means we are both altering the config as well as altering the machine as well
 
+## Project intentions
+
+Intentions, actions, and handoff belong in the local `.clearhead/` workspace.
+The [mini-server charter](.clearhead/charters/mini-server.md) holds the migration
+plan; [OS documentation](os/mini-server/README.md) holds technical build and
+inventory references, not a second task checklist.
+
 ## Big Produts
 
 We have a few big things that we use to manage the structure:

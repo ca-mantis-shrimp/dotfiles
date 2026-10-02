@@ -1,0 +1,32 @@
+# Fedora 44 multi-architecture index, resolved 2026-10-01.
+# Refresh deliberately; see README.md. Do not replace this with :latest.
+FROM quay.io/fedora/fedora-bootc:44@sha256:62e0fe047be7b9c00abab3911fc84f8a22b2b2e097a6ca76119ebe395a6da3bf
+
+# This context must contain only public, non-secret OS configuration.
+COPY files/ /
+
+RUN dnf -y install \
+        NetworkManager \
+        firewalld \
+        openssh-server \
+        podman \
+        sudo \
+        syncthing \
+        tailscale \
+    && dnf clean all \
+    && systemctl enable \
+        NetworkManager.service \
+        firewalld.service \
+        sshd.service \
+        tailscaled.service \
+    && rm -rf \
+        /run/* \
+        /tmp/* \
+        /var/cache/* \
+        /var/lib/dnf \
+        /var/lib/rpm-state \
+        /var/log/*
+
+# Accounts, SSH authorized keys, Tailscale enrollment, application secrets, and
+# mutable application state are provisioned at install/runtime, never here.
+RUN bootc container lint --fatal-warnings
