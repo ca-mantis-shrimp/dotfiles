@@ -19,6 +19,16 @@ dot_local/
 .config/systemd/user/timers.target.wants/vdirsyncer.timer
 {{ end }}
 
+{{ if eq .chezmoi.os "linux" }}
+{{ if or (eq (env "CHEZMOI_IMMUTABLE") "1") (contains "particleos" (default "" .chezmoi.osRelease.idLike)) }}
+# Immutable images own backup tooling. Retired rclone move jobs must not be
+# installed as a substitute for separately configured restic backups.
+.config/rclone/
+.config/systemd/user/rclone-*
+.local/bin/rclone-*
+{{ end }}
+{{ end }}
+
 archive/
 wiki/
 intentions/*
