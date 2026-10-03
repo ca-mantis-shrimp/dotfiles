@@ -21,6 +21,8 @@ set -xg GEMINI_TELEMETRY_LOG_PROMPTS false
 
 fish_add_path "$HOME/.cargo/bin"
 fish_add_path "$HOME/.local/bin"
+# The agent sandbox runs from its checkout; skipped where there is none.
+fish_add_path "$HOME/Products/agent-sandbox/bin"
 
 
 {{ if eq .chezmoi.os "android" }}
