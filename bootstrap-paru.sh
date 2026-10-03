@@ -1,10 +1,19 @@
 #!/bin/sh
 
 [ "${CHEZMOI_CONTAINER:-}" = "1" ] && exit 0
+[ "${CHEZMOI_IMMUTABLE:-}" = "1" ] && exit 0
 [ "$(id -u)" -eq 0 ] && exit 0
 
-# Only runs on Arch-based systems
+# OS images own package installation, including future Arch ParticleOS images.
+[ -e /usr/lib/personal-os/immutable ] && exit 0
+[ -e /run/ostree-booted ] && exit 0
+
+# Only runs on mutable Arch; distro branding is an additional immutable guard.
 [ -f /etc/arch-release ] || exit 0
+[ -r /etc/os-release ] || exit 0
+. /etc/os-release
+[ "${ID:-}" = "arch" ] || exit 0
+case "${ID_LIKE:-}" in *particleos*) exit 0 ;; esac
 
 # Exit if an AUR helper is already installed
 type paru >/dev/null 2>&1 && exit 0
