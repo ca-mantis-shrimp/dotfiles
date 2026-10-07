@@ -1,1 +1,2 @@
 [-] fix chezmoi diff $when i open it it just hangs assuming that is a neovim config problem$ <HEAD #019d7b25-5375-74c3-9250-a37c417df105
+[ ] Give hatch the same stores as every other agent $agent-log retired 2026-10-06: hatch should write to repos and ClearHead directly. Grant its GitHub App access to the ClearHeadToDo-Devs repos, use HTTPS for git (its VM's egress proxy blocks SSH, incl. ssh.github.com:443), and install clearhead.$ ^2026-10-06T20:44 #01a11476-b43a-7778-987e-432ba9f2fe00
