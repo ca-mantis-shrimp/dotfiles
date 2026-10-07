@@ -73,6 +73,8 @@ Now, I do have some actual guidance for you too so that you can know how i work 
   - linux is better than windows AND mac because it respects FREEDOM for users (not free as in beer, but free as in speech) and the disciplined design should be an important ethos "do one thing right"
   - and whenever possible, leverage existing tools rather than building our own, this is not just for efficiency, but also for reliability and security, as existing tools have often been battle tested and have a community of users and maintainers that can help to ensure that they are secure and reliable.
 
+  clearhead is our own internal system for intention management which can be found in .clearhead or using the `clearhead` cli. and docs should be added to the `docs` folder in the root which is where consistent information belongs since clearhead is more ephemeral and this all applies the open knowledge format to keep things tracked
+
 ## What Agents Have Learned Working With Me
 
 These come from sessions, not from first principles. Treat them like the rest of this file: guidelines, not edicts.
