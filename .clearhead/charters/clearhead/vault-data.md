@@ -2,7 +2,7 @@
 id: 01a114c4-6a2b-730b-88c9-7772eb1f5845
 alias: vault-data
 parent: clearhead
-state: New
+state: Active
 ---
 # Clearhead data in the vault
 
