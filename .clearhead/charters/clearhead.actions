@@ -1,3 +1,3 @@
-[ ] get the rclone job working to sync to backblaze #019e9fe1-1a4e-78f1-89ef-968bff4f6361
-    >[ ] try initial sync with backblaze #019e9fe1-1a4e-78f1-89ef-96a877e302b0
-    >[ ] define use-level job for this work #019e9fe1-1a4e-78f1-89ef-96c9d5011b9d
+[ ] Back up desktop user data with restic to B2 $Replaces the rclone bisync plan: personal-os chose restic over rclone for backup (mini-server charter), and its server plan deliberately leaves the desktop out. Covers the vault and clearhead data; bisync is not a backup since deletions propagate both ways.$ #019e9fe1-1a4e-78f1-89ef-968bff4f6361
+    >[ ] Initialize the desktop restic repository on B2 and test a restore #019e9fe1-1a4e-78f1-89ef-96a877e302b0
+    >[ ] Define the user-level systemd timer for the restic backup #019e9fe1-1a4e-78f1-89ef-96c9d5011b9d
