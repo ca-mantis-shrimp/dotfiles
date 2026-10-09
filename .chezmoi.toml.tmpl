@@ -6,6 +6,7 @@ command = "pwsh"
 [diff]
 command = "{{ .chezmoi.homeDir }}/.local/bin/chezmoi-diff"
 args = ["{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+pager = "{{ .chezmoi.homeDir }}/.local/bin/chezmoi-pager"
 
 [merge]
 command = "nvim"
