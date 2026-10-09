@@ -23,6 +23,10 @@ fish_add_path "$HOME/.cargo/bin"
 fish_add_path "$HOME/.local/bin"
 # The agent sandbox runs from its checkout; skipped where there is none.
 fish_add_path "$HOME/Products/agent-sandbox/bin"
+# Where its sessions' images live on this host: the base tree (personal-os's
+# sandbox-worker build, until it is published) and the layer images.
+set -gx AGENT_BASE "$HOME/Products/personal-os/mkosi.output/sandbox-worker/PersonalOS__x86-64"
+set -gx AGENT_LAYERS "$HOME/.cache/agent-layers"
 
 
 {{ if eq .chezmoi.os "android" }}
