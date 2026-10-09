@@ -1,0 +1,5 @@
+{{- /* chezmoi:modify-template. chezmoi owns the keys in .chezmoitemplates/claude-settings.json; Claude Code may write any others. */ -}}
+{{- $current := dict -}}
+{{- if .chezmoi.stdin }}{{ $current = fromJson .chezmoi.stdin }}{{ end -}}
+{{- $managed := includeTemplate "claude-settings.json" . | fromJson -}}
+{{- toPrettyJson (merge $managed $current) -}}
