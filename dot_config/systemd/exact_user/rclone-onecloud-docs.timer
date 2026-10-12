@@ -1,0 +1,11 @@
+[Unit]
+Description=Schedule rclone document move to Onecloud
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=10m
+Unit=rclone-onecloud-docs.service
+
+[Install]
+WantedBy=timers.target

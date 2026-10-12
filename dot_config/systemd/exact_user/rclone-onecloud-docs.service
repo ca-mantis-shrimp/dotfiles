@@ -1,0 +1,15 @@
+[Unit]
+Description=Move documents to Onecloud via rclone
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/rclone/onecloud-docs.env
+ExecStart=%h/.local/bin/rclone-onecloud-docs
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=default.target

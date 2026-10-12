@@ -1,0 +1,12 @@
+[Unit]
+Description=Neovim Embedded Server (Backend)
+Documentation=man:nvim
+
+[Service]
+Type=exec
+RuntimeDirectory=nvim
+ExecStart=/usr/bin/nvim --headless --listen 0.0.0.0:6666
+Restart=on-success
+
+[Install]
+WantedBy=default.target

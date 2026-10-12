@@ -1,0 +1,12 @@
+[Unit]
+Description=Handy STT transcription daemon
+After=graphical-session.target
+
+[Service]
+Type=exec
+ExecStart=handy --start-hidden
+Restart=on-failure
+Slice=background-graphical.slice
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,19 @@
+[calendars]
+
+[[private]]
+path = ~/.local/share/clearhead/plans/*
+type = discover
+
+[[system]]
+path = ~/.local/share/khal/calendars/default/
+
+
+[locale]
+timeformat = %H:%M
+dateformat = %Y-%m-%d
+longdateformat = %Y-%m-%d
+datetimeformat = %Y-%m-%d %H:%M
+longdatetimeformat = %Y-%m-%d %H:%M
+
+[default]
+default_calendar = system

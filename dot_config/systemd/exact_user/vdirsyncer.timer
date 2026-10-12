@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically synchronize ClearHead calendar tasks
+
+[Timer]
+OnBootSec=2m
+OnUnitActiveSec=5m
+Persistent=true
+Unit=vdirsyncer.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,6 @@
+[x] write the collector config $otlp receiver on 127.0.0.1:4317 -> file exporter with rotation (+ debug while testing); pass otelcol validate$ ^2026-09-23T21:57 %2026-09-24T20:50 #01a0d1c6-b0fb-74e0-bf20-c8a4a6eb2386
+[x] track the config in chezmoi $chezmoi add ~/.config/otelcol/config.yaml$ ^2026-09-23T21:57 %2026-09-24T20:50 #01a0d1c6-b102-7046-aca1-bd212fd289de
+[x] write otelcol.service in dot_config/systemd/exact_user $user unit, Restart=on-failure, WantedBy=default.target$ ^2026-09-23T21:57 %2026-09-24T20:50 #01a0d1c6-b109-7457-b066-22db5f3d787d
+[x] enable and verify locally $chezmoi apply; systemctl --user enable --now otelcol; watch journalctl --user -u otelcol$ ^2026-09-23T21:57 %2026-09-24T20:50 #01a0d1c6-b113-746b-b782-6fda5aae2c76
+[x] decide retention and query story $answers the open questions in the charter$ ^2026-09-23T21:57 %2026-09-24T20:50 #01a0d1c6-b132-710b-b743-604c0a8f7221
+[x] expose over the tailnet $tailscale serve --bg --tcp 4317 tcp://127.0.0.1:4317; confirm with tailscale serve status$ ^2026-09-23T21:57 %2026-09-24T21:35 #01a0d1c6-b11b-706f-92f5-30d1c6031ea7

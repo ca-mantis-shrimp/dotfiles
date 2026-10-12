@@ -1,0 +1,25 @@
+# =============================================================================
+# Query: For the human
+# =============================================================================
+# Purpose: everything an agent is waiting on the human for: open actions
+# tagged +human, in any charter and any charter state. Empty means no agent
+# needs anything from you.
+# Usage: clearhead query named for-human
+# Returns: name, status, priority, source_file, source_line
+# =============================================================================
+
+PREFIX app: <https://clearhead.dev/vocab/app/v1#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?name ?status ?priority ?source_file ?source_line WHERE {
+    ?action a app:Action ;
+         rdfs:label ?name ;
+         app:state ?raw_state ;
+         app:context ?context .
+    ?context rdfs:label "human" .
+    FILTER(?raw_state != app:Completed && ?raw_state != app:Cancelled)
+    BIND(STRAFTER(STR(?raw_state), "#") AS ?status)
+    OPTIONAL { ?action app:priority ?priority }
+    OPTIONAL { ?action app:file ?source_file ; app:line ?source_line }
+}
+ORDER BY ?priority ?name

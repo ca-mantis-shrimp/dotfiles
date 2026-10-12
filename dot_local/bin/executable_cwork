@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKSPACE=${1:?Usage: cwork <path>}
+IMAGE="$HOME/.local/share/chezmoi/mkosi/mkosi.output/image"
+CREDENTIALS="$HOME/.claude/.credentials.json"
+CLAUDE_STATE="$HOME/.claude.json"
+
+for required in "$IMAGE" "$CREDENTIALS" "$CLAUDE_STATE"; do
+    if [ ! -e "$required" ]; then
+        printf 'cwork: missing %s\n' "$required" >&2
+        exit 1
+    fi
+done
+
+SESSION_STATE=$(mktemp --tmpdir cwork-claude-XXXXXX.json)
+trap 'rm -f "$SESSION_STATE"' EXIT
+cp "$CLAUDE_STATE" "$SESSION_STATE"
+
+sudo systemd-nspawn \
+    --directory="$IMAGE" \
+    --ephemeral \
+    --bind="$(realpath "$WORKSPACE")":/workspace \
+    --bind="$(realpath "$CREDENTIALS")":/home/agent/.claude/.credentials.json \
+    --bind="$SESSION_STATE":/home/agent/.claude.json \
+    --bind="$HOME/.config/gh":/home/agent/.config/gh \
+    --user=agent \
+    --chdir=/workspace \
+    --setenv=PATH=/home/agent/.local/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin

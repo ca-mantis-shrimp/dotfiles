@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ENV_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/rclone/onecloud-docs.env"
+
+if [[ ! -f "$ENV_FILE" ]]; then
+    printf 'Missing env file: %s\n' "$ENV_FILE" >&2
+    exit 1
+fi
+
+# shellcheck disable=SC1090
+source "$ENV_FILE"
+
+for required in SRC_DIR DEST_REMOTE; do
+    if [[ -z "${!required:-}" ]]; then
+        printf 'Missing required setting in env file: %s\n' "$required" >&2
+        exit 1
+    fi
+done
+
+LOCK_FILE="${XDG_RUNTIME_DIR:-/tmp}/rclone-onecloud-docs.lock"
+exec 9>"$LOCK_FILE"
+if ! flock -n 9; then
+    printf 'rclone-onecloud-docs: another run is already active\n' >&2
+    exit 0
+fi
+
+RCLONE_BIN="${RCLONE_BIN:-rclone}"
+LOG_DIR="${RCLONE_LOG_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/rclone}"
+mkdir -p "$LOG_DIR"
+
+LOG_FILE="$LOG_DIR/onecloud-docs.log"
+
+args=(
+    move
+    "$SRC_DIR"
+    "$DEST_REMOTE"
+    --delete-empty-src-dirs
+    --fast-list
+    --transfers "${RCLONE_TRANSFERS:-4}"
+    --checkers "${RCLONE_CHECKERS:-8}"
+    --retries "${RCLONE_RETRIES:-5}"
+    --low-level-retries "${RCLONE_LOW_LEVEL_RETRIES:-10}"
+    --timeout "${RCLONE_TIMEOUT:-1m}"
+    --log-level "${RCLONE_LOG_LEVEL:-INFO}"
+    --log-file "$LOG_FILE"
+)
+
+if [[ "${RCLONE_DRY_RUN:-true}" == "true" ]]; then
+    args+=(--dry-run)
+fi
+
+if [[ -n "${RCLONE_EXCLUDE_FROM:-}" ]]; then
+    args+=(--exclude-from "$RCLONE_EXCLUDE_FROM")
+fi
+
+if [[ -n "${RCLONE_EXTRA_ARGS:-}" ]]; then
+    # shellcheck disable=SC2206
+    extra_args=($RCLONE_EXTRA_ARGS)
+    args+=("${extra_args[@]}")
+fi
+
+exec "$RCLONE_BIN" "${args[@]}"

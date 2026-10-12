@@ -3,6 +3,15 @@
 command = "pwsh"
 {{ end }}
 
+[diff]
+command = "{{ .chezmoi.homeDir }}/.local/bin/chezmoi-diff"
+args = ["{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+pager = "{{ .chezmoi.homeDir }}/.local/bin/chezmoi-pager"
+
+[merge]
+command = "nvim"
+args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+
 [edit]
 command = "nvim"
 
@@ -12,7 +21,7 @@ autoCommit = true
 [onepassword]
 mode = "service"
 
-{{ if eq .chezmoi.os "linux" }}
+{{ if and (eq .chezmoi.os "linux") (ne (env "CHEZMOI_CONTAINER") "1") }}
 [hooks.read-source-state.pre]
     command = "sh"
     args = ["{{ .chezmoi.sourceDir }}/bootstrap-paru.sh"]

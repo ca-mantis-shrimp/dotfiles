@@ -1,0 +1,17 @@
+[Unit]
+Description=Synchronize ClearHead VTODOs through Radicale
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h
+ExecStart=/usr/bin/vdirsyncer sync plans
+ExecStart=%h/.cargo/bin/clearhead sync calendar
+ExecStart=/usr/bin/vdirsyncer sync plans
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=default.target

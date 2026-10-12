@@ -1,0 +1,8 @@
+#!/bin/sh
+# chezmoi diff.pager: the usual $PAGER for a human at a terminal, plain output
+# otherwise. chezmoi pipes into the pager even when stdout is not a terminal, and
+# `nvim +Man!` then waits forever for a screen (seen 2026-10-09).
+if [ -t 1 ]; then
+	exec ${PAGER:-less}
+fi
+exec cat

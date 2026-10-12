@@ -1,0 +1,18 @@
+[general]
+status_path = "~/.vdirsyncer/status/"
+
+[pair plans]
+a = "plans_local"
+b = "plans_radicale"
+collections = ["from a", "from b"]
+
+[storage plans_local]
+type = "filesystem"
+path = "~/.local/share/clearhead/plans/"
+fileext = ".ics"
+
+[storage plans_radicale]
+type = "caldav"
+url = "http://localhost:5232/backup-admin/"
+username = "backup-admin"
+password.fetch = ["command", "systemd-creds", "decrypt", "--user", "~/.config/credstore.encrypted/radicale.cred", "-"]

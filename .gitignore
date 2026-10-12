@@ -1,4 +1,6 @@
 Session.vim
+.pi/remote-pi/
+.pi/tasks/
 .aider*
 image/*
 image.*
