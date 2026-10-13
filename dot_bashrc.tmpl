@@ -2,11 +2,13 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
+{{ if eq (index . "role" | default "desktop") "agent-host" -}}
 # The user manager reads environment.d; bash logins don't, so read it here too.
 for f in "$HOME"/.config/environment.d/*.conf; do
     [ -r "$f" ] && { set -a; . "$f"; set +a; }
 done
 
+{{ end -}}
 if [ -n "${CREDENTIALS_DIRECTORY:-}" ] && [ -f "$CREDENTIALS_DIRECTORY/GH_TOKEN" ]; then
 export GH_TOKEN="$(<"$CREDENTIALS_DIRECTORY/GH_TOKEN")"
 fi

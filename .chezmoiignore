@@ -23,6 +23,8 @@ dot_local/
 # Agent hosts (headless, immutable image) take an allowlist: shell, git, editor
 # and agent config. New desktop config stays off them by default. Units on the
 # host are its own (shpool, srr-demo), so systemd is left alone entirely.
+# Products/platform (.chezmoiexternal.toml) still applies: the clearhead skill
+# links point into it, and chezmoi never touches an existing checkout.
 *
 !.bashrc
 !.gitconfig
