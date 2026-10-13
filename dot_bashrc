@@ -12,3 +12,7 @@ eval "$(fzf --bash)"
 eval $(luarocks path --bin)
 
 eval "$(starship init bash)"
+
+# Agent shells: a pipeline fails when any stage fails, so
+# `cmd | tail` cannot report cmd's failure as success.
+[ -n "${CLAUDECODE-}" ] && set -o pipefail

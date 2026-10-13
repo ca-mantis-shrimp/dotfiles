@@ -15,5 +15,6 @@
     "npm:remote-pi",
     "npm:@mobrienv/pi-otlp"
   ],
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "shellCommandPrefix": "set -o pipefail"
 }
