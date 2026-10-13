@@ -1,3 +1,8 @@
+{{- /* desktop (default) or agent-host: a headless agent machine on an immutable image. */ -}}
+{{- $role := promptStringOnce . "role" "Machine role (desktop or agent-host)" "desktop" }}
+[data]
+role = {{ $role | quote }}
+
 {{ if eq .chezmoi.os "windows" }}
 [cd]
 command = "pwsh"
@@ -21,7 +26,7 @@ autoCommit = true
 [onepassword]
 mode = "service"
 
-{{ if and (eq .chezmoi.os "linux") (ne (env "CHEZMOI_CONTAINER") "1") }}
+{{ if and (eq .chezmoi.os "linux") (ne (env "CHEZMOI_CONTAINER") "1") (ne $role "agent-host") }}
 [hooks.read-source-state.pre]
     command = "sh"
     args = ["{{ .chezmoi.sourceDir }}/bootstrap-paru.sh"]

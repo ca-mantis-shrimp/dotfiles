@@ -19,6 +19,34 @@ dot_local/
 .config/systemd/user/timers.target.wants/vdirsyncer.timer
 {{ end }}
 
+{{ if eq (index . "role" | default "desktop") "agent-host" }}
+# Agent hosts (headless, immutable image) take an allowlist: shell, git, editor
+# and agent config. New desktop config stays off them by default. Units on the
+# host are its own (shpool, srr-demo), so systemd is left alone entirely.
+*
+!.bashrc
+!.gitconfig
+!.markdownlint-cli2.yaml
+!.claude
+!.pi
+# pi rewrites this file (deviceId, changelog); a plain copy would fight it and add packages.
+.pi/agent/settings.json
+!.gemini
+!.config
+.config/*
+!.config/clearhead
+!.config/nvim
+!.local
+.local/*
+!.local/bin
+.local/bin/*
+!.local/bin/chezmoi-diff
+!.local/bin/chezmoi-pager
+!.local/bin/cwork
+!.local/bin/okf
+!.local/bin/worktree_*
+{{ end }}
+
 archive/
 wiki/
 intentions/*

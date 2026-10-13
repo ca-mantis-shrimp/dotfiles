@@ -2,16 +2,21 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# The user manager reads environment.d; bash logins don't, so read it here too.
+for f in "$HOME"/.config/environment.d/*.conf; do
+    [ -r "$f" ] && { set -a; . "$f"; set +a; }
+done
+
 if [ -n "${CREDENTIALS_DIRECTORY:-}" ] && [ -f "$CREDENTIALS_DIRECTORY/GH_TOKEN" ]; then
 export GH_TOKEN="$(<"$CREDENTIALS_DIRECTORY/GH_TOKEN")"
 fi
 
 # Set up fzf key bindings and fuzzy completion
-eval "$(fzf --bash)"
+command -v fzf >/dev/null && eval "$(fzf --bash)"
 # properly setup environment variables for lua
-eval $(luarocks path --bin)
+command -v luarocks >/dev/null && eval $(luarocks path --bin)
 
-eval "$(starship init bash)"
+command -v starship >/dev/null && eval "$(starship init bash)"
 
 # Agent shells: a pipeline fails when any stage fails, so
 # `cmd | tail` cannot report cmd's failure as success.

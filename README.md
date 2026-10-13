@@ -30,6 +30,12 @@ Now here is the current state of the machines we need to operate with:
 2. tiny server: a small arch machine that is used for testing and as a part of my modular laptop: full amd cpu and gpu combination in a little box
 3. the phone: on android we are either running termux or even another arch proot distro to be able to do local-first development on the phone, this is a bit of a stretch but it is a fun experiment to see how far we can take it
 4. work laptop: i have a windows machine but it has the windows subsystem for linux so im always going back and forth on how much we should freak out about the windows side or if we just should work entirely from WSL
+5. devbox: the NUC dev pod, a headless agent host on an immutable personal-os image
+
+Each machine has a `role` in chezmoi data, asked once by `chezmoi init`: `desktop` (the default) or `agent-host`.
+An agent host takes only an allowlist (shell, git, nvim, agent config; see `.chezmoiignore`), never runs the paru
+hook, and leaves its own systemd units alone. Set it without the prompt:
+`chezmoi init --promptString 'Machine role (desktop or agent-host)=agent-host'`.
 
 #### Pedantic Details
 
