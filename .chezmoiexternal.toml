@@ -5,3 +5,11 @@
     type = "git-repo"
     url = "https://github.com/ClearHeadToDo-Devs/platform.git"
     clone.args = ["--recurse-submodules"]
+
+# Release binaries, pinned by version and checksum. Bump both together.
+[".local/bin/okf"]
+    type = "archive-file"
+    url = "https://github.com/okfcli/okf/releases/download/v0.5.0/okf_0.5.0_linux_amd64.tar.gz"
+    path = "okf"
+    executable = true
+    checksum.sha256 = "287b666f13cfb1507fddacc7202dce81de722ec1ffde81845b8ac3f16626d531"
