@@ -18,6 +18,11 @@ command -v fzf >/dev/null && eval "$(fzf --bash)"
 # properly setup environment variables for lua
 command -v luarocks >/dev/null && eval $(luarocks path --bin)
 
+# A TUI killed mid-run (e.g. by a reboot) leaves the terminal in kitty keyboard /
+# modifyOtherKeys mode, so capitals arrive as escape codes; reset both at each prompt.
+# Before starship's init, which puts itself first so it still sees the last exit status.
+PROMPT_COMMAND="printf '\e[>4m\e[<u'${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+
 command -v starship >/dev/null && eval "$(starship init bash)"
 
 # Agent shells: a pipeline fails when any stage fails, so
