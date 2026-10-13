@@ -1,0 +1,7 @@
+# Our own repos, cloned where agents and skills expect them. chezmoi clones on
+# the first apply and never pulls on later ones (a working checkout is left
+# alone); `chezmoi apply --refresh-externals` fast-forwards.
+["Products/platform"]
+    type = "git-repo"
+    url = "https://github.com/ClearHeadToDo-Devs/platform.git"
+    clone.args = ["--recurse-submodules"]
