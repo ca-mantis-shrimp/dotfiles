@@ -6,10 +6,15 @@ require("conform").setup({
     markdown = { "markdownlint-cli2" },
     python = { "ruff", "black" },
     clojure = { "cljfmt" },
-    json = { "jq" },
-    jsonc = { "jq" },
+    json = { "oxfmt", "jq", stop_after_first = true },
+    jsonc = { "oxfmt", "jq", stop_after_first = true },
     toml = { "tombi" },
-    javascript = { "js_beautify" },
+    javascript = { "oxfmt", "js_beautify", stop_after_first = true },
+    javascriptreact = { "oxfmt" },
+    typescript = { "oxfmt" },
+    typescriptreact = { "oxfmt" },
   },
+  -- Only where the project declares oxfmt, so its formatting matches the project's check.
+  formatters = { oxfmt = { require_cwd = true } },
   format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
 })
