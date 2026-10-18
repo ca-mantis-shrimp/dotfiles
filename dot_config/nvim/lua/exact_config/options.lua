@@ -13,12 +13,13 @@ vim.opt.hlsearch = true
 vim.opt.timeoutlen = 300
 vim.opt.cmdheight = 0 -- hide the command line unless needed
 vim.opt.formatexpr = "require'conform'.formatexpr()"
+-- Servers live outside nvim: on Linux, chezmoi's install-lsp-servers script and externals.
 vim.lsp.enable({
   "lua_ls",
   "pyright",
+  "bashls",
   "fish-lsp",
   "systemd_lsp",
-  "powershell_es",
   "jsonls",
   "clojure_lsp",
   "rust_analyzer",
@@ -26,6 +27,7 @@ vim.lsp.enable({
   "oxlint",
   "copilot",
 })
+if vim.fn.has("win32") == 1 then vim.lsp.enable("powershell_es") end
 vim.diagnostic.config({ virtual_text = { current_line = true }, virtual_lines = true })
 vim.o.winborder = "rounded"
 vim.opt.splitright = true
