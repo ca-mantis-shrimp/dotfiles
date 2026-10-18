@@ -46,6 +46,8 @@ dot_local/
 !.local/bin/chezmoi-pager
 !.local/bin/copilot-language-server
 !.local/bin/cwork
+!.local/bin/nv
+!.local/bin/say
 !.local/bin/okf
 !.local/bin/worktree_*
 {{ end }}
