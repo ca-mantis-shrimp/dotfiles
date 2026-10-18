@@ -1,7 +1,7 @@
 vim.pack.add({ "https://github.com/MeanderingProgrammer/render-markdown.nvim" })
 vim.pack.add({ "https://github.com/obsidian-nvim/obsidian.nvim" })
 
-require("render-markdown").setup({ file_types = { "markdown", "Avante" } })
+require("render-markdown").setup({ file_types = { "markdown" } })
 
 require("obsidian").setup({
   workspaces = { { name = "knowledge base", path = "~/Documents/knowledge_base" } },
