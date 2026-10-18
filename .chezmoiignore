@@ -45,11 +45,18 @@ dot_local/
 !.local/bin/chezmoi-diff
 !.local/bin/chezmoi-pager
 !.local/bin/copilot-language-server
+!.local/bin/clj-kondo
+!.local/bin/cljfmt
+!.local/bin/clojure-lsp
 !.local/bin/cwork
+!.local/bin/java
 !.local/bin/nv
 !.local/bin/say
 !.local/bin/okf
 !.local/bin/worktree_*
+!.local/lib
+.local/lib/*
+!.local/lib/jdk
 {{ end }}
 
 archive/

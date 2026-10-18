@@ -22,3 +22,32 @@
     path = "copilot-language-server"
     executable = true
     checksum.sha256 = "f87d67b12986bfb8106cd19fef79b80a423bc1012975c8f380bcd164a753b541"
+
+# Clojure toolchain, for rwd. The JDK is the runtime; the rest are native builds.
+[".local/lib/jdk"]
+    type = "archive"
+    url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz"
+    stripComponents = 1
+    exact = true
+    checksum.sha256 = "dbb698396d478e7fa2b1e50f4103324b2a99b90569ee27c33f2261f9215cf41e"
+
+[".local/bin/clojure-lsp"]
+    type = "archive-file"
+    url = "https://github.com/clojure-lsp/clojure-lsp/releases/download/2026.10.15-11.42.38/clojure-lsp-native-static-linux-amd64.zip"
+    path = "clojure-lsp"
+    executable = true
+    checksum.sha256 = "81fa5cc4aeef09fd14e94b9913d3e46a47c32f39096d60c49b27f3609912c44a"
+
+[".local/bin/clj-kondo"]
+    type = "archive-file"
+    url = "https://github.com/clj-kondo/clj-kondo/releases/download/v2026.08.04/clj-kondo-2026.08.04-linux-static-amd64.zip"
+    path = "clj-kondo"
+    executable = true
+    checksum.sha256 = "25dce55f597cc7f034f6c5f8bf4195128e3efeb3b22710a066fb67b489e70a3b"
+
+[".local/bin/cljfmt"]
+    type = "archive-file"
+    url = "https://github.com/weavejester/cljfmt/releases/download/0.16.6/cljfmt-0.16.6-linux-amd64-static.tar.gz"
+    path = "cljfmt"
+    executable = true
+    checksum.sha256 = "a01efb0e42a10d0f448f0dfd6740d62ced058d6649487c608710c6378b73f1cb"

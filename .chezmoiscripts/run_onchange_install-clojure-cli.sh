@@ -1,0 +1,13 @@
+#!/bin/sh
+# The Clojure CLI (clojure, clj) into ~/.local. Its installer rewrites paths inside
+# the scripts, so it can't be a plain external. The installer is pinned by checksum
+# and checks its own download. Bump the version and both checksums together.
+set -eu
+version=1.12.6.1673
+installer_sha256=5ae63b082ed33bf4c29bf1a8317c5c15249d1bc753676b2f5177fb3804ad6f77
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+cd "$tmp"
+curl -fsSLO "https://github.com/clojure/brew-install/releases/download/$version/linux-install.sh"
+echo "$installer_sha256  linux-install.sh" | sha256sum -c --quiet
+bash linux-install.sh --prefix "$HOME/.local"

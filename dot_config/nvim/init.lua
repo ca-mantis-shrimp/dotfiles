@@ -22,6 +22,7 @@ require("plugins.git")
 require("plugins.navigation")
 require("plugins.LLM")
 require("plugins.prose")
+require("plugins.lisp")
 require("plugins.clearhead")
 
 -- Finally, we set keymaps and autocmds last because they may depend on plugins being loaded and configured first, and we want to ensure that all plugins are available before we set up keymaps and autocmds that may rely on them.
