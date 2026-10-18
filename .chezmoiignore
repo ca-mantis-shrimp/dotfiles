@@ -51,6 +51,7 @@ dot_local/
 !.local/bin/cwork
 !.local/bin/java
 !.local/bin/nv
+!.local/bin/nrepl-*
 !.local/bin/say
 !.local/bin/okf
 !.local/bin/tree-sitter

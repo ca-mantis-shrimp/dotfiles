@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Evaluate Clojure in the project's running nREPL (the one nrepl-up started), from an argument or stdin.
+# Prints output and values; exits 1 if the code threw. Namespaces are shared with every other client.
+#   nrepl-eval "(require 'rwd.derive :reload)"
+set -euo pipefail
+
+dir=$PWD
+until [ -f "$dir/.nrepl-port" ]; do
+    [ "$dir" = / ] && { echo 'nrepl-eval: no .nrepl-port here or above; run nrepl-up' >&2; exit 1; }
+    dir=$(dirname "$dir")
+done
+
+code=${1:-$(cat)}
+NREPL_PORT=$(cat "$dir/.nrepl-port") NREPL_CODE=$code exec clojure \
+    -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.8.0"}}}' -M -e "
+(require '[nrepl.core :as n])
+(with-open [conn (n/connect :port (parse-long (System/getenv \"NREPL_PORT\")))]
+  (let [client (n/client conn 600000)
+        session (n/new-session client) ; one session, so *e still holds the error for pst
+        run (fn [code] (n/combine-responses (n/message client {:op \"eval\" :code code :session session})))
+        {:keys [out err value ex]} (run (System/getenv \"NREPL_CODE\"))]
+    (when out (print out))
+    (when err (binding [*out* *err*] (print err)))
+    (doseq [v value] (println v))
+    (when ex
+      (let [trace (run \"(clojure.repl/pst *e 12)\")]
+        (binding [*out* *err*] (print (str (:out trace) (:err trace))) (flush))
+        (System/exit 1)))
+    (flush)))"

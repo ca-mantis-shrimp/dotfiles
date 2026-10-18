@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Start a project's nREPL as a user service, so it outlives the terminal or agent session that started it.
+# Run from the project root (it needs an :nrepl alias in deps.edn). Shared by Darrion's Conjure and agents.
+#   stop: systemctl --user stop nrepl-<project>     logs: journalctl --user -u nrepl-<project>
+set -euo pipefail
+
+root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+unit="nrepl-$(basename "$root")"
+
+if systemctl --user is-active --quiet "$unit"; then
+    printf '%s already running, port %s\n' "$unit" "$(cat "$root/.nrepl-port" 2>/dev/null || echo unknown)"
+    exit 0
+fi
+rm -f "$root/.nrepl-port" # left behind by a REPL that was killed
+systemctl --user reset-failed "$unit" 2>/dev/null || true
+
+systemd-run --user --quiet --unit "$unit" --working-directory "$root" --setenv PATH="$PATH" \
+    clojure -M:nrepl
+
+for _ in $(seq 60); do
+    [ -f "$root/.nrepl-port" ] && { printf '%s running, port %s\n' "$unit" "$(cat "$root/.nrepl-port")"; exit 0; }
+    systemctl --user is-active --quiet "$unit" || break
+    sleep 1
+done
+printf 'nrepl-up: %s did not start; journalctl --user -u %s\n' "$unit" "$unit" >&2
+exit 1
