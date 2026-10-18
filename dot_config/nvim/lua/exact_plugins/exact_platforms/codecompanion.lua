@@ -1,10 +1,4 @@
--- both mcphub and codecompanion use plenary so we just need to ensure that is present
--- mcphub is shared with avante — setup lives here since this loads first
--- Assumes that the mcp-hub dep was installed globally
-vim.pack.add({ "https://github.com/ravitemer/mcphub.nvim" })
-require("mcphub").setup()
-
--- extra deps are nvim-treesitter
+-- codecompanion uses plenary (libs.lua); extra deps are nvim-treesitter
 vim.pack.add({ "https://github.com/olimorris/codecompanion.nvim" })
 
 require("codecompanion").setup({
@@ -19,16 +13,6 @@ require("codecompanion").setup({
           },
         })
       end,
-    },
-  },
-  extensions = {
-    mcphub = {
-      callback = "mcphub.extensions.codecompanion",
-      opts = {
-        make_vars = false,
-        make_slash_commands = true,
-        show_result_in_chat = true,
-      },
     },
   },
 })
