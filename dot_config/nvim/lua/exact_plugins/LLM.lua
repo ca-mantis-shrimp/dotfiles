@@ -1,7 +1,10 @@
 vim.pack.add({
-  "https://github.com/github/copilot.vim", -- For easy copilot setup
   "https://github.com/folke/sidekick.nvim", -- a nice, minimal ui/terminal wrapper
 })
+
+-- Copilot runs as an LSP (options.lua); its ghost text is native inline completion.
+-- In insert mode <Tab> goes through blink (blink.lua).
+vim.lsp.inline_completion.enable()
 
 require("sidekick").setup({
   cli = {
@@ -12,7 +15,7 @@ require("sidekick").setup({
     },
   },
 })
-vim.keymap.set({ "n", "i", "x" }, "<tab>", function()
+vim.keymap.set({ "n", "x" }, "<tab>", function()
   return require("sidekick").nes_jump_or_apply() or "<tab>"
 end, { expr = true, desc = "Goto/Apply Next Edit Suggestion" })
 vim.keymap.set({ "n", "t", "i", "x" }, "<c-.>", function()

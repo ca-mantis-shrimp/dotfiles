@@ -7,7 +7,15 @@ vim.pack.add({
 local cmp = require("blink.cmp")
 
 cmp.setup({
-  keymap = { preset = "default" },
+  keymap = {
+    preset = "default",
+    ["<Tab>"] = {
+      "snippet_forward",
+      function() return require("sidekick").nes_jump_or_apply() end,
+      function() return vim.lsp.inline_completion.get() end,
+      "fallback",
+    },
+  },
   appearance = { nerd_font_variant = "mono" },
   completion = { documentation = { auto_show = false } },
   sources = { default = { "lsp", "path", "snippets", "buffer" } },

@@ -13,3 +13,12 @@
     path = "okf"
     executable = true
     checksum.sha256 = "287b666f13cfb1507fddacc7202dce81de722ec1ffde81845b8ac3f16626d531"
+
+# Copilot's LSP: inline completion and sidekick's next edit suggestions in nvim.
+# Upstream publishes no checksums; this one is from the first download.
+[".local/bin/copilot-language-server"]
+    type = "archive-file"
+    url = "https://github.com/github/copilot-language-server-release/releases/download/1.554.0/copilot-language-server-linux-x64-1.554.0.zip"
+    path = "copilot-language-server"
+    executable = true
+    checksum.sha256 = "f87d67b12986bfb8106cd19fef79b80a423bc1012975c8f380bcd164a753b541"

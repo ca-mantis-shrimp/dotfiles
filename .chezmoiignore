@@ -44,6 +44,7 @@ dot_local/
 .local/bin/*
 !.local/bin/chezmoi-diff
 !.local/bin/chezmoi-pager
+!.local/bin/copilot-language-server
 !.local/bin/cwork
 !.local/bin/okf
 !.local/bin/worktree_*
