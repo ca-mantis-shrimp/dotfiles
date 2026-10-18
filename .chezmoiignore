@@ -53,6 +53,7 @@ dot_local/
 !.local/bin/nv
 !.local/bin/say
 !.local/bin/okf
+!.local/bin/tree-sitter
 !.local/bin/worktree_*
 !.local/lib
 .local/lib/*
