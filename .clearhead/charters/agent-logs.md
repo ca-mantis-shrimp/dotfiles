@@ -25,7 +25,7 @@ Done means: an agent on another tailnet device emits OTLP logs, and they show up
 - **Bind to `127.0.0.1:4317`; expose it with `tailscale serve --bg --tcp 4317`.** A user unit can't be ordered after the system's `tailscaled.service`, so binding directly to the tailnet IP would race at boot. Binding to `0.0.0.0` would expose the port on untrusted networks.
 - **The unit goes in `dot_config/systemd/exact_user/`.** Because of the `exact_` prefix, chezmoi deletes any untracked unit in `~/.config/systemd/user/`.
 - **The config lives at `~/.config/otelcol/config.yaml`.** It's validated with `otelcol validate` before each restart.
-- **`mini-travel-server` is the hub.** It already has the collector binary and user lingering enabled, and its server role makes it the least surprising always-on target.
+- **The services machine (the N150) is the hub** (Darrion, 2026-10-19; personal-os `services` charter). It replaces `mini-travel-server`, whose hardware became the devbox on 2026-10-11; until the N150 runs, `otlpHub` still names that dead host and nothing is collected.
 - **Retain at most 30 days and 20 rotated 100 MB files.** This bounds rotated history at roughly 2 GB while preserving enough time for retrospective debugging. Revisit after observing real traffic volume.
 - **Do not batch yet.** For the initial low-volume, single-file pipeline, avoiding another buffer keeps failure and shutdown behavior straightforward. Add `batch` only if measured write or throughput pressure warrants it.
 - **Use `jq` for raw inspection and DuckDB for recurring queries.** `~/.config/otelcol/query.sql` defines views over the active and rotated JSONL files; load it with `duckdb -init ~/.config/otelcol/query.sql`.
