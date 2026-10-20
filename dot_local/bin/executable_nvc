@@ -4,6 +4,8 @@
 # Remote hosts (forwarding the socket over ssh) come once that has been tried by hand: chezmoi =nvim-server.
 set -euo pipefail
 
+[ $# -eq 0 ] || { echo "nvc: remote hosts are not supported yet; it attaches to the local server only" >&2; exit 2; }
+
 sock="$XDG_RUNTIME_DIR/nvim/server.sock"
 
 systemctl --user start neovim-server
