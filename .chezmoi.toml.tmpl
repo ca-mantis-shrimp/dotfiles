@@ -1,7 +1,11 @@
-{{- /* desktop (default) or agent-host: a headless agent machine on an immutable image. */ -}}
-{{- $role := promptStringOnce . "role" "Machine role (desktop or agent-host)" "desktop" }}
+{{- /* desktop (default) or agent-host: a headless agent machine on an immutable image.
+     The phone (android, Termux) is found by its OS, so it is never asked. */ -}}
+{{- $role := "" }}
+{{- if ne .chezmoi.os "android" }}
+{{- $role = promptStringOnce . "role" "Machine role (desktop or agent-host)" "desktop" }}
 [data]
 role = {{ $role | quote }}
+{{- end }}
 
 {{ if eq .chezmoi.os "windows" }}
 [cd]

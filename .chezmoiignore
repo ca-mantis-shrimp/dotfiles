@@ -15,6 +15,34 @@ dot_local/
 # The phone (Termux): its boot script, and the keys allowed to ssh into it.
 .termux/
 .ssh/authorized_keys
+{{ else }}
+# The phone takes an allowlist: shell, git, nvim and agent config, enough to work
+# offline. Desktop, systemd and linux/amd64 config stays off it by default.
+# Products/platform (.chezmoiexternal.toml) still applies, for the clearhead skill links.
+*
+!.bashrc
+!.gitconfig
+!.markdownlint-cli2.yaml
+!.claude
+!.pi
+!.gemini
+!.termux
+!.ssh
+!.config
+.config/*
+!.config/fish
+!.config/starship.toml
+!.config/nvim
+!.config/mcphub
+!.config/clearhead
+!.local
+.local/*
+!.local/bin
+.local/bin/*
+!.local/bin/chezmoi-diff
+!.local/bin/chezmoi-pager
+!.local/bin/nv
+!.local/bin/nvc
 {{ end }}
 
 {{ if ne .chezmoi.hostname "mini-travel-server" }}
