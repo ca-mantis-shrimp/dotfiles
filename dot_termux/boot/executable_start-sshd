@@ -1,0 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/sh
+# Termux:Boot runs this when the phone starts. The wakelock keeps Android from
+# pausing Termux, so sshd (port 8022, keys only) stays reachable over the tailnet.
+termux-wake-lock
+sshd -o PasswordAuthentication=no

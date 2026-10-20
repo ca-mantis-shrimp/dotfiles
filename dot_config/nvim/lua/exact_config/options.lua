@@ -13,7 +13,7 @@ vim.opt.hlsearch = true
 vim.opt.timeoutlen = 300
 vim.opt.cmdheight = 0 -- hide the command line unless needed
 vim.opt.formatexpr = "require'conform'.formatexpr()"
--- Servers live outside nvim: on Linux, chezmoi's install-editor-tools script and externals.
+-- Servers live outside nvim: chezmoi installs them from .chezmoidata/packages.yaml and externals.
 vim.lsp.enable({
   "lua_ls",
   "pyright",

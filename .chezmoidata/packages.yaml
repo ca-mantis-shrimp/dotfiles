@@ -1,3 +1,6 @@
+# One list per install method. A tool's method is chosen by the list it is in;
+# where each method runs is decided by its script in .chezmoiscripts, not here.
+# Release binaries need a URL and checksum, so they live in .chezmoiexternal.toml.
 packages:
   pacman:
     # --- Base System ---
@@ -416,3 +419,28 @@ packages:
 
     # --- AUR Backup AUR Helper ---
     - yay
+
+  # The phone (Termux, pkg). Curated: only what local nvim and the shell need.
+  termux:
+    - neovim
+    - git
+    - openssh
+    - chezmoi
+    - tree-sitter    # the CLI; nvim-treesitter compiles parsers with it and clang
+    - clang
+    - fish
+    - starship
+    - zoxide
+    - fzf
+    - ripgrep
+    - fd
+    - lazygit
+    - nodejs         # for the npm list below
+
+  # Language servers and linters from npm, into ~/.local, wherever npm exists.
+  npm:
+    - pyright@1.1.414
+    - bash-language-server@5.8.1
+    - vscode-langservers-extracted@4.10.0
+    - fish-lsp@1.1.5
+    - markdownlint-cli2@0.23.3

@@ -37,6 +37,11 @@ An agent host takes only an allowlist (shell, git, nvim, agent config; see `.che
 hook, and leaves its own systemd units alone. Set it without the prompt:
 `chezmoi init --promptString 'Machine role (desktop or agent-host)=agent-host'`.
 
+Packages are data: `.chezmoidata/packages.yaml` holds one list per install method, and each method's script in
+`.chezmoiscripts` decides where it runs (pacman on Arch, `termux` on android, `npm` wherever npm exists). The phone
+is found by `chezmoi.os == "android"`; Termux:Boot starts its sshd on port 8022, keys only, and
+`.ssh/authorized_keys` there lets devbox in (`ssh phone`).
+
 #### Pedantic Details
 
 Finally for solid small details, we have fully transitioned to wayland as our backend where relevant.

@@ -1,0 +1,7 @@
+{{ if lookPath "npm" -}}
+#!{{ lookPath "sh" }}
+# The npm list in .chezmoidata/packages.yaml, for nvim and agents, into ~/.local.
+# chezmoi reruns this when the list changes, so a version bump reinstalls.
+set -eu
+npm install --global --prefix "$HOME/.local"{{ range .packages.npm }} {{ . }}{{ end }}
+{{ end -}}

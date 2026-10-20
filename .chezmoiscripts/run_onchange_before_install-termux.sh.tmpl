@@ -1,0 +1,7 @@
+{{ if eq .chezmoi.os "android" -}}
+#!{{ lookPath "sh" }}
+# The termux list in .chezmoidata/packages.yaml. Runs before files are applied, so
+# the config finds its tools; chezmoi reruns it when the list changes.
+set -eu
+pkg install -y{{ range .packages.termux }} {{ . }}{{ end }}
+{{ end -}}

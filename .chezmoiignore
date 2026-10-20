@@ -11,6 +11,12 @@ dot_bashrc*
 dot_local/
 {{ end }}
 
+{{ if ne .chezmoi.os "android" }}
+# The phone (Termux): its boot script, and the keys allowed to ssh into it.
+.termux/
+.ssh/authorized_keys
+{{ end }}
+
 {{ if ne .chezmoi.hostname "mini-travel-server" }}
 # Radicale CalDAV sync: needs local Radicale and a TPM-sealed credential
 .vdirsyncer/
