@@ -1,0 +1,13 @@
+{{ if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64")) -}}
+# linux/amd64 release binaries (.chezmoiexternal.toml) installed before they were
+# limited to linux/amd64; they can't run here.
+.local/bin/okf
+.local/bin/op
+.local/bin/stripe
+.local/bin/copilot-language-server
+.local/lib/jdk
+.local/bin/clojure-lsp
+.local/bin/clj-kondo
+.local/bin/cljfmt
+.local/bin/tree-sitter
+{{ end -}}

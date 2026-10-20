@@ -7,6 +7,9 @@
     clone.args = ["--recurse-submodules"]
 
 # Release binaries, pinned by version and checksum. Bump both together.
+# All are linux/amd64 builds; elsewhere (the phone's Termux) they can't run, so
+# they stay off and .chezmoiremove clears copies installed before this guard.
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") -}}
 [".local/bin/okf"]
     type = "archive-file"
     url = "https://github.com/okfcli/okf/releases/download/v0.5.0/okf_0.5.0_linux_amd64.tar.gz"
@@ -77,3 +80,4 @@
     decompress = "gzip"
     executable = true
     checksum.sha256 = "d01042f94ba3d6827ddc9788e235f75d8366431be42bdf90ade534d960c98b7d"
+{{ end -}}
