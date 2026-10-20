@@ -24,6 +24,14 @@
     executable = true
     checksum.sha256 = "498bbaa154f0d90749325a14e04488fcd84930a426ae92ebf421d2a7d793a80a"
 
+# Stripe CLI: local webhook forwarding and test events for srr. Checksum from upstream's checksums file.
+[".local/bin/stripe"]
+    type = "archive-file"
+    url = "https://github.com/stripe/stripe-cli/releases/download/v1.54.1/stripe_1.54.1_linux_x86_64.tar.gz"
+    path = "stripe"
+    executable = true
+    checksum.sha256 = "59ac00af3ca11a02f76232642d6d534c5c0e9e433889b86006f5046d33baf657"
+
 # Copilot's LSP: inline completion and sidekick's next edit suggestions in nvim.
 # Upstream publishes no checksums; this one is from the first download.
 [".local/bin/copilot-language-server"]

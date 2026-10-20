@@ -55,6 +55,7 @@ dot_local/
 !.local/bin/say
 !.local/bin/okf
 !.local/bin/op
+!.local/bin/stripe
 !.local/bin/tree-sitter
 !.local/bin/worktree_*
 !.local/lib
