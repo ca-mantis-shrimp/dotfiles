@@ -30,6 +30,10 @@ dot_local/
 !.gemini
 !.termux
 !.ssh
+# gnupg and lynx were installed on the phone by hand; their config is portable.
+!.gnupg
+!.lynxrc
+!lynx_bookmarks.html
 !.config
 .config/*
 !.config/fish
