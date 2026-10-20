@@ -22,7 +22,8 @@ dot_local/
 {{ if eq (index . "role" | default "desktop") "agent-host" }}
 # Agent hosts (headless, immutable image) take an allowlist: shell, git, editor
 # and agent config. New desktop config stays off them by default. Units on the
-# host are its own (shpool, srr-demo), so systemd is left alone entirely.
+# host are its own (shpool, srr-demo), so systemd is left alone except for the
+# shared nvim server that nvc attaches to (ignored entries survive exact_user).
 # Products/platform (.chezmoiexternal.toml) still applies: the clearhead skill
 # links point into it, and chezmoi never touches an existing checkout.
 *
@@ -38,6 +39,11 @@ dot_local/
 .config/*
 !.config/clearhead
 !.config/nvim
+!.config/systemd
+.config/systemd/*
+!.config/systemd/user
+.config/systemd/user/*
+!.config/systemd/user/neovim-server.service
 !.local
 .local/*
 !.local/bin
@@ -51,6 +57,7 @@ dot_local/
 !.local/bin/cwork
 !.local/bin/java
 !.local/bin/nv
+!.local/bin/nvc
 !.local/bin/nrepl-*
 !.local/bin/say
 !.local/bin/okf

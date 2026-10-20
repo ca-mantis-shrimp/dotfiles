@@ -1,18 +1,40 @@
 #!/usr/bin/env bash
 # Attach to the shared nvim server (neovim-server.service), starting it if needed.
+#   nvc          the local server
+#   nvc HOST     HOST's server, its socket forwarded over ssh (ssh is the only auth; nvim RPC has none)
+#   nvc --ensure start the local server and print its socket (what nvc HOST runs on HOST)
 # Neovide in a graphical session, nvim --remote-ui otherwise (ssh, phone). Leave with :detach; the server keeps running.
-# Remote hosts (forwarding the socket over ssh) come once that has been tried by hand: chezmoi =nvim-server.
 set -euo pipefail
 
-[ $# -eq 0 ] || { echo "nvc: remote hosts are not supported yet; it attaches to the local server only" >&2; exit 2; }
+wait_for() { for _ in $(seq 50); do [ -S "$1" ] && return; sleep 0.1; done; return 1; }
 
-sock="$XDG_RUNTIME_DIR/nvim/server.sock"
+ensure_server() {
+    local sock="$XDG_RUNTIME_DIR/nvim/server.sock"
+    systemctl --user start neovim-server
+    wait_for "$sock" || { printf 'nvc: no socket at %s; journalctl --user -u neovim-server\n' "$sock" >&2; exit 1; }
+    echo "$sock"
+}
 
-systemctl --user start neovim-server
-for _ in $(seq 20); do [ -S "$sock" ] && break; sleep 0.1; done
-[ -S "$sock" ] || { printf 'nvc: no socket at %s; journalctl --user -u neovim-server\n' "$sock" >&2; exit 1; }
+attach() {
+    if [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] && command -v neovide >/dev/null; then
+        neovide --no-fork --server "$1"
+    else
+        nvim --remote-ui --server "$1"
+    fi
+}
 
-if [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] && command -v neovide >/dev/null; then
-    exec neovide --server "$sock"
-fi
-exec nvim --remote-ui --server "$sock"
+case "${1:-}" in
+"") sock=$(ensure_server); attach "$sock" ;;
+--ensure) ensure_server ;;
+*)
+    host=$1
+    remote=$(ssh "$host" .local/bin/nvc --ensure)
+    sock="$XDG_RUNTIME_DIR/nvim/$host.sock"
+    mkdir -p "${sock%/*}"
+    ssh -NT -o ExitOnForwardFailure=yes -o StreamLocalBindUnlink=yes -L "$sock:$remote" "$host" &
+    tunnel=$!
+    trap 'kill $tunnel 2>/dev/null; rm -f "$sock"' EXIT
+    wait_for "$sock" || { echo "nvc: ssh forward to $host did not come up" >&2; exit 1; }
+    attach "$sock"
+    ;;
+esac
