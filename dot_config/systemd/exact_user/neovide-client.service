@@ -1,11 +1,12 @@
 [Unit]
 Description=Neovide GUI Instance (On-Demand Neovim Connection)
 Documentation=https://neovide.dev
+Requires=neovim-server.service
+After=neovim-server.service
 
 [Service]
 Type=exec
-Requires=neovim-server.service
-ExecStart=/usr/bin/neovide --server /run/user/1000/nvim/backend.sock
+ExecStart=/usr/bin/neovide --server %t/nvim/server.sock
 
 [Install]
 WantedBy=graphical.target

@@ -5,7 +5,8 @@ Documentation=man:nvim
 [Service]
 Type=exec
 RuntimeDirectory=nvim
-ExecStart=/usr/bin/nvim --headless --listen 0.0.0.0:6666
+# A unix socket only: nvim's RPC has no auth, so remote clients forward it over ssh.
+ExecStart=/usr/bin/nvim --headless --listen %t/nvim/server.sock
 Restart=on-success
 
 [Install]
