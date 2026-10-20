@@ -1,1 +1,4 @@
+{{/* The JDK is a linux/amd64 external; an empty target removes the link elsewhere. */ -}}
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") -}}
 {{ .chezmoi.homeDir }}/.local/lib/jdk/bin/java
+{{ end -}}
