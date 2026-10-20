@@ -25,6 +25,8 @@ dot_local/
 !.markdownlint-cli2.yaml
 !.claude
 !.pi
+# pi rewrites this file, as on agent hosts.
+.pi/agent/settings.json
 !.gemini
 !.termux
 !.ssh

@@ -39,7 +39,8 @@ hook, and leaves its own systemd units alone. Set it without the prompt:
 
 Packages are data: `.chezmoidata/packages.yaml` holds one list per install method, and each method's script in
 `.chezmoiscripts` decides where it runs (pacman on Arch, `termux` on android, `npm` wherever npm exists). The phone
-is found by `chezmoi.os == "android"`; Termux:Boot starts its sshd on port 8022, keys only, and
+is found by `chezmoi.os == "android"`, not a role: it is never asked one and takes its own allowlist in
+`.chezmoiignore` (shell, git, nvim, agent config). Termux:Boot starts its sshd on port 8022, keys only, and
 `.ssh/authorized_keys` there lets devbox in (`ssh phone`).
 
 #### Pedantic Details
