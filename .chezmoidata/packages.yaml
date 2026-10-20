@@ -436,6 +436,8 @@ packages:
     - fd
     - lazygit
     - nodejs         # for the npm list below
+    - gnupg
+    - lynx
 
   # Language servers and linters from npm, into ~/.local, wherever npm exists.
   npm:
