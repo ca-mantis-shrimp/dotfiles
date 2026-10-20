@@ -54,6 +54,7 @@ dot_local/
 !.local/bin/nrepl-*
 !.local/bin/say
 !.local/bin/okf
+!.local/bin/op
 !.local/bin/tree-sitter
 !.local/bin/worktree_*
 !.local/lib

@@ -14,6 +14,16 @@
     executable = true
     checksum.sha256 = "287b666f13cfb1507fddacc7202dce81de722ec1ffde81845b8ac3f16626d531"
 
+# 1Password CLI: the facilitator reads SRR's deploy secrets through a scoped service account.
+# Checksum from the first download, whose op.sig verified against 1Password's signing key
+# 3FEF9748469ADBE15DA7CA80AC2D62742012EA22.
+[".local/bin/op"]
+    type = "archive-file"
+    url = "https://cache.agilebits.com/dist/1P/op2/pkg/v2.41.0/op_linux_amd64_v2.41.0.zip"
+    path = "op"
+    executable = true
+    checksum.sha256 = "498bbaa154f0d90749325a14e04488fcd84930a426ae92ebf421d2a7d793a80a"
+
 # Copilot's LSP: inline completion and sidekick's next edit suggestions in nvim.
 # Upstream publishes no checksums; this one is from the first download.
 [".local/bin/copilot-language-server"]
