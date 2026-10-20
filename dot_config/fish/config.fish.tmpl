@@ -40,10 +40,6 @@ alias op="op.exe"
 {{ end }}
 
 fish_vi_key_bindings
-function SpawnNeovideWindow
- systemctl --user start neovide-client
-end
-
 starship init fish | source
 
 # Only run nerdfetch if we're in an interactive terminal

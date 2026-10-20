@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Attach to the shared nvim server (neovim-server.service), starting it if needed.
+# Neovide in a graphical session, nvim --remote-ui otherwise (ssh, phone). Leave with :detach; the server keeps running.
+# Remote hosts (forwarding the socket over ssh) come once that has been tried by hand: chezmoi =nvim-server.
+set -euo pipefail
+
+sock="$XDG_RUNTIME_DIR/nvim/server.sock"
+
+systemctl --user start neovim-server
+for _ in $(seq 20); do [ -S "$sock" ] && break; sleep 0.1; done
+[ -S "$sock" ] || { printf 'nvc: no socket at %s; journalctl --user -u neovim-server\n' "$sock" >&2; exit 1; }
+
+if [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] && command -v neovide >/dev/null; then
+    exec neovide --server "$sock"
+fi
+exec nvim --remote-ui --server "$sock"
