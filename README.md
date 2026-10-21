@@ -37,6 +37,10 @@ An agent host takes only an allowlist (shell, git, nvim, agent config; see `.che
 hook, and leaves its own systemd units alone. Set it without the prompt:
 `chezmoi init --promptString 'Machine role (desktop or agent-host)=agent-host'`.
 
+Where a tool comes from, in order of preference (Darrion, 2026-10-21): the distribution's package (pacman on Arch,
+pkg on Termux); a release binary pinned by version and sha256 in `.chezmoiexternal.toml`; a language installer
+(npm, uv, cargo) with the whole dependency tree locked and no install-time code. Never unpinned.
+
 Packages are data: `.chezmoidata/packages.yaml` holds one list per install method, and each method's script in
 `.chezmoiscripts` decides where it runs (pacman on Arch, `termux` on android, `npm` wherever npm exists). The phone
 is found by `chezmoi.os == "android"`, not a role: it is never asked one and takes its own allowlist in
