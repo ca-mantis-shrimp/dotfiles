@@ -41,8 +41,10 @@ Where a tool comes from, in order of preference (Darrion, 2026-10-21): the distr
 pkg on Termux); a release binary pinned by version and sha256 in `.chezmoiexternal.toml`; a language installer
 (npm, uv, cargo) with the whole dependency tree locked and no install-time code. Never unpinned.
 
-Packages are data: `.chezmoidata/packages.yaml` holds one list per install method, and each method's script in
-`.chezmoiscripts` decides where it runs (pacman on Arch, `termux` on android, `npm` wherever npm exists). The phone
+Distribution packages belong to the image on machines that run personal-os (the desktop's list is its profile there);
+chezmoi owns the two tiers below them. Packages are data: `.chezmoidata/packages.yaml` holds one list per install
+method, and each method's script in `.chezmoiscripts` decides where it runs (`termux` on android, `npm` wherever npm
+exists). The phone
 is found by `chezmoi.os == "android"`, not a role: it is never asked one and takes its own allowlist in
 `.chezmoiignore` (shell, git, nvim, agent config). Termux:Boot starts its sshd on port 8022, keys only, and
 `.ssh/authorized_keys` there lets devbox in (`ssh phone`).
