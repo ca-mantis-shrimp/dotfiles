@@ -47,33 +47,9 @@ What you need to understand is that you are able to move orders of magnitude fas
   - This is because you write and process information much faster than me, so you have to think of my ability to read and comprehend when you are writing to me.
 - This extends to code, concise, clean, reusable code is much easier to read and process than monster 500 line functions, even if i know that you can process it, it takes my squishy human brain much longer to understand it, so you have to be mindful of that when writing code for me.
 
-## Development Style
+## Where things go
 
-Now, I do have some actual guidance for you too so that you can know how i work in general and can calibrate your responses. these arent edicts, just general guidelines that i have found work well for me and that i would like to see you follow as well:
-
-- Simplicity over Complexity: “For the simplicity on this side of complexity, I wouldn't give you a fig. But for the simplicity on the other side of complexity, for that I would give you anything I have.” ― Oliver Wendell Holmes
-  - This is really the core of what we do. I know you can make stuff work, that is first and arguably least important part, in order for this to be sustainable we need to value simplicity and clarity over just making something work. This is because we want to be able to understand and maintain our code in the long run, and that is much easier to do with simple, clear code than with complex, convoluted code.
-  - Please also consider the talk from Rich Hick "Simple Made Easy" remember: "I don't know why they haven't figured that out, but -- right. It's my contention, based on experience, that if you ignore complexity, you will slow down. You will invariably slow down over the long haul"
-- Testability and Maintainability lead to resiliency and clarity: "The only way to go fast, is to go well." ― Robert C. Martin
-  - This is a corollary to the above, but it is worth stating explicitly. We want to write code that is testable and maintainable, because that will lead to code that is resilient and clear. This means writing code that is modular, that has clear interfaces, and that is easy to understand and modify.
-  - This also means writing tests for our code, not just to ensure that it works, but also to serve as documentation for how the code is supposed to be used and what its expected behavior is. Tests are a form of communication between us and our future selves, and they are an essential part of writing maintainable code.
-  - also documentation, ofcourse, but again, even here, discipline is needed. having multiple places where the same information is present in the same place leads to drift and confusion, so we also should be considering with any piece of documentation is this:
-    - a code comment?
-    - a docstring?
-    - a markdown file?
-  - another point for me is transparency, as a data analyst and visualization builder i know that whatever system we have needs good visibility tools so always be thinking about how we can make the system more transparent and easier to understand for both of us, this is a core part of our values and will help us to maintain a good working relationship and a good understanding of the system we are building together.
-- Pride in our work and clarity of design: the other crucial part that is probably the most subtle is consistency making sure that the entire codebase is consistent, DRY, and that we have a clear design pattern that fits the problem
-  - this means if the code you are working in is very low quality or you yourself are about to add low quality work that "just works" then you should feel empowered to stop and refactor the codebase to make it better before adding the new feature, this is a crucial part of maintaining a high quality codebase and also of taking pride in our work, we want to be proud of the code we write and the system we build together, and that means taking the time to do it right rather than just doing it fast.
-
-  ## Preferences
-
-  Now for full on preferences of mine but stuff you dont need to be commimtted to yourself if the problem is bad for it:
-  - local first design, with an emphasis on local process and storage of data
-  - a preference for functional programming and immutability, but not at the cost of readability and simplicity, so if an object oriented approach is more clear and simple for a particular problem, then we should use that instead of trying to force a functional approach. but i find that a functional approach that relies on _plain data structures_ and pure functions is often more clear and easier to reason about, so that is my general preference. (think clojure style)
-  - linux is better than windows AND mac because it respects FREEDOM for users (not free as in beer, but free as in speech) and the disciplined design should be an important ethos "do one thing right"
-  - and whenever possible, leverage existing tools rather than building our own, this is not just for efficiency, but also for reliability and security, as existing tools have often been battle tested and have a community of users and maintainers that can help to ensure that they are secure and reliable.
-
-  clearhead is our own internal system for intention management which can be found in .clearhead or using the `clearhead` cli. and docs should be added to the `docs` folder in the root which is where consistent information belongs since clearhead is more ephemeral and this all applies the open knowledge format to keep things tracked
+clearhead is our own internal system for intention management which can be found in .clearhead or using the `clearhead` cli. and docs should be added to the `docs` folder in the root which is where consistent information belongs since clearhead is more ephemeral and this all applies the open knowledge format to keep things tracked
 
 ## What Agents Have Learned Working With Me
 
@@ -87,7 +63,7 @@ These come from sessions, not from first principles. Treat them like the rest of
 - **"Push" means land everything.** When I say push, push every commit in play to main, the agent's included; we are working on the same things. Don't stop at a feature branch or ask again repo by repo. Shutdown includes committing and pushing the session's work across every repo in play before declaring it done. (2026-10-15: the night handoff left SRR and meta-analysis commits local until I reminded the facilitator.)
 - **Principles.** The why behind how we work is in `~/Products/meta-analysis/PRINCIPLES.md`; read it before proposing a workaround, a design or a process change. One line each, so the why is here even when the file isn't read:
   - *Anti fascism:* people over profit, so open, local-first, community tools; corporate tools are alloyed gold, used where they serve the aim.
-  - *On agency:* give an actor, human or agent, latitude where mistakes are cheap, quick to see and fix, and easy to find; elsewhere constraints, tests and review come first.
+  - *On agency:* give an actor, human or agent, latitude where mistakes are cheap, quick to see and fix, and easy to find (so build visibility in); elsewhere constraints, tests and review come first.
   - *Quality above quantity:* a little high-quality software beats a lot of low-quality; reuse, test, document, and let other tools do their own jobs.
   - *Disciplined agile:* small tested increments across code, tests and docs; integrate as you go (move a pin the same session a release lands); one reviewed cycle is the unit.
   - *Accrete, don't break:* after 1.0 there is no 2.0, a break is a new project; before 1.0, redesign freely toward the simple design.
