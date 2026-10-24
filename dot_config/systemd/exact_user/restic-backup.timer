@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily restic backup to Google Drive
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=1h
+Unit=restic-backup.service
+
+[Install]
+WantedBy=timers.target

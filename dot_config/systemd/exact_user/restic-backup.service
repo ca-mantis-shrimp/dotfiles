@@ -1,0 +1,12 @@
+[Unit]
+Description=Back up documents to Google Drive with restic
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/restic/backup.env
+ExecStart=/usr/bin/restic backup --exclude-caches %h/Documents
+ExecStart=/usr/bin/restic forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 12
+Nice=10
+IOSchedulingClass=idle
