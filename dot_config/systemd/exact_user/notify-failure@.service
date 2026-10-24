@@ -1,0 +1,7 @@
+# Desktop notification when a unit fails. Opt a unit in with OnFailure=notify-failure@%n.service.
+[Unit]
+Description=Notify that %i failed
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send --urgency=critical --app-name=systemd "%i failed" "journalctl --user -u %i"

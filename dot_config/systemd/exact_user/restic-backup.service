@@ -2,6 +2,7 @@
 Description=Back up documents to Google Drive with restic
 Wants=network-online.target
 After=network-online.target
+OnFailure=notify-failure@%n.service
 
 [Service]
 Type=oneshot
