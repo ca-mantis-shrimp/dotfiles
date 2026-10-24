@@ -59,6 +59,12 @@ dot_local/
 .config/systemd/user/timers.target.wants/vdirsyncer.timer
 {{ end }}
 
+{{ if ne (index . "role" | default "desktop") "agent-host" }}
+# The pinned op in ~/.local/bin is for the agent host's service account. Elsewhere the distro's op is setgid
+# onepassword-cli, which the 1Password app requires; a copy earlier on PATH breaks app integration (2026-10-24).
+.local/bin/op
+{{ end }}
+
 {{ if eq (index . "role" | default "desktop") "agent-host" }}
 # Agent hosts (headless, immutable image) take an allowlist: shell, git, editor
 # and agent config. New desktop config stays off them by default. Units on the
