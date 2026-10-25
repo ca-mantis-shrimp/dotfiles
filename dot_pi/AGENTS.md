@@ -1,1 +1,0 @@
-../.chezmoitemplates/LLM/User-Scope-Agents.md
