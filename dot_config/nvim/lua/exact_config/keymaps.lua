@@ -8,6 +8,7 @@ wk.add({
   { "<leader>t", group = "[t]est" },
   { "<leader>i", group = "[I]ntentions" },
   { "<leader>v", group = "[v]erdicts" },
+  { "<leader>vf", group = "[f]inding" },
   { "<leader>m", "<cmd>make<CR>", desc = "Run [m]ake" },
   { "<leader>bd", "<cmd>bd<CR>", desc = "Delete current [b]uffer" },
 })
