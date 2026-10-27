@@ -3,6 +3,7 @@
 #   nvc          the local server
 #   nvc HOST     HOST's server, its socket forwarded over ssh (ssh is the only auth; nvim RPC has none)
 #   nvc --ensure start the local server and print its socket (what nvc HOST runs on HOST)
+#   nvc -t [HOST] terminal nvim even where neovide could run (a phone whose session looks graphical)
 # Neovide in a graphical session, nvim --remote-ui otherwise (ssh, phone). Leave with :detach; the server keeps running.
 set -euo pipefail
 
@@ -15,14 +16,16 @@ ensure_server() {
     echo "$sock"
 }
 
+terminal=
 attach() {
-    if [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] && command -v neovide >/dev/null; then
+    if [ -z "$terminal" ] && [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] && command -v neovide >/dev/null; then
         neovide --no-fork --server "$1"
     else
         nvim --remote-ui --server "$1"
     fi
 }
 
+case "${1:-}" in -t | --terminal) terminal=1; shift ;; esac
 case "${1:-}" in
 "") sock=$(ensure_server); attach "$sock" ;;
 --ensure) ensure_server ;;
