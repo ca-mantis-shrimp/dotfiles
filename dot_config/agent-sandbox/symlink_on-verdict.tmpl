@@ -1,0 +1,1 @@
+{{ $a := joinPath .chezmoi.homeDir "Products/assistant" }}{{ if stat $a }}{{ $a }}/scripts/on-verdict{{ end }}
