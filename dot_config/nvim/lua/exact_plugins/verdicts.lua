@@ -60,7 +60,7 @@ local function record(flags, note)
   if not M.current then
     return vim.notify("No landing open: pick one with <leader>vv", vim.log.levels.WARN)
   end
-  local cmd = vim.list_extend({ "agent", "verdict", M.current }, flags)
+  local cmd = vim.list_extend({ "agent", "verdict", M.current, "--by", "human" }, flags)
   if note and note ~= "" then
     vim.list_extend(cmd, { "--note", note })
   end
