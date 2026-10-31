@@ -1,6 +1,7 @@
 -- Landings waiting for my verdict: browse each review bundle in a picker (the
 -- strategic view), open one as a quickfix list to read the code (the tactical
--- view), then agree or disagree with the bundle or with one finding, by key.
+-- view), then agree or disagree with one finding, by key. Judging the bundle takes
+-- an extra key, because it marks the whole landing done.
 -- Talks only to the agent CLI from agent-sandbox, never to its run records.
 local M = { current = nil }
 
@@ -77,11 +78,11 @@ local function ask(prompt, flags)
 end
 
 function M.agree()
-  ask("Agree. Comment (optional): ", { "--agree" })
+  ask("Whole bundle: agree. Comment (optional): ", { "--agree" })
 end
 
 function M.disagree()
-  ask("Why do you disagree? ", { "--disagree" })
+  ask("Whole bundle: why do you disagree? ", { "--disagree" })
 end
 
 -- The finding id (2#1) on the quickfix entry under the cursor in the quickfix
@@ -117,10 +118,10 @@ function M.finding_comment()
 end
 
 vim.keymap.set("n", "<leader>vv", M.pick, { desc = "Landings waiting for a [v]erdict" })
-vim.keymap.set("n", "<leader>va", M.agree, { desc = "[a]gree with the open landing's review" })
-vim.keymap.set("n", "<leader>vd", M.disagree, { desc = "[d]isagree with the open landing's review" })
-vim.keymap.set("n", "<leader>vfa", M.finding_agree, { desc = "[a]gree with this finding" })
-vim.keymap.set("n", "<leader>vfd", M.finding_disagree, { desc = "[d]isagree with this finding" })
-vim.keymap.set("n", "<leader>vfc", M.finding_comment, { desc = "[c]omment on this finding" })
+vim.keymap.set("n", "<leader>va", M.finding_agree, { desc = "[a]gree with this finding" })
+vim.keymap.set("n", "<leader>vd", M.finding_disagree, { desc = "[d]isagree with this finding" })
+vim.keymap.set("n", "<leader>vc", M.finding_comment, { desc = "[c]omment on this finding" })
+vim.keymap.set("n", "<leader>vba", M.agree, { desc = "[a]gree with the whole bundle, marking it done" })
+vim.keymap.set("n", "<leader>vbd", M.disagree, { desc = "[d]isagree with the whole bundle, marking it done" })
 
 return M
