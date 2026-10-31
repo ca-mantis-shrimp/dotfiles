@@ -39,7 +39,6 @@ dot_local/
 !.config/fish
 !.config/starship.toml
 !.config/nvim
-!.config/dagu
 !.config/mcphub
 !.config/clearhead
 !.local
@@ -90,6 +89,7 @@ dot_local/
 .config/*
 !.config/clearhead
 !.config/nvim
+!.config/dagu
 # agent-verdict's hook, which wakes stewards (2026-10-27).
 !.config/agent-sandbox
 !.config/systemd
