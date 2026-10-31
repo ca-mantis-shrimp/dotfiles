@@ -32,12 +32,26 @@ local function pending(all)
   return items
 end
 
+-- Only a finding's own "/path:line: text" line can jump. 'errorformat' would also
+-- read "fixed: ... a.ts:3:" and "finding 2#1: human agrees (...T18:18:16)" as files,
+-- which open as empty buffers.
+local function entry(line)
+  local file, lnum, text = line:match("^(/[^:]+):(%d+): (.*)")
+  if not file then
+    return { text = line, valid = 0 }
+  end
+  if vim.fn.filereadable(file) == 0 then
+    return { text = line .. "  (file gone since; see the landing commit)", valid = 0 }
+  end
+  return { filename = file, lnum = tonumber(lnum), text = text }
+end
+
 function M.open(id)
   local bundle = run({ "agent", "show", id })
   if not bundle then
     return vim.notify("agent show " .. id .. " failed", vim.log.levels.ERROR)
   end
-  vim.fn.setqflist({}, " ", { title = "review " .. id, lines = bundle })
+  vim.fn.setqflist({}, " ", { title = "review " .. id, items = vim.tbl_map(entry, bundle) })
   M.current = id
   vim.cmd("copen")
 end
