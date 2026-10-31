@@ -1,0 +1,11 @@
+[Unit]
+Description=Wake the orchestrator when a sandbox session raises a hand
+
+[Service]
+Type=exec
+ExecStart=%h/Products/meta-analysis/workflows/question-watch
+Restart=on-failure
+RestartSec=60
+
+[Install]
+WantedBy=default.target

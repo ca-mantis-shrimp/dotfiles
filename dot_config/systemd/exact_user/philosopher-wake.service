@@ -1,0 +1,6 @@
+[Unit]
+Description=A philosopher session on the whole system
+
+[Service]
+Type=oneshot
+ExecStart=%h/Products/philosopher/wake
