@@ -1,0 +1,11 @@
+[Unit]
+Description=Dagu scheduler: resumes paused workflows and clears dead runs
+Documentation=https://github.com/dagucloud/dagu
+
+[Service]
+Type=exec
+ExecStart=%h/.local/bin/dagu scheduler
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

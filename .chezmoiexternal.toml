@@ -17,6 +17,14 @@
     executable = true
     checksum.sha256 = "287b666f13cfb1507fddacc7202dce81de722ec1ffde81845b8ac3f16626d531"
 
+# Dagu runs chains of sandbox sessions on the agent host (meta-analysis DECISIONS.md, provisional, 2026-10-31).
+[".local/bin/dagu"]
+    type = "archive-file"
+    url = "https://github.com/dagucloud/dagu/releases/download/v2.24.0/dagu_2.24.0_linux_amd64.tar.gz"
+    path = "dagu"
+    executable = true
+    checksum.sha256 = "da4598447e43cd2994051803b5a1995544f1b8eca3fb56f6d5407a0a1147c8f2"
+
 # 1Password CLI: the facilitator reads SRR's deploy secrets through a scoped service account.
 # Checksum from the first download, whose op.sig verified against 1Password's signing key
 # 3FEF9748469ADBE15DA7CA80AC2D62742012EA22.

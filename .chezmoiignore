@@ -39,6 +39,7 @@ dot_local/
 !.config/fish
 !.config/starship.toml
 !.config/nvim
+!.config/dagu
 !.config/mcphub
 !.config/clearhead
 !.local
@@ -60,6 +61,10 @@ dot_local/
 {{ end }}
 
 {{ if ne (index . "role" | default "desktop") "agent-host" }}
+# Dagu's scheduler runs where the sandbox sessions run.
+.local/bin/dagu
+.config/dagu
+.config/systemd/user/dagu-scheduler.service
 # The pinned op in ~/.local/bin is for the agent host's service account. Elsewhere the distro's op is setgid
 # onepassword-cli, which the 1Password app requires; a copy earlier on PATH breaks app integration (2026-10-24).
 .local/bin/op
@@ -92,6 +97,7 @@ dot_local/
 !.config/systemd/user
 .config/systemd/user/*
 !.config/systemd/user/neovim-server.service
+!.config/systemd/user/dagu-scheduler.service
 !.local
 .local/*
 !.local/bin
@@ -103,6 +109,7 @@ dot_local/
 !.local/bin/cljfmt
 !.local/bin/clojure-lsp
 !.local/bin/cwork
+!.local/bin/dagu
 !.local/bin/java
 !.local/bin/nv
 !.local/bin/nvc

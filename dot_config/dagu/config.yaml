@@ -1,0 +1,3 @@
+# The scheduler otherwise listens on all interfaces for a health check; nothing here reads it.
+scheduler:
+  port: 0
