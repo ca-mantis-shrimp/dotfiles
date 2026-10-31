@@ -13,16 +13,21 @@ local function run(cmd)
   return out
 end
 
-local function pending()
+-- Projects whose landings don't wait on me (2026-10-31); <leader>vV still lists them.
+local optional = { ["agent-sandbox"] = true }
+
+local function pending(all)
   local items = {}
   for _, line in ipairs(run({ "agent", "verdict", "--pending" }) or {}) do
     local id, repo, label = unpack(vim.split(line, "\t"))
-    local bundle = run({ "agent", "show", id }) or { "(agent show " .. id .. " failed)" }
-    table.insert(items, {
-      id = id,
-      text = id .. "  " .. repo .. "  " .. (label or ""),
-      preview = { text = table.concat(bundle, "\n") },
-    })
+    if all or not optional[repo] then
+      local bundle = run({ "agent", "show", id }) or { "(agent show " .. id .. " failed)" }
+      table.insert(items, {
+        id = id,
+        text = id .. "  " .. repo .. "  " .. (label or ""),
+        preview = { text = table.concat(bundle, "\n") },
+      })
+    end
   end
   return items
 end
@@ -37,8 +42,8 @@ function M.open(id)
   vim.cmd("copen")
 end
 
-function M.pick()
-  local items = pending()
+function M.pick(all)
+  local items = pending(all)
   if #items == 0 then
     return vim.notify("No landings waiting for a verdict")
   end
@@ -117,7 +122,12 @@ function M.finding_comment()
   on_finding("comment: ")
 end
 
-vim.keymap.set("n", "<leader>vv", M.pick, { desc = "Landings waiting for a [v]erdict" })
+vim.keymap.set("n", "<leader>vv", function()
+  M.pick()
+end, { desc = "Landings waiting for a [v]erdict" })
+vim.keymap.set("n", "<leader>vV", function()
+  M.pick(true)
+end, { desc = "All landings without my [V]erdict, optional ones too" })
 vim.keymap.set("n", "<leader>va", M.finding_agree, { desc = "[a]gree with this finding" })
 vim.keymap.set("n", "<leader>vd", M.finding_disagree, { desc = "[d]isagree with this finding" })
 vim.keymap.set("n", "<leader>vc", M.finding_comment, { desc = "[c]omment on this finding" })
