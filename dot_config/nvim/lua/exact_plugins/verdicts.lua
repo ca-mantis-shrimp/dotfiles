@@ -51,8 +51,18 @@ function M.open(id)
   if not bundle then
     return vim.notify("agent show " .. id .. " failed", vim.log.levels.ERROR)
   end
-  vim.fn.setqflist({}, " ", { title = "review " .. id, items = vim.tbl_map(entry, bundle) })
   M.current = id
+  local items = vim.tbl_map(entry, bundle)
+  -- Nothing to jump to: a quickfix list would only clip the note, so show it to read.
+  if #vim.tbl_filter(function(item) return item.filename end, items) == 0 then
+    vim.cmd("botright new")
+    vim.bo.buftype, vim.bo.bufhidden = "nofile", "wipe"
+    vim.wo.wrap, vim.wo.linebreak = true, true
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, bundle)
+    vim.bo.modifiable = false
+    return
+  end
+  vim.fn.setqflist({}, " ", { title = "review " .. id, items = items })
   vim.cmd("copen")
 end
 
