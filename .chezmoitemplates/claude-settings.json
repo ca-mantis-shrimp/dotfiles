@@ -5,6 +5,19 @@
   },
   "alwaysThinkingEnabled": true,
   "voiceEnabled": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -x \"$HOME/Products/assistant/scripts/session-start\" || \"$HOME/Products/assistant/scripts/session-start\"",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  },
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
     "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA": "1",
