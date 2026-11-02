@@ -8,6 +8,12 @@ vim.lsp.inline_completion.enable()
 
 require("sidekick").setup({
   cli = {
+    -- How the agents show up. layout: "float", "left", "right", "top" or "bottom".
+    -- float takes any nvim_open_win option (border, row, col); sizes below 1 are fractions of the screen.
+    win = {
+      layout = "float",
+      float = { width = 0.9, height = 0.9 },
+    },
     tools = {
       claude_admin = {
         cmd = { "claude", "--dangerously-skip-permissions" },
