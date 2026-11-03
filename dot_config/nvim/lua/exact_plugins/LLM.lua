@@ -20,11 +20,12 @@ require("sidekick").setup({
       },
       -- The facilitator lives in shpool, not nvim: it outlives this server and always runs from its own repo,
       -- whatever nvim's cwd. -f takes the session from any older view. NVIM is the fixed --listen socket.
+      -- shpool gives --cmd a bare PATH (/usr/bin:/bin:...), so a login shell restores ~/.local/bin and the rest.
       facilitator = {
         cmd = {
           "shpool", "attach", "-f",
           "--dir", vim.fn.expand("~/Products/assistant"),
-          "--cmd", "env NVIM=/run/user/1000/nvim/server.sock claude --dangerously-skip-permissions",
+          "--cmd", "bash -lc 'exec env NVIM=/run/user/1000/nvim/server.sock claude --dangerously-skip-permissions'",
           "facilitator",
         },
       },
