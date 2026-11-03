@@ -18,6 +18,16 @@ require("sidekick").setup({
       claude_admin = {
         cmd = { "claude", "--dangerously-skip-permissions" },
       },
+      -- The facilitator lives in shpool, not nvim: it outlives this server and always runs from its own repo,
+      -- whatever nvim's cwd. -f takes the session from any older view. NVIM is the fixed --listen socket.
+      facilitator = {
+        cmd = {
+          "shpool", "attach", "-f",
+          "--dir", vim.fn.expand("~/Products/assistant"),
+          "--cmd", "env NVIM=/run/user/1000/nvim/server.sock claude --dangerously-skip-permissions",
+          "facilitator",
+        },
+      },
     },
   },
 })
@@ -48,3 +58,6 @@ end, { desc = "Sidekick Prompt" })
 vim.keymap.set("n", "<leader>ac", function()
   require("sidekick.cli").toggle({ name = "claude", focus = true })
 end, { desc = "Sidekick Toggle Claude" })
+vim.keymap.set("n", "<leader>aa", function()
+  require("sidekick.cli").toggle({ name = "facilitator", focus = true })
+end, { desc = "Facilitator (persistent, shpool)" })
