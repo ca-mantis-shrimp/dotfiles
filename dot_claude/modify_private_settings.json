@@ -1,5 +1,7 @@
 {{- /* chezmoi:modify-template. chezmoi owns the keys in .chezmoitemplates/claude-settings.json; Claude Code may write any others. */ -}}
+{{- /* Content already right: keep Claude Code's own key order, so its rewrites don't read as a pending change (2026-11-04). */ -}}
 {{- $current := dict -}}
 {{- if .chezmoi.stdin }}{{ $current = fromJson .chezmoi.stdin }}{{ end -}}
 {{- $managed := includeTemplate "claude-settings.json" . | fromJson -}}
-{{- toPrettyJson (merge $managed $current) -}}
+{{- $merged := merge $managed $current -}}
+{{- if and .chezmoi.stdin (eq (toJson $merged) (toJson $current)) }}{{ .chezmoi.stdin }}{{ else }}{{ toPrettyJson $merged }}{{ end -}}
