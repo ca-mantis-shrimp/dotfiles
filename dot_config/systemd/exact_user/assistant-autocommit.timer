@@ -1,0 +1,9 @@
+[Unit]
+Description=Batch the assistant's log and action commits every half hour
+
+[Timer]
+OnCalendar=*:00/30
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -67,6 +67,8 @@ dot_local/
 .config/systemd/user/agent-question-watch.service
 .config/systemd/user/philosopher-wake.service
 .config/systemd/user/philosopher-wake.timer
+.config/systemd/user/assistant-autocommit.service
+.config/systemd/user/assistant-autocommit.timer
 # The pinned op in ~/.local/bin is for the agent host's service account. Elsewhere the distro's op is setgid
 # onepassword-cli, which the 1Password app requires; a copy earlier on PATH breaks app integration (2026-10-24).
 .local/bin/op
@@ -104,6 +106,8 @@ dot_local/
 !.config/systemd/user/agent-question-watch.service
 !.config/systemd/user/philosopher-wake.service
 !.config/systemd/user/philosopher-wake.timer
+!.config/systemd/user/assistant-autocommit.service
+!.config/systemd/user/assistant-autocommit.timer
 !.local
 .local/*
 !.local/bin

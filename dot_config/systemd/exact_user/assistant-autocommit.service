@@ -1,0 +1,6 @@
+[Unit]
+Description=Commit and push the assistant's log and actions left on disk
+
+[Service]
+Type=oneshot
+ExecStart=%h/Products/assistant/scripts/autocommit
