@@ -1,0 +1,29 @@
+# =============================================================================
+# Query: Leverage
+# =============================================================================
+# Purpose: the open actions that the most other open work waits on, directly or
+# through a chain, across every workspace. Finishing the top rows unblocks the
+# most. Only dependencies written as waitsOn/after count; a dependency stated
+# only in prose is invisible here, so link it.
+# Usage: clearhead query named leverage
+# Returns: name, alias, status, blocked (count of open dependents), human
+#          (true when the action is tagged +human)
+# =============================================================================
+
+PREFIX app: <https://clearhead.dev/vocab/app/v1#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?name ?alias ?status (COUNT(DISTINCT ?dep) AS ?blocked) (SAMPLE(?is_human) AS ?human) WHERE {
+    ?action a app:Action ;
+         rdfs:label ?name ;
+         app:state ?raw_state .
+    FILTER(?raw_state != app:Completed && ?raw_state != app:Cancelled)
+    ?dep (app:waitsOn|app:after)+ ?action ;
+         app:state ?dep_state .
+    FILTER(?dep_state != app:Completed && ?dep_state != app:Cancelled)
+    OPTIONAL { ?action app:alias ?alias }
+    BIND(EXISTS { ?action app:context ?c . ?c rdfs:label "human" } AS ?is_human)
+    BIND(STRAFTER(STR(?raw_state), "#") AS ?status)
+}
+GROUP BY ?name ?alias ?status
+ORDER BY DESC(?blocked) ?name
