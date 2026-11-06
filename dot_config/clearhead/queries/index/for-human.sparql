@@ -1,25 +1,28 @@
 # =============================================================================
-# Query: For the human
+# Query: For the human (index view, for the quickfix list)
 # =============================================================================
 # Purpose: everything an agent is waiting on the human for: open actions
 # tagged +human, in any charter and any charter state. Empty means no agent
-# needs anything from you.
-# Usage: clearhead query named for-human
-# Returns: name, status, priority, source_file, source_line
+# needs anything from you. An index view so clearhead.nvim can list it:
+#   :Clearhead query index for-human
+# Usage: clearhead query index for-human
+# Returns the index contract: id, name, status, source_file, source_line,
+# plus priority and due_date. Ordered by priority, then due date, then name.
 # =============================================================================
 
 PREFIX app: <https://clearhead.dev/vocab/app/v1#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?name ?status ?priority ?source_file ?source_line WHERE {
+SELECT DISTINCT (?action AS ?id) ?name ?status ?source_file ?source_line ?priority ?due_date WHERE {
     ?action a app:Action ;
          rdfs:label ?name ;
          app:state ?raw_state ;
-         app:context ?context .
-    ?context rdfs:label "human" .
+         app:context/rdfs:label "human" ;
+         app:file ?source_file ;
+         app:line ?source_line .
     FILTER(?raw_state != app:Completed && ?raw_state != app:Cancelled)
     BIND(STRAFTER(STR(?raw_state), "#") AS ?status)
     OPTIONAL { ?action app:priority ?priority }
-    OPTIONAL { ?action app:file ?source_file ; app:line ?source_line }
+    OPTIONAL { ?action app:due ?due_date }
 }
-ORDER BY ?priority ?name
+ORDER BY (!BOUND(?priority)) ?priority (!BOUND(?due_date)) ?due_date ?name
