@@ -1,0 +1,25 @@
+# =============================================================================
+# Query: Now
+# =============================================================================
+# Purpose: what Darrion has been asked to do next, across every workspace: the
+# open actions tagged +now. The facilitator tags the list it lays out for
+# Darrion; an action leaves this list when it is completed or cancelled.
+# Usage: clearhead query named now   (from ~/Products/meta-analysis to see all)
+# Returns: name, alias, status, priority, file
+# =============================================================================
+
+PREFIX app: <https://clearhead.dev/vocab/app/v1#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?name ?alias ?status ?priority ?file WHERE {
+    ?action a app:Action ;
+         rdfs:label ?name ;
+         app:state ?raw_state ;
+         app:context/rdfs:label "now" .
+    FILTER(?raw_state != app:Completed && ?raw_state != app:Cancelled)
+    OPTIONAL { ?action app:alias ?alias }
+    OPTIONAL { ?action app:priority ?priority }
+    OPTIONAL { ?action app:file ?file }
+    BIND(STRAFTER(STR(?raw_state), "#") AS ?status)
+}
+ORDER BY ?priority ?name
