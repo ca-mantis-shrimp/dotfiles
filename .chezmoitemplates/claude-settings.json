@@ -16,6 +16,17 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -x \"$HOME/Products/assistant/scripts/context-check\" || \"$HOME/Products/assistant/scripts/context-check\"",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "env": {
