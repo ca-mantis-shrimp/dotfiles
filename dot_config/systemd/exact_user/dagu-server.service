@@ -1,0 +1,15 @@
+[Unit]
+Description=Dagu web UI: see and act on workflows from the tailnet
+Documentation=https://github.com/dagucloud/dagu
+
+[Service]
+Type=exec
+# Loopback only; tailscale serve publishes it to the tailnet at https://devbox.tail1cbf8a.ts.net:8443.
+# server.env (0600, not in chezmoi) holds DAGU_AUTH_MODE=basic and the login, so other tailnet machines
+# such as muse can't start, stop or approve runs.
+EnvironmentFile=%h/.config/dagu/server.env
+ExecStart=%h/.local/bin/dagu server --host 127.0.0.1 --port 8080
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

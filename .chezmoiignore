@@ -65,6 +65,7 @@ dot_local/
 .local/bin/dagu
 .config/dagu
 .config/systemd/user/dagu-scheduler.service
+.config/systemd/user/dagu-server.service
 .config/systemd/user/agent-question-watch.service
 .config/systemd/user/philosopher-wake.service
 .config/systemd/user/philosopher-wake.timer
@@ -104,6 +105,7 @@ dot_local/
 .config/systemd/user/*
 !.config/systemd/user/neovim-server.service
 !.config/systemd/user/dagu-scheduler.service
+!.config/systemd/user/dagu-server.service
 !.config/systemd/user/agent-question-watch.service
 !.config/systemd/user/philosopher-wake.service
 !.config/systemd/user/philosopher-wake.timer

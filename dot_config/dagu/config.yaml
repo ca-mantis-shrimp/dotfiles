@@ -1,3 +1,6 @@
 # The scheduler otherwise listens on all interfaces for a health check; nothing here reads it.
 scheduler:
   port: 0
+# The DAGs are symlinks into ~/Products/meta-analysis/workflows, which owns them; without this the web UI lists none.
+dag_discovery:
+  symlinks: true
