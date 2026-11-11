@@ -22,7 +22,7 @@ vim.lsp.enable({
   "systemd_lsp",
   "jsonls",
   "clojure_lsp",
-  "rust_analyzer",
+  -- rust-analyzer is started by rustaceanvim (plugins/testing.lua), not here.
   "tsc",
   "oxlint",
   "copilot",

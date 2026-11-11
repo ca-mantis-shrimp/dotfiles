@@ -20,6 +20,7 @@ require("plugins.navigation")
 require("plugins.LLM")
 require("plugins.prose")
 require("plugins.lisp")
+require("plugins.testing")
 require("plugins.clearhead")
 require("plugins.verdicts")
 
