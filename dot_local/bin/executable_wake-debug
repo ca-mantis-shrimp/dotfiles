@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# The desktop woke from sleep but the screen is dark: run this over SSH before power cycling.
+# It saves what the journal loses on a power cycle to ~/Logs/wake-debug-<time>.txt and prints a verdict.
+# `wake-debug -1` reads the previous boot instead (after a power cycle; connectors and kwin are then
+# from this boot). Needs no root. Made 2026-11-13 after a dark wake: the Nvidia resume stalled in GSP
+# firmware while enabling adaptive sync, then kwin spun on a DRM ioctl the driver kept answering "try again".
+set -uo pipefail
+
+boot=${1:-0}
+
+out=~/Logs/wake-debug-$(date +%Y%m%d-%H%M%S).txt
+mkdir -p ~/Logs
+kwin=$(pgrep -x kwin_wayland | head -1)
+woke=$(journalctl -b "$boot" -k -o short-iso --no-pager | grep 'Waking up from system sleep' | tail -1 | cut -d' ' -f1)
+
+section() { printf '\n== %s\n' "$1"; }
+cpu_ticks() { awk '{print $14+$15}' "/proc/$1/task/$1/stat"; }
+
+{
+    section "time"; date; uptime
+    section "suspend entries and exits this boot"
+    journalctl -b "$boot" -k -o short-iso --no-pager | grep -E 'PM: suspend (entry|exit)|Waking up from system sleep'
+    section "driver errors since wake ($woke)"
+    journalctl -b "$boot" -k -o short-precise --no-pager --since "${woke:-today}" |
+        grep -E 'NVRM|Xid|nvidia-modeset|blocked for more|blocked on|PM: |failed' | grep -v ' ? '
+    section "first hung-task stack since wake"
+    journalctl -b "$boot" -k -o cat --no-pager --since "${woke:-today}" | grep -m1 -A60 'blocked for more' | grep -E '\[nvidia|task:'
+    section "connectors"
+    for c in /sys/class/drm/card*-*; do
+        printf '%s %s %s\n' "${c##*/}" "$(cat "$c/status")" "$(cat "$c/dpms" 2>/dev/null)"
+    done | grep -v disconnected
+    section "kwin"
+    if [ -n "$kwin" ]; then
+        a=$(cpu_ticks "$kwin"); sleep 2; b=$(cpu_ticks "$kwin")
+        echo "pid $kwin, main thread ticks in 2s: $((b - a)) (200 = spinning)"
+        grep -l '^State:.D' /proc/"$kwin"/task/*/status 2>/dev/null | sed 's/^/thread in D state: /'
+    else
+        echo "not running"
+    fi
+    section "recent kwin core dumps"
+    coredumpctl list kwin_wayland --no-pager --since -1d 2>&1 | tail -3
+} >"$out" 2>&1
+
+exited=$(journalctl -b "$boot" -k --no-pager --since "${woke:-today}" | grep -c 'PM: suspend exit')
+hung=$(grep -c 'blocked for more' "$out")
+spin=$(grep -oP 'ticks in 2s: \K[0-9]+' "$out")
+echo "saved $out"
+if [ -z "$woke" ]; then
+    echo "verdict: no wake from sleep in this boot."
+elif [ "$exited" = 0 ]; then
+    echo "verdict: the kernel resume has not finished (no 'suspend exit'). Run again in a few minutes."
+elif [ "${spin:-0}" -gt 150 ]; then
+    echo "verdict: kwin is spinning on the Nvidia driver. 'kill -ABRT $kwin' saves its stack;"
+    echo "the screen will not come back without a reboot (the power button may be needed)."
+elif [ "$hung" -gt 0 ]; then
+    echo "verdict: the Nvidia driver hung during resume ($hung hung-task reports); read $out."
+else
+    echo "verdict: no known failure pattern; read $out."
+fi

@@ -52,6 +52,11 @@ dot_local/
 !.local/bin/nvc
 {{ end }}
 
+{{ if ne .chezmoi.hostname "dabdesktop" }}
+# Diagnoses a dark wake from sleep on the desktop's Nvidia GPU.
+.local/bin/wake-debug
+{{ end }}
+
 {{ if ne .chezmoi.hostname "mini-travel-server" }}
 # Radicale CalDAV sync: needs local Radicale and a TPM-sealed credential
 .vdirsyncer/
