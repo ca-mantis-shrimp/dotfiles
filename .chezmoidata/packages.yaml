@@ -23,6 +23,7 @@ packages:
     - nodejs         # for the npm list below
     - gnupg
     - lynx
+    - man
 
   # Language servers and linters from npm, into ~/.local, wherever npm exists.
   npm:
