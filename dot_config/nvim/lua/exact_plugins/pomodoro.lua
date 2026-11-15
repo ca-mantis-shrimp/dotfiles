@@ -7,6 +7,9 @@ local M = {}
 -- declaring the helpers in a forward way so that they can be used in the main functions without declaring them early
 local notify, say, run
 
+-- the only local state that is used by watch to keep track of the timer and the last state so that we can notify on changes
+local watching = { timer = nil, last = nil }
+
 --- Watch the status of the current pomodoro session and notify on changes
 -- leverages the watching variable above to keep track of private state and store the timer in memory
 -- @function watch
@@ -72,8 +75,6 @@ M.status = function(opts)
   end)
 end
 
-local watching = { timer = nil, last = nil } -- private module state, like `run`
-
 M.unwatch = function()
   if watching.timer then
     watching.timer:stop()
@@ -123,6 +124,27 @@ end
 function notify(msg, level, id)
   vim.notify(msg, level or vim.log.levels.INFO, { title = "Pomodoro", id = id })
 end
+
+-- keymaps
+vim.keymap.set("n", "<leader>pS", function()
+  vim.ui.input({ prompt = "Pomodoro description: " }, function(input)
+    if not input then
+      return
+    end
+    if input == "" then
+      input = "nvim"
+    end
+    M.start(input, { "nvim" })
+  end)
+end, { desc = "Start a new [p]omodoro [S]ession" })
+
+vim.keymap.set("n", "<leader>ps", function()
+  M.status()
+end, { desc = "Get current [p]omodoro [s]tatus" })
+
+vim.keymap.set("n", "<leader>pw", function()
+  M.watch()
+end, { desc = "[w]atch current [p]omodoro" })
 
 -- rich comment: meant to be evaluated in a REPL, not in the file itself
 if false then

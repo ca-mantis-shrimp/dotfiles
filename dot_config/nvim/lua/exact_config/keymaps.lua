@@ -43,16 +43,16 @@ wk.add({
 
 -- our minimal package manager keymaps, we can expand on these as we add more functionality but for now we just need update and clean commands
 wk.add({
-  { "<leader>p", group = "[p]ack" },
+  { "<leader>P", group = "[P]ack" },
   {
-    "<leader>pu",
+    "<leader>Pu",
     function()
       vim.pack.update()
     end,
     desc = "Update all packages",
   },
   {
-    "<leader>pc",
+    "<leader>Pc",
     function()
       vim.pack.del(vim
         .iter(vim.pack.get())
@@ -66,7 +66,7 @@ wk.add({
     end,
     desc = "clean all unused packages",
   },
-  { "<leader>pr", "<cmd>restart<CR>", desc = "Restart Neovim to apply changes" },
+  { "<leader>Pr", "<cmd>restart<CR>", desc = "Restart Neovim to apply changes" },
   { "<leader>ca", "<cmd> terminal chezmoi apply<CR>", desc = "Apply chezmoi changes to the system" },
 })
 
