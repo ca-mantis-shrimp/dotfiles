@@ -10,3 +10,4 @@
     >[x] Move the pomodoro plugin to its own repo =pomodoro-repo $README notes: CLI ignores --directory and HOME, so every test writes the real ~/.pomodoro; id is snacks-only. DECISIONS.md: machine-scoped focus, CLI is the hub, OS alerts an optional spoke.$ !4 ^2026-11-14T22:56 %2026-11-16T03:53 #01a1dc46-ef58-7b03-bdd6-a7846759e15d
     >[x] Statusline consumer for pomodoro status =pomodoro-statusline $Live countdown is a display job: feed it from status({ on_ok }), not notifications.$ !5 ^2026-11-14T22:56 %2026-11-16T03:53 #01a1dc46-ef61-79c2-ad88-f3151f54296c
 [x] add work so that we can actually focus the action under cursor with both and id tag as well as a workspace context %2026-11-16T04:18 #01a1e27e-77a9-79c0-88c0-c8ecefc00c5e
+[x] add hotkeys to stop or cancel the pomodoro ^2026-11-16T04:18 %2026-11-16T04:27 #01a1e293-ed34-75c1-ba6a-52ba12fe664d

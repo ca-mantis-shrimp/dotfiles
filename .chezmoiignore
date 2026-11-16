@@ -3,6 +3,7 @@ AppData/
 *.ps1
 scoop/
 **/*.sh
+dot_pomodoro
 
 {{ else }}
 dot_ssh/
@@ -97,6 +98,8 @@ dot_local/
 # pi rewrites this file (deviceId, changelog); a plain copy would fight it and add packages.
 .pi/agent/settings.json
 !.gemini
+# Pomodoro hooks; start opens the focus agent session (2026-11-16).
+!.pomodoro
 !.config
 .config/*
 !.config/clearhead

@@ -1,0 +1,33 @@
+#!/bin/sh
+# Pomodoro start hook: log the start, then open a focus session for the action it names.
+# Join it with `shpool attach focus`. Nothing is spent until you type there.
+set -eu
+
+state=~/.pomodoro/focus
+session=${FOCUS_SESSION:-focus}
+tags=$(pomodoro status -f '%t')
+echo "$(date -Is) start $(pomodoro status -f '%d [%t]' | tr '\n' ' ')" >>~/.pomodoro/events.log
+
+# The ftplugin tags a focus "id:<uuid>, charter:<name>"; a pomodoro without an id gets no session.
+id=$(printf '%s\n' "$tags" | tr ',' '\n' | sed -n 's/^ *id://p')
+[ -n "$id" ] || exit 0
+
+# Same action as the open session: keep it and its context.
+if [ "$(cat "$state/id" 2>/dev/null)" = "$id" ] && shpool list | grep -q "^$session\s"; then
+  exit 0
+fi
+
+file=$(grep -rl --include='*.actions' "$id" ~/Products ~/.local/share/chezmoi 2>/dev/null | head -n1)
+[ -n "$file" ] || exit 0
+repo=$(git -C "$(dirname "$file")" rev-parse --show-toplevel)
+
+mkdir -p "$state"
+echo "$id" >"$state/id"
+cat >"$state/prompt.md" <<EOF
+Darrion is focusing on "$(pomodoro status -f '%d')" (ClearHead action $id, in $file).
+Pomodoro tags: $tags. They will join this session when they want to ask, review or hand something over.
+EOF
+
+# shpool starts commands with a minimal PATH, so hand it ours.
+shpool kill "$session" 2>/dev/null || true
+shpool attach -b -d "$repo" -c "env PATH='$PATH' claude -n $session --append-system-prompt-file '$state/prompt.md'" "$session"

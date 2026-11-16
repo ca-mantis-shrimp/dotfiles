@@ -1,0 +1,3 @@
+#!/bin/sh
+# Focus trial (assistant =focus-trial): log only, for now.
+echo "$(date -Is) break $(pomodoro status -f '%d [%t]' | tr '\n' ' ')" >> ~/.pomodoro/events.log
