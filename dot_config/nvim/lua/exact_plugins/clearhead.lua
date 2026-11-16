@@ -19,5 +19,19 @@ vim.api.nvim_create_autocmd("User", {
 local clearhead = require("clearhead")
 clearhead.setup({ nvim_archive_on_save = true })
 
-vim.keymap.set("n", "<leader>ti", "<cmd>ClearheadInbox<CR>", { desc = "Open Clearhead inbox" })
-vim.keymap.set("n", "<leader>to", "<cmd>ClearheadWorkspace<CR>", { desc = "Open .actions in current dir" })
+vim.keymap.set("n", "<leader>ti", "<Plug>(clearhead-open-inbox)")
+vim.keymap.set("n", "<leader>tw", "<Plug>(clearhead-open-workspace)")
+vim.keymap.set("n", "<leader>to", "<Plug>(clearhead-open-project)")
+
+-- quickfix isn't clearhead's filetype, so its living-loop keys are opt-in
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function(ev)
+    local function map(lhs, name)
+      vim.keymap.set("n", lhs, "<Plug>(clearhead-" .. name .. ")", { buffer = ev.buf })
+    end
+    map("<localleader>x", "entry-complete")
+    map("<localleader>_", "entry-cancel")
+    map("<localleader>r", "refresh-view")
+  end,
+})

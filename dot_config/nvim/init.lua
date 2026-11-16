@@ -5,7 +5,6 @@ require("config.workspace").setup()
 -- Probably the primary thing that needs to be loaded FIRST as if there are deps they likely live here
 require("plugins.libs")
 
-
 -- Large platform plugins mean that these are the more impactful elements of the config and should be considered on their own
 require("plugins.platforms.mini")
 require("plugins.platforms.snacks")
@@ -22,6 +21,7 @@ require("plugins.prose")
 require("plugins.lisp")
 require("plugins.testing")
 require("plugins.clearhead")
+require("plugins.pomodoro")
 require("plugins.verdicts")
 
 -- Finally, we set keymaps and autocmds last because they may depend on plugins being loaded and configured first, and we want to ensure that all plugins are available before we set up keymaps and autocmds that may rely on them.

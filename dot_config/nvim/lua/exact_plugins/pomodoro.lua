@@ -142,6 +142,14 @@ vim.keymap.set("n", "<leader>pw", function()
   M.watch()
 end, { desc = "[w]atch current [p]omodoro" })
 
+vim.keymap.set("n", "<leader>pc", function()
+  M.cancel()
+end, { desc = "[c]ancel current [p]omodoro" })
+
+vim.keymap.set("n", "<leader>pf", function()
+  M.finish()
+end, { desc = "[f]inish current [p]omodoro" })
+
 -- rich comment: meant to be evaluated in a REPL, not in the file itself
 if false then
   local p = dofile(vim.fn.expand("%:p"))
