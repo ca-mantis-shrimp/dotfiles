@@ -7,12 +7,12 @@ local M = {}
 -- declaring the helpers in a forward way so that they can be used in the main functions without declaring them early
 local notify, say, run
 
--- the only local state that is used by watch to keep track of the timer and the last state so that we can notify on changes
+--- The only local state: watch keeps its timer and the last state here so it can notify on changes
+---@type { timer: uv.uv_timer_t?, last: string? }
 local watching = { timer = nil, last = nil }
 
 --- Watch the status of the current pomodoro session and notify on changes
--- leverages the watching variable above to keep track of private state and store the timer in memory
--- @function watch
+--- Leverages the watching variable above to keep private state and store the timer in memory
 M.watch = function()
   if watching.timer then
     return
@@ -35,9 +35,8 @@ M.watch = function()
 end
 
 --- Start a new pomodoro session with the given description and tags
--- @function start
--- @param desc string: description of the pomodoro session
--- @param tags table: list of tags for the pomodoro session
+---@param desc string description of the pomodoro session
+---@param tags? string[] tags for the pomodoro session
 M.start = function(desc, tags)
   local args = { "start", desc }
   for _, tag in ipairs(tags or {}) do
@@ -49,32 +48,31 @@ M.start = function(desc, tags)
 end
 
 --- Cancel the current pomodoro session
--- @function cancel
 M.cancel = function()
   run({ "cancel" }, say("Pomodoro canceled"))
 end
 
 --- Finish the current pomodoro session
---- @function finish
 M.finish = function()
   run({ "finish" }, say("Pomodoro finished"))
 end
 
 --- Get the status of the current pomodoro session
---- @function status
---- @param opts table: options for the status command (currently unused)
+--- Notifies the status by default; pass on_ok to handle the text yourself
+---@param opts? { on_ok?: fun(text: string), id?: integer|string }
 M.status = function(opts)
-  local opts = opts or {}
+  opts = opts or {}
   run({ "status" }, function(obj)
     local out = vim.trim(obj.stdout)
     if opts.on_ok then
       opts.on_ok(out)
     else
-      notify(out ~= "" and out or "No pomodoro running", nil, opts.id) -- 3b. default: notify
+      notify(out ~= "" and out or "No pomodoro running", nil, opts.id)
     end
   end)
 end
 
+--- Stop watching the current pomodoro session
 M.unwatch = function()
   if watching.timer then
     watching.timer:stop()
@@ -85,11 +83,10 @@ M.unwatch = function()
 end
 
 --- Run a command in a safe manner while also giving pluggable forms of feedback
--- important for threading through the commands including the status which has to be able to alter the output
--- @function run
--- @param args table: list of arguments to pass to the pomodoro command
--- @param on_ok function: callback to call on success
--- @param on_fail function: callback to call on failure (default: notify with error)
+--- Important for threading through the commands, including status, which has to be able to alter the output
+---@param args string[] arguments to pass to the pomodoro command
+---@param on_ok fun(obj: vim.SystemCompleted) callback on success
+---@param on_fail? fun(obj: vim.SystemCompleted) callback on failure (default: notify with error)
 function run(args, on_ok, on_fail)
   on_fail = on_fail
     or function(obj)
@@ -108,8 +105,8 @@ function run(args, on_ok, on_fail)
 end
 
 --- Turn a fixed message into a success callback for run
--- @function say
--- @param msg string: the message to notify the user of
+---@param msg string the message to notify the user of
+---@return fun()
 function say(msg)
   return function()
     notify(msg)
@@ -117,10 +114,9 @@ function say(msg)
 end
 
 --- Notify the user of a message with a given log level
--- @function notify
--- @param msg string: the message to notify the user of
--- @param level number: the log level (default: INFO)
--- @param id number: the notification ID (optional)
+---@param msg string the message to notify the user of
+---@param level? integer the log level (default: INFO)
+---@param id? integer|string the notification ID, to replace an earlier notification
 function notify(msg, level, id)
   vim.notify(msg, level or vim.log.levels.INFO, { title = "Pomodoro", id = id })
 end
@@ -139,7 +135,7 @@ vim.keymap.set("n", "<leader>pS", function()
 end, { desc = "Start a new [p]omodoro [S]ession" })
 
 vim.keymap.set("n", "<leader>ps", function()
-  M.status()
+  M.status({})
 end, { desc = "Get current [p]omodoro [s]tatus" })
 
 vim.keymap.set("n", "<leader>pw", function()
@@ -150,17 +146,9 @@ end, { desc = "[w]atch current [p]omodoro" })
 if false then
   local p = dofile(vim.fn.expand("%:p"))
   p.start("repl test", { "y" })
-
-  local p = dofile(vim.fn.expand("%:p"))
   p.status()
-
-  local p = dofile(vim.fn.expand("%:p"))
   p.watch()
-
-  local p = dofile(vim.fn.expand("%:p"))
   p.cancel()
-
-  local p = dofile(vim.fn.expand("%:p"))
   p.finish()
 end
 
