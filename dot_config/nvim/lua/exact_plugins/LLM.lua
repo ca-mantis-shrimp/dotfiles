@@ -29,6 +29,11 @@ require("sidekick").setup({
           "facilitator",
         },
       },
+      -- The focus agent: ~/.pomodoro/hooks/start opens it in the focused action's repo. Attach only, never create:
+      -- a bare "focus" session would make the hook think the agent is already up.
+      focus = {
+        cmd = { "shpool", "attach", "-f", "focus" },
+      },
     },
   },
 })
@@ -62,3 +67,10 @@ end, { desc = "Sidekick Toggle Claude" })
 vim.keymap.set("n", "<leader>aa", function()
   require("sidekick.cli").toggle({ name = "facilitator", focus = true })
 end, { desc = "Facilitator (persistent, shpool)" })
+vim.keymap.set("n", "<leader>pa", function()
+  local sessions = vim.system({ "shpool", "list" }):wait().stdout or ""
+  if not sessions:match("\nfocus%s") then
+    return vim.notify("No focus session: start a pomodoro on an action", vim.log.levels.WARN)
+  end
+  require("sidekick.cli").toggle({ name = "focus", focus = true })
+end, { desc = "Focus agent ([p]omodoro [a]gent, shpool)" })
