@@ -30,6 +30,7 @@ wk.add({
     desc = "Go to next [D]iagnostic message",
   },
   { "<leader>q", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" },
+  { "gd", vim.lsp.buf.definition, desc = "[g]o to [d]efinition (LSP)" },
 })
 
 wk.add({

@@ -3,6 +3,8 @@
 
 -- Conjure's K doc lookup fails in Lua; free K for LSP hover (clojure_lsp covers Clojure docs).
 vim.g["conjure#mapping#doc_word"] = false
+-- Likewise gd: Conjure asks the REPL, which fails for Rust; keep gd on LSP definition.
+vim.g["conjure#mapping#def_word"] = false
 
 vim.pack.add({
   "https://github.com/Olical/conjure",
