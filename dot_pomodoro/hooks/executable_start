@@ -28,6 +28,6 @@ Darrion is focusing on "$(pomodoro status -f '%d')" (ClearHead action $id, in $f
 Pomodoro tags: $tags. They will join this session when they want to ask, review or hand something over.
 EOF
 
-# shpool starts commands with a minimal PATH, so hand it ours.
+# shpool starts commands with a minimal PATH, so hand it ours, and nvim's fixed socket so the agent can show files.
 shpool kill "$session" 2>/dev/null || true
-shpool attach -b -d "$repo" -c "env PATH='$PATH' claude -n $session --append-system-prompt-file '$state/prompt.md'" "$session"
+shpool attach -b -d "$repo" -c "env PATH='$PATH' NVIM=/run/user/1000/nvim/server.sock claude -n $session --append-system-prompt-file '$state/prompt.md'" "$session"
