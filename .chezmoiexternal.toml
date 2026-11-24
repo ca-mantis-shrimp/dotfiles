@@ -88,4 +88,13 @@
     decompress = "gzip"
     executable = true
     checksum.sha256 = "d01042f94ba3d6827ddc9788e235f75d8366431be42bdf90ade534d960c98b7d"
+
+# Topiary formats .actions files; clearhead's hooks and the tree-sitter-actions tests call it.
+# Not in Arch's repos. Checksum matches upstream's .sha256 file.
+[".local/bin/topiary"]
+    type = "archive-file"
+    url = "https://github.com/topiary/topiary/releases/download/v0.7.3/topiary-cli-x86_64-unknown-linux-gnu.tar.xz"
+    path = "topiary-cli-x86_64-unknown-linux-gnu/topiary"
+    executable = true
+    checksum.sha256 = "480ec4cf8540787c9cddb804a50d34345b033cd30baf00068b4f36f8e9d1ff26"
 {{ end -}}

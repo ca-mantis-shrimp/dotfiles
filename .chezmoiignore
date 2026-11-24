@@ -139,6 +139,7 @@ dot_local/
 !.local/bin/okf
 !.local/bin/op
 !.local/bin/stripe
+!.local/bin/topiary
 !.local/bin/tree-sitter
 !.local/bin/worktree_*
 !.local/lib
