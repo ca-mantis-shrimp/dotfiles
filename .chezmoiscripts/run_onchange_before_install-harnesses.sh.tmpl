@@ -1,0 +1,17 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!{{ lookPath "sh" }}
+# The harnesses in .chezmoidata/packages.yaml, each installed only if its command is missing;
+# after that the harness updates itself. Runs before chezmoi writes files, so dotfiles an
+# installer edits (agy appends a PATH line to ~/.bashrc) are put back by the same apply.
+set -eu
+export PATH="$HOME/.local/bin:$PATH"
+missing() { ! command -v "$1" >/dev/null 2>&1; }
+{{ range $cmd, $url := .packages.harnesses.installer }}
+if missing {{ $cmd }}; then echo "installing {{ $cmd }}"; curl -fsSL {{ $url }} | bash; fi
+{{- end }}
+{{ if lookPath "npm" -}}
+{{ range $cmd, $pkg := .packages.harnesses.npm }}
+if missing {{ $cmd }}; then echo "installing {{ $cmd }}"; npm install --global --prefix "$HOME/.local" {{ $pkg | quote }}; fi
+{{- end }}
+{{- end }}
+{{ end -}}

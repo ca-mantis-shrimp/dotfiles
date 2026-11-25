@@ -25,6 +25,18 @@ packages:
     - lynx
     - man
 
+  # Agent harnesses: installed once where missing, then each updates itself
+  # (Darrion, 2026-11-25: "an initial install to get it running then we let them
+  # do their thing rather than fighting the harness"). Command -> where it comes from.
+  harnesses:
+    installer:   # the vendor's install script
+      claude: https://claude.ai/install.sh
+      agy: https://antigravity.google/cli/install.sh
+    npm:         # unpinned, into ~/.local
+      pi: "@earendil-works/pi-coding-agent"
+      codex: "@openai/codex"
+      copilot: "@github/copilot"
+
   # Language servers and linters from npm, into ~/.local, wherever npm exists.
   npm:
     - pyright@1.1.414
