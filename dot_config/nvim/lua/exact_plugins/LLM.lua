@@ -40,9 +40,6 @@ require("sidekick").setup({
 vim.keymap.set({ "n", "x" }, "<tab>", function()
   return require("sidekick").nes_jump_or_apply() or "<tab>"
 end, { expr = true, desc = "Goto/Apply Next Edit Suggestion" })
-vim.keymap.set({ "n", "t", "i", "x" }, "<c-.>", function()
-  require("sidekick.cli").toggle()
-end, { desc = "Sidekick Toggle" })
 vim.keymap.set("n", "<leader>as", function()
   require("sidekick.cli").select()
 end, { desc = "Select CLI" })

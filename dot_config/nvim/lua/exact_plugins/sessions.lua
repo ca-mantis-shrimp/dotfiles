@@ -14,14 +14,22 @@ local look = {
   working = { rank = 2, mark = "…", hl = "Comment" },
 }
 local unknown = { rank = 3, mark = "?", hl = "Comment" }
---- The only state: the split's buffer, the directory watcher and two timers (debounce, tick)
+-- Split state and the explicitly chosen session (local to this nvim).
 local live = {}
+local focused
 
 local function read(path)
   local ok, rec = pcall(function()
     return vim.json.decode(table.concat(vim.fn.readfile(path), "\n"))
   end)
-  if ok and type(rec) == "table" and rec.state and rec.since then
+  if
+    ok
+    and type(rec) == "table"
+    and type(rec.state) == "string"
+    and type(rec.since) == "string"
+    and type(rec.harness) == "string"
+    and type(rec.session) == "string"
+  then
     return rec
   end
 end
@@ -64,6 +72,10 @@ local function age(since)
   return secs .. "s"
 end
 
+local function label(rec)
+  return rec.name or vim.fs.basename(rec.project or "?")
+end
+
 local function render()
   local buf = live.buf
   if not (buf and vim.api.nvim_buf_is_valid(buf)) then
@@ -79,7 +91,7 @@ local function render()
   for _, r in ipairs(records()) do
     rec = r
     local l = look[rec.state] or unknown
-    add(string.format("%s %3s  %s", l.mark, age(rec.since), rec.name or vim.fs.basename(rec.project or "?")), l.hl)
+    add(string.format("%s %3s  %s", l.mark, age(rec.since), label(rec)), l.hl)
     if rec.reason then
       add("       " .. rec.reason, "Comment")
     end
@@ -128,22 +140,93 @@ local function sidekick_for(pid)
   end
 end
 
---- Open the session under the cursor in sidekick, or say why it can't be
+local function session_key(rec)
+  return rec.harness .. ":" .. rec.session
+end
+
+local function find_session(key)
+  for _, rec in ipairs(records()) do
+    if session_key(rec) == key then
+      return rec
+    end
+  end
+end
+
+local function sidekick_opts(rec)
+  local where = rec and rec.pid and sidekick_for(rec.pid)
+  if where then
+    return { focus = true, filter = { name = where.tool, session = where.state and where.state.session.id } }
+  end
+end
+
+local function select_session(key)
+  local rec = find_session(key)
+  if not rec then
+    return vim.notify("That agent session ended", vim.log.levels.WARN)
+  end
+  local opts = sidekick_opts(rec)
+  if not opts then
+    return vim.notify(label(rec) .. " runs outside this nvim; open it where it started", vim.log.levels.WARN)
+  end
+
+  local State = require("sidekick.cli.state")
+  for _, state in ipairs(State.get({ attached = true, terminal = true })) do
+    if state.terminal:is_open() and not State.is(state, opts.filter) then
+      state.terminal:hide()
+    end
+  end
+  focused = key
+  require("sidekick.cli").show(opts)
+end
+
 function M.open()
   local rec = (live.rows or {})[vim.fn.line(".")]
-  if not rec then
-    return
+  if rec then
+    select_session(session_key(rec))
   end
-  local name = rec.name or vim.fs.basename(rec.project or "?")
-  local where = rec.pid and sidekick_for(rec.pid)
-  if not where then
-    return vim.notify(name .. " runs outside this nvim; open it where it started", vim.log.levels.WARN)
+end
+
+function M.pick()
+  local items = {}
+  for _, rec in ipairs(records()) do
+    local id = session_key(rec)
+    local current = id == focused and "[current] " or ""
+    local text =
+      string.format("%s%s  ·  %s  ·  %s  ·  %s", current, label(rec), rec.state, rec.harness, rec.project or "")
+    items[#items + 1] = { id = id, text = text }
   end
-  if where.state then
-    require("sidekick.cli.state").attach(where.state, { show = true, focus = true })
-  else
-    require("sidekick.cli").show({ name = where.tool, focus = true })
+  if #items == 0 then
+    return vim.notify("No live agent sessions")
   end
+  return Snacks.picker.pick({
+    title = "Focus agent session",
+    items = items,
+    layout = "select",
+    format = "text",
+    sort = { fields = { "score:desc", "idx" } },
+    confirm = function(picker, item)
+      picker:close()
+      if item then
+        select_session(item.id)
+      end
+    end,
+  })
+end
+
+function M.toggle_agent()
+  local cli = require("sidekick.cli")
+  if vim.w.sidekick_session_id then
+    return cli.hide({ filter = { session = vim.w.sidekick_session_id } })
+  end
+  if not focused then
+    return cli.toggle()
+  end
+  local opts = sidekick_opts(find_session(focused))
+  if not opts then
+    focused = nil
+    return vim.notify("Focused agent is no longer reachable; pick another with <leader>ag", vim.log.levels.WARN)
+  end
+  return cli.toggle(opts)
 end
 
 local function stop()
@@ -184,5 +267,7 @@ function M.toggle()
 end
 
 vim.keymap.set("n", "<leader>al", M.toggle, { desc = "[a]gent sessions [l]ist, live" })
+vim.keymap.set("n", "<leader>ag", M.pick, { desc = "[a]gent sessions: [g]o to and focus" })
+vim.keymap.set({ "n", "t", "i", "x" }, "<c-.>", M.toggle_agent, { desc = "Toggle focused agent" })
 
 return M
