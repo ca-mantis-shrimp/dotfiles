@@ -1,0 +1,1 @@
+{{ $a := joinPath .chezmoi.homeDir "Products/agent-status" }}{{ if stat $a }}{{ $a }}/bin/agent-sessions{{ end }}

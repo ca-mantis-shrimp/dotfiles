@@ -136,6 +136,7 @@ dot_local/
 !.local/bin/nvc
 !.local/bin/nrepl-*
 !.local/bin/say
+!.local/bin/agent-sessions
 !.local/bin/okf
 !.local/bin/op
 !.local/bin/stripe

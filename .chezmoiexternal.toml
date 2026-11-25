@@ -6,6 +6,11 @@
     url = "https://github.com/ClearHeadToDo-Devs/platform.git"
     clone.args = ["--recurse-submodules"]
 
+# Which agent sessions are working or waiting on you; Claude Code's hooks call its adapter.
+["Products/agent-status"]
+    type = "git-repo"
+    url = "https://github.com/ca-mantis-shrimp/agent-status.git"
+
 # Release binaries, pinned by version and checksum. Bump both together.
 # All are linux/amd64 builds; elsewhere (the phone's Termux) they can't run, so
 # they stay off and .chezmoiremove clears copies installed before this guard.
