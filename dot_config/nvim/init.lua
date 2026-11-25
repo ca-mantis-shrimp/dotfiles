@@ -23,6 +23,7 @@ require("plugins.testing")
 require("plugins.clearhead")
 require("plugins.pomodoro")
 require("plugins.verdicts")
+require("plugins.sessions")
 
 -- Finally, we set keymaps and autocmds last because they may depend on plugins being loaded and configured first, and we want to ensure that all plugins are available before we set up keymaps and autocmds that may rely on them.
 require("config.keymaps")
