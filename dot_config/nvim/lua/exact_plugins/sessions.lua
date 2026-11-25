@@ -69,18 +69,23 @@ local function render()
   if not (buf and vim.api.nvim_buf_is_valid(buf)) then
     return
   end
-  local lines, groups = {}, {}
+  local lines, groups, rows = {}, {}, {}
+  local rec
   local function add(line, group)
     table.insert(lines, line)
     table.insert(groups, group)
+    rows[#lines] = rec
   end
-  for _, rec in ipairs(records()) do
+  for _, r in ipairs(records()) do
+    rec = r
     local l = look[rec.state] or unknown
     add(string.format("%s %3s  %s", l.mark, age(rec.since), rec.name or vim.fs.basename(rec.project or "?")), l.hl)
     if rec.reason then
       add("       " .. rec.reason, "Comment")
     end
   end
+  rec = nil
+  live.rows = rows
   if #lines == 0 then
     add("no agent sessions", "Comment")
   end
@@ -90,6 +95,54 @@ local function render()
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
   for i, group in ipairs(groups) do
     vim.api.nvim_buf_set_extmark(buf, ns, i - 1, 0, { line_hl_group = group })
+  end
+end
+
+--- The sidekick view running a process: a terminal whose job is the process or one of its ancestors, or a
+--- tool that attaches to the shpool session the process runs in (facilitator, focus). Nil when it runs outside nvim.
+---@param pid integer
+---@return { state?: sidekick.cli.State, tool?: string }?
+local function sidekick_for(pid)
+  local jobs = {}
+  for _, state in ipairs(require("sidekick.cli.state").get({ terminal = true })) do
+    for _, job in ipairs(state.session.pids or {}) do
+      jobs[job] = state
+    end
+  end
+  local p = pid
+  while p and p > 1 do
+    if jobs[p] then
+      return { state = jobs[p] }
+    end
+    p = (vim.api.nvim_get_proc(p) or {}).ppid
+  end
+  local environ = io.open("/proc/" .. pid .. "/environ", "rb")
+  local shpool = environ and ("\0" .. environ:read("*a")):match("%zSHPOOL_SESSION_NAME=([^%z]+)")
+  if environ then
+    environ:close()
+  end
+  for name, tool in pairs(shpool and require("sidekick.config").tools() or {}) do
+    if tool.cmd[1] == "shpool" and vim.tbl_contains(tool.cmd, shpool) then
+      return { tool = name }
+    end
+  end
+end
+
+--- Open the session under the cursor in sidekick, or say why it can't be
+function M.open()
+  local rec = (live.rows or {})[vim.fn.line(".")]
+  if not rec then
+    return
+  end
+  local name = rec.name or vim.fs.basename(rec.project or "?")
+  local where = rec.pid and sidekick_for(rec.pid)
+  if not where then
+    return vim.notify(name .. " runs outside this nvim; open it where it started", vim.log.levels.WARN)
+  end
+  if where.state then
+    require("sidekick.cli.state").attach(where.state, { show = true, focus = true })
+  else
+    require("sidekick.cli").show({ name = where.tool, focus = true })
   end
 end
 
@@ -124,6 +177,7 @@ function M.toggle()
   vim.bo.buftype, vim.bo.bufhidden, vim.bo.swapfile, vim.bo.filetype = "nofile", "wipe", false, "agentsessions"
   vim.wo.wrap, vim.wo.number, vim.wo.relativenumber, vim.wo.winfixwidth = false, false, false, true
   vim.api.nvim_create_autocmd("BufWipeout", { buffer = live.buf, once = true, callback = stop })
+  vim.keymap.set("n", "<CR>", M.open, { buffer = live.buf, desc = "Open this session in sidekick" })
   start()
   render()
   vim.cmd("wincmd p")
