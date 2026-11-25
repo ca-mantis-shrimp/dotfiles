@@ -1,0 +1,4 @@
+{{- /* Externals clone during apply, after templates render. Skip existing checkouts that predate the adapter. */ -}}
+{{- $repo := joinPath .chezmoi.homeDir "Products/agent-status" -}}
+{{- $adapter := joinPath $repo "adapters/pi/agent-status.ts" -}}
+{{- if or (not (stat $repo)) (stat $adapter) -}}{{ $adapter }}{{- end -}}

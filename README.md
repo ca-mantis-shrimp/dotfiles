@@ -55,6 +55,10 @@ Finally for solid small details, we have fully transitioned to wayland as our ba
 
 and while we have kde and gnome as backup desktop displays, we are really workin with [hyprland](https://hypr.land/) as our primary display manager
 
+### Pi session status
+
+Chezmoi links the extension from `~/Products/agent-status`. An existing checkout is not refreshed by a normal apply: first run `git -C ~/Products/agent-status pull --ff-only`, then `chezmoi apply`. In an open Pi session, run `/reload` to load the newly installed extension.
+
 ## Charters
 
 Ongoing work is tracked with clearhead in `.clearhead/charters/`. Each charter's `.md` holds the intent and decisions; its `.actions` file holds the work.
