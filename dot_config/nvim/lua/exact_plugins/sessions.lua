@@ -213,6 +213,24 @@ function M.pick()
   })
 end
 
+--- Focus the next (1) or previous (-1) session this nvim can show, in the pane's order, wrapping around
+---@param dir 1|-1
+function M.step(dir)
+  local reachable = vim.tbl_filter(sidekick_opts, records())
+  if #reachable == 0 then
+    return vim.notify("No agent sessions open in this nvim")
+  end
+  local at = dir == 1 and 0 or #reachable + 1
+  for i, rec in ipairs(reachable) do
+    if session_key(rec) == focused then
+      at = i
+    end
+  end
+  local i = (at - 1 + dir) % #reachable + 1
+  select_session(session_key(reachable[i]))
+  vim.notify(string.format("%d/%d  %s", i, #reachable, label(reachable[i])))
+end
+
 function M.toggle_agent()
   local cli = require("sidekick.cli")
   if vim.w.sidekick_session_id then
@@ -269,5 +287,11 @@ end
 vim.keymap.set("n", "<leader>al", M.toggle, { desc = "[a]gent sessions [l]ist, live" })
 vim.keymap.set("n", "<leader>ag", M.pick, { desc = "[a]gent sessions: [g]o to and focus" })
 vim.keymap.set({ "n", "t", "i", "x" }, "<c-.>", M.toggle_agent, { desc = "Toggle focused agent" })
+vim.keymap.set({ "n", "t", "i", "x" }, "<m-.>", function()
+  M.step(1)
+end, { desc = "Next agent session, in the pane's order" })
+vim.keymap.set({ "n", "t", "i", "x" }, "<m-,>", function()
+  M.step(-1)
+end, { desc = "Previous agent session, in the pane's order" })
 
 return M
