@@ -12,6 +12,7 @@ require("snacks").setup({
     },
   },
   explorer = { enabled = true },
+  image = { enabled = true },
   indent = { enabled = true },
   input = { enabled = true },
   picker = {
